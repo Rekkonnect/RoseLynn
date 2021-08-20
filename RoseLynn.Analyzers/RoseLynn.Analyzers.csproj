@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.1.0</Version>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Alex Kalfakakos</Authors>
+    <Company />
+    <Copyright>© 2021, Alex Kalfakakos</Copyright>
+    <Description>Additional tools for Roslyn-based analyzers.</Description>
+    <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
+    <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
+  </ItemGroup>
+
+</Project>
