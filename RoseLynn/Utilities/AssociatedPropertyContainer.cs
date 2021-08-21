@@ -7,7 +7,7 @@ namespace RoseLynn.Utilities
 {
     public class AssociatedPropertyContainer
     {
-        private readonly Dictionary<PropertyInfo, IEnumerable<Attribute>> propertyDictionary = new Dictionary<PropertyInfo, IEnumerable<Attribute>>();
+        private readonly Dictionary<PropertyInfo, IEnumerable<Attribute>> propertyDictionary = new();
         private readonly EnumAssociativityDictionary associativityDictionary;
 
         public AssociatedPropertyContainer(Type type)
@@ -31,7 +31,7 @@ namespace RoseLynn.Utilities
         {
             private const string associatedValuePropertyName = nameof(IAssociatedEnumValueAttribute<GenericParameterAttributes>.AssociatedValue);
 
-            private readonly Dictionary<Type, SpecificEnumTypePropertyDictionary> associated = new Dictionary<Type, SpecificEnumTypePropertyDictionary>();
+            private readonly Dictionary<Type, SpecificEnumTypePropertyDictionary> associated = new();
 
             public EnumAssociativityDictionary() { }
             public EnumAssociativityDictionary(IDictionary<PropertyInfo, IEnumerable<Attribute>> associatedProperties)
@@ -62,7 +62,7 @@ namespace RoseLynn.Utilities
 
             private class SpecificEnumTypePropertyDictionary
             {
-                private readonly Dictionary<Enum, PropertyInfo> associated = new Dictionary<Enum, PropertyInfo>();
+                private readonly Dictionary<Enum, PropertyInfo> associated = new();
 
                 public bool Add(Enum associatedValue, PropertyInfo property)
                 {

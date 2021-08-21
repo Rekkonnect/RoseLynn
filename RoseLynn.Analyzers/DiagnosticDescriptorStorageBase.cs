@@ -12,14 +12,35 @@ namespace RoseLynn.Analyzers
     /// <summary>Provides mechanisms to function a storage of <seealso cref="DiagnosticDescriptor"/> instances that are grouped by analyzer type.</summary>
     public abstract class DiagnosticDescriptorStorageBase
     {
-        private readonly Dictionary<Type, HashSet<DiagnosticDescriptor>> analyzerGroupedDiagnostics = new Dictionary<Type, HashSet<DiagnosticDescriptor>>();
-        private readonly Dictionary<string, DiagnosticDescriptor> diagnosticsByID = new Dictionary<string, DiagnosticDescriptor>();
+        private readonly Dictionary<Type, HashSet<DiagnosticDescriptor>> analyzerGroupedDiagnostics = new();
+        private readonly Dictionary<string, DiagnosticDescriptor> diagnosticsByID = new();
 
-        protected DiagnosticDescriptorStorageBase()
+        private Dictionary<Type, HashSet<DiagnosticDescriptor>> AnalyzerGroupedDiagnostics
+        {
+            get
+            {
+                if (analyzerGroupedDiagnostics.Count is 0)
+                    AnalyzeDiagnostics();
+
+                return analyzerGroupedDiagnostics;
+            }
+        }
+        private Dictionary<string, DiagnosticDescriptor> DiagnosticsByID
+        {
+            get
+            {
+                if (diagnosticsByID.Count is 0)
+                    AnalyzeDiagnostics();
+
+                return diagnosticsByID;
+            }
+        }
+
+        private void AnalyzeDiagnostics()
         {
             int ruleIDLength = GetDiagnosticID(0).Length;
 
-            var fields = typeof(DiagnosticDescriptorStorageBase).GetFields();
+            var fields = GetType().GetFields();
             foreach (var field in fields)
             {
                 // All rule fields must have the DiagnosticSupportedAttribute
@@ -28,27 +49,34 @@ namespace RoseLynn.Analyzers
                     continue;
 
                 var ruleID = field.Name.Substring(0, ruleIDLength);
-                diagnosticsByID.Add(ruleID, field.GetValue(null) as DiagnosticDescriptor);
+                diagnosticsByID.Add(ruleID, field.GetValue(this) as DiagnosticDescriptor);
 
                 if (!analyzerGroupedDiagnostics.TryGetValue(type, out var set))
-                    analyzerGroupedDiagnostics.Add(type, set = new HashSet<DiagnosticDescriptor>());
+                    analyzerGroupedDiagnostics.Add(type, set = new());
 
-                set.Add(field.GetValue(null) as DiagnosticDescriptor);
+                set.Add(field.GetValue(this) as DiagnosticDescriptor);
             }
         }
 
+        /// <summary>Gets the <seealso cref="DiagnosticDescriptor"/> representing the given rule ID.</summary>
+        /// <param name="ruleID">The rule ID whose <seealso cref="DiagnosticDescriptor"/> to get. The numeric portion of the rule ID will be combined with <seealso cref="DiagnosticIDPrefix"/>.</param>
+        /// <returns>The <seealso cref="DiagnosticDescriptor"/> representing the given rule ID, if it exists, otherwise <see langword="null"/>.</returns>
+        public DiagnosticDescriptor GetDiagnosticDescriptor(int ruleID)
+        {
+            return GetDiagnosticDescriptor(GetDiagnosticID(ruleID));
+        }
         /// <summary>Gets the <seealso cref="DiagnosticDescriptor"/> representing the given rule ID.</summary>
         /// <param name="ruleID">The rule ID whose <seealso cref="DiagnosticDescriptor"/> to get.</param>
         /// <returns>The <seealso cref="DiagnosticDescriptor"/> representing the given rule ID, if it exists, otherwise <see langword="null"/>.</returns>
         public DiagnosticDescriptor GetDiagnosticDescriptor(string ruleID)
         {
-            diagnosticsByID.TryGetValue(ruleID, out var value);
+            DiagnosticsByID.TryGetValue(ruleID, out var value);
             return value;
         }
 
         public IDictionary<Type, ImmutableArray<DiagnosticDescriptor>> GetDiagnosticDescriptorsByAnalyzersImmutable()
         {
-            return analyzerGroupedDiagnostics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToImmutableArray());
+            return AnalyzerGroupedDiagnostics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToImmutableArray());
         }
         public ImmutableArray<DiagnosticDescriptor> GetDiagnosticDescriptors<T>()
             where T : DiagnosticAnalyzer
@@ -57,7 +85,7 @@ namespace RoseLynn.Analyzers
         }
         public ImmutableArray<DiagnosticDescriptor> GetDiagnosticDescriptors(Type diagnosticAnalyzerType)
         {
-            analyzerGroupedDiagnostics.TryGetValue(diagnosticAnalyzerType, out var set);
+            AnalyzerGroupedDiagnostics.TryGetValue(diagnosticAnalyzerType, out var set);
             return set.ToImmutableArray();
         }
 
