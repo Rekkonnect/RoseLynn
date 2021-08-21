@@ -13,6 +13,7 @@ namespace RoseLynn.CSharp.Syntax
 
         private TypeParameterConstraintSyntax keywordOrClassConstraint;
         private TypeParameterConstraintSyntax delegateOrEnumConstraint;
+        private List<TypeConstraintSyntax> interfaceConstraints = new();
 
         public TypeParameterConstraintSyntax KeywordOrClassConstraint
         {
@@ -24,7 +25,17 @@ namespace RoseLynn.CSharp.Syntax
             get => delegateOrEnumConstraint as TypeConstraintSyntax;
             set => delegateOrEnumConstraint = value;
         }
-        public List<TypeConstraintSyntax> InterfaceConstraints { get; set; }
+        public List<TypeConstraintSyntax> InterfaceConstraints
+        {
+            get => interfaceConstraints;
+            set
+            {
+                if (value is null)
+                    value = new();
+
+                interfaceConstraints = value;
+            }
+        }
         public ConstructorConstraintSyntax NewConstraint { get; set; }
 
         /// <summary>Initializes a new instance of the <seealso cref="TypeParameterConstraintClauseSegmentation"/> class from a given <see cref="TypeParameterConstraintClauseSyntax"/> and a <seealso cref="SemanticModel"/>.</summary>
@@ -83,7 +94,7 @@ namespace RoseLynn.CSharp.Syntax
             switch (typeSymbol.TypeKind)
             {
                 case TypeKind.Class:
-                    ref TypeParameterConstraintSyntax relevantConstraint = ref keywordOrClassConstraint;
+                    ref var relevantConstraint = ref keywordOrClassConstraint;
                     switch (typeSymbol.SpecialType)
                     {
                         case SpecialType.System_Delegate:
@@ -132,7 +143,7 @@ namespace RoseLynn.CSharp.Syntax
                 result.Add(keywordOrClassConstraint);
             if (delegateOrEnumConstraint != null)
                 result.Add(delegateOrEnumConstraint);
-            if (InterfaceConstraints?.Any() is true)
+            if (InterfaceConstraints.Any())
                 result.AddRange(InterfaceConstraints);
             if (NewConstraint != null)
                 result.Add(NewConstraint);
