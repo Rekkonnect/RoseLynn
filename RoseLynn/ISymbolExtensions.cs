@@ -9,36 +9,30 @@ namespace RoseLynn
         // Say something like IGenericSupportSymbol
         public static int GetArity(this ISymbol symbol)
         {
-            switch (symbol)
+            return symbol switch
             {
-                case INamedTypeSymbol t:
-                    return t.Arity;
-                case IMethodSymbol m:
-                    return m.Arity;
-            }
-            return 0;
+                INamedTypeSymbol t => t.Arity,
+                IMethodSymbol m => m.Arity,
+                _ => 0,
+            };
         }
         public static ImmutableArray<ITypeParameterSymbol> GetTypeParameters(this ISymbol symbol)
         {
-            switch (symbol)
+            return symbol switch
             {
-                case INamedTypeSymbol t:
-                    return t.TypeParameters;
-                case IMethodSymbol m:
-                    return m.TypeParameters;
-            }
-            return ImmutableArray<ITypeParameterSymbol>.Empty;
+                INamedTypeSymbol t => t.TypeParameters,
+                IMethodSymbol m => m.TypeParameters,
+                _ => ImmutableArray<ITypeParameterSymbol>.Empty,
+            };
         }
         public static ImmutableArray<ITypeSymbol> GetTypeArguments(this ISymbol symbol)
         {
-            switch (symbol)
+            return symbol switch
             {
-                case INamedTypeSymbol t:
-                    return t.TypeArguments;
-                case IMethodSymbol m:
-                    return m.TypeArguments;
-            }
-            return ImmutableArray<ITypeSymbol>.Empty;
+                INamedTypeSymbol t => t.TypeArguments,
+                IMethodSymbol m => m.TypeArguments,
+                _ => ImmutableArray<ITypeSymbol>.Empty,
+            };
         }
     }
 }

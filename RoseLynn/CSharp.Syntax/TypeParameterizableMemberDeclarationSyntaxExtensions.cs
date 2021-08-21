@@ -18,75 +18,60 @@ namespace RoseLynn.CSharp.Syntax
         /// <returns>The arity of the declaring member if it can be generic, otherwise 0.</returns>
         public static int GetArity(this MemberDeclarationSyntax node)
         {
-            switch (node)
+            return node switch
             {
-                case TypeDeclarationSyntax t:
-                    return t.Arity;
-                case DelegateDeclarationSyntax d:
-                    return d.Arity;
-                case MethodDeclarationSyntax m:
-                    return m.Arity;
-            }
-            return 0;
+                TypeDeclarationSyntax     t => t.Arity,
+                DelegateDeclarationSyntax d => d.Arity,
+                MethodDeclarationSyntax   m => m.Arity,
+                _ => 0,
+            };
         }
         /// <summary>Gets the constraint clauses of the delaring member.</summary>
         /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/>.</param>
         /// <returns>The constraint clauses of the declaring member if it can be generic, otherwise <see langword="default"/>.</returns>
         public static SyntaxList<TypeParameterConstraintClauseSyntax> GetConstraintClauses(this MemberDeclarationSyntax node)
         {
-            switch (node)
+            return node switch
             {
-                case TypeDeclarationSyntax t:
-                    return t.ConstraintClauses;
-                case DelegateDeclarationSyntax d:
-                    return d.ConstraintClauses;
-                case MethodDeclarationSyntax m:
-                    return m.ConstraintClauses;
-            }
-            return default;
+                TypeDeclarationSyntax     t => t.ConstraintClauses,
+                DelegateDeclarationSyntax d => d.ConstraintClauses,
+                MethodDeclarationSyntax   m => m.ConstraintClauses,
+                _ => default,
+            };
         }
         /// <summary>Gets the type parameter list of the declaring member.</summary>
         /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/>.</param>
         /// <returns>The type parameter list of the declaring member if it can be generic, otherwise <see langword="null"/>.</returns>
         public static TypeParameterListSyntax GetTypeParameterList(this MemberDeclarationSyntax node)
         {
-            switch (node)
+            return node switch
             {
-                case TypeDeclarationSyntax t:
-                    return t.TypeParameterList;
-                case DelegateDeclarationSyntax d:
-                    return d.TypeParameterList;
-                case MethodDeclarationSyntax m:
-                    return m.TypeParameterList;
-            }
-            return null;
+                TypeDeclarationSyntax     t => t.TypeParameterList,
+                DelegateDeclarationSyntax d => d.TypeParameterList,
+                MethodDeclarationSyntax   m => m.TypeParameterList,
+                _ => null,
+            };
         }
 
         public static MemberDeclarationSyntax WithTypeParameterList(this MemberDeclarationSyntax node, TypeParameterListSyntax typeParameterList)
         {
-            switch (node)
+            return node switch
             {
-                case TypeDeclarationSyntax t:
-                    return t.WithTypeParameterList(typeParameterList);
-                case DelegateDeclarationSyntax d:
-                    return d.WithTypeParameterList(typeParameterList);
-                case MethodDeclarationSyntax m:
-                    return m.WithTypeParameterList(typeParameterList);
-            }
-            return null;
+                TypeDeclarationSyntax     t => t.WithTypeParameterList(typeParameterList),
+                DelegateDeclarationSyntax d => d.WithTypeParameterList(typeParameterList),
+                MethodDeclarationSyntax   m => m.WithTypeParameterList(typeParameterList),
+                _ => null,
+            };
         }
         public static MemberDeclarationSyntax WithConstraintClauses(this MemberDeclarationSyntax node, SyntaxList<TypeParameterConstraintClauseSyntax> constraintClauses)
         {
-            switch (node)
+            return node switch
             {
-                case TypeDeclarationSyntax t:
-                    return t.WithConstraintClauses(constraintClauses);
-                case DelegateDeclarationSyntax d:
-                    return d.WithConstraintClauses(constraintClauses);
-                case MethodDeclarationSyntax m:
-                    return m.WithConstraintClauses(constraintClauses);
-            }
-            return null;
+                TypeDeclarationSyntax     t => t.WithConstraintClauses(constraintClauses),
+                DelegateDeclarationSyntax d => d.WithConstraintClauses(constraintClauses),
+                MethodDeclarationSyntax   m => m.WithConstraintClauses(constraintClauses),
+                _ => null,
+            };
         }
 
         /// <summary>Removes the type parameter list syntax node from the given <seealso cref="MemberDeclarationSyntax"/> while also maintaining exterior trivia associated with the type parameter list node.</summary>

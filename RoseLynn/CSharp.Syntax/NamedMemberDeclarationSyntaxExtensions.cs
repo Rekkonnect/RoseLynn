@@ -11,16 +11,13 @@ namespace RoseLynn.CSharp.Syntax
         /// <returns>The identifier of the declaring member if it can be generic, otherwise <see langword="null"/>.</returns>
         public static SyntaxToken GetIdentifier(this MemberDeclarationSyntax node)
         {
-            switch (node)
+            return node switch
             {
-                case BaseTypeDeclarationSyntax t:
-                    return t.Identifier;
-                case DelegateDeclarationSyntax d:
-                    return d.Identifier;
-                case MethodDeclarationSyntax m:
-                    return m.Identifier;
-            }
-            return default;
+                BaseTypeDeclarationSyntax t => t.Identifier,
+                DelegateDeclarationSyntax d => d.Identifier,
+                MethodDeclarationSyntax   m => m.Identifier,
+                _ => default,
+            };
         }
 
         /// <summary>Creates a new <seealso cref="MemberDeclarationSyntax"/> with the specified identifier.</summary>
@@ -29,16 +26,13 @@ namespace RoseLynn.CSharp.Syntax
         /// <returns>The resulting node with the specified identifier.</returns>
         public static MemberDeclarationSyntax WithIdentifier(this MemberDeclarationSyntax node, SyntaxToken identifier)
         {
-            switch (node)
+            return node switch
             {
-                case TypeDeclarationSyntax t:
-                    return t.WithIdentifier(identifier);
-                case DelegateDeclarationSyntax d:
-                    return d.WithIdentifier(identifier);
-                case MethodDeclarationSyntax m:
-                    return m.WithIdentifier(identifier);
-            }
-            return null;
+                BaseTypeDeclarationSyntax t => t.WithIdentifier(identifier),
+                DelegateDeclarationSyntax d => d.WithIdentifier(identifier),
+                MethodDeclarationSyntax   m => m.WithIdentifier(identifier),
+                _ => null,
+            };
         }
     }
 }

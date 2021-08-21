@@ -6,13 +6,12 @@ namespace RoseLynn
     {
         public static bool CanExplicitlyInheritTypes(this TypeKind kind)
         {
-            switch (kind)
+            return kind switch
             {
-                case TypeKind.Delegate:
-                case TypeKind.Enum:
-                    return false;
-            }
-            return true;
+                TypeKind.Delegate or
+                TypeKind.Enum => false,
+                _ => true,
+            };
         }
     }
 }
