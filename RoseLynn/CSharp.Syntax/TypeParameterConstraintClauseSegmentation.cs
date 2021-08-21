@@ -58,8 +58,8 @@ namespace RoseLynn.CSharp.Syntax
                     AddTypeConstraint(typeConstraint);
                     break;
 
-                case DefaultConstraintSyntax _:
-                case ClassOrStructConstraintSyntax _:
+                case DefaultConstraintSyntax:
+                case ClassOrStructConstraintSyntax:
                     keywordOrClassConstraint = constraint;
                     break;
 
@@ -74,7 +74,12 @@ namespace RoseLynn.CSharp.Syntax
         public void AddTypeConstraint(TypeConstraintSyntax typeConstraint)
         {
             var typeSymbol = semanticModel.GetTypeInfo(typeConstraint.Type).Type;
-
+            AddTypeConstraint(typeConstraint, typeSymbol);
+        }
+        /// <inheritdoc cref="AddTypeConstraint(TypeConstraintSyntax)"></inheritdoc>
+        /// <param name="typeSymbol">The <seealso cref="ITypeSymbol"/> of the type that the type constraint refers to.</param>
+        public void AddTypeConstraint(TypeConstraintSyntax typeConstraint, ITypeSymbol typeSymbol)
+        {
             switch (typeSymbol.TypeKind)
             {
                 case TypeKind.Class:
@@ -127,7 +132,7 @@ namespace RoseLynn.CSharp.Syntax
                 result.Add(keywordOrClassConstraint);
             if (delegateOrEnumConstraint != null)
                 result.Add(delegateOrEnumConstraint);
-            if (InterfaceConstraints?.Any() == true)
+            if (InterfaceConstraints?.Any() is true)
                 result.AddRange(InterfaceConstraints);
             if (NewConstraint != null)
                 result.Add(NewConstraint);
