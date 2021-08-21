@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using RoseLynn.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -40,21 +41,27 @@ namespace RoseLynn.Analyzers
         {
             int ruleIDLength = GetDiagnosticID(0).Length;
 
-            var fields = GetType().GetFields();
-            foreach (var field in fields)
+            var thisType = GetType();
+            var fields = thisType.GetFields();
+            var properties = thisType.GetProperties();
+            var fieldsOrProperties = fields.AsEnumerable<MemberInfo>().Concat(properties);
+
+            foreach (var fieldOrProperty in fieldsOrProperties)
             {
                 // All rule fields must have the DiagnosticSupportedAttribute
-                var type = field.GetCustomAttribute<DiagnosticSupportedAttribute>()?.DiagnosticAnalyzerType;
+                var type = fieldOrProperty.GetCustomAttribute<DiagnosticSupportedAttribute>()?.DiagnosticAnalyzerType;
                 if (type is null)
                     continue;
 
-                var ruleID = field.Name.Substring(0, ruleIDLength);
-                diagnosticsByID.Add(ruleID, field.GetValue(this) as DiagnosticDescriptor);
+                var ruleID = fieldOrProperty.Name.Substring(0, ruleIDLength);
+                var diagnosticDescriptor = fieldOrProperty.GetFieldOrPropertyValue(this) as DiagnosticDescriptor;
+
+                diagnosticsByID.Add(ruleID, diagnosticDescriptor);
 
                 if (!analyzerGroupedDiagnostics.TryGetValue(type, out var set))
                     analyzerGroupedDiagnostics.Add(type, set = new());
 
-                set.Add(field.GetValue(this) as DiagnosticDescriptor);
+                set.Add(diagnosticDescriptor);
             }
         }
 

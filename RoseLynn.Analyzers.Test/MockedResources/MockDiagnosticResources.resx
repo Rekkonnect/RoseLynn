@@ -129,4 +129,10 @@
   <data name="MOCK0002_Title" xml:space="preserve">
     <value>Mock diagnostic but better?</value>
   </data>
+  <data name="MOCK1001_Description" xml:space="preserve">
+    <value>This is a property mock diagnostic that must be tested too</value>
+  </data>
+  <data name="MOCK1001_Title" xml:space="preserve">
+    <value>Property mock diagnostic</value>
+  </data>
 </root>

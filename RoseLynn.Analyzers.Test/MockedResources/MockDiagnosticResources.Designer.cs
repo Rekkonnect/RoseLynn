@@ -95,5 +95,23 @@ namespace RoseLynn.Analyzers.Test.MockedResources {
                 return ResourceManager.GetString("MOCK0002_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a property mock diagnostic that must be tested too.
+        /// </summary>
+        internal static string MOCK1001_Description {
+            get {
+                return ResourceManager.GetString("MOCK1001_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property mock diagnostic.
+        /// </summary>
+        internal static string MOCK1001_Title {
+            get {
+                return ResourceManager.GetString("MOCK1001_Title", resourceCulture);
+            }
+        }
     }
 }

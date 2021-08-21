@@ -18,10 +18,14 @@ namespace RoseLynn.Analyzers.Test.MockedResources
             MOCK0001_Rule,
             MOCK0002_Rule;
 
+        [DiagnosticSupported(typeof(MockAnalyzer))]
+        public DiagnosticDescriptor MOCK1001_Rule { get; }
+
         private MockStorage()
         {
             MOCK0001_Rule = CreateDiagnosticDescriptor(0001, MockCategory, DiagnosticSeverity.Error);
             MOCK0002_Rule = CreateDiagnosticDescriptor(0002, MockCategory, DiagnosticSeverity.Hidden);
+            MOCK1001_Rule = CreateDiagnosticDescriptor(1001, MockCategory, DiagnosticSeverity.Info);
         }
     }
 }

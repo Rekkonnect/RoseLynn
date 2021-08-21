@@ -7,7 +7,7 @@ namespace RoseLynn.Analyzers.Test
     public class DiagnosticDescriptorStorageTests
     {
         [Test]
-        public void Test1()
+        public void GetDiagnosticDescriptorField()
         {
             var descriptor0001 = Instance.GetDiagnosticDescriptor(1);
             Assert.AreEqual(Instance.MOCK0001_Rule, descriptor0001);
@@ -17,6 +17,13 @@ namespace RoseLynn.Analyzers.Test
 
             var descriptor0003 = Instance.GetDiagnosticDescriptor(3);
             Assert.Null(descriptor0003);
+        }
+
+        [Test]
+        public void GetDiagnosticDescriptorProperty()
+        {
+            var descriptor1001 = Instance.GetDiagnosticDescriptor(3);
+            Assert.Null(descriptor1001);
         }
     }
 }
