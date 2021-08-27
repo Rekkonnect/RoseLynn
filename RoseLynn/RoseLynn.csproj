@@ -14,7 +14,9 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>- Fixed null list of interfaces on initialization of constraint clause segmentation</PackageReleaseNotes>
+    <PackageReleaseNotes>- Added String and StringBuilder extensions
+- Added IEnumerable.EnumeratePerformAction extension
+- Fixed minor issue in documentation on AddUpdateConstraints</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

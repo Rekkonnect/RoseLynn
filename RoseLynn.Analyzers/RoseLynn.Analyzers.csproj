@@ -14,8 +14,8 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>- Fixed critical bug with storage loading
-- Now properties assigned as diagnostic descriptors are permitted</PackageReleaseNotes>
+    <PackageReleaseNotes>- Added DiagnosticIDDigits constant and DiagnosticIDLength property in DiagnosticDescriptorStorage
+- Documented some more methods</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
