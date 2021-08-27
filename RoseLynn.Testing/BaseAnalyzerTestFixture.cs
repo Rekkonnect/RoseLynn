@@ -26,6 +26,6 @@ namespace RoseLynn.Testing
         }
 
         /// <summary>Gets the <seealso cref="DiagnosticDescriptorStorageBase"/> instance that stores the tested diagnostic rule for this type.</summary>
-        protected DiagnosticDescriptorStorageBase DiagnosticDescriptorStorage { get; }
+        protected abstract DiagnosticDescriptorStorageBase DiagnosticDescriptorStorage { get; }
     }
 }
