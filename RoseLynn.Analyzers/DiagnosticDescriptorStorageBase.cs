@@ -37,6 +37,13 @@ namespace RoseLynn.Analyzers
             }
         }
 
+        /// <summary>Represents the count of digits the diagnostic ID ends in.</summary>
+        /// <remarks>The storage is not intended to support diagnostic IDs that do not end in exactly 4 decimal digits. It is advised to follow conventions followed by other parties.</remarks>
+        public const int DiagnosticIDDigits = 4;
+
+        /// <summary>Gets the length of a diagnostic ID stored in this storage.</summary>
+        public int DiagnosticIDLength => DiagnosticIDPrefix.Length + DiagnosticIDDigits;
+
         private void AnalyzeDiagnostics()
         {
             int ruleIDLength = GetDiagnosticID(0).Length;
@@ -81,15 +88,23 @@ namespace RoseLynn.Analyzers
             return value;
         }
 
+        /// <summary>Gets all the stored <seealso cref="DiagnosticDescriptor"/>s in this storage mapped to their associated <seealso cref="DiagnosticAnalyzer"/> types.</summary>
+        /// <returns>A dictionary mapping the types of <seealso cref="DiagnosticAnalyzer"/>s to their respective <seealso cref="ImmutableArray{T}"/> of associated <seealso cref="DiagnosticDescriptor"/>s.</returns>
         public IDictionary<Type, ImmutableArray<DiagnosticDescriptor>> GetDiagnosticDescriptorsByAnalyzersImmutable()
         {
             return AnalyzerGroupedDiagnostics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToImmutableArray());
         }
+        /// <summary>Gets the <see cref="DiagnosticDescriptor"/>s associated to the specified analyzer type.</summary>
+        /// <typeparam name="T">The type of the <see cref="DiagnosticAnalyzer"/> whose associated <seealso cref="DiagnosticDescriptor"/>s to get.</typeparam>
+        /// <returns>An <seealso cref="ImmutableArray{T}"/> containing the <seealso cref="DiagnosticDescriptor"/>s.</returns>
         public ImmutableArray<DiagnosticDescriptor> GetDiagnosticDescriptors<T>()
             where T : DiagnosticAnalyzer
         {
             return GetDiagnosticDescriptors(typeof(T));
         }
+        /// <summary>Gets the <see cref="DiagnosticDescriptor"/>s associated to the specified analyzer type.</summary>
+        /// <param name="diagnosticAnalyzerType">The type of the <see cref="DiagnosticAnalyzer"/> whose associated <seealso cref="DiagnosticDescriptor"/>s to get.</param>
+        /// <returns>An <seealso cref="ImmutableArray{T}"/> containing the <seealso cref="DiagnosticDescriptor"/>s.</returns>
         public ImmutableArray<DiagnosticDescriptor> GetDiagnosticDescriptors(Type diagnosticAnalyzerType)
         {
             AnalyzerGroupedDiagnostics.TryGetValue(diagnosticAnalyzerType, out var set);
@@ -127,7 +142,7 @@ namespace RoseLynn.Analyzers
         }
 
         private string GetHelpLinkURI(int id) => $"{BaseRuleDocsURI}/{GetDiagnosticID(id)}.md";
-        private string GetDiagnosticID(int id) => $"{DiagnosticIDPrefix}{id:0000}";
+        private string GetDiagnosticID(int id) => $"{DiagnosticIDPrefix}{id.ToString($"D{DiagnosticIDDigits}")}";
 
         private LocalizableString GetTitle(int id) => GetResourceString(id, "Title");
         private LocalizableString GetMessageFormat(int id) => GetResourceString(id, "MessageFormat");

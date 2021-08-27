@@ -52,7 +52,7 @@ namespace RoseLynn.CSharp.Syntax
         /// <param name="constraintClause">The original constraint clause.</param>
         /// <param name="semanticModel">The <seealso cref="SemanticModel"/> to use when analyzing the constraint.</param>
         /// <param name="constraints">The new constraints to add to the constraint clause.</param>
-        /// <returns>The resultant constraint clause with the specified added constraints.</returns>
+        /// <returns>The resulting constraint clause with the specified added constraints.</returns>
         public static TypeParameterConstraintClauseSyntax AddUpdateConstraints<T>
         (
             this TypeParameterConstraintClauseSyntax constraintClause,
