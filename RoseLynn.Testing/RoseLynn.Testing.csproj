@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>0.2.0</Version>
+    <PackageVersion>0.2.0</PackageVersion>
+    <Authors>Alex Kalfakakos</Authors>
+    <Company />
+    <Copyright>© 2021, Alex Kalfakakos</Copyright>
+    <Description>Additional tools for testing Roslyn-based analyzers.</Description>
+    <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
+    <PackageTags>roslyn, analyzer, tools, unit test, extensions</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
