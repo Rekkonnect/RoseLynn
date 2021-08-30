@@ -19,6 +19,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzer.Testing" Version="1.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RoseLynn.Analyzers\RoseLynn.Analyzers.csproj" />
     <ProjectReference Include="..\RoseLynn.CodeFixes\RoseLynn.CodeFixes.csproj" />
     <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
