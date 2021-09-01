@@ -49,6 +49,11 @@ namespace RoseLynn.Utilities
             return available;
         }
 
+        /// <summary>Adds a range of entries to a source dictionary.</summary>
+        /// <typeparam name="TKey">The type of the keys stored in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values stored in the dictionary.</typeparam>
+        /// <param name="source">The source dictionary.</param>
+        /// <param name="entries">The entries to add to the <paramref name="source"/> dictionary.</param>
         public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> source, IDictionary<TKey, TValue> entries)
         {
             foreach (var entry in entries)
@@ -81,6 +86,12 @@ namespace RoseLynn.Utilities
             return preserved;
         }
 
+        /// <summary>Gets a <seealso cref="KeyValuePair{TKey, TValue}"/> instance containing the specified key and its associated value.</summary>
+        /// <typeparam name="TKey">The type of the keys stored in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values stored in the dictionary.</typeparam>
+        /// <param name="source">The source dictionary.</param>
+        /// <param name="key">The key of the entry whose <seealso cref="KeyValuePair{TKey, TValue}"/> to get.</param>
+        /// <returns>The resulting <seealso cref="KeyValuePair{TKey, TValue}"/> containing the entry that was requested.</returns>
         public static KeyValuePair<TKey, TValue> GetKeyValuePair<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key)
         {
             return new KeyValuePair<TKey, TValue>(key, source[key]);

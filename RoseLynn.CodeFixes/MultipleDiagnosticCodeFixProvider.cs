@@ -29,6 +29,7 @@ namespace RoseLynn.CodeFixes
         /// <summary>Gets the <seealso cref="DiagnosticDescriptorStorageBase"/> that contains this code fix's title.</summary>
         protected abstract ResourceManager ResourceManager { get; }
 
+        /// <summary>Initializes a new <seealso cref="MultipleDiagnosticCodeFixProvider"/> instance, discovering its <seealso cref="FixableDiagnosticIds"/>.</summary>
         protected MultipleDiagnosticCodeFixProvider()
         {
             fixableDiagnosticIds = FixableDiagnosticDescriptors.Select(d => d.Id).ToImmutableArray();

@@ -13,6 +13,7 @@ namespace RoseLynn.Analyzers
         /// <summary>Gets the supported diagnostics of the analyzer.</summary>
         public sealed override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
 
+        /// <summary>Initializes a new <seealso cref="StoredDescriptorDiagnosticAnalyzer"/> instance, discovering its <seealso cref="SupportedDiagnostics"/>.</summary>
         protected StoredDescriptorDiagnosticAnalyzer()
         {
             SupportedDiagnostics = DiagnosticDescriptorStorage.GetDiagnosticDescriptors(GetType());
