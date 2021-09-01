@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace RoseLynn.Utilities
 {
+    /// <summary>Provides useful extensions for the <seealso cref="IEnumerable{T}"/> type.</summary>
     public static class IEnumerableExtensions
     {
         /// <summary>Gets the only element of the sequence, if it only has one element, otherwise returns <see langword="default"/>.</summary>

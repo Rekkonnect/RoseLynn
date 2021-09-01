@@ -2,6 +2,7 @@
 
 namespace RoseLynn.Utilities
 {
+    /// <summary>Provides useful extensions for the <seealso cref="Type"/> type.</summary>
     public static class TypeExtensions
     {
         /// <summary>Gets the generic type definition of a generic type.</summary>

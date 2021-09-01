@@ -2,6 +2,7 @@
 
 namespace RoseLynn.Utilities
 {
+    /// <summary>Provides useful extensions for the <seealso cref="string"/> type.</summary>
     public static class StringExtensions
     {
         /// <summary>Removes all instances of the given sequence from the string.</summary>

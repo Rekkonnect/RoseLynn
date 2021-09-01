@@ -2,6 +2,7 @@
 
 namespace RoseLynn
 {
+    /// <summary>Provides useful extensions for the <seealso cref="TypeKind"/> type.</summary>
     public static class TypeKindExtensions
     {
         /// <summary>Determines whether the given <seealso cref="TypeKind"/> can explicitly inherit types.</summary>

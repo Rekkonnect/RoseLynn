@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace RoseLynn
 {
+    /// <summary>Provides useful extensions for the <seealso cref="SemanticModel"/> type.</summary>
     public static class SemanticModelExtensions
     {
         /// <summary>Gets the associated <seealso cref="TypeInfo"/> for the type in a <seealso cref="BaseTypeSyntax"/>.</summary>

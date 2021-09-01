@@ -2,6 +2,7 @@
 
 namespace RoseLynn.CSharp.Syntax
 {
+    /// <summary>Provides useful extensions for the <seealso cref="AttributeSyntax"/> type.</summary>
     public static class AttributeSyntaxExtensions
     {
         /// <summary>Gets the identifier string of the <seealso cref="AttributeSyntax"/>.</summary>

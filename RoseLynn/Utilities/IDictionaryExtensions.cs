@@ -2,6 +2,7 @@
 
 namespace RoseLynn.Utilities
 {
+    /// <summary>Provides useful extensions for the <seealso cref="IDictionary{TKey, TValue}"/> type.</summary>
     public static class IDictionaryExtensions
     {
         /// <summary>Adds a new entry to the dictionary. If the given key already exists, its value is overwritten in the source dictionary.</summary>

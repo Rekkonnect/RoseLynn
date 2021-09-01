@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace RoseLynn
 {
+    /// <summary>Provides useful extensions for the <seealso cref="ITypeParameterSymbol"/> type.</summary>
     public static class ITypeParameterSymbolExtensions
     {
         /// <summary>Gets the declaring symbol of the <seealso cref="ITypeParameterSymbol"/>.</summary>

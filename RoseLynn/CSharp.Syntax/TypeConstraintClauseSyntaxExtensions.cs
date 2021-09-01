@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace RoseLynn.CSharp.Syntax
 {
+    /// <summary>Provides useful extensions for the <seealso cref="TypeParameterConstraintClauseSyntax"/> type.</summary>
     public static class TypeParameterConstraintClauseSyntaxExtensions
     {
         /// <summary>Adds the specified type constraint to the clause and updates it accordingly to ensure its validity.</summary>

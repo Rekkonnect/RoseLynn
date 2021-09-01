@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace RoseLynn.Utilities
 {
+    /// <summary>Provides useful extensions for the <seealso cref="MemberInfo"/> type.</summary>
     public static class MemberInfoExtensions
     {
         /// <summary>Gets the value of a field or property <seealso cref="MemberInfo"/>.</summary>

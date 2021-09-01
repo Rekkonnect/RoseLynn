@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace RoseLynn.CSharp.Syntax
 {
+    /// <summary>Provides useful extensions for the <seealso cref="AttributeListSyntax"/> type.</summary>
     public static class AttributeListSyntaxExtensions
     {
         // No idea how this might or might not work

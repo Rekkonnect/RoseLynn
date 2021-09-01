@@ -1,15 +1,30 @@
-﻿using Microsoft.CodeAnalysis;
+﻿#nullable enable
+
+using Microsoft.CodeAnalysis;
 
 namespace RoseLynn
 {
+    /// <summary>Provides useful extensions for the <seealso cref="INamedTypeSymbol"/> type.</summary>
     public static class INamedTypeSymbolExtensions
     {
-        public static bool IsUnboundGenericTypeSafe(this INamedTypeSymbol symbol)
+        /// <summary>Determines whether the type represented by a <seealso cref="INamedTypeSymbol"/> is an unbound generic type. This method does not throw any exceptions, in contrast to <seealso cref="INamedTypeSymbol.IsUnboundGenericType"/>.</summary>
+        /// <param name="symbol">The <seealso cref="INamedTypeSymbol"/> whose type to analyze.</param>
+        /// <returns><see langword="true"/> if the type represented by <paramref name="symbol"/> is an unbound generic type; otherwise <see langword="false"/>. If <paramref name="symbol"/> is <see langword="null"/>, <see langword="false"/> is also returned.</returns>
+        public static bool IsUnboundGenericTypeSafe(this INamedTypeSymbol? symbol)
         {
+            if (symbol is null)
+                return false;
+
             return symbol.IsGenericType && symbol.IsUnboundGenericType;
         }
-        public static bool IsBoundGenericTypeSafe(this INamedTypeSymbol symbol)
+        /// <summary>Determines whether the type represented by a <seealso cref="INamedTypeSymbol"/> is a bound generic type. This method does not throw any exceptions, in contrast to <seealso cref="INamedTypeSymbol.IsUnboundGenericType"/>.</summary>
+        /// <param name="symbol">The <seealso cref="INamedTypeSymbol"/> whose type to analyze.</param>
+        /// <returns><see langword="true"/> if the type represented by <paramref name="symbol"/> is a bound generic type; otherwise <see langword="false"/>. If <paramref name="symbol"/> is <see langword="null"/>, <see langword="false"/> is also returned.</returns>
+        public static bool IsBoundGenericTypeSafe(this INamedTypeSymbol? symbol)
         {
+            if (symbol is null)
+                return false;
+
             return symbol.IsGenericType && !symbol.IsUnboundGenericType;
         }
     }
