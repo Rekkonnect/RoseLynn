@@ -22,8 +22,8 @@ namespace RoseLynn.Analyzers.Test
         [Test]
         public void GetDiagnosticDescriptorProperty()
         {
-            var descriptor1001 = Instance.GetDiagnosticDescriptor(3);
-            Assert.Null(descriptor1001);
+            var descriptor1001 = Instance.GetDiagnosticDescriptor(1001);
+            Assert.AreEqual(Instance.MOCK1001_Rule, descriptor1001);
         }
     }
 }
