@@ -19,6 +19,7 @@ namespace RoseLynn.CodeFixes
         /// <summary>The <seealso cref="DiagnosticDescriptor"/>s this code fix is triggered on.</summary>
         /// <remarks>Using these instances is preferred over typing out the raw IDs themselves, since they're more accessible with the help of <seealso cref="DiagnosticDescriptorStorageBase"/>.</remarks>
         protected abstract IEnumerable<DiagnosticDescriptor> FixableDiagnosticDescriptors { get; }
+        /// <inheritdoc/>
         public sealed override ImmutableArray<string> FixableDiagnosticIds => fixableDiagnosticIds;
 
         private string codeFixTitle;
@@ -37,6 +38,7 @@ namespace RoseLynn.CodeFixes
         /// <returns>The default <seealso cref="FixAllProvider"/>, <seealso cref="WellKnownFixAllProviders.BatchFixer"/>.</returns>
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
+        /// <inheritdoc/>
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var root = await context.GetSyntaxRootAsync();
