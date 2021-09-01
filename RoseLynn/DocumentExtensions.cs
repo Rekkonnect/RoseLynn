@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace RoseLynn
 {
+    /// <summary>Provides useful extensions for the <seealso cref="Document"/> type.</summary>
     public static class DocumentExtensions
     {
         /// <summary>Gets the length difference between the new document and the original one.</summary>

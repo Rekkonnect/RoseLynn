@@ -14,11 +14,18 @@ namespace RoseLynn.Testing
     /// <summary>Provides a handler to perform operations on code with special markup syntax for diagnostics.</summary>
     public abstract class DiagnosticMarkupCodeHandler
     {
+        /// <summary>Gets the <seealso cref="MicrosoftCodeAnalysisDiagnosticMarkupCodeHandler"/> instance.</summary>
         public static readonly MicrosoftCodeAnalysisDiagnosticMarkupCodeHandler MicrosoftCodeAnalysis = new();
+        /// <summary>Gets the <seealso cref="GuRoslynAssertsDiagnosticMarkupCodeHandler"/> instance.</summary>
         public static readonly GuRoslynAssertsDiagnosticMarkupCodeHandler GuRoslynAsserts = new();
 
         private DiagnosticIndicatorInfo? indicatorInfo;
+        /// <summary>Gets the <seealso cref="DiagnosticIndicatorInfo"/> for this markup style.</summary>
         public DiagnosticIndicatorInfo IndicatorInfo => indicatorInfo ??= GetIndicatorInfo();
+
+        /// <summary>Initializes the new instance of the <seealso cref="DiagnosticIndicatorInfo"/> for the style.</summary>
+        /// <returns>The initialized instance.</returns>
+        /// <remarks>This method is only meant to be called once during initialization of the <seealso cref="IndicatorInfo"/> property.</remarks>
         protected abstract DiagnosticIndicatorInfo GetIndicatorInfo();
 
         /// <summary>The string indicator that a diagnostic is expected to start at that point.</summary>
@@ -66,6 +73,11 @@ namespace RoseLynn.Testing
             return MarkupDiagnostic(rawStringNode, expectedDiagnosticID);
         }
 
+        /// <summary>Parses a bound diagnostic indicator start.</summary>
+        /// <param name="markupCode">The given marked up code.</param>
+        /// <param name="startIndex">The index of the first character of the diagnostic indicator start.</param>
+        /// <param name="length">The length of the diagnostic indicator's start. If parsing fails, 0 is returned.</param>
+        /// <returns>The expected diagnostic ID as stored in the bound diagnostic indicator, if successfully parsed; otherwise <see langword="null"/>. If the diagnostic indicator does not start at <paramref name="startIndex"/>, parsing fails, also returning <see langword="null"/>.</returns>
         protected virtual string? ParseBoundDiagnosticIndicator(string markupCode, int startIndex, out int length)
         {
             length = 0;
@@ -212,6 +224,8 @@ namespace RoseLynn.Testing
             return result.ToImmutable();
         }
 
+        /// <inheritdoc cref="ConvertMarkup(string, DiagnosticMarkupCodeHandler)"/>
+        /// <typeparam name="TOther">The type of the other <seealso cref="DiagnosticMarkupCodeHandler"/> according to which to convert the marked up document for.</typeparam>
         public string ConvertMarkup<TOther>(string markupCode)
             where TOther : DiagnosticMarkupCodeHandler, new()
         {
@@ -236,6 +250,10 @@ namespace RoseLynn.Testing
             return newHandlerInstance.MarkupDiagnostics(unmarkedCode, spans);
         }
 
+        /// <summary>Marks up the given code document with diagnostic indicators at the specified spans.</summary>
+        /// <param name="code">The original code docuemnt on which to mark diagnostic indicators on. Already existing indicators will not be affected or accounted.</param>
+        /// <param name="spans">The spans of the document to mark up with diagnostic indicators.</param>
+        /// <returns>The resulting code document marked up with diagnostic indicators at the specified spans.</returns>
         public string MarkupDiagnostics(string code, IEnumerable<DiagnosticMarkedUpCodeSpan> spans)
         {
             var result = new StringBuilder(code.Length * 2);
@@ -245,7 +263,6 @@ namespace RoseLynn.Testing
                 return code;
             return result.ToString();
 
-            // TODO: Test that math is correct
             void PerformLast(DiagnosticMarkedUpCodeSpan lastSpan)
             {
                 result.Append(code, lastSpan.TextSpan.End);
@@ -265,11 +282,13 @@ namespace RoseLynn.Testing
         private const string expectedDiagnosticID = nameof(expectedDiagnosticID);
         private static readonly Regex diagnosticMarkupRegex = new($@"{{\|(?'{expectedDiagnosticID}'[\w\d]*):", RegexOptions.Compiled);
 
+        /// <inheritdoc/>
         protected override DiagnosticIndicatorInfo GetIndicatorInfo()
         {
             return DiagnosticIndicatorInfo.AnyDiagnostic("[|", "|]", "{|", "|}");
         }
 
+        /// <inheritdoc/>
         protected override string? ParseBoundDiagnosticIndicator(string markupCode, int startIndex, out int length)
         {
             var match = diagnosticMarkupRegex.Match(markupCode, startIndex);
@@ -285,16 +304,19 @@ namespace RoseLynn.Testing
             return match.Groups[expectedDiagnosticID].Value;
         }
 
+        /// <inheritdoc/>
         public override string RemoveMarkup(string code)
         {
             return diagnosticMarkupRegex.Replace(code, "").Remove("|}").Remove("[|").Remove("|]");
         }
 
+        /// <inheritdoc/>
         [ExcludeFromCodeCoverage]
         public override string MarkupDiagnostic(string rawStringNode)
         {
             return $"[|{rawStringNode}|]";
         }
+        /// <inheritdoc/>
         [ExcludeFromCodeCoverage]
         public override string MarkupDiagnostic(string rawStringNode, string expectedDiagnosticID)
         {
@@ -305,16 +327,19 @@ namespace RoseLynn.Testing
     /// <summary>Provides an implementation of the <seealso cref="DiagnosticMarkupCodeHandler"/> for the Gu.Roslyn.Asserts framework.</summary>
     public sealed class GuRoslynAssertsDiagnosticMarkupCodeHandler : DiagnosticMarkupCodeHandler
     {
+        /// <inheritdoc/>
         protected override DiagnosticIndicatorInfo GetIndicatorInfo()
         {
             return DiagnosticIndicatorInfo.StartUnboundDiagnostic("↓");
         }
 
+        /// <inheritdoc/>
         public override string RemoveMarkup(string code)
         {
             return code.Remove("↓");
         }
 
+        /// <inheritdoc/>
         [ExcludeFromCodeCoverage]
         public override string MarkupDiagnostic(string rawStringNode)
         {

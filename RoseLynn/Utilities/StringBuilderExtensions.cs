@@ -3,6 +3,7 @@ using System.Text;
 
 namespace RoseLynn.Utilities
 {
+    /// <summary>Provides useful extensions for the <seealso cref="StringBuilder"/> type.</summary>
     public static class StringBuilderExtensions
     {
         /// <summary>Appends a string to the <seealso cref="StringBuilder"/> instance, from its start index up until its end.</summary>

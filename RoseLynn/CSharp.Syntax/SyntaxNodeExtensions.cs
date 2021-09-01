@@ -2,6 +2,7 @@
 
 namespace RoseLynn.CSharp.Syntax
 {
+    /// <summary>Provides useful extensions for the <seealso cref="SyntaxNode"/> type.</summary>
     public static class SyntaxNodeExtensions
     {
         /// <summary>Recursively iterates through the parents of the given node until a parent with the specified type is found.</summary>

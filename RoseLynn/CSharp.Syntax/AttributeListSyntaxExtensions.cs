@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace RoseLynn.CSharp.Syntax
 {
+    /// <summary>Provides useful extensions for the <seealso cref="AttributeListSyntax"/> type.</summary>
     public static class AttributeListSyntaxExtensions
     {
         // No idea how this might or might not work
@@ -26,7 +27,7 @@ namespace RoseLynn.CSharp.Syntax
                     // This needs a bit of work
                     // The main concept is that multiple fields that are declared in the same line can be attributed
                     // However, this does not apply to multiple arguments or other forms of declarations with the same parent
-                    if (!(n is AttributeListSyntax))
+                    if (n is not AttributeListSyntax)
                         yield return n;
                 }
             }

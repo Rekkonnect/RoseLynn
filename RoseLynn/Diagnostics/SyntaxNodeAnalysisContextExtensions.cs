@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace RoseLynn.Diagnostics
 {
+    /// <summary>Provides useful extensions for the <seealso cref="SyntaxNodeAnalysisContext"/> type.</summary>
     public static class SyntaxNodeAnalysisContextExtensions
     {
         /// <summary>Reports diagnostics on the specified nodes, with each node being reported a diagnostic based on the given generator.</summary>

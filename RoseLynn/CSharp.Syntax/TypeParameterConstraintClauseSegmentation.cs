@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,30 +14,36 @@ namespace RoseLynn.CSharp.Syntax
 
         private TypeParameterConstraintSyntax keywordOrClassConstraint;
         private TypeParameterConstraintSyntax delegateOrEnumConstraint;
-        private List<TypeConstraintSyntax> interfaceConstraints = new();
+        private List<TypeConstraintSyntax> otherConstraints = new();
 
+        /// <summary>Gets or sets the keyword or class type constraint. That slot enables using either a keyword constraint (<see langword="class"/>, <see langword="struct"/>, <see langword="unmanaged"/>, <see langword="notnull"/> or <see langword="default"/>), or a class type other than <seealso cref="Delegate"/>, <seealso cref="MulticastDelegate"/> or <seealso cref="Enum"/>.</summary>
         public TypeParameterConstraintSyntax KeywordOrClassConstraint
         {
             get => keywordOrClassConstraint;
             set => keywordOrClassConstraint = value;
         }
+        /// <summary>Gets or sets the <see langword="delegate"/> or <see langword="enum"/> constraint. That slot enables using one of the following class types: <seealso cref="Delegate"/>, <seealso cref="MulticastDelegate"/> or <seealso cref="Enum"/>.</summary>
         public TypeConstraintSyntax DelegateOrEnumConstraint
         {
             get => delegateOrEnumConstraint as TypeConstraintSyntax;
             set => delegateOrEnumConstraint = value;
         }
-        public List<TypeConstraintSyntax> InterfaceConstraints
+        /// <summary>Gets or sets the list of interface or type parameter constraints. Those slots enable using interfaces or type parameters as constraints.</summary>
+        public List<TypeConstraintSyntax> InterfaceOrTypeParameterConstraints
         {
-            get => interfaceConstraints;
+            get => otherConstraints;
             set
             {
                 if (value is null)
                     value = new();
 
-                interfaceConstraints = value;
+                otherConstraints = value;
             }
         }
+        /// <summary>Gets or sets the <see langword="new"/>() constraint.</summary>
         public ConstructorConstraintSyntax NewConstraint { get; set; }
+
+        // TODO: Add ability to get the interface constraints and the type parameter constraints individually
 
         /// <summary>Initializes a new instance of the <seealso cref="TypeParameterConstraintClauseSegmentation"/> class from a given <see cref="TypeParameterConstraintClauseSyntax"/> and a <seealso cref="SemanticModel"/>.</summary>
         /// <param name="constraintClause">The given <seealso cref="TypeParameterConstraintClauseSyntax"/> to initialize this instance from.</param>
@@ -98,6 +105,7 @@ namespace RoseLynn.CSharp.Syntax
                     switch (typeSymbol.SpecialType)
                     {
                         case SpecialType.System_Delegate:
+                        case SpecialType.System_MulticastDelegate:
                         case SpecialType.System_Enum:
                             relevantConstraint = ref delegateOrEnumConstraint;
                             break;
@@ -106,7 +114,8 @@ namespace RoseLynn.CSharp.Syntax
                     return;
 
                 case TypeKind.Interface:
-                    InterfaceConstraints.Add(typeConstraint);
+                case TypeKind.TypeParameter:
+                    InterfaceOrTypeParameterConstraints.Add(typeConstraint);
                     break;
             }
         }
@@ -143,8 +152,8 @@ namespace RoseLynn.CSharp.Syntax
                 result.Add(keywordOrClassConstraint);
             if (delegateOrEnumConstraint != null)
                 result.Add(delegateOrEnumConstraint);
-            if (InterfaceConstraints.Any())
-                result.AddRange(InterfaceConstraints);
+            if (InterfaceOrTypeParameterConstraints.Any())
+                result.AddRange(InterfaceOrTypeParameterConstraints);
             if (NewConstraint != null)
                 result.Add(NewConstraint);
 

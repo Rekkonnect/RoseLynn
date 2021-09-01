@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.CodeFixes
 {
+    /// <summary>Provides useful extensions for the <seealso cref="CodeFixContext"/> type.</summary>
     public static class CodeFixContextExtensions
     {
         public static async Task<Document> RemoveAttributeCleanAsync
