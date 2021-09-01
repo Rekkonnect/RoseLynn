@@ -6,6 +6,10 @@ namespace RoseLynn.Analyzers.Test.MockedResources
     {
         protected override DiagnosticDescriptorStorageBase DiagnosticDescriptorStorage => MockStorage.Instance;
 
-        public override void Initialize(AnalysisContext context) { }
+        public override void Initialize(AnalysisContext context)
+        {
+            context.EnableConcurrentExecution();
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+        }
     }
 }
