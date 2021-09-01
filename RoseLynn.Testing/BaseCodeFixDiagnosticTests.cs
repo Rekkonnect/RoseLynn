@@ -11,11 +11,23 @@ namespace RoseLynn.Testing
         where TAnalyzer : DiagnosticAnalyzer, new()
         where TCodeFix : MultipleDiagnosticCodeFixProvider, new()
     {
-        public void TestCodeFix(string markupCode, string expected, int codeActionIndex = 0) => Task.WaitAll(TestCodeFixAsync(markupCode, expected, codeActionIndex));
-        public async Task TestCodeFixAsync(string markupCode, string expected, int codeActionIndex = 0)
+        /// <summary>Verifies that the code fix works as intended, provided the initial source code with markup, and the expected result.</summary>
+        /// <param name="markupCode">The initial source code with markup.</param>
+        /// <param name="expected">The expected result source code after the code fix.</param>
+        /// <param name="codeActionIndex">The index of the code action to perform.</param>
+        public void TestCodeFix(string markupCode, string expected, int codeActionIndex = 0)
+        {
+            TestCodeFixAsync(markupCode, expected, codeActionIndex).Wait();
+        }
+        /// <summary>Verifies that the code fix works as intended, provided the initial source code with markup, and the expected result.</summary>
+        /// <param name="markupCode">The initial source code with markup.</param>
+        /// <param name="expected">The expected result source code after the code fix.</param>
+        /// <param name="codeActionIndex">The index of the code action to perform.</param>
+        /// <returns>The task that encapsulates performing the code fix.</returns>
+        public Task TestCodeFixAsync(string markupCode, string expected, int codeActionIndex = 0)
         {
             ReplaceAsteriskMarkup(ref markupCode);
-            await VerifyCodeFixAsync(markupCode, expected, codeActionIndex);
+            return VerifyCodeFixAsync(markupCode, expected, codeActionIndex);
         }
 
         private void ReplaceAsteriskMarkup(ref string markupCode) => markupCode = ReplaceAsteriskMarkup(markupCode);
