@@ -1,11 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
+﻿#nullable enable
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using RoseLynn.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Reflection;
 using System.Resources;
 
 namespace RoseLynn.Analyzers
@@ -13,29 +13,8 @@ namespace RoseLynn.Analyzers
     /// <summary>Provides mechanisms to function a storage of <seealso cref="DiagnosticDescriptor"/> instances that are grouped by analyzer type.</summary>
     public abstract class DiagnosticDescriptorStorageBase
     {
+        private readonly RuleStorage ruleStorage = new();
         private readonly Dictionary<Type, HashSet<DiagnosticDescriptor>> analyzerGroupedDiagnostics = new();
-        private readonly Dictionary<string, DiagnosticDescriptor> diagnosticsByID = new();
-
-        private Dictionary<Type, HashSet<DiagnosticDescriptor>> AnalyzerGroupedDiagnostics
-        {
-            get
-            {
-                if (analyzerGroupedDiagnostics.Count is 0)
-                    AnalyzeDiagnostics();
-
-                return analyzerGroupedDiagnostics;
-            }
-        }
-        private Dictionary<string, DiagnosticDescriptor> DiagnosticsByID
-        {
-            get
-            {
-                if (diagnosticsByID.Count is 0)
-                    AnalyzeDiagnostics();
-
-                return diagnosticsByID;
-            }
-        }
 
         /// <summary>Represents the count of digits the diagnostic ID ends in.</summary>
         /// <remarks>The storage is not intended to support diagnostic IDs that do not end in exactly 4 decimal digits. It is advised to follow conventions followed by other parties.</remarks>
@@ -44,55 +23,39 @@ namespace RoseLynn.Analyzers
         /// <summary>Gets the length of a diagnostic ID stored in this storage.</summary>
         public int DiagnosticIDLength => DiagnosticIDPrefix.Length + DiagnosticIDDigits;
 
-        private void AnalyzeDiagnostics()
-        {
-            int ruleIDLength = GetDiagnosticID(0).Length;
+        /// <summary>Gets or sets the default <seealso cref="DiagnosticAnalyzer"/> that will be assigned to the created diagnostics. Defaults to <see langword="null"/>.</summary>
+        protected Type? DefaultDiagnosticAnalyzer { get; set; }
 
-            var thisType = GetType();
-            var fields = thisType.GetFields();
-            var properties = thisType.GetProperties();
-            var fieldsOrProperties = fields.AsEnumerable<MemberInfo>().Concat(properties);
-
-            foreach (var fieldOrProperty in fieldsOrProperties)
-            {
-                // All rule fields must have the DiagnosticSupportedAttribute
-                var type = fieldOrProperty.GetCustomAttribute<DiagnosticSupportedAttribute>()?.DiagnosticAnalyzerType;
-                if (type is null)
-                    continue;
-
-                var ruleID = fieldOrProperty.Name.Substring(0, ruleIDLength);
-                var diagnosticDescriptor = fieldOrProperty.GetFieldOrPropertyValue(this) as DiagnosticDescriptor;
-
-                diagnosticsByID.Add(ruleID, diagnosticDescriptor);
-
-                if (!analyzerGroupedDiagnostics.TryGetValue(type, out var set))
-                    analyzerGroupedDiagnostics.Add(type, set = new());
-
-                set.Add(diagnosticDescriptor);
-            }
-        }
+        /// <summary>Sets the default <seealso cref="DiagnosticAnalyzer"/> that will be assigned to the created diagnostics.</summary>
+        /// <typeparam name="T">The type of the analyzer that will be considered the default <seealso cref="DiagnosticAnalyzer"/>.</typeparam>
+        protected void SetDefaultDiagnosticAnalyzer<T>() => DefaultDiagnosticAnalyzer = typeof(T);
 
         /// <summary>Gets the <seealso cref="DiagnosticDescriptor"/> representing the given rule ID.</summary>
         /// <param name="ruleID">The rule ID whose <seealso cref="DiagnosticDescriptor"/> to get. The numeric portion of the rule ID will be combined with <seealso cref="DiagnosticIDPrefix"/>.</param>
         /// <returns>The <seealso cref="DiagnosticDescriptor"/> representing the given rule ID, if it exists, otherwise <see langword="null"/>.</returns>
-        public DiagnosticDescriptor GetDiagnosticDescriptor(int ruleID)
+        public DiagnosticDescriptor? GetDiagnosticDescriptor(int ruleID)
         {
-            return GetDiagnosticDescriptor(GetDiagnosticID(ruleID));
+            return ruleStorage[ruleID];
         }
         /// <summary>Gets the <seealso cref="DiagnosticDescriptor"/> representing the given rule ID.</summary>
         /// <param name="ruleID">The rule ID whose <seealso cref="DiagnosticDescriptor"/> to get.</param>
-        /// <returns>The <seealso cref="DiagnosticDescriptor"/> representing the given rule ID, if it exists, otherwise <see langword="null"/>.</returns>
-        public DiagnosticDescriptor GetDiagnosticDescriptor(string ruleID)
+        /// <returns>The <seealso cref="DiagnosticDescriptor"/> representing the given rule ID, if it is a valid rule ID for this storage and it exists, otherwise <see langword="null"/>.</returns>
+        public DiagnosticDescriptor? GetDiagnosticDescriptor(string ruleID)
         {
-            DiagnosticsByID.TryGetValue(ruleID, out var value);
-            return value;
+            if (ruleID.Length != DiagnosticIDLength || !ruleID.StartsWith(DiagnosticIDPrefix))
+                return null;
+
+            if (!int.TryParse(ruleID.Substring(DiagnosticIDPrefix.Length), out int id))
+                return null;
+
+            return GetDiagnosticDescriptor(id);
         }
 
         /// <summary>Gets all the stored <seealso cref="DiagnosticDescriptor"/>s in this storage mapped to their associated <seealso cref="DiagnosticAnalyzer"/> types.</summary>
         /// <returns>A dictionary mapping the types of <seealso cref="DiagnosticAnalyzer"/>s to their respective <seealso cref="ImmutableArray{T}"/> of associated <seealso cref="DiagnosticDescriptor"/>s.</returns>
         public IDictionary<Type, ImmutableArray<DiagnosticDescriptor>> GetDiagnosticDescriptorsByAnalyzersImmutable()
         {
-            return AnalyzerGroupedDiagnostics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToImmutableArray());
+            return analyzerGroupedDiagnostics.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToImmutableArray());
         }
         /// <summary>Gets the <see cref="DiagnosticDescriptor"/>s associated to the specified analyzer type.</summary>
         /// <typeparam name="T">The type of the <see cref="DiagnosticAnalyzer"/> whose associated <seealso cref="DiagnosticDescriptor"/>s to get.</typeparam>
@@ -107,9 +70,14 @@ namespace RoseLynn.Analyzers
         /// <returns>An <seealso cref="ImmutableArray{T}"/> containing the <seealso cref="DiagnosticDescriptor"/>s.</returns>
         public ImmutableArray<DiagnosticDescriptor> GetDiagnosticDescriptors(Type diagnosticAnalyzerType)
         {
-            AnalyzerGroupedDiagnostics.TryGetValue(diagnosticAnalyzerType, out var set);
+            analyzerGroupedDiagnostics.TryGetValue(diagnosticAnalyzerType, out var set);
             return set.ToImmutableArray();
         }
+
+        /// <inheritdoc cref="GetDiagnosticDescriptor(int)"/>
+        public DiagnosticDescriptor? this[int ruleID] => ruleStorage[ruleID];
+        /// <inheritdoc cref="GetDiagnosticDescriptor(string)"/>
+        public DiagnosticDescriptor? this[string ruleID] => GetDiagnosticDescriptor(ruleID);
 
         #region Diagnotsic Descriptor Construction
         /// <summary>Gets the URI for the base rule documentation directory.</summary>
@@ -126,10 +94,24 @@ namespace RoseLynn.Analyzers
         /// <param name="id">The numeric portion of the diagnostic ID. The numeric value will be expanded to 4 decimal digits.</param>
         /// <param name="category">The category of the diagnostic.</param>
         /// <param name="severity">The severity of the diagnostic.</param>
+        /// <param name="diagnosticAnalyzerType">The type of the <seealso cref="DiagnosticAnalyzer"/> that emits the created <seealso cref="DiagnosticDescriptor"/>. If <see langword="null"/>, the currently set <see cref="DefaultDiagnosticAnalyzer"/> will be used.</param>
         /// <returns>The resulting created <seealso cref="DiagnosticDescriptor"/>.</returns>
-        protected DiagnosticDescriptor CreateDiagnosticDescriptor(int id, string category, DiagnosticSeverity severity)
+        protected DiagnosticDescriptor CreateDiagnosticDescriptor(int id, string category, DiagnosticSeverity severity, Type? diagnosticAnalyzerType = null)
         {
-            return new DiagnosticDescriptor(GetDiagnosticID(id), GetTitle(id), GetMessageFormat(id), category, severity, true, helpLinkUri: GetHelpLinkURI(id), description: GetDescription(id));
+            var descriptor = new DiagnosticDescriptor(GetDiagnosticID(id), GetTitle(id), GetMessageFormat(id), category, severity, true, helpLinkUri: GetHelpLinkURI(id), description: GetDescription(id));
+            ruleStorage[id] = descriptor;
+
+            diagnosticAnalyzerType ??= DefaultDiagnosticAnalyzer;
+
+            if (diagnosticAnalyzerType is not null)
+            {
+                if (!analyzerGroupedDiagnostics.TryGetValue(diagnosticAnalyzerType, out var set))
+                    analyzerGroupedDiagnostics.Add(diagnosticAnalyzerType, set = new());
+
+                set.Add(descriptor!);
+            }
+
+            return descriptor;
         }
 
         /// <summary>Gets the resource string associated with the specified diagnostic ID and property.</summary>
@@ -148,5 +130,41 @@ namespace RoseLynn.Analyzers
         private LocalizableString GetMessageFormat(int id) => GetResourceString(id, "MessageFormat");
         private LocalizableString GetDescription(int id) => GetResourceString(id, "Description");
         #endregion
+
+        private class RuleStorage
+        {
+            private const int BucketCount = 100;
+            private const int BucketLength = 100;
+
+            private readonly DiagnosticDescriptor?[]?[] buckets = new DiagnosticDescriptor[BucketCount][];
+
+            public DiagnosticDescriptor? this[int id]
+            {
+                get
+                {
+                    if (!BreakID(id, out int bucketIndex, out int innerIndex))
+                        return null;
+
+                    return buckets[bucketIndex]?[innerIndex];
+                }
+                set
+                {
+                    if (!BreakID(id, out int bucketIndex, out int innerIndex))
+                        return;
+
+                    ref var bucket = ref buckets[bucketIndex];
+                    if (bucket is null)
+                        bucket = new DiagnosticDescriptor?[BucketLength];
+
+                    bucket[innerIndex] = value;
+                }
+            }
+
+            private static bool BreakID(int id, out int bucketIndex, out int innerIndex)
+            {
+                bucketIndex = Math.DivRem(id, BucketLength, out innerIndex);
+                return id is >= 0 and < 10000;
+            }
+        }
     }
 }
