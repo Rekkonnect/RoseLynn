@@ -21,17 +21,14 @@ namespace RoseLynn.Analyzers
     }
 
     /// <summary>Represents a C# <seealso cref="DiagnosticAnalyzer"/> that reflects its own stored supported diagnostics.</summary>
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class CSharpDiagnosticAnalyzer : StoredDescriptorDiagnosticAnalyzer
     {
     }
     /// <summary>Represents a Visual Basic <seealso cref="DiagnosticAnalyzer"/> that reflects its own stored supported diagnostics.</summary>
-    [DiagnosticAnalyzer(LanguageNames.VisualBasic)]
     public abstract class VisualBasicDiagnosticAnalyzer : StoredDescriptorDiagnosticAnalyzer
     {
     }
     /// <summary>Represents an F# <seealso cref="DiagnosticAnalyzer"/> that reflects its own stored supported diagnostics.</summary>
-    [DiagnosticAnalyzer(LanguageNames.FSharp)]
     public abstract class FSharpDiagnosticAnalyzer : StoredDescriptorDiagnosticAnalyzer
     {
     }
