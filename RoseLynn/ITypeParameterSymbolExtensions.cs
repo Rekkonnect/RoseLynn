@@ -27,7 +27,7 @@ namespace RoseLynn
 
             if (typeParameter.HasConstructorConstraint)
             {
-                if (!(typeArgument is INamedTypeSymbol namedTypeArgument))
+                if (typeArgument is not INamedTypeSymbol namedTypeArgument)
                     return false;
 
                 if (!namedTypeArgument.InstanceConstructors.Any(c => c.Parameters.IsEmpty))
