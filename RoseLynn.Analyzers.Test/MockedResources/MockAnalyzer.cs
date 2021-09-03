@@ -1,7 +1,9 @@
-﻿using Microsoft.CodeAnalysis.Diagnostics;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RoseLynn.Analyzers.Test.MockedResources
 {
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public sealed class MockAnalyzer : CSharpDiagnosticAnalyzer
     {
         protected override DiagnosticDescriptorStorageBase DiagnosticDescriptorStorage => MockStorage.Instance;
