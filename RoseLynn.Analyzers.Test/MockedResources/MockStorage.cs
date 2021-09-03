@@ -13,16 +13,15 @@ namespace RoseLynn.Analyzers.Test.MockedResources
 
         public const string MockCategory = "Mock";
 
-        [DiagnosticSupported(typeof(MockAnalyzer))]
         public readonly DiagnosticDescriptor
             MOCK0001_Rule,
-            MOCK0002_Rule;
-
-        [DiagnosticSupported(typeof(MockAnalyzer))]
-        public DiagnosticDescriptor MOCK1001_Rule { get; }
+            MOCK0002_Rule,
+            MOCK1001_Rule;
 
         private MockStorage()
         {
+            SetDefaultDiagnosticAnalyzer<MockAnalyzer>();
+
             MOCK0001_Rule = CreateDiagnosticDescriptor(0001, MockCategory, DiagnosticSeverity.Error);
             MOCK0002_Rule = CreateDiagnosticDescriptor(0002, MockCategory, DiagnosticSeverity.Hidden);
             MOCK1001_Rule = CreateDiagnosticDescriptor(1001, MockCategory, DiagnosticSeverity.Info);
