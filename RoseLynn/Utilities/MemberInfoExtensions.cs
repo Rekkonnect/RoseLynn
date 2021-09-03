@@ -17,8 +17,8 @@ namespace RoseLynn.Utilities
         {
             return memberInfo switch
             {
-                FieldInfo field => field.GetValue(instance),
-                PropertyInfo field => field.GetValue(instance),
+                FieldInfo field       => field.GetValue(instance),
+                PropertyInfo property => property.GetValue(instance),
                 _ => throw new InvalidOperationException("The member is not a field or a property."),
             };
         }
