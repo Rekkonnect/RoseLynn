@@ -5,8 +5,8 @@
     <LangVersion>9.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.3.0</Version>
-    <PackageVersion>0.3.0</PackageVersion>
+    <Version>0.3.1</Version>
+    <PackageVersion>0.3.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021, Alex Kalfakakos</Copyright>
@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>- Revamped DiagnosticDescriptorStorage initialization for easier usage</PackageReleaseNotes>
+    <PackageReleaseNotes>BREAKING BUG FIXED: Removed DiagnosticAnalyzerAttribute from abstract classes</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
