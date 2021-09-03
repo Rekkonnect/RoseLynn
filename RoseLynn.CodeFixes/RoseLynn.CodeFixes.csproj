@@ -5,8 +5,8 @@
     <LangVersion>9.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.2.3</Version>
-    <PackageVersion>0.2.3</PackageVersion>
+    <Version>0.3.0</Version>
+    <PackageVersion>0.3.0</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021, Alex Kalfakakos</Copyright>
@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, code fix, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>- Added some missing documentation</PackageReleaseNotes>
+    <PackageReleaseNotes>- Migrated CodeFixes namespace to RoseLynn.CodeFixes package</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
