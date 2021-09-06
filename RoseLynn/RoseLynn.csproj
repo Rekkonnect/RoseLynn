@@ -14,7 +14,9 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>- Added LoadedAssemblyInformation and DefaultInstanceContainer</PackageReleaseNotes>
+    <PackageReleaseNotes>- Added LoadedAssemblyInformation and DefaultInstanceContainer
+- Added extension method IDictionary&lt;TKey, TValue&gt;.ValueOrDefault(TKey)
+- Added extension methods TypeInfo.MatchesExplicitlyOrImplicitly, supporting matching the desired (special) type in either the original or the converted type.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
