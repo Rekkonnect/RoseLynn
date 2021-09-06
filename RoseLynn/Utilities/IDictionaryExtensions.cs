@@ -1,10 +1,29 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+
+using System.Collections.Generic;
 
 namespace RoseLynn.Utilities
 {
     /// <summary>Provides useful extensions for the <seealso cref="IDictionary{TKey, TValue}"/> type.</summary>
     public static class IDictionaryExtensions
     {
+        /// <summary>Gets the value mapped to the given key within the dictionary, if the key is present.</summary>
+        /// <typeparam name="TKey">The type of the keys stored in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values stored in the dictionary.</typeparam>
+        /// <param name="dictionary">The dictionary whose mapped value to get.</param>
+        /// <param name="key">The key whose mapped value to get.</param>
+        /// <returns>The associated value to <paramref name="key"/>, if it exists, otherwise <see langword="default"/>.</returns>
+        public static TValue? ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey? key)
+        {
+            if (key is null)
+                return default;
+
+            if (!dictionary.TryGetValue(key, out var value))
+                return default;
+
+            return value;
+        }
+
         /// <summary>Adds a new entry to the dictionary. If the given key already exists, its value is overwritten in the source dictionary.</summary>
         /// <typeparam name="TKey">The type of the keys stored in the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of the values stored in the dictionary.</typeparam>

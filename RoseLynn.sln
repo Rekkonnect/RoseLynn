@@ -5,15 +5,17 @@ VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn", "RoseLynn\RoseLynn.csproj", "{732A448B-E64D-445C-ABA2-EFB7B2CFFD49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.Analyzers", "RoseLynn.Analyzers\RoseLynn.Analyzers.csproj", "{88698E2B-E8E6-4578-861E-27D3EAC692D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Analyzers", "RoseLynn.Analyzers\RoseLynn.Analyzers.csproj", "{88698E2B-E8E6-4578-861E-27D3EAC692D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.Analyzers.Test", "RoseLynn.Analyzers.Test\RoseLynn.Analyzers.Test.csproj", "{C055E00C-EA8B-4B5A-BC8F-4208E4B9897A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Analyzers.Test", "RoseLynn.Analyzers.Test\RoseLynn.Analyzers.Test.csproj", "{C055E00C-EA8B-4B5A-BC8F-4208E4B9897A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.CodeFixes", "RoseLynn.CodeFixes\RoseLynn.CodeFixes.csproj", "{5517E585-4251-4062-A78E-0E9A9B653CAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.CodeFixes", "RoseLynn.CodeFixes\RoseLynn.CodeFixes.csproj", "{5517E585-4251-4062-A78E-0E9A9B653CAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.Testing", "RoseLynn.Testing\RoseLynn.Testing.csproj", "{9707F326-C686-4ACB-93D4-1D1832EA29FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Testing", "RoseLynn.Testing\RoseLynn.Testing.csproj", "{9707F326-C686-4ACB-93D4-1D1832EA29FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.Testing.Test", "RoseLynn.Testing.Test\RoseLynn.Testing.Test.csproj", "{CDCB3BDF-C4D6-4F80-8041-6967FD803668}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Testing.Test", "RoseLynn.Testing.Test\RoseLynn.Testing.Test.csproj", "{CDCB3BDF-C4D6-4F80-8041-6967FD803668}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.Test", "RoseLynn.Test\RoseLynn.Test.csproj", "{0261DA3D-EFFF-490A-AB35-DE489DC41EE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{CDCB3BDF-C4D6-4F80-8041-6967FD803668}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDCB3BDF-C4D6-4F80-8041-6967FD803668}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDCB3BDF-C4D6-4F80-8041-6967FD803668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0261DA3D-EFFF-490A-AB35-DE489DC41EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0261DA3D-EFFF-490A-AB35-DE489DC41EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0261DA3D-EFFF-490A-AB35-DE489DC41EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0261DA3D-EFFF-490A-AB35-DE489DC41EE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
