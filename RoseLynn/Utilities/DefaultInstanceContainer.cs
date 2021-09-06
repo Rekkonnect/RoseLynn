@@ -46,7 +46,8 @@ namespace RoseLynn.Utilities
         /// <summary>Determines whether the given type can be considered a valid instance type.</summary>
         /// <param name="type">The instance type to determine whether it is considered valid. The type will never be <see langword="abstract"/>, and will always be assignable to <typeparamref name="TBase"/> instancess.</param>
         /// <returns><see langword="true"/> if the type's default instance should be stored, otherwise <see langword="false"/>.</returns>
-        protected abstract bool IsValidInstanceType(Type type);
+        /// <remarks>Defaults to always returning <see langword="true"/>. This can be a common implementation for unconstrained types whose default instances to initialize.</remarks>
+        protected virtual bool IsValidInstanceType(Type type) => true;
 
         // Bad function name? Yes
         // Proper function implementation? Maybe?
