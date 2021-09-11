@@ -1,0 +1,20 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v1
+
+    - name: Run RoseLynn.Test Tests
+      run: dotnet test RoseLynn.Test/RoseLynn.Test.csproj
+
+    - name: Run RoseLynn.Analyzers.Test Tests
+      run: dotnet test RoseLynn.Analyzers.Test/RoseLynn.Analyzers.Test.csproj
+
+    - name: Run RoseLynn.Testing.Test Tests
+      run: dotnet test RoseLynn.Testing.Test/RoseLynn.Testing.Test.csproj
