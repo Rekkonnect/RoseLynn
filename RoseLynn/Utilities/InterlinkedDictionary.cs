@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace RoseLynn.Utilities
@@ -11,8 +12,8 @@ namespace RoseLynn.Utilities
     /// <typeparam name="T2">The type of the second component of the pairs.</typeparam>
     public class InterlinkedDictionary<T1, T2>
     {
-        private readonly Dictionary<T1, T2> t1Dictionary = new();
-        private readonly Dictionary<T2, T1> t2Dictionary = new();
+        private readonly Dictionary<T1, T2> t1Dictionary;
+        private readonly Dictionary<T2, T1> t2Dictionary;
 
         /// <summary>Gets the count of pairs that are present in the dictionary.</summary>
         public int Count => t1Dictionary.Count;
@@ -22,7 +23,22 @@ namespace RoseLynn.Utilities
         /// <summary>Gets all the currently stored values of type <typeparamref name="T2"/>.</summary>
         public IEnumerable<T2> Values2 => t2Dictionary.Keys;
         /// <summary>Gets all the currently stored pairs of values.</summary>
+        [ExcludeFromCodeCoverage]
         public IEnumerable<(T1, T2)> ValuePairs => t1Dictionary.Keys.Zip(t2Dictionary.Keys, Selectors.MakeTuple);
+
+        /// <summary>Initializes a new empty <seealso cref="InterlinkedDictionary{T1, T2}"/>.</summary>
+        public InterlinkedDictionary()
+        {
+            t1Dictionary = new();
+            t2Dictionary = new();
+        }
+        /// <summary>Initializes a new <seealso cref="InterlinkedDictionary{T1, T2}"/> out of another, copying the pairs to this new instance.</summary>
+        /// <param name="other">The other <see cref="InterlinkedDictionary{T1, T2}"/> from which to copy the pairs. That instance remains unaffected upon performing operations on this new one.</param>
+        public InterlinkedDictionary(InterlinkedDictionary<T1, T2> other)
+        {
+            t1Dictionary = new(other.t1Dictionary);
+            t2Dictionary = new(other.t2Dictionary);
+        }
 
         /// <summary>Determines whether a value is contained.</summary>
         /// <param name="value">The value of type <typeparamref name="T1"/> that may be contained.</param>
@@ -40,8 +56,20 @@ namespace RoseLynn.Utilities
         /// <exception cref="ArgumentNullException">Thrown if any of the values is <see langword="null"/>.</exception>
         public void Add(T1 t1Value, T2 t2Value)
         {
+            if (t1Value is null || t2Value is null)
+                throw new ArgumentNullException($"One of the provided values was null (passed values: {t1Value}, {t2Value})");
+
+            AssertAlreadyExisting(t1Dictionary, t1Value);
+            AssertAlreadyExisting(t2Dictionary, t2Value);
+
             t1Dictionary.Add(t1Value, t2Value);
             t2Dictionary.Add(t2Value, t1Value);
+
+            static void AssertAlreadyExisting<A, B>(Dictionary<A, B> dictionary, A key)
+            {
+                if (dictionary.ContainsKey(key))
+                    throw new ArgumentException($"The value {key} already exists.");
+            }
         }
 
         /// <summary>Removes a from the dictionary, if it exists, otherwise nothing happens.</summary>
@@ -136,8 +164,9 @@ namespace RoseLynn.Utilities
 
         private static void ChangeValue<TFocused, TOther>(Dictionary<TFocused, TOther> focusedDictionary, Dictionary<TOther, TFocused> otherDictionary, TFocused key, TOther value)
         {
+            var oldValue = focusedDictionary[key];
             focusedDictionary[key] = value;
-            otherDictionary.Remove(value);
+            otherDictionary.Remove(oldValue);
             otherDictionary.Add(value, key);
         }
     }
