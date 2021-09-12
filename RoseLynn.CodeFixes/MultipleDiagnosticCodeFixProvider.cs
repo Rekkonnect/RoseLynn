@@ -35,7 +35,7 @@ namespace RoseLynn.CodeFixes
             fixableDiagnosticIds = FixableDiagnosticDescriptors.Select(d => d.Id).ToImmutableArray();
         }
 
-        /// <summary>Provides the <seealso cref="FixAllProvider"/> for this code fix. Defaults to <seealso cref="WellKnownFixAllProviders.BatchFixer"/>.</summary>
+        /// <summary>Provides the <seealso cref="FixAllProvider"/> for this code fix. Defaults to <seealso cref="WellKnownFixAllProviders.BatchFixer"/>. Returning <see langword="null"/> indicates that the code fix does not support fixing multiple occurrences.</summary>
         /// <returns>The default <seealso cref="FixAllProvider"/>, <seealso cref="WellKnownFixAllProviders.BatchFixer"/>.</returns>
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
