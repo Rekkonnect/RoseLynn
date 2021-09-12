@@ -163,7 +163,7 @@ namespace RoseLynn.Analyzers
             private static bool BreakID(int id, out int bucketIndex, out int innerIndex)
             {
                 bucketIndex = Math.DivRem(id, BucketLength, out innerIndex);
-                return id is >= 0 and < 10000;
+                return id is >= 0 and < (BucketCount * BucketLength);
             }
         }
     }

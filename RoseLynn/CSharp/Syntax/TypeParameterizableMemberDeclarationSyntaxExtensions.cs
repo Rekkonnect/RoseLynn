@@ -3,12 +3,22 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace RoseLynn.CSharp.Syntax
 {
-    /// <summary>Provides extensions for <seealso cref="MemberDeclarationSyntax"/> nodes that may be generic. All extensions only apply to <seealso cref="TypeDeclarationSyntax"/>, <seealso cref="DelegateDeclarationSyntax"/> and <seealso cref="MethodDeclarationSyntax"/>.</summary>
+    /// <summary>Provides extensions for <seealso cref="MemberDeclarationSyntax"/> nodes that may be generic. All extensions only apply to:
+    /// <list type="bullet">
+    /// <item><seealso cref="TypeDeclarationSyntax"/></item>
+    /// <item><seealso cref="DelegateDeclarationSyntax"/></item>
+    /// <item><seealso cref="MethodDeclarationSyntax"/></item>
+    /// </list>
+    /// </summary>
     public static class TypeParameterizableMemberDeclarationSyntaxExtensions
     {
+        /// <remarks>See <seealso cref="IdentifiableMemberDeclarationSyntaxExtensions"/> for the supported types.</remarks>
+        private static void SupportedTypeRemarks() { }
+
         /// <summary>Determines whether the declaring member is generic.</summary>
         /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/> related to the member.</param>
         /// <returns><see langword="true"/> if the member's arity is positive, otherwise <see langword="false"/>.</returns>
+        /// <inheritdoc cref="SupportedTypeRemarks"/>
         public static bool IsGeneric(this MemberDeclarationSyntax node) => node.GetArity() > 0;
 
         // This is just gross
@@ -29,6 +39,7 @@ namespace RoseLynn.CSharp.Syntax
         /// <summary>Gets the constraint clauses of the delaring member.</summary>
         /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/>.</param>
         /// <returns>The constraint clauses of the declaring member if it can be generic, otherwise <see langword="default"/>.</returns>
+        /// <inheritdoc cref="SupportedTypeRemarks"/>
         public static SyntaxList<TypeParameterConstraintClauseSyntax> GetConstraintClauses(this MemberDeclarationSyntax node)
         {
             return node switch
@@ -42,6 +53,7 @@ namespace RoseLynn.CSharp.Syntax
         /// <summary>Gets the type parameter list of the declaring member.</summary>
         /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/>.</param>
         /// <returns>The type parameter list of the declaring member if it can be generic, otherwise <see langword="null"/>.</returns>
+        /// <inheritdoc cref="SupportedTypeRemarks"/>
         public static TypeParameterListSyntax GetTypeParameterList(this MemberDeclarationSyntax node)
         {
             return node switch
@@ -53,6 +65,10 @@ namespace RoseLynn.CSharp.Syntax
             };
         }
 
+        /// <summary>Creates a copy of the given <seealso cref="MemberDeclarationSyntax"/> with the specified <seealso cref="TypeParameterListSyntax"/>.</summary>
+        /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/> whose type parameter list to change. The original instance remains unaffected.</param>
+        /// <param name="typeParameterList">The <seealso cref="TypeParameterListSyntax"/> of the new node.</param>
+        /// <returns>The new node with the specified <seealso cref="TypeParameterListSyntax"/>, if it can be generic, otherwise the original unaffected node.</returns>
         public static MemberDeclarationSyntax WithTypeParameterList(this MemberDeclarationSyntax node, TypeParameterListSyntax typeParameterList)
         {
             return node switch
@@ -60,9 +76,13 @@ namespace RoseLynn.CSharp.Syntax
                 TypeDeclarationSyntax     t => t.WithTypeParameterList(typeParameterList),
                 DelegateDeclarationSyntax d => d.WithTypeParameterList(typeParameterList),
                 MethodDeclarationSyntax   m => m.WithTypeParameterList(typeParameterList),
-                _ => null,
+                _ => node,
             };
         }
+        /// <summary>Creates a copy of the given <seealso cref="MemberDeclarationSyntax"/> with the specified <seealso cref="TypeParameterConstraintClauseSyntax"/> nodes.</summary>
+        /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/> whose constraint clauses list to change. The original instance remains unaffected.</param>
+        /// <param name="constraintClauses">The list of <seealso cref="TypeParameterConstraintClauseSyntax"/> of the new node.</param>
+        /// <returns>The new node with the specified <seealso cref="TypeParameterConstraintClauseSyntax"/> nodes, if it can be generic, otherwise the original unaffected node.</returns>
         public static MemberDeclarationSyntax WithConstraintClauses(this MemberDeclarationSyntax node, SyntaxList<TypeParameterConstraintClauseSyntax> constraintClauses)
         {
             return node switch
@@ -70,7 +90,7 @@ namespace RoseLynn.CSharp.Syntax
                 TypeDeclarationSyntax     t => t.WithConstraintClauses(constraintClauses),
                 DelegateDeclarationSyntax d => d.WithConstraintClauses(constraintClauses),
                 MethodDeclarationSyntax   m => m.WithConstraintClauses(constraintClauses),
-                _ => null,
+                _ => node,
             };
         }
 
