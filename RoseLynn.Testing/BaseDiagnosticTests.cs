@@ -30,7 +30,7 @@ namespace RoseLynn.Testing
         // TODO: Use DI
         private DiagnosticAnalyzer? analyzer;
         /// <summary>Gets the <seealso cref="DiagnosticAnalyzer"/> instance that performs the code analysis and emits the diagnostics that are to be tested.</summary>
-        protected DiagnosticAnalyzer Analyzer => analyzer ??= (GetNewDiagnosticAnalyzerInstance());
+        protected DiagnosticAnalyzer Analyzer => analyzer ??= GetNewDiagnosticAnalyzerInstance();
 
         private UsingsProviderBase? usingsProvider;
         /// <summary>Gets the <seealso cref="UsingsProviderBase"/> instance that provides the default usings to append to code that undergoes testing.</summary>

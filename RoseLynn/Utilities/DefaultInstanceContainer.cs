@@ -14,7 +14,7 @@ namespace RoseLynn.Utilities
     {
         private readonly Dictionary<Type, TBase> defaultInstances;
 
-        /// <summary>Gets all the default instance types that were found in all the assemblies this program depends on.</summary>
+        /// <summary>Gets all the default instance types that were found in all the assemblies this program can refer to.</summary>
         public ImmutableArray<Type> DefaultInstanceTypes { get; }
 
         /// <summary>Gets the arguments to be used in the construtor.</summary>
