@@ -5,8 +5,8 @@
     <LangVersion>9.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.3.4</Version>
-    <PackageVersion>0.3.4</PackageVersion>
+    <Version>0.3.5</Version>
+    <PackageVersion>0.3.5</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021, Alex Kalfakakos</Copyright>
