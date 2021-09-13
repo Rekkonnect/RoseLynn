@@ -63,7 +63,7 @@ public class C
 
 ```
 
-*The resulting code snipped is not trimmed. This is due to the new lines in the verbatim string literal.*
+*The resulting code snippet is not trimmed. This is due to the new lines in the verbatim string literal.*
 
 ### Upcoming Features
 
