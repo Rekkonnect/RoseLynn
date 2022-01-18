@@ -119,14 +119,17 @@ namespace RoseLynn
 
             var types = new List<TContainer>();
 
-            var currentType = symbol.GetContainingSymbol(containerSymbolKind) as TContainer;
+            var currentContainingSymbol = symbol.GetContainingSymbol(containerSymbolKind) as TContainer;
             while (true)
             {
-                if (currentType is null)
+                if (currentContainingSymbol is null)
                     break;
 
-                types.Add(currentType);
-                currentType = currentType.GetContainingSymbol(containerSymbolKind) as TContainer;
+                if (currentContainingSymbol is INamespaceSymbol { IsGlobalNamespace: true })
+                    break;
+
+                types.Add(currentContainingSymbol);
+                currentContainingSymbol = currentContainingSymbol.GetContainingSymbol(containerSymbolKind) as TContainer;
             }
 
             types.Reverse();
