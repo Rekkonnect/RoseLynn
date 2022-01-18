@@ -130,7 +130,7 @@ public sealed class FullSymbolName
     public FullSymbolName(ISymbol symbol, IEnumerable<INamespaceSymbol>? namespaces, IEnumerable<INamedTypeSymbol>? containerTypes, IEnumerable<IMethodSymbol>? containerMethods)
         : this(symbol, namespaces, containerTypes, containerMethods, SymbolNameKind.Normal) { }
     public FullSymbolName(ISymbol symbol, IEnumerable<INamespaceSymbol>? namespaces, IEnumerable<INamedTypeSymbol>? containerTypes, IEnumerable<IMethodSymbol>? containerMethods, SymbolNameKind symbolNameKind)
-        : this(symbol.GetIdentifierWithArity(symbolNameKind), namespaces?.SelectSymbolNames(symbolNameKind), containerTypes?.SelectSymbolNames(symbolNameKind), containerMethods?.SelectSymbolNames(symbolNameKind)) { }
+        : this(symbol.GetIdentifierWithArity(symbolNameKind), namespaces?.Where(n => !n.IsGlobalNamespace).SelectSymbolNames(symbolNameKind), containerTypes?.SelectSymbolNames(symbolNameKind), containerMethods?.SelectSymbolNames(symbolNameKind)) { }
 
     public FullSymbolName(IdentifierWithArity symbolNameWithArity)
         : this(symbolNameWithArity, Enumerable.Empty<string>(), null, null) { }

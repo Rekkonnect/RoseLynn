@@ -5,8 +5,8 @@
     <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.0</Version>
-    <PackageVersion>0.4.0</PackageVersion>
+    <Version>0.4.0.1</Version>
+    <PackageVersion>0.4.0.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
@@ -14,7 +14,14 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Additions:
+    <PackageReleaseNotes>0.4.0.1 changes:
+Bugfixes:
+- Do not include the global namespace as the FullSymbolName
+- ISymbolExtensions.GetIdentifierWithArity respects SymbolNameKind.Metadata containing arity annotations
+- AnalysisContextActionRegistrations.RegisterTargetAttributeSyntaxNodeAction properly triggers on the matching names
+
+0.4.0 changes:
+Additions:
 - FullSymbolName
 - IdentifierWithArity
 - ContainerSymbolKind
