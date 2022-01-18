@@ -128,9 +128,6 @@ namespace RoseLynn
                 if (currentContainingSymbol is null)
                     break;
 
-                if (currentContainingSymbol is INamespaceSymbol { IsGlobalNamespace: true })
-                    break;
-
                 types.Add(currentContainingSymbol);
                 currentContainingSymbol = currentContainingSymbol.GetContainingSymbol(containerSymbolKind) as TContainer;
             }
