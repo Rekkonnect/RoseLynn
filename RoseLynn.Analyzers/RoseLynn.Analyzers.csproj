@@ -2,19 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.3.5</Version>
-    <PackageVersion>0.3.5</PackageVersion>
+    <Version>0.4.0</Version>
+    <PackageVersion>0.4.0</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
-    <Copyright>© 2021, Alex Kalfakakos</Copyright>
+    <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
     <Description>Additional tools for Roslyn-based analyzers.</Description>
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>- Improved documentation</PackageReleaseNotes>
+    <PackageReleaseNotes>- Map categories to default DiagnosticSeverity values</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
