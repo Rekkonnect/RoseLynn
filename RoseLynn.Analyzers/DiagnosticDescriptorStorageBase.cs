@@ -79,6 +79,12 @@ namespace RoseLynn.Analyzers
         /// <inheritdoc cref="GetDiagnosticDescriptor(string)"/>
         public DiagnosticDescriptor? this[string ruleID] => GetDiagnosticDescriptor(ruleID);
 
+        /// <summary>Gets the default <seealso cref="DiagnosticSeverity"/> for the given category kind.</summary>
+        /// <param name="category">The category whose default <seealso cref="DiagnosticSeverity"/> to get.</param>
+        /// <returns>The default <seealso cref="DiagnosticSeverity"/> for the given category, or <see langword="null"/> if the category is not mapped.</returns>
+        /// <remarks>By default, this returns <see langword="null"/>. Override this method to define category mapping to default <seealso cref="DiagnosticSeverity"/>.</remarks>
+        protected virtual DiagnosticSeverity? GetDefaultSeverity(string category) => null;
+
         #region Diagnotsic Descriptor Construction
         /// <summary>Gets the URI for the base rule documentation directory.</summary>
         /// <remarks>The final directory separator does not have to be included.</remarks>
@@ -90,6 +96,20 @@ namespace RoseLynn.Analyzers
         /// <summary>Gets the <seealso cref="System.Resources.ResourceManager"/> that contains the string resources for the diagnostics that are stored.</summary>
         protected abstract ResourceManager ResourceManager { get; }
 
+        /// <summary>Creates a <seealso cref="DiagnosticDescriptor"/> from a diagnostic ID, a category, using the category's default <seealso cref="DiagnosticSeverity"/> from <seealso cref="GetDefaultSeverity(string)"/>.</summary>
+        /// <param name="id">The numeric portion of the diagnostic ID. The numeric value will be expanded to 4 decimal digits.</param>
+        /// <param name="category">The category of the diagnostic.</param>
+        /// <param name="diagnosticAnalyzerType">The type of the <seealso cref="DiagnosticAnalyzer"/> that emits the created <seealso cref="DiagnosticDescriptor"/>. If <see langword="null"/>, the currently set <see cref="DefaultDiagnosticAnalyzer"/> will be used.</param>
+        /// <returns>The resulting created <seealso cref="DiagnosticDescriptor"/>.</returns>
+        /// <remarks>Ensure that <seealso cref="GetDefaultSeverity(string)"/> is overridden and contains the given category.</remarks>
+        protected DiagnosticDescriptor CreateDiagnosticDescriptor(int id, string category, Type? diagnosticAnalyzerType = null)
+        {
+            var severity = GetDefaultSeverity(category);
+            if (severity is null)
+                throw new KeyNotFoundException("The requested category is not mapped to a default DiagnosticSeverity.");
+
+            return CreateDiagnosticDescriptor(id, category, severity.Value, diagnosticAnalyzerType);
+        }
         /// <summary>Creates a <seealso cref="DiagnosticDescriptor"/> from a diagnostic ID, a category, and a severity.</summary>
         /// <param name="id">The numeric portion of the diagnostic ID. The numeric value will be expanded to 4 decimal digits.</param>
         /// <param name="category">The category of the diagnostic.</param>
