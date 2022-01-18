@@ -32,8 +32,8 @@ public static class AnalysisContextActionRegistrations
         {
             var attributeNode = (context.Node as AttributeSyntax)!;
 
-            var attributeTypeSymbol = context.SemanticModel.GetAttributeTypeSymbol(attributeNode);
-            if (attributeTypeSymbol.GetFullSymbolName()!.Matches(attributeName, nameMatchingLevel))
+            var sourceAttributeName = context.SemanticModel.GetAttributeTypeSymbol(attributeNode).GetFullSymbolName()!;
+            if (!sourceAttributeName.Matches(attributeName, nameMatchingLevel))
                 return;
 
             action(context);
