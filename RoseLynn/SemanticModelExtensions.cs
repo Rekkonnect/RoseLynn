@@ -25,5 +25,46 @@ namespace RoseLynn
             var alias = semanticModel.GetAliasInfo(node, cancellationToken);
             return alias ?? semanticModel.GetSymbolInfo(node, cancellationToken).Symbol;
         }
+
+        /// <summary>Gets the symbol a given <seealso cref="SyntaxNode"/> represents reinterpreted as the specified type.</summary>
+        /// <typeparam name="TSymbol">The type of the symbol to reinterpret it as.</typeparam>
+        /// <param name="semanticModel">The <seealso cref="SemanticModel"/> to get the symbol from.</param>
+        /// <param name="node">The syntax node from which to get the symbol.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The represented <seealso cref="ISymbol"/> reinterpreted as <typeparamref name="TSymbol"/>.</returns>
+        /// <remarks>
+        /// The <seealso cref="ModelExtensions.GetSymbolInfo(SemanticModel, SyntaxNode, CancellationToken)"/> method is used.
+        /// If better suited, consider using <seealso cref="GetTypeSymbol{TSymbol}(SemanticModel, SyntaxNode, CancellationToken)"/>.
+        /// </remarks>
+        public static TSymbol? GetSymbol<TSymbol>(this SemanticModel semanticModel, SyntaxNode node, CancellationToken cancellationToken = default)
+            where TSymbol : class, ISymbol
+        {
+            return semanticModel.GetSymbolInfo(node, cancellationToken).Symbol as TSymbol;
+        }
+        /// <summary>Gets the type symbol a given <seealso cref="SyntaxNode"/> represents reinterpreted as the specified type.</summary>
+        /// <typeparam name="TSymbol">The type of the symbol to reinterpret it as.</typeparam>
+        /// <param name="semanticModel">The <seealso cref="SemanticModel"/> to get the symbol from.</param>
+        /// <param name="node">The syntax node from which to get the type symbol.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The represented <seealso cref="ITypeSymbol"/> reinterpreted as <typeparamref name="TSymbol"/>.</returns>
+        /// <remarks>
+        /// The <seealso cref="ModelExtensions.GetTypeInfo(SemanticModel, SyntaxNode, CancellationToken)"/> method is used.
+        /// If better suited, consider using <seealso cref="GetSymbol{TSymbol}(SemanticModel, SyntaxNode, CancellationToken)"/>.
+        /// </remarks>
+        public static TSymbol? GetTypeSymbol<TSymbol>(this SemanticModel semanticModel, SyntaxNode node, CancellationToken cancellationToken = default)
+            where TSymbol : class, ITypeSymbol
+        {
+            return semanticModel.GetTypeInfo(node, cancellationToken).Type as TSymbol;
+        }
+
+        /// <summary>Gets the type symbol a given <seealso cref="AttributeSyntax"/> represents.</summary>
+        /// <param name="semanticModel">The <seealso cref="SemanticModel"/> to get the symbol from.</param>
+        /// <param name="attributeNode">The <seealso cref="AttributeSyntax"/> whose type to get.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The type symbol of the attribute.</returns>
+        public static INamedTypeSymbol GetAttributeTypeSymbol(this SemanticModel semanticModel, AttributeSyntax attributeNode, CancellationToken cancellationToken = default)
+        {
+            return semanticModel.GetTypeSymbol<INamedTypeSymbol>(attributeNode, cancellationToken)!;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using RoseLynn.CSharp.Syntax;
 using RoseLynn.Utilities;
 using System;
@@ -252,6 +253,14 @@ namespace RoseLynn
             SyntaxNode ComputeReplacementNode(TNode old, TNode rewritten) => computeReplacementNode(rewritten);
         }
 
+        /// <summary>Removes the <seealso cref="TypeParameterListSyntax"/> of the specified <seealso cref="MemberDeclarationSyntax"/>.</summary>
+        /// <param name="document">The <seealso cref="Document"/> on which the <seealso cref="MemberDeclarationSyntax"/> is contained.</param>
+        /// <param name="typeDeclarationNode">The <seealso cref="MemberDeclarationSyntax"/> whose <seealso cref="TypeParameterListSyntax"/> to remove.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// A <seealso cref="Task{TResult}"/> wrapping the resulting <seealso cref="Document"/> after having
+        /// removed the <seealso cref="TypeParameterListSyntax"/> from the given <seealso cref="MemberDeclarationSyntax"/>.
+        /// </returns>
         public static async Task<Document> RemoveTypeParameterListAsync
         (
             this Document document,
@@ -261,6 +270,14 @@ namespace RoseLynn
         {
             return await document.ReplaceNodeAsync(typeDeclarationNode, typeDeclarationNode.WithoutTypeParameterList(), cancellationToken);
         }
+        /// <summary>Removes the <seealso cref="TypeParameterListSyntax"/> nodes of the specified <seealso cref="MemberDeclarationSyntax"/> nodes.</summary>
+        /// <param name="document">The <seealso cref="Document"/> on which the <seealso cref="MemberDeclarationSyntax"/> nodes are contained.</param>
+        /// <param name="typeDeclarationNodes">The <seealso cref="MemberDeclarationSyntax"/> nodes whose <seealso cref="TypeParameterListSyntax"/> nodes to remove.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// A <seealso cref="Task{TResult}"/> wrapping the resulting <seealso cref="Document"/> after having
+        /// removed the <seealso cref="TypeParameterListSyntax"/> nodes from the given <seealso cref="MemberDeclarationSyntax"/> nodes.
+        /// </returns>
         public static async Task<Document> RemoveTypeParameterListsAsync
         (
             this Document document,
@@ -269,6 +286,35 @@ namespace RoseLynn
         )
         {
             return await document.ReplaceNodesAsync(typeDeclarationNodes, TypeParameterizableMemberDeclarationSyntaxExtensions.WithoutTypeParameterList, cancellationToken);
+        }
+
+        /// <summary>Removes the text at the specified location in the <seealso cref="Document"/>.</summary>
+        /// <param name="document">The <seealso cref="Document"/> whose text to remove at the specified location.</param>
+        /// <param name="location">The location of the text to remove.</param>
+        /// <param name="cancellationToken">The <seealso cref="CancellationToken"/> for the operation.</param>
+        /// <returns>A <seealso cref="Task{TResult}"/> wrapping the resulting <seealso cref="Document"/> without the removed text at the specified location.</returns>
+        public static async Task<Document> RemoveText(this Document document, Location location, CancellationToken cancellationToken = default)
+        {
+            return await RemoveText(document, location.SourceSpan, cancellationToken);
+        }
+        /// <summary>Removes the text at the specified location in the <seealso cref="Document"/>.</summary>
+        /// <param name="document">The <seealso cref="Document"/> whose text to remove at the specified location.</param>
+        /// <param name="location">The location of the text to remove.</param>
+        /// <param name="cancellationToken">The <seealso cref="CancellationToken"/> for the operation.</param>
+        /// <returns>A <seealso cref="Task{TResult}"/> wrapping the resulting <seealso cref="Document"/> without the removed text at the specified location.</returns>
+        public static async Task<Document> RemoveText(this Document document, TextSpan location, CancellationToken cancellationToken = default)
+        {
+            var originalText = await document.GetTextAsync(cancellationToken);
+
+            if (cancellationToken.IsCancellationRequested)
+                return document;
+
+            var newText = originalText.Replace(location, "");
+
+            if (cancellationToken.IsCancellationRequested)
+                return document;
+
+            return document.WithText(newText);
         }
     }
 }

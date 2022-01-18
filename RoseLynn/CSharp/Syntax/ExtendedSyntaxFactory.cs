@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 
@@ -61,13 +62,13 @@ namespace RoseLynn.CSharp.Syntax
             return SyntaxFactory.AttributeList(attributeTargetSpecifierNode, SyntaxFactory.SeparatedList(new[] { attributeNode }));
         }
 
-        /// <summary>Removes the suffix "Attribute" from the attribute type name to be used as an ideftifier in an <seealso cref="AttributeSyntax"/>.</summary>
+        /// <summary>Removes the suffix "Attribute" from the attribute type name to be used as an identifier in an <seealso cref="AttributeSyntax"/>.</summary>
         /// <param name="attributeTypeName">The name of the attribute that may also include the suffix. The instance is replaced with the simplified version.</param>
         public static void SimplifyAttributeNameUsage(ref string attributeTypeName)
         {
             attributeTypeName = SimplifyAttributeNameUsage(attributeTypeName);
         }
-        /// <summary>Removes the suffix "Attribute" from the attribute type name to be used as an ideftifier in an <seealso cref="AttributeSyntax"/>.</summary>
+        /// <summary>Removes the suffix "Attribute" from the attribute type name to be used as an identifier in an <seealso cref="AttributeSyntax"/>.</summary>
         /// <param name="attributeTypeName">The name of the attribute that may also include the suffix.</param>
         /// <returns>The simplified version of the attribute, with the suffix removed, if present.</returns>
         public static string SimplifyAttributeNameUsage(string attributeTypeName)
@@ -79,6 +80,23 @@ namespace RoseLynn.CSharp.Syntax
                 return attributeTypeName.Remove(attributeTypeName.Length - attributeSuffix.Length);
 
             return attributeTypeName;
+        }
+
+        /// <summary>Creates a new <seealso cref="TypeArgumentListSyntax"/>.</summary>
+        /// <param name="nodes">The nodes the <seealso cref="TypeArgumentListSyntax"/> will contain.</param>
+        /// <returns>A <seealso cref="TypeArgumentListSyntax"/> containing the given <seealso cref="TypeSyntax"/> nodes in the same order.</returns>
+        public static TypeArgumentListSyntax TypeArgumentList(params TypeSyntax[] nodes)
+        {
+            return SyntaxFactory.TypeArgumentList(SeparatedList(nodes));
+        }
+
+        /// <summary>Creates a new <seealso cref="SeparatedSyntaxList{TNode}"/>.</summary>
+        /// <param name="nodes">The nodes the <seealso cref="SeparatedSyntaxList{TNode}"/> will contain.</param>
+        /// <returns>A <seealso cref="SeparatedSyntaxList{TNode}"/> containing the given <typeparamref name="TNode"/> nodes in the same order.</returns>
+        public static SeparatedSyntaxList<TNode> SeparatedList<TNode>(params TNode[] nodes)
+            where TNode : SyntaxNode
+        {
+            return SyntaxFactory.SeparatedList(nodes);
         }
     }
 }
