@@ -63,6 +63,9 @@ namespace RoseLynn
         /// <returns>A <seealso cref="IdentifierWithArity"/> instance representing the given symbol's name and its arity.</returns>
         public static IdentifierWithArity GetIdentifierWithArity(this ISymbol symbol, SymbolNameKind symbolNameKind = SymbolNameKind.Normal)
         {
+            if (symbolNameKind is SymbolNameKind.Metadata)
+                return IdentifierWithArity.Parse(symbol.MetadataName);
+
             return new(symbol.GetName(symbolNameKind)!, symbol.GetArity());
         }
 
