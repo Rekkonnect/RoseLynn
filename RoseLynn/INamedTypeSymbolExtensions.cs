@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using Microsoft.CodeAnalysis;
+using System.Linq;
 
 namespace RoseLynn
 {
@@ -23,5 +24,26 @@ namespace RoseLynn
         }
 
         private static bool IsGenericTypeSafe(INamedTypeSymbol? symbol) => symbol?.IsGenericType is true;
+
+        /// <summary>Determines whether the given <seealso cref="INamedTypeSymbol"/> has a public parameterless instance constructor.</summary>
+        /// <param name="typeSymbol">The <seealso cref="INamedTypeSymbol"/> whose instance constructors to analyze.</param>
+        /// <returns><see langword="true"/> if the given <seealso cref="INamedTypeSymbol"/> contains a public parameterless instance constructor, otherwise <see langword="false"/>.</returns>
+        public static bool HasPublicParameterlessInstanceConstructor(this INamedTypeSymbol typeSymbol)
+        {
+            return typeSymbol.InstanceConstructors.Any(IMethodSymbolExtensions.IsPublicParameterlessMethod);
+        }
+
+        /// <summary>Gets the destructor <seealso cref="IMethodSymbol"/> of a <seealso cref="INamedTypeSymbol"/>.</summary>
+        /// <param name="typeSymbol">The <seealso cref="INamedTypeSymbol"/> whose destructor to get.</param>
+        /// <returns>The <seealso cref="IMethodSymbol"/> representing the destructor of the type, if contained, otherwise <see langword="null"/>.</returns>
+        /// <remarks>
+        /// This method iterates through all the containing members of the <seealso cref="INamedTypeSymbol"/> and
+        /// finds the first that is an <seealso cref="IMethodSymbol"/> of kind <seealso cref="MethodKind.Destructor"/>.
+        /// The API does not currently offer any direct retrieval mechanism, and is unlikely to change in the future.
+        /// </remarks>
+        public static IMethodSymbol? GetDestructor(this INamedTypeSymbol typeSymbol)
+        {
+            return typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(member => member is { MethodKind: MethodKind.Destructor });
+        }
     }
 }
