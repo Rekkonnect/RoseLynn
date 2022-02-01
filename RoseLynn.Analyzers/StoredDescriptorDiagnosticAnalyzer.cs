@@ -28,7 +28,3 @@ public abstract class CSharpDiagnosticAnalyzer : StoredDescriptorDiagnosticAnaly
 public abstract class VisualBasicDiagnosticAnalyzer : StoredDescriptorDiagnosticAnalyzer
 {
 }
-/// <summary>Represents an F# <seealso cref="DiagnosticAnalyzer"/> that reflects its own stored supported diagnostics.</summary>
-public abstract class FSharpDiagnosticAnalyzer : StoredDescriptorDiagnosticAnalyzer
-{
-}
