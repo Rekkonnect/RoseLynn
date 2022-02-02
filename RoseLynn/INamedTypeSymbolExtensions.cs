@@ -39,10 +39,11 @@ public static class INamedTypeSymbolExtensions
     /// <remarks>
     /// This method iterates through all the containing members of the <seealso cref="INamedTypeSymbol"/> and
     /// finds the first that is an <seealso cref="IMethodSymbol"/> of kind <seealso cref="MethodKind.Destructor"/>.
-    /// The API does not currently offer any direct retrieval mechanism, and is unlikely to change in the future.
+    /// The result is provided from the cache in <seealso cref="CachedInfrequentSpecialSymbols.Instance"/>.
+    /// The Roslyn API does not currently offer any direct retrieval mechanism, and is unlikely to change in the future.
     /// </remarks>
     public static IMethodSymbol? GetDestructor(this INamedTypeSymbol typeSymbol)
     {
-        return typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(member => member is { MethodKind: MethodKind.Destructor });
+        return CachedInfrequentSpecialSymbols.Instance[typeSymbol].Destructor;
     }
 }
