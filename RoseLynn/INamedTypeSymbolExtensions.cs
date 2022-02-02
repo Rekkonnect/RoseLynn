@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using Microsoft.CodeAnalysis;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace RoseLynn;
@@ -37,13 +38,34 @@ public static class INamedTypeSymbolExtensions
     /// <param name="typeSymbol">The <seealso cref="INamedTypeSymbol"/> whose destructor to get.</param>
     /// <returns>The <seealso cref="IMethodSymbol"/> representing the destructor of the type, if contained, otherwise <see langword="null"/>.</returns>
     /// <remarks>
-    /// This method iterates through all the containing members of the <seealso cref="INamedTypeSymbol"/> and
-    /// finds the first that is an <seealso cref="IMethodSymbol"/> of kind <seealso cref="MethodKind.Destructor"/>.
     /// The result is provided from the cache in <seealso cref="CachedInfrequentSpecialSymbols.Instance"/>.
     /// The Roslyn API does not currently offer any direct retrieval mechanism, and is unlikely to change in the future.
     /// </remarks>
     public static IMethodSymbol? GetDestructor(this INamedTypeSymbol typeSymbol)
     {
         return CachedInfrequentSpecialSymbols.Instance[typeSymbol].Destructor;
+    }
+    /// <summary>Gets the <seealso cref="IMethodSymbol"/> instances representing the extension methods contained in a <seealso cref="INamedTypeSymbol"/>.</summary>
+    /// <param name="typeSymbol">The <seealso cref="INamedTypeSymbol"/> whose extension methods to get.</param>
+    /// <returns>An array of <seealso cref="IMethodSymbol"/> instances representing the extension methods of the type.</returns>
+    /// <remarks>
+    /// The result is provided from the cache in <seealso cref="CachedInfrequentSpecialSymbols.Instance"/>.
+    /// The Roslyn API does not currently offer any direct retrieval mechanism, and is unlikely to change in the future.
+    /// </remarks>
+    public static ImmutableArray<IMethodSymbol> GetExtensionMethods(this INamedTypeSymbol typeSymbol)
+    {
+        return CachedInfrequentSpecialSymbols.Instance[typeSymbol].ExtensionMethods;
+    }
+    /// <summary>Gets the <seealso cref="IFieldSymbol"/> instances representing the constant fields contained in a <seealso cref="INamedTypeSymbol"/>.</summary>
+    /// <param name="typeSymbol">The <seealso cref="INamedTypeSymbol"/> whose constant fields to get.</param>
+    /// <returns>An array of <seealso cref="IFieldSymbol"/> instances representing the constant fields of the type.</returns>
+    /// <remarks>
+    /// Enum members also count as constant fields.
+    /// The result is provided from the cache in <seealso cref="CachedInfrequentSpecialSymbols.Instance"/>.
+    /// The Roslyn API does not currently offer any direct retrieval mechanism, and is unlikely to change in the future.
+    /// </remarks>
+    public static ImmutableArray<IFieldSymbol> GetConstantFields(this INamedTypeSymbol typeSymbol)
+    {
+        return CachedInfrequentSpecialSymbols.Instance[typeSymbol].ConstantFields;
     }
 }
