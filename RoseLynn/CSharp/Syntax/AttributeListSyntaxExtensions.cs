@@ -24,7 +24,7 @@ public static class AttributeListSyntaxExtensions
     /// <summary>Determines whether the <seealso cref="AttributeListTarget"/> type of the <seealso cref="AttributeListSyntax"/> is a provided one.</summary>
     /// <param name="attributeList">The <seealso cref="AttributeListSyntax"/> whose <seealso cref="AttributeListTarget"/> to identify.</param>
     /// <param name="target">The desired <seealso cref="AttributeListTarget"/> to check.</param>
-    /// <returns>The <seealso cref="AttributeListTarget"/> of <paramref name="attributeList"/>.</returns>
+    /// <returns><see langword="true"/> if the <seealso cref="AttributeListTarget"/> of <paramref name="attributeList"/> matches the given one.</returns>
     public static bool HasTarget(this AttributeListSyntax? attributeList, AttributeListTarget target)
     {
         var targetNode = attributeList?.Target;
@@ -32,6 +32,40 @@ public static class AttributeListSyntaxExtensions
             return target is AttributeListTarget.Default;
 
         return targetNode.Identifier.IsKind(target.GetSyntaxKind());
+    }
+
+    /// <summary>Resolves the <seealso cref="AttributeListTarget"/> type of the <seealso cref="AttributeListSyntax"/>, if none is explicitly specified.</summary>
+    /// <param name="attributeList">The <seealso cref="AttributeListSyntax"/> whose <seealso cref="AttributeListTarget"/> to resolve.</param>
+    /// <returns>The resolved <seealso cref="AttributeListTarget"/> of <paramref name="attributeList"/>.</returns>
+    public static AttributeListTarget GetResolvedTarget(this AttributeListSyntax? attributeList)
+    {
+        if (attributeList is null)
+            return AttributeListTarget.Default;
+
+        var target = attributeList!.GetTarget();
+        if (target is not AttributeListTarget.Default)
+            return target;
+
+        return ResolveAttributeListTarget(attributeList);
+    }
+    /// <summary>Determines whether the resolved <seealso cref="AttributeListTarget"/> type of the <seealso cref="AttributeListSyntax"/> is a provided one.</summary>
+    /// <param name="attributeList">The <seealso cref="AttributeListSyntax"/> whose <seealso cref="AttributeListTarget"/> to resolve.</param>
+    /// <param name="target">The desired <seealso cref="AttributeListTarget"/> to check.</param>
+    /// <returns><see langword="true"/> if the resolved <seealso cref="AttributeListTarget"/> of <paramref name="attributeList"/> matches the given one.</returns>
+    public static bool HasResolvedTarget(this AttributeListSyntax? attributeList, AttributeListTarget target)
+    {
+        if (attributeList.HasTarget(target))
+            return true;
+
+        if (attributeList is null)
+            return false;
+
+        return ResolveAttributeListTarget(attributeList) == target;
+    }
+
+    private static AttributeListTarget ResolveAttributeListTarget(AttributeListSyntax attributeList)
+    {
+        return (attributeList.Parent as CSharpSyntaxNode)!.ResolveDefaultAttributeListTarget();
     }
 
     // No idea how this might or might not work
