@@ -81,14 +81,14 @@ Strings are retrieved through the provided `ResourceManager`. Most of the times,
 
 Every diagnostic makes use of at least 2 resource strings:
 - `{RuleID}_Title`
-- `{RuleID}_Description`
-- `{RuleID}_MessageFormat` (optional)
+- `{RuleID}_Description` (optional)
+- `{RuleID}_MessageFormat`
 
 For example, the diagnostic with rule ID CS0101 requires the resource strings:
 - `CS0101_Title`
-- `CS0101_Description`
+- `CS0101_MessageFormat`
 
-`CS0101_MessageFormat` is not mandatory. Not having created such a resource will not cause any issues.
+`CS0101_Description` is not mandatory. Not having created such a resource will not cause any issues.
 
 ## Retrieving Descriptors
 
