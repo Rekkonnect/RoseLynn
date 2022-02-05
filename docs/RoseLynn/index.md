@@ -8,8 +8,6 @@ The RoseLynn package contains various abstractions and implementations common fo
 - [Type Parameter Constraint Clause Segmentation](clauseSegmentation.md)
 
 ### Metadata Loading Mechanisms
-- [Associated Property Container](associatedPropertyContainer.md)
-- [Default Instance Container](defaultInstanceContainer.md)
 - `LoadedAssemblyInformation` provides access to a collection of *all* the available and loaded types in the currently executing program, which ranges in tens of thousands. This should be wisely used.
 
 ## APIs
