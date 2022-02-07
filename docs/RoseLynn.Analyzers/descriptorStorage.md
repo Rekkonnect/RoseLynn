@@ -24,6 +24,7 @@ CreateDiagnosticDescriptor(0001, "Example Category", DiagnosticSeverity.Error, t
 will create and store a new diagnostic with rule ID `{Prefix}0001`, with category "Example Category", have a severity of `Error` and be assigned to being reported by `ExampleAnalyzer`.
 
 The storage supports setting a default analyzer for each created `DiagnosticDescriptor`. For initialization of the storage with several diagnostics, it can be especially handy, as demonstrated from this [mocking](../../RoseLynn.Analyzers.Test/MockedResources/MockStorage.cs) example:
+
 ```csharp
 public const string MockCategory = "Mock";
 
@@ -48,6 +49,35 @@ public MockStorage()
 in the above example, the diagnostics `MOCK0001`, `MOCK0002` and `MOCK1001` are declared as being reported by `MockAnalyzer`, while `MOCK2001` is assigned to `AnotherMockAnalyzer`.
 
 The storage does not support multiple analyzers reporting the same diagnostic. Only one analyzer can therefore claim to report each diagnostic.
+
+Additionally, categories can be mapped to default `DiagnosticSeverity` values, like so:
+
+```csharp
+public const string MappedCategory = "Mapped";
+
+protected override DiagnosticSeverity? GetDefaultSeverity(string category)
+{
+    return category switch
+    {
+        MappedCategory => DiagnosticSeverity.Warning,
+        _ => null,
+    };
+}
+```
+
+This enables using the simpler `CreateDiagnosticDescriptor` overload, which only accepts the ID and the category of the `DiagnosticDescriptor`:
+
+```csharp
+CreateDiagnosticDescriptor(3000, MappedCategory);
+```
+
+As a result, the created `DiagnosticDescriptor` will use the default `DiagnosticSeverity` for the `MappedCategory`, which is `DiagnosticSeverity.Warning`. This is still overridable by explicitly specifying the `DiagnosticSeverity` for the individual `DiagnosticDescriptor`, as usual:
+
+```csharp
+CreateDiagnosticDescriptor(3001, MockCategory, DiagnosticSeverity.Info);
+```
+
+The `DiagnosticDescriptor` with ID 3001 will have `DiagnosticSeverity.Info`, instead of the default `DiagnosticSeverity.Warning`, as mapped. 3000 will retain its `DiagnosticSeverity.Warning`, and all other `DiagnosticDescriptor` instances will do so, unless explicitly specified otherwise.
 
 ### Storage Mechanism
 

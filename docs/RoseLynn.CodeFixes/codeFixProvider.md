@@ -21,7 +21,7 @@ The resulting code fix class should have a structure similar to this:
 ```csharp
 [Shared]
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ExampleRemover))]
-public sealed class ExampleRemover : MutlipleDiagnosticCodeFixProvider
+public sealed class ExampleRemover : MultipleDiagnosticCodeFixProvider
 {
     protected override IEnumerable<DiagnosticDescriptor> FixableDiagnosticDescriptors => new DiagnosticDescriptor[]
     {
