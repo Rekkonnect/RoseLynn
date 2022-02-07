@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -67,5 +68,17 @@ public static class INamedTypeSymbolExtensions
     public static ImmutableArray<IFieldSymbol> GetConstantFields(this INamedTypeSymbol typeSymbol)
     {
         return CachedInfrequentSpecialSymbols.Instance[typeSymbol].ConstantFields;
+    }
+
+    /// <summary>Gets the definition <seealso cref="IFieldSymbol"/> of the given enum <seealso cref="INamedTypeSymbol"/>.</summary>
+    /// <param name="enumSymbol">The <seealso cref="INamedTypeSymbol"/> instance representing the enum whose defined value fields to get.</param>
+    /// <returns>An <seealso cref="ImmutableArray{T}"/> containing the <seealso cref="IFieldSymbol"/> instances representing the defined values of the given enum.</returns>
+    /// <exception cref="ArgumentException">Thrown when the <paramref name="enumSymbol"/> does not represent an enum.</exception>
+    public static ImmutableArray<IFieldSymbol> GetEnumDefinitions(this INamedTypeSymbol enumSymbol)
+    {
+        if (enumSymbol?.TypeKind is not TypeKind.Enum)
+            throw new ArgumentException("The given symbol must represent an enum.");
+
+        return enumSymbol.GetMembers().CastArray<IFieldSymbol>();
     }
 }

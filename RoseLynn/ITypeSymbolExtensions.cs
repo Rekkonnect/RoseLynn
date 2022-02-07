@@ -111,6 +111,30 @@ public static class ITypeSymbolExtensions
         return GetBaseTypeAndInterfaces(symbol, symbol.Interfaces);
     }
 
+    /// <summary>Gets all the inherited members of the given <seealso cref="ITypeSymbol"/>.</summary>
+    /// <param name="typeSymbol">The <seealso cref="ITypeSymbol"/> whose inherited members to get.</param>
+    /// <returns>All the members that are inherited from the base types of the given <seealso cref="ITypeSymbol"/>. Members defined in the type itself are not included.</returns>
+    /// <remarks>Consider <seealso cref="GetAllMembersIncludingInherited(ITypeSymbol)"/> if you want to include defined members in the requested type.</remarks>
+    public static IEnumerable<ISymbol> GetAllInheritedMembers(this ITypeSymbol typeSymbol)
+    {
+        return typeSymbol.GetAllBaseTypesAndInterfaces().SelectMany(type => type.GetMembers());
+    }
+    /// <summary>Gets all defined members, including inherited ones, of the given <seealso cref="ITypeSymbol"/>.</summary>
+    /// <param name="typeSymbol">The <seealso cref="ITypeSymbol"/> whose inherited and defined members to get.</param>
+    /// <returns>All the members that are inherited from the base types of the given <seealso cref="ITypeSymbol"/>, including members defined in the type itself.</returns>
+    /// <remarks>Consider <seealso cref="GetAllInheritedMembers(ITypeSymbol)"/> if you want to exclude defined members in the requested type.</remarks>
+    public static IEnumerable<ISymbol> GetAllMembersIncludingInherited(this ITypeSymbol typeSymbol)
+    {
+        return typeSymbol.GetMembers().Concat(typeSymbol.GetAllInheritedMembers());
+    }
+    /// <summary>Gets all the interface-inherited members of the given <seealso cref="ITypeSymbol"/>.</summary>
+    /// <param name="typeSymbol">The <seealso cref="ITypeSymbol"/> whose members inherited from interfaces to get.</param>
+    /// <returns>All the members that are inherited from the interfaces of the given <seealso cref="ITypeSymbol"/>. Members defined in the type itself and base classes are not included.</returns>
+    public static IEnumerable<ISymbol> GetAllInheritedInterfaceMembers(this ITypeSymbol typeSymbol)
+    {
+        return typeSymbol.AllInterfaces.SelectMany(type => type.GetMembers());
+    }
+
     private static IEnumerable<INamedTypeSymbol> GetBaseTypeAndInterfaces(this ITypeSymbol symbol, ImmutableArray<INamedTypeSymbol> interfaces)
     {
         var baseType = symbol.BaseType;
