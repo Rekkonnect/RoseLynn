@@ -5,8 +5,8 @@
     <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.0.1</Version>
-    <PackageVersion>0.4.0.1</PackageVersion>
+    <Version>0.4.1</Version>
+    <PackageVersion>0.4.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
@@ -14,41 +14,23 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>0.4.0.1 changes:
-Bugfixes:
-- Do not include the global namespace as the FullSymbolName
-- ISymbolExtensions.GetIdentifierWithArity respects SymbolNameKind.Metadata containing arity annotations
-- AnalysisContextActionRegistrations.RegisterTargetAttributeSyntaxNodeAction properly triggers on the matching names
-
-0.4.0 changes:
-Additions:
-- FullSymbolName
-- IdentifierWithArity
-- ContainerSymbolKind
-- ExtendedSyntaxFactory.TypeArgumentList and ExtendedSyntaxFactory.SeparatedList
-- TypeDeclarationInfo
-- SymbolNameKind
-- SymbolNameMatchingLevel
+    <PackageReleaseNotes>Additions:
+- CachedInfrequentSpecialSymbols
 - TypeDeclarationInfo
 
 Extensions:
-- CompilationExtensions.GetMatchingSymbol
-- AnalysisContextActionRegistrations
-- MemberDeclarationSyntaxExtensions.GetIdentifierTokenOrNameSyntax
-- NameSyntaxExtensions
-- DocumentExtensions.RemoveText
-- IMethodSymbolExtensions
-- INamespaceSymbolExtensions.AncestorNamespacesIncludingThis
-- ISymbol container symbols, and symbol name comparison
-- INamedTypeSymbolExtensions.HasPublicParameterlessInstanceConstructor
-- INamedTypeSymbolExtensions.GetDestructor
-- LocationExtensions.WithOffset
-- TextSpanExtensions.WithOffset*
-- SymbolKindExtensions
-- SemanticModelExtensions.GetSymbol&lt;TSymbol&gt;, .GetTypeSymbol&lt;TSymbol&gt; and .GetAttributeTypeSymbol
+- INamedTypeSymbolExtensions.GetExtensionMethods and .GetConstantFields
+- AttributeSyntaxExtensions.GetAttributeData, .GetAttributedSymbol and .GetAttributeDeclarationParent
+- ITypeSymbolExtensions.GetAllInheritedMembers, .GetAllMembersIncludingInherited and .GetAllInheritedInterfaceMembers
+- CSharpSyntaxNodeExtensions
+- SymbolKindExtensions.GetAttributeListTarget
+- TypedConstantExtensions.IsDefinedEnumValue
 
-Changes:
-- Moved SyntaxNodeExtensions from RoseLynn.CSharp.Syntax to RoseLynn</PackageReleaseNotes>
+Nits:
+- Corrected some incomplete documentation
+
+Internals:
+- Use file-scoped namespaces</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
