@@ -74,7 +74,7 @@ CreateDiagnosticDescriptor(3000, MappedCategory);
 As a result, the created `DiagnosticDescriptor` will use the default `DiagnosticSeverity` for the `MappedCategory`, which is `DiagnosticSeverity.Warning`. This is still overridable by explicitly specifying the `DiagnosticSeverity` for the individual `DiagnosticDescriptor`, as usual:
 
 ```csharp
-CreateDiagnosticDescriptor(3001, MockCategory, DiagnosticSeverity.Info);
+CreateDiagnosticDescriptor(3001, MappedCategory, DiagnosticSeverity.Info);
 ```
 
 The `DiagnosticDescriptor` with ID 3001 will have `DiagnosticSeverity.Info`, instead of the default `DiagnosticSeverity.Warning`, as mapped. 3000 will retain its `DiagnosticSeverity.Warning`, and all other `DiagnosticDescriptor` instances will do so, unless explicitly specified otherwise.
