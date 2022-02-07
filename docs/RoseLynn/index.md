@@ -6,19 +6,24 @@ The RoseLynn package contains various abstractions and implementations common fo
 
 ### Syntax Tree Implementations
 - [Type Parameter Constraint Clause Segmentation](clauseSegmentation.md)
+- `IdentifierWithArity`
+- `FullSymbolName`, containing information about the names of the containers of a symbol, useful for correctly resolving naming collisions
 
-### Metadata Loading Mechanisms
-- [Associated Property Container](associatedPropertyContainer.md)
-- [Default Instance Container](defaultInstanceContainer.md)
-- `LoadedAssemblyInformation` provides access to a collection of *all* the available and loaded types in the currently executing program, which ranges in tens of thousands. This should be wisely used.
+### Semantics
+- `CachedInfrequentSpecialSymbols`, containing infrequently used special symbols, such as the destructor `IMethodSymbol` of a `INamedTypeSymbol`.
+- `AttributeListTarget`, representing the target of an `AttributeListSyntax`
+- `TypeDeclarationInfo`
 
 ## APIs
 
 ### General
 
 - Extensions
-- `MetadataReference` Factory
-- Syntax Factory Methods
+- Factories
+  - `MetadataReference`
+  - `SyntaxNode`
+  - `Location`
+- `AnalysisContextActionRegistrations`
 
 ### Syntax & Symbol Generalization
 - `IdentifiableMemberDeclarationSyntaxExtensions`<br/>
