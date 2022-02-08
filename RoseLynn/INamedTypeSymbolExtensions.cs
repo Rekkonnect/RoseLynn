@@ -79,6 +79,6 @@ public static class INamedTypeSymbolExtensions
         if (enumSymbol?.TypeKind is not TypeKind.Enum)
             throw new ArgumentException("The given symbol must represent an enum.");
 
-        return enumSymbol.GetMembers().CastArray<IFieldSymbol>();
+        return enumSymbol.GetMembers().As<IFieldSymbol>();
     }
 }
