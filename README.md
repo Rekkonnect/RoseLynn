@@ -8,4 +8,7 @@ Additional tools for Roslyn-based applications
 - [RoseLynn.CodeFixes](https://www.nuget.org/packages/RoseLynn.CodeFixes/) ([usage](docs/RoseLynn.CodeFixes/index.md))
 - [RoseLynn.Testing](https://www.nuget.org/packages/RoseLynn.Testing/) ([usage](docs/RoseLynn.Testing/index.md))
 
-# [Documentation](docs/index.md)
+# Additional information
+
+- [Documentation](docs/index.md)
+- [Changelogs](changelogs/README.md)
