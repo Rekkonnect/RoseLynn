@@ -35,14 +35,14 @@ internal static class AttributeListTargetCaches
 
     static AttributeListTargetCaches()
     {
-        foreach (var targetField in typeof(AttributeListTarget).GetFields())
+        var values = EnumHelpers.GetValues<AttributeListTarget>();
+        foreach (var targetValue in values)
         {
-            var targetValue = (AttributeListTarget)targetField.GetRawConstantValue();
             if (targetValue is AttributeListTarget.Default)
                 continue;
 
-            var syntaxKindValue = typeof(SyntaxKind).GetField($"{targetField.Name}Keyword").GetRawConstantValue();
-            SyntaxKindInterlinks.Add(targetValue, (SyntaxKind)syntaxKindValue);
+            var syntaxKindValue = EnumHelpers.Parse<SyntaxKind>($"{targetValue}Keyword");
+            SyntaxKindInterlinks.Add(targetValue, syntaxKindValue);
         }
     }
 }

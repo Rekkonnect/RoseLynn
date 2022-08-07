@@ -14,4 +14,14 @@ public static class EnumHelpers
     {
         return Enum.GetValues(typeof(T)).Cast<T>().ToArray();
     }
+    
+    /// <summary>Parses the value of an enum type.</summary>
+    /// <typeparam name="T">The type of the enum.</typeparam>
+    /// <param name="name">The name of the field in the enum.</param>
+    /// <returns>The parsed value cast to the enum type that was specified.</returns>
+    public static T Parse<T>(string name)
+        where T : struct, Enum
+    {
+        return (T)Enum.Parse(typeof(T), name);
+    }
 }
