@@ -5,8 +5,8 @@
     <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.1.2</Version>
-    <PackageVersion>0.4.1.2</PackageVersion>
+    <Version>0.4.2</Version>
+    <PackageVersion>0.4.2</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
@@ -14,32 +14,12 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>0.4.1.2 changes:
+    <PackageReleaseNotes>0.4.2 changes:
 Bugfixes:
-- Ensure that INamedTypeSymbolExtensions.GetEnumDefinitions returns the intended result without null instances
+- Ensure that the keyword correlations with the attribute list targets are correctly cached.
 
-0.4.1.1 changes:
-Bugfixes:
-- Fix exception thrown in INamedTypeSymbolExtensions.GetEnumDefinitions
-
-0.4.1 changes:
-Additions:
-- CachedInfrequentSpecialSymbols
-- TypeDeclarationInfo
-
-Extensions:
-- INamedTypeSymbolExtensions.GetExtensionMethods and .GetConstantFields
-- AttributeSyntaxExtensions.GetAttributeData, .GetAttributedSymbol and .GetAttributeDeclarationParent
-- ITypeSymbolExtensions.GetAllInheritedMembers, .GetAllMembersIncludingInherited and .GetAllInheritedInterfaceMembers
-- CSharpSyntaxNodeExtensions
-- SymbolKindExtensions.GetAttributeListTarget
-- TypedConstantExtensions.IsDefinedEnumValue
-
-Nits:
-- Corrected some incomplete documentation
-
-Internals:
-- Use file-scoped namespaces</PackageReleaseNotes>
+General:
+- Update packages</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
