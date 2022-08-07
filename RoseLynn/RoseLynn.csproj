@@ -5,8 +5,8 @@
     <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.1</Version>
-    <PackageVersion>0.4.1</PackageVersion>
+    <Version>0.4.1.2</Version>
+    <PackageVersion>0.4.1.2</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
@@ -14,7 +14,16 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>Additions:
+    <PackageReleaseNotes>0.4.1.2 changes:
+Bugfixes:
+- Ensure that INamedTypeSymbolExtensions.GetEnumDefinitions returns the intended result without null instances
+
+0.4.1.1 changes:
+Bugfixes:
+- Fix exception thrown in INamedTypeSymbolExtensions.GetEnumDefinitions
+
+0.4.1 changes:
+Additions:
 - CachedInfrequentSpecialSymbols
 - TypeDeclarationInfo
 
