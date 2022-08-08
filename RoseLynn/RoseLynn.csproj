@@ -5,8 +5,8 @@
     <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.4.2</Version>
-    <PackageVersion>0.4.2</PackageVersion>
+    <Version>0.4.3</Version>
+    <PackageVersion>0.4.3</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
@@ -14,12 +14,10 @@
     <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>0.4.2 changes:
-Bugfixes:
-- Ensure that the keyword correlations with the attribute list targets are correctly cached.
-
-General:
-- Update packages</PackageReleaseNotes>
+    <PackageReleaseNotes>0.4.3 changes:
+Additions:
+- LanguageFacts
+- NETLanguage</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
