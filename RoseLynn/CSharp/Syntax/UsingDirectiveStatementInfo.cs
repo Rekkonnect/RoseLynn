@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RoseLynn.CSharp.Syntax;
 
@@ -43,6 +45,38 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
             intermediate = $"{Alias} = ";
 
         return $"{usingPart} {intermediate}{QualifiedName};";
+    }
+
+    public static UsingDirectiveStatementInfo LocalAlias(string alias, string qualifiedName) => new(UsingDirectiveKind.UsingAlias, alias, qualifiedName);
+    public static UsingDirectiveStatementInfo GlobalAlias(string alias, string qualifiedName) => new(UsingDirectiveKind.GlobalUsingAlias, alias, qualifiedName);
+
+    /// <summary>Creates a <seealso cref="UsingDirectiveStatementInfo"/> factory function for the specified <seealso cref="UsingDirectiveKind"/>.</summary>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> of the usings that the returned factory method will generate.</param>
+    /// <returns>
+    /// A factory method that creates <seealso cref="UsingDirectiveStatementInfo"/> instances of the specified <seealso cref="UsingDirectiveKind"/>,
+    /// given the fully qualified name as a <see langword="string"/>.
+    /// </returns>
+    public static Func<string, UsingDirectiveStatementInfo> DirectiveFactoryForKind(UsingDirectiveKind kind)
+    {
+        return qualifiedName => new UsingDirectiveStatementInfo(kind, qualifiedName);
+    }
+
+    /// <summary>
+    /// Creates a collection of <seealso cref="UsingDirectiveStatementInfo"/> instances of the specified
+    /// <seealso cref="UsingDirectiveKind"/>, using the specified fully qualified names.
+    /// </summary>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> to apply to all created <seealso cref="UsingDirectiveStatementInfo"/> instances.</param>
+    /// <param name="qualifiedNames">The qualified names that will be used in the directives.</param>
+    /// <returns>The collection of <seealso cref="UsingDirectiveStatementInfo"/> instances that were created for the specified qualified names.</returns>
+    public static IEnumerable<UsingDirectiveStatementInfo> DirectivesOfKind(UsingDirectiveKind kind, IEnumerable<string> qualifiedNames)
+    {
+        var factory = DirectiveFactoryForKind(kind);
+        return qualifiedNames.Select(factory);
+    }
+    /// <inheritdoc cref="DirectivesOfKind(UsingDirectiveKind, IEnumerable{string})"/>
+    public static IEnumerable<UsingDirectiveStatementInfo> DirectivesOfKind(UsingDirectiveKind kind, params string[] qualifiedNames)
+    {
+        return DirectivesOfKind(kind, (IEnumerable<string>)qualifiedNames);
     }
 
     /// <summary>Provides a comparer that defines the order of two <see cref="UsingDirectiveStatementInfo"/> instances, based on how the IDE behaves.</summary>

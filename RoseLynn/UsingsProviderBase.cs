@@ -1,9 +1,8 @@
 ﻿using RoseLynn.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace RoseLynn.Testing;
+namespace RoseLynn;
 
 /// <summary>Provides a framework to prepending usings to code bound to testing.</summary>
 public abstract class UsingsProviderBase
@@ -25,6 +24,23 @@ public abstract class UsingsProviderBase
     /// <returns>The resulting source code with the given usings prepended to the original source code.</returns>
     public static string WithUsings(string original, string usings) => $"{usings}\n{original}";
 
+    /// <summary>
+    /// Creates an instance of a <seealso cref="UsingsProviderBase"/> for the specified qualified names
+    /// using the specified <seealso cref="UsingDirectiveKind"/> for all of them, optionally sorting them too.
+    /// </summary>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> to apply to all the usings.</param>
+    /// <param name="sort">
+    /// <see langword="true"/> if the using directives will be sorted based on
+    /// <seealso cref="UsingDirectiveStatementInfo.SortingComparer"/>, otherwise <see langword="false"/>.
+    /// </param>
+    /// <param name="qualifiedNames">The qualified names that will be present in the using directives.</param>
+    /// <remarks></remarks>
+    public static UsingsProviderBase ForUsings(UsingDirectiveKind kind, bool sort, params string[] qualifiedNames)
+    {
+        var factory = UsingDirectiveStatementInfo.DirectiveFactoryForKind(kind);
+        return CreateForUsings(qualifiedNames.Select(factory), sort);
+    }
+
     /// <summary>Creates a <seealso cref="UsingsProviderBase"/> for the specified using directive statements.</summary>
     /// <param name="usingStatements">The using statements that are to be included.</param>
     /// <param name="sort">Determines whether the usings will be sorted according to <seealso cref="UsingDirectiveStatementInfo.SortingComparer"/>.</param>
@@ -35,33 +51,12 @@ public abstract class UsingsProviderBase
     /// </returns>
     public static UsingsProviderBase CreateForUsings(IEnumerable<UsingDirectiveStatementInfo> usingStatements, bool sort = false)
     {
-        if (sort)
-            usingStatements = new SortedSet<UsingDirectiveStatementInfo>(usingStatements, UsingDirectiveStatementInfo.SortingComparer.Instance);
-
-        var result = new StringBuilder();
-        usingStatements
-            .Select(statement => statement.ToString())
-            .Select(result.AppendLine);
-
-        return new VariableUsingsProvider(result.ToString());
+        var usingDirectiveList = UsingDirectiveStatementInfoList.CreateOrCurrent(usingStatements, sort);
+        return new VariableUsingsProvider(usingDirectiveList.ToString());
     }
 
     private sealed class DefaultUsingsProvider : UsingsProviderBase
     {
         public override string DefaultNecessaryUsings => "";
-    }
-}
-
-/// <summary>Provides a framework to prepending usings to code bound to testing, where the usings might vary per case.</summary>
-public sealed class VariableUsingsProvider : UsingsProviderBase
-{
-    public override string DefaultNecessaryUsings => Usings;
-
-    /// <summary>Gets or sets the usings that are to be applied to the piece of code that is to be tested.</summary>
-    public string Usings { get; set; }
-
-    public VariableUsingsProvider(string usings)
-    {
-        Usings = usings;
     }
 }

@@ -11,7 +11,7 @@ public enum UsingDirectiveKind
 
     /// <summary>Denotes the <see langword="using"/> statement that imports a namespace.</summary>
     Using = 1 << 0,
-    /// <summary>Denotes the <see langword="using"/> statement that creates an alias for a type.</summary>
+    /// <summary>Denotes the <see langword="using"/> statement that creates an alias for a symbol.</summary>
     UsingAlias = 2 << 0,
 
     /// <summary>
@@ -31,6 +31,9 @@ public enum UsingDirectiveKind
     UsingStatic = Using | Static,
     /// <summary>Denotes the <see langword="global using static"/> statement.</summary>
     GlobalUsingStatic = GlobalUsing | Static,
+
+    /// <summary>Denotes the <see langword="global using"/> statement that creates an alias for a symbol.</summary>
+    GlobalUsingAlias = Global | UsingAlias,
 }
 
 /// <summary>Contains extension methods for the <seealso cref="UsingDirectiveKind"/> enum.</summary>
