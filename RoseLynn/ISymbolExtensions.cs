@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -123,11 +124,8 @@ public static class ISymbolExtensions
         var types = new List<TContainer>();
 
         var currentContainingSymbol = symbol.GetContainingSymbol(containerSymbolKind) as TContainer;
-        while (true)
+        while (currentContainingSymbol is not null)
         {
-            if (currentContainingSymbol is null)
-                break;
-
             types.Add(currentContainingSymbol);
             currentContainingSymbol = currentContainingSymbol.GetContainingSymbol(containerSymbolKind) as TContainer;
         }
@@ -229,13 +227,72 @@ public static class ISymbolExtensions
         return symbol.GetFullSymbolName()!.Matches(match.GetFullSymbolName()!, matchingLevel);
     }
 
+    #region Attribute Name Matching
+    #region HasAttributeNamed
+    /// <summary>Determines whether the symbol contains an attribute whose name matches the provided name.</summary>
+    /// <param name="symbol">The symbol for which to attempt to find any attributes named like the provided attribute type.</param>
+    /// <param name="attributeName">The name of the attribute whose name to attempt to find.</param>
+    /// <returns><see langword="true"/> if the symbol has been marked with any attribute whose name matches that of the provided attribute type's.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="HasAttributeNamed(ISymbol, FullSymbolName, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static bool HasAttributeNamed(this ISymbol? symbol, string attributeName)
+    {
+        return symbol?.FirstOrDefaultAttributeNamed(attributeName) is not null;
+    }
+    /// <summary>Determines whether the symbol contains an attribute whose name matches the provided name.</summary>
+    /// <param name="symbol">The symbol whose attribute to get.</param>
+    /// <param name="attributeName">The name of the attribute to get.</param>
+    /// <param name="attributeNameMatchingLevel">The matching level for the full name.</param>
+    /// <returns>The <seealso cref="AttributeData"/> of the first attribute that matches the given name, or <see langword="null"/> if none was found.</returns>
+    public static bool HasAttributeNamed(this ISymbol? symbol, FullSymbolName attributeName, SymbolNameMatchingLevel attributeNameMatchingLevel = SymbolNameMatchingLevel.Namespace)
+    {
+        return symbol?.FirstOrDefaultAttributeNamed(attributeName, attributeNameMatchingLevel) is not null;
+    }
+    /// <summary>Determines whether the symbol contains an attribute whose name matches the provided name.</summary>
+    /// <typeparam name="T">The type of the attribute whose name to attempt to find.</typeparam>
+    /// <param name="symbol">The symbol for which to attempt to find any attributes named like the provided attribute type.</param>
+    /// <returns><see langword="true"/> if the symbol has been marked with any attribute whose name matches that of the provided attribute type's.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="HasAttributeNamedFully{T}(ISymbol, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static bool HasAttributeNamed<T>(this ISymbol? symbol)
+        where T : Attribute
+    {
+        return HasAttributeNamed(symbol, typeof(T).Name);
+    }
+    /// <summary>Determines whether the symbol contains an attribute whose name matches the provided name.</summary>
+    /// <param name="symbol">The symbol for which to attempt to find any attributes named like the provided attribute type.</param>
+    /// <param name="attributeType">The type of the attribute whose name to attempt to find.</param>
+    /// <returns><see langword="true"/> if the symbol has been marked with any attribute whose name matches that of the provided attribute type's.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="HasAttributeNamedFully(ISymbol, Type, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static bool HasAttributeNamed(this ISymbol? symbol, Type attributeType)
+    {
+        return HasAttributeNamed(symbol, attributeType.Name);
+    }
+    #endregion
+
+    #region FirstOrDefaultAttributeNamed
     /// <summary>Gets the first attribute of the given <seealso cref="ISymbol"/> that matches the specified name.</summary>
     /// <param name="symbol">The symbol whose attribute to get.</param>
     /// <param name="name">The name of the attribute to get.</param>
     /// <returns>The <seealso cref="AttributeData"/> of the first attribute that matches the given name, or <see langword="null"/> if none was found.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="FirstOrDefaultAttributeNamed(ISymbol, FullSymbolName, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
     public static AttributeData? FirstOrDefaultAttributeNamed(this ISymbol symbol, string name)
     {
-        return symbol.GetAttributes().FirstOrDefault(attribute => attribute.AttributeClass?.Name == name);
+        return symbol.GetAttributes().FirstOrDefault(AttributeNameMatcher(name));
     }
     /// <summary>Gets the first attribute of the given <seealso cref="ISymbol"/> that matches the specified <seealso cref="FullSymbolName"/>.</summary>
     /// <param name="symbol">The symbol whose attribute to get.</param>
@@ -244,11 +301,161 @@ public static class ISymbolExtensions
     /// <returns>The <seealso cref="AttributeData"/> of the first attribute that matches the given name, or <see langword="null"/> if none was found.</returns>
     public static AttributeData? FirstOrDefaultAttributeNamed(this ISymbol symbol, FullSymbolName attributeName, SymbolNameMatchingLevel attributeNameMatchingLevel = SymbolNameMatchingLevel.Namespace)
     {
-        return symbol.GetAttributes().FirstOrDefault(MatchesFullName);
+        return symbol.GetAttributes().FirstOrDefault(AttributeNameMatcher(attributeName, attributeNameMatchingLevel));
+    }
+    /// <summary>Gets the first attribute of the given <seealso cref="ISymbol"/> that matches the name of the specified attribute.</summary>
+    /// <typeparam name="T">The type of the attribute whose name to attempt to find.</typeparam>
+    /// <param name="symbol">The symbol whose attribute to get.</param>
+    /// <returns>The <seealso cref="AttributeData"/> of the first attribute that matches the given attribute's name, or <see langword="null"/> if none was found.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="FirstOrDefaultAttributeNamedFully{T}(ISymbol, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static AttributeData? FirstOrDefaultAttributeNamed<T>(this ISymbol symbol)
+        where T : Attribute
+    {
+        return symbol.FirstOrDefaultAttributeNamed(typeof(T).Name);
+    }
+    /// <summary>Gets the first attribute of the given <seealso cref="ISymbol"/> that matches the name of the specified attribute.</summary>
+    /// <param name="symbol">The symbol whose attribute to get.</param>
+    /// <param name="attributeType">The type of the attribute whose name to attempt to find.</param>
+    /// <returns>The <seealso cref="AttributeData"/> of the first attribute that matches the given attribute's name, or <see langword="null"/> if none was found.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="FirstOrDefaultAttributeNamedFully(ISymbol, Type, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static AttributeData? FirstOrDefaultAttributeNamed(this ISymbol symbol, Type attributeType)
+    {
+        return symbol.FirstOrDefaultAttributeNamed(attributeType.Name);
+    }
+    #endregion
 
+    #region GetAttributesNamed
+    /// <summary>Gets all attributes of the given <seealso cref="ISymbol"/> that match the name of the specified attribute.</summary>
+    /// <param name="symbol">The symbol whose attributes to get.</param>
+    /// <param name="attributeType">The type of the attribute whose name to attempt to find.</param>
+    /// <returns>The <seealso cref="AttributeData"/> of the attributes that match the given attribute's name.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="GetAttributesNamed(ISymbol, FullSymbolName, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static IEnumerable<AttributeData> GetAttributesNamed(this ISymbol symbol, string name)
+    {
+        return symbol.GetAttributes().Where(AttributeNameMatcher(name));
+    }
+    /// <summary>Gets all attributes of the given <seealso cref="ISymbol"/> that match the name of the specified attribute.</summary>
+    /// <param name="symbol">The symbol whose attributes to get.</param>
+    /// <param name="attributeName">The name of the attributes to get.</param>
+    /// <param name="attributeNameMatchingLevel">The matching level for the full name.</param>
+    /// <returns>The <seealso cref="AttributeData"/> of the attributes that match the given attribute's name.</returns>
+    public static IEnumerable<AttributeData> GetAttributesNamed(this ISymbol symbol, FullSymbolName attributeName, SymbolNameMatchingLevel attributeNameMatchingLevel = SymbolNameMatchingLevel.Namespace)
+    {
+        return symbol.GetAttributes().Where(AttributeNameMatcher(attributeName, attributeNameMatchingLevel));
+    }
+    /// <summary>Gets all attributes of the given <seealso cref="ISymbol"/> that match the name of the specified attribute.</summary>
+    /// <typeparam name="T">The type of the attribute whose name to attempt to find.</typeparam>
+    /// <param name="symbol">The symbol whose attributes to get.</param>
+    /// <returns>The <seealso cref="AttributeData"/> of the attributes that match the given attribute's name.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="GetAttributesNamedFully{T}(ISymbol, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static IEnumerable<AttributeData> GetAttributesNamed<T>(this ISymbol symbol)
+        where T : Attribute
+    {
+        return GetAttributesNamed(symbol, typeof(T).Name);
+    }
+    /// <summary>Gets all attributes of the given <seealso cref="ISymbol"/> that match the name of the specified attribute.</summary>
+    /// <param name="symbol">The symbol whose attributes to get.</param>
+    /// <param name="attributeType">The type of the attribute whose name to attempt to find.</param>
+    /// <returns>The <seealso cref="AttributeData"/> of the attributes that match the given attribute's name.</returns>
+    /// <remarks>
+    /// This method only compares the symbol names, and not any other containing symbols.
+    /// Use <seealso cref="GetAttributesNamedFully(ISymbol, Type, SymbolNameMatchingLevel)"/> if you want to compare against
+    /// the full name of the attribute.
+    /// </remarks>
+    public static IEnumerable<AttributeData> GetAttributesNamed(this ISymbol symbol, Type attributeType)
+    {
+        return GetAttributesNamed(symbol, attributeType.Name);
+    }
+    #endregion
+
+    public static bool HasAttributeNamedFully<T>(this ISymbol? symbol, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
+        where T : Attribute
+    {
+        return HasAttributeNamed(symbol, FullSymbolName.ForType<T>(), matchingLevel);
+    }
+    public static bool HasAttributeNamedFully(this ISymbol? symbol, Type attributeType, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
+    {
+        return HasAttributeNamed(symbol, FullSymbolName.ForType(attributeType), matchingLevel);
+    }
+
+    public static AttributeData? FirstOrDefaultAttributeNamedFully<T>(this ISymbol symbol, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
+        where T : Attribute
+    {
+        return FirstOrDefaultAttributeNamed(symbol, FullSymbolName.ForType<T>(), matchingLevel);
+    }
+    public static AttributeData? FirstOrDefaultAttributeNamedFully(this ISymbol symbol, Type attributeType, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
+    {
+        return FirstOrDefaultAttributeNamed(symbol, FullSymbolName.ForType(attributeType), matchingLevel);
+    }
+
+    public static IEnumerable<AttributeData> GetAttributesNamedFully<T>(this ISymbol symbol, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
+        where T : Attribute
+    {
+        return GetAttributesNamed(symbol, FullSymbolName.ForType<T>(), matchingLevel);
+    }
+    public static IEnumerable<AttributeData> GetAttributesNamedFully<T>(this ISymbol symbol, Type attributeType, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
+    {
+        return GetAttributesNamed(symbol, FullSymbolName.ForType(attributeType), matchingLevel);
+    }
+
+    private static Func<AttributeData, bool> AttributeNameMatcher(string name)
+    {
+        return attribute => attribute.AttributeClass?.Name == name;
+    }
+    private static Func<AttributeData, bool> AttributeNameMatcher(FullSymbolName fullName, SymbolNameMatchingLevel matchingLevel)
+    {
+        return MatchesFullName;
+        
         bool MatchesFullName(AttributeData attribute)
         {
-            return attribute.AttributeClass?.GetFullSymbolName()!.Matches(attributeName, attributeNameMatchingLevel) is true;
+            return attribute.AttributeClass?.GetFullSymbolName()!.Matches(fullName, matchingLevel) is true;
         }
+    }
+    #endregion
+
+    /// <summary>Gets the type of a symbol.</summary>
+    /// <param name="symbol">The symbol whose type to get.</param>
+    /// <returns>
+    /// The declared type of the symbol if it is any of the following:
+    /// <list type="bullet">
+    /// <item><seealso cref="IFieldSymbol"/></item>
+    /// <item><seealso cref="IPropertySymbol"/></item>
+    /// <item><seealso cref="IEventSymbol"/></item>
+    /// <item><seealso cref="ILocalSymbol"/></item>
+    /// <item><seealso cref="IParameterSymbol"/></item>
+    /// </list>
+    /// -or- the return type of the <seealso cref="IMethodSymbol"/>
+    /// -or- the symbol itself if it's an <seealso cref="ITypeSymbol"/>.
+    /// </returns>
+    public static ITypeSymbol? GetSymbolType(this ISymbol? symbol)
+    {
+        return symbol switch
+        {
+            IFieldSymbol f => f.Type,
+            IPropertySymbol p => p.Type,
+            IEventSymbol e => e.Type,
+            ILocalSymbol l => l.Type,
+            IParameterSymbol pa => pa.Type,
+            IMethodSymbol m => m.ReturnType,
+
+            ITypeSymbol t => t,
+            _ => null,
+        };
     }
 }

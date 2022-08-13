@@ -29,7 +29,7 @@ public static class SymbolKindExtensions
 
     /// <summary>Determines whether a symbol kind represents a type symbol.</summary>
     /// <param name="symbolKind">The <seealso cref="SymbolKind"/> to determine whether it represents a type symbol.</param>
-    /// <returns><see langword="true"/> if the given <seealso cref="SymbolKind"/> represents a type symbol, even <seealso cref="SymbolKind.ErrorType"/>, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the given <seealso cref="SymbolKind"/> represents a type symbol, including <seealso cref="SymbolKind.ErrorType"/>, otherwise <see langword="false"/>.</returns>
     public static bool IsTypeSymbolKind(this SymbolKind symbolKind)
     {
         return symbolKind
