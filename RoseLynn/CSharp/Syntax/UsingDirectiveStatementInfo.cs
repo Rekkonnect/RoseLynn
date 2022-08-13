@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 
 namespace RoseLynn.CSharp.Syntax;
@@ -84,32 +85,120 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
     /// The ordering is the following:
     /// <list type="bullet">
     /// <item><see langword="global"/> over non-<see langword="global"/></item>
-    /// <item>Non-<see langword="static"/> over <see langword="static"/></item>
     /// <item>Importing usings over alias usings</item>
+    /// <item>Non-<see langword="static"/> over <see langword="static"/></item>
     /// <item>Fully qualified name of the symbol -or- name of the alias, ascending</item>
     /// </list>
     /// </remarks>
-    public sealed class SortingComparer : IComparer<UsingDirectiveStatementInfo>
+    public class SortingComparer : IComparer<UsingDirectiveStatementInfo>
     {
         public static SortingComparer Instance = new();
+
+        /// <summary>Gets the comparers to apply to each comparison in the order they are applied.</summary>
+        public virtual IComparer<UsingDirectiveStatementInfo>[] ComparerOrder
+        {
+            get => new IComparer<UsingDirectiveStatementInfo>[]
+            {
+                GlobalOverLocal.Instance,
+                AscendingDirectiveKind.Instance,
+                NonStaticOverStatic.Instance,
+                AscendingIdentifierSortKey.Instance,
+            };
+        }
 
         private SortingComparer() { }
 
         public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
         {
-            int comparison = y.IsGlobal.CompareTo(x.IsGlobal);
-            if (comparison is not 0)
-                return comparison;
+            foreach (var comparer in ComparerOrder)
+            {
+                int comparison = comparer.Compare(x, y);
+                if (comparison is not 0)
+                    return comparison;
+            }
+            return 0;
+        }
 
-            comparison = x.DirectiveKind.CompareTo(y.DirectiveKind);
-            if (comparison is not 0)
-                return comparison;
+        // I wish declaring a pattern like this would be simpler
+        public sealed class GlobalOverLocal : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static GlobalOverLocal Instance = new();
+            private GlobalOverLocal() { }
 
-            comparison = y.IsStatic.CompareTo(x.IsStatic);
-            if (comparison is not 0)
-                return comparison;
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return y.IsGlobal.CompareTo(x.IsGlobal);
+            }
+        }
+        public sealed class LocalOverGlobal : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static LocalOverGlobal Instance = new();
+            private LocalOverGlobal() { }
 
-            return x.IdentifierSortKey.CompareTo(y.IdentifierSortKey);
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return x.IsGlobal.CompareTo(y.IsGlobal);
+            }
+        }
+        public sealed class AscendingDirectiveKind : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static AscendingDirectiveKind Instance = new();
+            private AscendingDirectiveKind() { }
+
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return x.DirectiveKind.CompareTo(y.DirectiveKind);
+            }
+        }
+        public sealed class DescendingDirectiveKind : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static DescendingDirectiveKind Instance = new();
+            private DescendingDirectiveKind() { }
+
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return y.DirectiveKind.CompareTo(x.DirectiveKind);
+            }
+        }
+        public sealed class StaticOverNonStatic : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static StaticOverNonStatic Instance = new();
+            private StaticOverNonStatic() { }
+
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return y.IsStatic.CompareTo(x.IsStatic);
+            }
+        }
+        public sealed class NonStaticOverStatic : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static NonStaticOverStatic Instance = new();
+            private NonStaticOverStatic() { }
+
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return x.IsStatic.CompareTo(y.IsStatic);
+            }
+        }
+        public sealed class AscendingIdentifierSortKey : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static AscendingIdentifierSortKey Instance = new();
+            private AscendingIdentifierSortKey() { }
+
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return x.IdentifierSortKey.CompareTo(y.IdentifierSortKey);
+            }
+        }
+        public sealed class DescendingIdentifierSortKey : IComparer<UsingDirectiveStatementInfo>
+        {
+            public static DescendingIdentifierSortKey Instance = new();
+            private DescendingIdentifierSortKey() { }
+
+            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            {
+                return y.IdentifierSortKey.CompareTo(x.IdentifierSortKey);
+            }
         }
     }
 }

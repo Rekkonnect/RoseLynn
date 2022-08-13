@@ -65,4 +65,29 @@ public class UsingDirectiveStatementInfoTests
 
         Assert.AreEqual(expectedUsings, actualUsings);
     }
+
+    [Test]
+    public void VariousUsingsKindsSorted()
+    {
+        var list = new UsingDirectiveStatementInfoList
+        {
+            UsingDirectiveStatementInfo.LocalAlias("Alias", "A"),
+            new(UsingDirectiveKind.Using, "A"),
+            new(UsingDirectiveKind.GlobalUsingStatic, "B.D"),
+            new(UsingDirectiveKind.GlobalUsing, "B"),
+            new(UsingDirectiveKind.UsingStatic, "A.C"),
+            UsingDirectiveStatementInfo.GlobalAlias("AliasB", "B"),
+        };
+        var actualUsings = list.Sort().ToString();
+        const string expectedUsings = """
+                                      global using B;
+                                      global using static B.D;
+                                      global using AliasB = B;
+                                      using A;
+                                      using static A.C;
+                                      using Alias = A;
+                                      """;
+
+        Assert.AreEqual(expectedUsings, actualUsings);
+    }
 }
