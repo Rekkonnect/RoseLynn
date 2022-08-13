@@ -2,6 +2,9 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RoseLynn.CSharp.Syntax;
 
@@ -73,7 +76,7 @@ public static class ExtendedSyntaxFactory
     /// <returns>The simplified version of the attribute, with the suffix removed, if present.</returns>
     public static string SimplifyAttributeNameUsage(string attributeTypeName)
     {
-        // System.Attribute is preffered from the collision since it's a fully fixed name
+        // System.Attribute is preferred from the collision since it's a fully fixed name
         const string attributeSuffix = nameof(System.Attribute);
 
         if (attributeTypeName.EndsWith(attributeSuffix))
@@ -97,5 +100,45 @@ public static class ExtendedSyntaxFactory
         where TNode : SyntaxNode
     {
         return SyntaxFactory.SeparatedList(nodes);
+    }
+
+    public static QualifiedNameSyntax QualifiedName(params string[] qualifiedIdentifierParts)
+    {
+        return QualifiedName((IEnumerable<string>)qualifiedIdentifierParts);
+    }
+    public static QualifiedNameSyntax QualifiedName(IEnumerable<string> qualifiedIdentifierParts)
+    {
+        var identifiers = qualifiedIdentifierParts.Select(SyntaxFactory.IdentifierName);
+        return QualifiedName(identifiers);
+    }
+    public static QualifiedNameSyntax QualifiedName(IEnumerable<IdentifierNameSyntax> identifiers)
+    {
+        NameSyntax currentNameSyntax = identifiers.First();
+        foreach (var identifier in identifiers.Skip(1))
+        {
+            var outer = SyntaxFactory.QualifiedName(currentNameSyntax, identifier);
+            currentNameSyntax = outer;
+        }
+        return currentNameSyntax as QualifiedNameSyntax;
+    }
+
+    // TODO: Support alias usings
+    public static UsingDirectiveSyntax UsingDirective(UsingDirectiveKind usingKind, string symbolName)
+    {
+        return UsingDirective(usingKind, symbolName.Split('.'));
+    }
+    public static UsingDirectiveSyntax UsingDirective(UsingDirectiveKind usingKind, params string[] qualifiedIdentifierParts)
+    {
+        var identifiers = qualifiedIdentifierParts.Select(SyntaxFactory.IdentifierName);
+        var qualifiedName = QualifiedName(identifiers);
+        var result = SyntaxFactory.UsingDirective(qualifiedName);
+
+        if (usingKind.HasFlag(UsingDirectiveKind.Global))
+            result = result.WithGlobalKeyword(SyntaxFactory.Token(SyntaxKind.GlobalKeyword));
+
+        if (usingKind.HasFlag(UsingDirectiveKind.Static))
+            result = result.WithStaticKeyword(SyntaxFactory.Token(SyntaxKind.StaticKeyword));
+        
+        return result;
     }
 }
