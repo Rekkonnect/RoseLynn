@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using RoseLynn.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -282,4 +283,42 @@ public sealed class FullSymbolName
 
         string Aggregator(string left, string right) => $"{left}{delimiter}{right}";
     }
+
+    /// <inheritdoc cref="ForType_DocTemplate{T}(Type)"/>
+    public static FullSymbolName ForType<T>()
+    {
+        return ForType(typeof(T));
+    }
+    /// <inheritdoc cref="ForType_DocTemplate{T}(Type)"/>
+    public static FullSymbolName ForType(Type type)
+    {
+        var declaringMethod = type.GetDeclaringMethodSafe();
+        if (declaringMethod is not null)
+        {
+            var directDeclaringType = declaringMethod.DeclaringType;
+            var fullName = ForType(directDeclaringType);
+            fullName.ContainerMethods.Add(declaringMethod.Name);
+            fullName.ContainerTypes.Add(directDeclaringType.Name);
+            fullName.SymbolName = type.Name;
+            return fullName;
+        }
+
+        var declaringTypes = new List<string>();
+        var namespaces = type.Namespace.Split('.');
+
+        var declaringType = type.DeclaringType;
+        while (declaringType is not null)
+        {
+            declaringTypes.Add(declaringType.Name);
+            declaringType = declaringType.DeclaringType;
+        }
+
+        return new(type.Name, namespaces, declaringTypes);
+    }
+    
+    /// <summary>Gets the <seealso cref="FullSymbolName"/> for the given type.</summary>
+    /// <typeparam name="T">The type whose <seealso cref="FullSymbolName"/> to get.</typeparam>
+    /// <param name="type">The type whose <seealso cref="FullSymbolName"/> to get.</param>
+    /// <returns>A <seealso cref="FullSymbolName"/> representing the name of the given type.</returns>
+    private static void ForType_DocTemplate<T>(Type type) { }
 }

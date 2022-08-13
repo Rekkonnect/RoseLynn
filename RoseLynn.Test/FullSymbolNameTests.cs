@@ -59,4 +59,38 @@ public class FullSymbolNameTests
 
         Assert.AreEqual($"{nameof(FullSymbolNameTests)}{fullName.ContainerTypeDelimiter}{nameof(FullNames)}{fullName.ContainerMethodDelimiter}{symbolName}", fullName.FullNameString);
     }
+
+    [Test]
+    public void FullNameForNestedType()
+    {
+        var name = FullSymbolName.ForType<TestType>();
+        
+        var containerNamespaces = new[] { nameof(RoseLynn), nameof(Test) };
+        var containerTypes = new[] { nameof(FullSymbolNameTests) };
+        var symbolName = nameof(TestType);
+
+        var targetFullName = new FullSymbolName(symbolName, containerNamespaces, containerTypes, null);
+
+        Assert.True(name.Matches(targetFullName, SymbolNameMatchingLevel.Namespace));
+    }
+    [Test]
+    public void FullNameForMethodTypeParameter()
+    {
+        var typeParameter = typeof(TestType).GetMethod(nameof(TestType.Method)).GetGenericArguments()[0];
+        var name = FullSymbolName.ForType(typeParameter);
+
+        var containerNamespaces = new[] { nameof(RoseLynn), nameof(Test) };
+        var containerTypes = new[] { nameof(FullSymbolNameTests), nameof(TestType) };
+        var containerMethods = new[] { nameof(TestType.Method) };
+        var symbolName = "T";
+
+        var targetFullName = new FullSymbolName(symbolName, containerNamespaces, containerTypes, containerMethods);
+
+        Assert.True(name.Matches(targetFullName, SymbolNameMatchingLevel.Namespace));
+    }
+
+    private abstract class TestType
+    {
+        public abstract void Method<T>();
+    }
 }
