@@ -42,5 +42,19 @@ public static class UsingDirectiveKindExtensions
     public static bool IsGlobal(this UsingDirectiveKind kind) => kind.HasFlag(UsingDirectiveKind.Global);
     public static bool IsStatic(this UsingDirectiveKind kind) => kind.HasFlag(UsingDirectiveKind.Static);
 
+    public static UsingDirectiveKind WithGlobal(this UsingDirectiveKind kind, bool isGlobal)
+    {
+        return WithFlag(kind, UsingDirectiveKind.Global, isGlobal);
+    }
+    public static UsingDirectiveKind WithFlag(this UsingDirectiveKind kind, UsingDirectiveKind flag, bool toggle)
+    {
+        if (toggle)
+            kind |= flag;
+        else
+            kind &= ~flag;
+
+        return kind;
+    }
+
     public static UsingDirectiveKind GetDirectiveKind(this UsingDirectiveKind kind) => kind & UsingDirectiveKind.UsingDirectiveMask;
 }

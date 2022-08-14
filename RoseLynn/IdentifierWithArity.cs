@@ -1,5 +1,9 @@
 ﻿#nullable enable
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace RoseLynn;
 
 /// <summary>Represents a symbol's identifier and arity.</summary>
@@ -18,6 +22,45 @@ public record struct IdentifierWithArity(string Name, int Arity = 0)
 
             return $"{Name}`{Arity}";
         }
+    }
+
+    /// <inheritdoc cref="WithTypeArgumentsCSharp(string[])"/>
+    public string WithTypeArgumentsCSharp(IEnumerable<string> typeArguments)
+    {
+        return WithTypeArgumentsCSharp(typeArguments.ToArray());
+    }
+    /// <summary>Gets the C# string representation of using the symbol with the specified type arguments.</summary>
+    /// <param name="typeArguments">The type arguments to use in the generic symbol. The argument count must match <seealso cref="Arity"/>.</param>
+    /// <returns>The string representation of the substituted symbol with the specified type arguments, or simply its name if its arity is 0.</returns>
+    /// <exception cref="ArgumentException">Thrown when the given arguments' count do not match the arity of the symbol.</exception>
+    public string WithTypeArgumentsCSharp(params string[] typeArguments)
+    {
+        return WithTypeArguments(typeArguments, "<", ">");
+    }
+
+    /// <inheritdoc cref="WithTypeArgumentsVisualBasic(string[])"/>
+    public string WithTypeArgumentsVisualBasic(IEnumerable<string> typeArguments)
+    {
+        return WithTypeArgumentsVisualBasic(typeArguments.ToArray());
+    }
+    /// <summary>Gets the Visual Basic string representation of using the symbol with the specified type arguments.</summary>
+    /// <param name="typeArguments">The type arguments to use in the generic symbol. The argument count must match <seealso cref="Arity"/>.</param>
+    /// <returns>The string representation of the substituted symbol with the specified type arguments, or simply its name if its arity is 0.</returns>
+    /// <exception cref="ArgumentException">Thrown when the given arguments' count do not match the arity of the symbol.</exception>
+    public string WithTypeArgumentsVisualBasic(params string[] typeArguments)
+    {
+        return WithTypeArguments(typeArguments, "(Of ", ")");
+    }
+
+    private string WithTypeArguments(string[] typeArguments, string opener, string closer)
+    {
+        if (Arity != typeArguments.Length)
+            throw new ArgumentException("The given type arguments' count does not match the arity of the symbol.");
+
+        if (Arity is 0)
+            return Name;
+
+        return $"{Name}{opener}{string.Join(", ", typeArguments)}{closer}";
     }
 
     public override string ToString() => FullIdentifier;

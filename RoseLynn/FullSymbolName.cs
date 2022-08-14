@@ -149,6 +149,26 @@ public sealed class FullSymbolName
         ResetAllDelimiters();
     }
 
+    public FullSymbolName(FullSymbolName other)
+        : this(other.SymbolNameWithArity, other.Namespaces, other.ContainerTypes, other.ContainerMethods) { }
+
+    /// <summary>Clones this <seealso cref="FullSymbolName"/> and resets the cloned instance's delimiters.</summary>
+    /// <returns>The cloned instance with the delimiters reset to their default values.</returns>
+    public FullSymbolName CloneWithResetDelimiters()
+    {
+        var result = new FullSymbolName(this);
+        result.ResetAllDelimiters();
+        return result;
+    }
+    /// <summary>Clones this <seealso cref="FullSymbolName"/> and sets the cloned instance's delimiters to <seealso cref="DefaultContainerSymbolDelimiter"/>.</summary>
+    /// <returns>The cloned instance with the delimiters set to <seealso cref="DefaultContainerSymbolDelimiter"/>.</returns>
+    public FullSymbolName CloneWithDefaultContainerSymbolDelimiter()
+    {
+        var result = new FullSymbolName(this);
+        result.UseDefaultContainerSymbolDelimiter();
+        return result;
+    }
+
     /// <summary>Resets all delimiters to their individual default values.</summary>
     public void ResetAllDelimiters()
     {
@@ -156,13 +176,21 @@ public sealed class FullSymbolName
         ContainerTypeDelimiter = DefaultContainerTypeDelimiter;
         ContainerMethodDelimiter = DefaultContainerMethodDelimiter;
     }
+    /// <summary>Sets all delimiters to the specified delimiters.</summary>
+    /// <param name="namespaceDelimiter">The delimiter to set to <seealso cref="NamespaceDelimiter"/>.</param>
+    /// <param name="containerTypeDelimiter">The delimiter to set to <seealso cref="ContainerTypeDelimiter"/>.</param>
+    /// <param name="containerMethodDelimiter">The delimiter to set to <seealso cref="ContainerMethodDelimiter"/>.</param>
+    public void SetDelimiters(string namespaceDelimiter, string containerTypeDelimiter, string containerMethodDelimiter)
+    {
+        NamespaceDelimiter = namespaceDelimiter;
+        ContainerTypeDelimiter = containerTypeDelimiter;
+        ContainerMethodDelimiter = containerMethodDelimiter;
+    }
     /// <summary>Sets all delimiters to the same delimiter.</summary>
     /// <param name="delimiter">The delimiter to set all delimiter kinds to.</param>
     public void SetAllDelimiters(string delimiter)
     {
-        NamespaceDelimiter = delimiter;
-        ContainerTypeDelimiter = delimiter;
-        ContainerMethodDelimiter = delimiter;
+        SetDelimiters(delimiter, delimiter, delimiter);
     }
     /// <summary>Sets all delimiters to <seealso cref="DefaultContainerSymbolDelimiter"/>.</summary>
     public void UseDefaultContainerSymbolDelimiter()

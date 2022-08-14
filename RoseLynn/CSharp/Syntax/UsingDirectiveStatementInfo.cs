@@ -51,6 +51,103 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
     public static UsingDirectiveStatementInfo LocalAlias(string alias, string qualifiedName) => new(UsingDirectiveKind.UsingAlias, alias, qualifiedName);
     public static UsingDirectiveStatementInfo GlobalAlias(string alias, string qualifiedName) => new(UsingDirectiveKind.GlobalUsingAlias, alias, qualifiedName);
 
+    /// <summary>
+    /// Creates a <seealso cref="UsingDirectiveStatementInfo"/> reflecting a <see langword="using"/> directive on
+    /// the namespace reflected by the provided <seealso cref="FullSymbolName"/>.
+    /// </summary>
+    /// <param name="namespaceSymbolName">The full name of the namespace symbol for which to create a <see langword="using"/> directive.</param>
+    /// <param name="isGlobal">Determines whether the <see langword="using"/> directive will be <see langword="global"/> or not.</param>
+    /// <returns>The created <seealso cref="UsingDirectiveStatementInfo"/> reflecting a <see langword="using"/> directive statement.</returns>
+    /// <remarks>
+    /// This assumes that <paramref name="namespaceSymbolName"/> reflects the name of a namespace symbol.
+    /// To create a <seealso cref="UsingDirectiveStatementInfo"/> for a non-namespace symbol's containing namespace,
+    /// use <seealso cref="UsingForSymbol(FullSymbolName, bool)"/>.
+    /// </remarks>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="namespaceSymbolName"/> does not reflect the name of a namespace symbol.</exception>
+    public static UsingDirectiveStatementInfo UsingForNamespaceSymbol(FullSymbolName namespaceSymbolName, bool isGlobal = false)
+    {
+        bool isNamespace = namespaceSymbolName.NearestContainerSymbolKind is ContainerSymbolKind.Namespace
+                        && namespaceSymbolName.SymbolNameWithArity.Arity is 0;
+
+        if (!isNamespace)
+        {
+            throw new ArgumentException("The provided symbol name must reflect a namespace symbol.");
+        }
+
+        namespaceSymbolName = namespaceSymbolName.CloneWithDefaultContainerSymbolDelimiter();
+
+        return new(UsingDirectiveKind.Using.WithGlobal(isGlobal), namespaceSymbolName.FullNameString);
+    }
+    /// <summary>
+    /// Creates a <seealso cref="UsingDirectiveStatementInfo"/> reflecting a <see langword="using"/> directive on
+    /// the containing namespace of the provided <seealso cref="FullSymbolName"/>.
+    /// </summary>
+    /// <param name="symbolName">The full name of the symbol for which to create a <see langword="using"/> directive.</param>
+    /// <param name="isGlobal">Determines whether the <see langword="using"/> directive will be <see langword="global"/> or not.</param>
+    /// <returns>The created <seealso cref="UsingDirectiveStatementInfo"/> reflecting a <see langword="using"/> directive statement.</returns>
+    /// <remarks>
+    /// This assumes that <paramref name="symbolName"/> reflects the name of a non-namespace symbol.
+    /// To create a <seealso cref="UsingDirectiveStatementInfo"/> for a namespace symbol,
+    /// use <seealso cref="UsingForNamespaceSymbol(FullSymbolName, bool)"/>.
+    /// </remarks>
+    public static UsingDirectiveStatementInfo UsingForSymbol(FullSymbolName symbolName, bool isGlobal = false)
+    {
+        symbolName = symbolName.CloneWithDefaultContainerSymbolDelimiter();
+
+        return new(UsingDirectiveKind.Using.WithGlobal(isGlobal), symbolName.FullNamespaceString);
+    }
+
+    /// <summary>
+    /// Creates a <seealso cref="UsingDirectiveStatementInfo"/> reflecting a <see langword="using static"/> directive on
+    /// the type reflected by the provided <seealso cref="FullSymbolName"/>.
+    /// </summary>
+    /// <param name="typeSymbolName">The full name of the type symbol for which to create a <see langword="using"/> directive.</param>
+    /// <param name="typeArguments">The type arugments of the type. <see langword="null"/> will be considered as an empty array.</param>
+    /// <param name="isGlobal">Determines whether the <see langword="using"/> directive will be <see langword="global"/> or not.</param>
+    /// <returns>The created <seealso cref="UsingDirectiveStatementInfo"/> reflecting a <see langword="using static"/> directive statement.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="typeSymbolName"/> does not reflect the name of a type symbol.</exception>
+    public static UsingDirectiveStatementInfo UsingStaticForTypeSymbol(FullSymbolName typeSymbolName, string[] typeArguments = null, bool isGlobal = false)
+    {
+        if (typeSymbolName.NearestContainerSymbolKind is ContainerSymbolKind.Method)
+        {
+            throw new ArgumentException("The provided symbol name must reflect a type symbol.");
+        }
+
+        typeSymbolName = typeSymbolName.CloneWithDefaultContainerSymbolDelimiter();
+
+        typeArguments ??= Array.Empty<string>();
+        var argumentedName = typeSymbolName.SymbolNameWithArity.WithTypeArgumentsCSharp(typeArguments);
+        var qualifiedName = $"{typeSymbolName.FullNamespaceString}.{typeSymbolName.FullContainerTypeString}.{argumentedName}";
+
+        return new(UsingDirectiveKind.UsingStatic.WithGlobal(isGlobal), qualifiedName);
+    }
+
+    /// <summary>
+    /// Creates a <seealso cref="UsingDirectiveStatementInfo"/> reflecting an alias <see langword="using"/> directive on
+    /// the symbol reflected by the provided <seealso cref="FullSymbolName"/>.
+    /// </summary>
+    /// <param name="symbolName">The full name of the symbol for which to create an alias <see langword="using"/> directive.</param>
+    /// <param name="alias">The alias to be used for the given symbol name.</param>
+    /// <param name="typeArguments">The type arugments of the type. <see langword="null"/> will be considered as an empty array.</param>
+    /// <param name="isGlobal">Determines whether the alias <see langword="using"/> directive will be <see langword="global"/> or not.</param>
+    /// <returns>The created <seealso cref="UsingDirectiveStatementInfo"/> reflecting an alias <see langword="using"/> statement.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="symbolName"/> does not reflect the name of a namespace or type symbol.</exception>
+    public static UsingDirectiveStatementInfo UsingAliasForSymbol(FullSymbolName symbolName, string alias, string[] typeArguments = null, bool isGlobal = false)
+    {
+        if (symbolName.NearestContainerSymbolKind is ContainerSymbolKind.Method)
+        {
+            throw new ArgumentException("The provided symbol name must reflect a namespace or type symbol.");
+        }
+
+        symbolName = symbolName.CloneWithDefaultContainerSymbolDelimiter();
+
+        typeArguments ??= Array.Empty<string>();
+        var argumentedName = symbolName.SymbolNameWithArity.WithTypeArgumentsCSharp(typeArguments);
+        var qualifiedName = $"{symbolName.FullNamespaceString}.{symbolName.FullContainerTypeString}.{argumentedName}";
+
+        return new(UsingDirectiveKind.UsingAlias.WithGlobal(isGlobal), alias, qualifiedName);
+    }
+
     /// <summary>Creates a <seealso cref="UsingDirectiveStatementInfo"/> factory function for the specified <seealso cref="UsingDirectiveKind"/>.</summary>
     /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> of the usings that the returned factory method will generate.</param>
     /// <returns>
