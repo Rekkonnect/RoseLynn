@@ -6,7 +6,6 @@ The RoseLynn.Testing package contains useful tools to enhance the experience of 
 
 ### Testing Fixtures
 - [Analyzer Test Fixture](analyzerTestFixture.md)
-- [Usings Provider](usingsProvider.md)
 
 ### Diagnostic Markup
 - [Diagnostic Markup Style Handler](diagnosticMarkupStyle.md)
