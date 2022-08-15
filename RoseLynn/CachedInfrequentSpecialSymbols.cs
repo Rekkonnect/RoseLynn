@@ -15,9 +15,7 @@ public class CachedInfrequentSpecialSymbols
     /// <summary>The shared singleton instance containing <seealso cref="InfrequentSpecialSymbolCache"/> instances.</summary>
     public static readonly CachedInfrequentSpecialSymbols Instance = new();
 
-#pragma warning disable RS1024 // Compare symbols correctly
     private readonly Dictionary<ISymbol, InfrequentSpecialSymbolCache> cachedSymbols = new(SymbolEqualityComparer.Default);
-#pragma warning restore RS1024 // Compare symbols correctly
 
     private CachedInfrequentSpecialSymbols() { }
 

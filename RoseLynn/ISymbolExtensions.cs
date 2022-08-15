@@ -51,11 +51,7 @@ public static class ISymbolExtensions
     /// <returns>The minimum available <seealso cref="SymbolFilter"/> that matches the given symbol, if not null, otherwise <seealso cref="SymbolFilter.None"/>.</returns>
     public static SymbolFilter GetRespectiveSymbolFilter(this ISymbol? symbol)
     {
-        return symbol?.Kind switch
-        {
-            SymbolKind kind => kind.GetRespectiveSymbolFilter(),
-            null => SymbolFilter.None,
-        };
+        return symbol?.Kind.GetRespectiveSymbolFilter() ?? SymbolFilter.None;
     }
 
     /// <summary>Creates a <seealso cref="IdentifierWithArity"/> representing the symbol's name and arity.</summary>
