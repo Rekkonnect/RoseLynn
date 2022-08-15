@@ -90,13 +90,13 @@ public abstract class InfrequentSpecialSymbolCache
         private readonly Lazy<ImmutableArray<IMethodSymbol>> extensionMethodsLazy;
         private readonly Lazy<ImmutableArray<IFieldSymbol>> constantFieldsLazy;
 
-        /// <summary>The <seealso cref="IMethodSymbol"/> representing the destructor of the <seealso cref="Symbol"/>, or <see langword="null"/> if it doesn't contain such.</summary>
+        /// <summary>The <seealso cref="IMethodSymbol"/> representing the destructor of the <seealso cref="StronglyTyped{T}.Symbol"/>, or <see langword="null"/> if it doesn't contain such.</summary>
         public IMethodSymbol? Destructor => destructorLazy.Value;
 
-        /// <summary>An array of <seealso cref="IMethodSymbol"/> instances representing the extension methods contained in the <seealso cref="Symbol"/>.</summary>
+        /// <summary>An array of <seealso cref="IMethodSymbol"/> instances representing the extension methods contained in the <seealso cref="StronglyTyped{T}.Symbol"/>.</summary>
         public ImmutableArray<IMethodSymbol> ExtensionMethods => extensionMethodsLazy.Value;
 
-        /// <summary>An array of <seealso cref="IFieldSymbol"/> instances representing the constant fields contained in the <seealso cref="Symbol"/>.</summary>
+        /// <summary>An array of <seealso cref="IFieldSymbol"/> instances representing the constant fields contained in the <seealso cref="StronglyTyped{T}.Symbol"/>.</summary>
         /// <remarks>Enum members also count as constant fields.</remarks>
         public ImmutableArray<IFieldSymbol> ConstantFields => constantFieldsLazy.Value;
 

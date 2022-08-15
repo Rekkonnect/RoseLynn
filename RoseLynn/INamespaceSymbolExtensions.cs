@@ -20,4 +20,15 @@ public static class INamespaceSymbolExtensions
     {
         return namespaceSymbol.GetContainingNamespaces().Concat(new SingleElementCollection<INamespaceSymbol>(namespaceSymbol).AsEnumerable<INamespaceSymbol>());
     }
+
+    /// <summary>Gets all the contained <seealso cref="INamedTypeSymbol"/> members in the given <seealso cref="INamespaceSymbol"/> and its nested namespaces.</summary>
+    /// <param name="namespaceSymbol">The <seealso cref="INamespaceSymbol"/> whose types to get.</param>
+    /// <returns>All the contained types in the <seealso cref="INamespaceSymbol"/>.</returns>
+    /// <remarks>This applies recursively to all nested namespaces.</remarks>
+    public static IEnumerable<INamedTypeSymbol> GetAllContainedTypes(this INamespaceSymbol namespaceSymbol)
+    {
+        var types = namespaceSymbol.GetTypeMembers();
+        var namespaces = namespaceSymbol.GetNamespaceMembers();
+        return types.Concat(namespaces.SelectMany(GetAllContainedTypes));
+    }
 }

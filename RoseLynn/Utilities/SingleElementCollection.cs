@@ -106,3 +106,12 @@ public struct SingleElementCollection<T> : IReadOnlyCollection<T?>, IEquatable<S
         }
     }
 }
+
+#nullable enable
+public static class SingleElementCollectionExtensions
+{
+    public static SingleElementCollection<T> ToSingleElementCollection<T>(this T element)
+    {
+        return new(element);
+    }
+}
