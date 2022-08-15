@@ -112,18 +112,18 @@ public abstract class InfrequentSpecialSymbolCache
 
         private IMethodSymbol? GetDestructor()
         {
-            return Symbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(member => member is { MethodKind: MethodKind.Destructor });
+            return Symbol.GetMembers<IMethodSymbol>().FirstOrDefault(member => member is { MethodKind: MethodKind.Destructor });
         }
         private ImmutableArray<IMethodSymbol> GetExtensionMethods()
         {
             if (!Symbol.MightContainExtensionMethods)
                 return ImmutableArray<IMethodSymbol>.Empty;
 
-            return Symbol.GetMembers().OfType<IMethodSymbol>().Where(method => method.IsExtensionMethod).ToImmutableArray();
+            return Symbol.GetMembers<IMethodSymbol>().Where(method => method.IsExtensionMethod).ToImmutableArray();
         }
         private ImmutableArray<IFieldSymbol> GetConstantFields()
         {
-            return Symbol.GetMembers().OfType<IFieldSymbol>().Where(field => field.IsConst).ToImmutableArray();
+            return Symbol.GetMembers<IFieldSymbol>().Where(field => field.IsConst).ToImmutableArray();
         }
     }
 }
