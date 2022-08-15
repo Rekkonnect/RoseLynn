@@ -8,6 +8,7 @@ The RoseLynn package contains various abstractions and implementations common fo
 - [Type Parameter Constraint Clause Segmentation](clauseSegmentation.md)
 - `IdentifierWithArity`
 - `FullSymbolName`, containing information about the names of the containers of a symbol, useful for correctly resolving naming collisions
+- [Using Directive Statement Info](usingDirectiveStatementInfo.md)
 
 ### Semantics
 - `CachedInfrequentSpecialSymbols`, containing infrequently used special symbols, such as the destructor `IMethodSymbol` of a `INamedTypeSymbol`.
