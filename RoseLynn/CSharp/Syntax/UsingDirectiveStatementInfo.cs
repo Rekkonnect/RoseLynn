@@ -203,9 +203,9 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
             };
         }
 
-        private SortingComparer() { }
+        protected SortingComparer() { }
 
-        public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+        public virtual int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
         {
             foreach (var comparer in ComparerOrder)
             {
