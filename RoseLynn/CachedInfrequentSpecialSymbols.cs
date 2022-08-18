@@ -19,11 +19,18 @@ public class CachedInfrequentSpecialSymbols
 
     private CachedInfrequentSpecialSymbols() { }
 
+    public InfrequentSpecialSymbolCache.IStronglyTyped<TSymbol> GetStronglyTyped<TSymbol>(TSymbol symbol)
+        where TSymbol : class, ISymbol
+    {
+        return Get<InfrequentSpecialSymbolCache.IStronglyTyped<TSymbol>>(symbol);
+    }
+
     public InfrequentSpecialSymbolCache this[ISymbol symbol] => Get(symbol);
+    public InfrequentSpecialSymbolCache.TypeSymbol this[ITypeSymbol symbol] => Get<InfrequentSpecialSymbolCache.TypeSymbol>(symbol);
     public InfrequentSpecialSymbolCache.NamedTypeSymbol this[INamedTypeSymbol symbol] => Get<InfrequentSpecialSymbolCache.NamedTypeSymbol>(symbol);
 
     private TCache Get<TCache>(ISymbol symbol)
-        where TCache : InfrequentSpecialSymbolCache
+        where TCache : class, IInfrequentSpecialSymbolCache
     {
         return (Get(symbol) as TCache)!;
     }
@@ -42,7 +49,15 @@ public class CachedInfrequentSpecialSymbols
 
 /// <summary>Contains cached information about infrequent special members of <seealso cref="ISymbol"/> instances.</summary>
 /// <remarks>All special members are lazily evaluated and retrieved.</remarks>
-public abstract class InfrequentSpecialSymbolCache
+public interface IInfrequentSpecialSymbolCache
+{
+    /// <summary>Gets the <seealso cref="ISymbol"/> whose special symbol cache is contained.</summary>
+    public ISymbol Symbol { get; }
+}
+
+/// <summary>Contains cached information about infrequent special members of <seealso cref="ISymbol"/> instances.</summary>
+/// <remarks>All special members are lazily evaluated and retrieved.</remarks>
+public abstract class InfrequentSpecialSymbolCache : IInfrequentSpecialSymbolCache
 {
     /// <summary>Gets the <seealso cref="ISymbol"/> whose special symbol cache is contained.</summary>
     public ISymbol Symbol { get; }
@@ -64,13 +79,24 @@ public abstract class InfrequentSpecialSymbolCache
         return symbol switch
         {
             INamedTypeSymbol named => new NamedTypeSymbol(named),
+            ITypeSymbol type => new TypeSymbol(type),
+
             _ => new StronglyTyped<TSymbol>(symbol),
         };
     }
 
     /// <summary>Contains cached information about infrequent special members of instances a strongly-typed type deriving from the <seealso cref="ISymbol"/> interface.</summary>
     /// <remarks>All special members are lazily evaluated and retrieved.</remarks>
-    public class StronglyTyped<TSymbol> : InfrequentSpecialSymbolCache
+    public interface IStronglyTyped<out TSymbol> : IInfrequentSpecialSymbolCache
+        where TSymbol : class, ISymbol
+    {
+        /// <summary>Gets the <typeparamref name="TSymbol"/> whose special symbol cache is contained.</summary>
+        public new TSymbol Symbol { get; }
+    }
+
+    /// <summary>Contains cached information about infrequent special members of instances a strongly-typed type deriving from the <seealso cref="ISymbol"/> interface.</summary>
+    /// <remarks>All special members are lazily evaluated and retrieved.</remarks>
+    public class StronglyTyped<TSymbol> : InfrequentSpecialSymbolCache, IStronglyTyped<TSymbol>
         where TSymbol : class, ISymbol
     {
         /// <summary>Gets the <seealso cref="ISymbol"/> whose special symbol cache is contained.</summary>
@@ -84,11 +110,37 @@ public abstract class InfrequentSpecialSymbolCache
 
     /// <summary>Contains cached information about infrequent special members of <seealso cref="INamedTypeSymbol"/> instances.</summary>
     /// <remarks>All special members are lazily evaluated and retrieved.</remarks>
-    public sealed class NamedTypeSymbol : StronglyTyped<INamedTypeSymbol>
+    public class TypeSymbol : StronglyTyped<ITypeSymbol>
+    {
+        private readonly Lazy<CachedOperatorSymbols> operatorSymbolsLazy;
+
+        /// <summary>Gets the <seealso cref="CachedOperatorSymbols"/> instance reflecting all the operator symobls defined in the type.</summary>
+        public CachedOperatorSymbols OperatorSymbols => operatorSymbolsLazy.Value;
+
+        /// <summary>Initializes a new <seealso cref="TypeSymbol"/> instance that will contain cache about the given symbol.</summary>
+        /// <param name="symbol">The symbol whose infrequent special symbols are to be cached.</param>
+        public TypeSymbol(ITypeSymbol symbol)
+            : base(symbol)
+        {
+            operatorSymbolsLazy = new(GetOperatorSymbols);
+        }
+
+        private CachedOperatorSymbols GetOperatorSymbols()
+        {
+            return CachedOperatorSymbols.ForType(Symbol);
+        }
+    }
+
+    /// <summary>Contains cached information about infrequent special members of <seealso cref="INamedTypeSymbol"/> instances.</summary>
+    /// <remarks>All special members are lazily evaluated and retrieved.</remarks>
+    public sealed class NamedTypeSymbol : TypeSymbol, IStronglyTyped<INamedTypeSymbol>
     {
         private readonly Lazy<IMethodSymbol?> destructorLazy;
         private readonly Lazy<ImmutableArray<IMethodSymbol>> extensionMethodsLazy;
         private readonly Lazy<ImmutableArray<IFieldSymbol>> constantFieldsLazy;
+
+        /// <summary>Gets the <seealso cref="INamedTypeSymbol"/> whose special symbol cache is contained.</summary>
+        public new INamedTypeSymbol Symbol => (base.Symbol as INamedTypeSymbol)!;
 
         /// <summary>The <seealso cref="IMethodSymbol"/> representing the destructor of the <seealso cref="StronglyTyped{T}.Symbol"/>, or <see langword="null"/> if it doesn't contain such.</summary>
         public IMethodSymbol? Destructor => destructorLazy.Value;
