@@ -4,9 +4,6 @@ using System;
 
 namespace RoseLynn;
 
-// TODO: Build a "quick" generator that will generate the respective
-//       methods and extensions for the operator kinds
-//       - The generator should emit warnings for missing N-AryOperator attributes
 public enum OperatorKind
 {
     [CSharpOperatorToken("+")]
