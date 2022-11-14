@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace RoseLynn;
 
-/// <summary>Provides a framework to prepending usings to code bound to testing.</summary>
+/// <summary>Provides a framework to prepending usings to code snippets.</summary>
 public abstract class UsingsProviderBase
 {
     /// <summary>Provides the default usings provider that applies no usings.</summary>
     public static readonly UsingsProviderBase Default = new DefaultUsingsProvider();
 
-    /// <summary>Provides the default necessary usings for a piece of source code that is to be tested.</summary>
+    /// <summary>Provides the default necessary usings for a piece of source code.</summary>
     public abstract string DefaultNecessaryUsings { get; }
 
     /// <summary>Prepends the default necessary usings before the original source code and returns the new code with the usings.</summary>

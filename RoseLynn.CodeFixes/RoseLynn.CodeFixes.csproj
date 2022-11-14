@@ -11,7 +11,7 @@
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
     <Description>Additional code fix tools for Roslyn-based analyzers.</Description>
-    <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, code fix, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>0.5.1 changes:
@@ -29,6 +29,7 @@ Dependencies:
 
   <ItemGroup>
     <ProjectReference Include="..\RoseLynn.Analyzers\RoseLynn.Analyzers.csproj" />
+    <ProjectReference Include="..\RoseLynn.CodeFixes.VS2019\RoseLynn.CodeFixes.VS2019.csproj" />
     <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
 

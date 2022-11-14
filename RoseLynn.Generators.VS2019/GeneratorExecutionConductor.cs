@@ -66,6 +66,13 @@ public sealed class GeneratorExecutionConductor
         sourceMappings.Add(FullHintName(hintName), source);
     }
 
+    /// <inheritdoc cref="AddSource(string, string)"/>
+    /// <param name="usingsProvider">The <seealso cref="UsingsProviderBase"/> whose usings to prepend to the given source.</param>
+    public void AddSource(string hintName, string source, UsingsProviderBase usingsProvider)
+    {
+        AddSource(hintName, usingsProvider.WithUsings(source));
+    }
+
     /// <summary>Removes the source that was added with the given hint name.</summary>
     /// <inheritdoc cref="HintNameDocSample(string)"/>
     public void RevokeAddedSource(string hintName)

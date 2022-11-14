@@ -11,7 +11,7 @@
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
     <Description>Additional tools for Roslyn-based generators.</Description>
-    <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, generator, source-generator, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>0.5.1 changes:
@@ -27,6 +27,12 @@ Dependencies:
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RoseLynn.Generators.VS2019\RoseLynn.Generators.VS2019.csproj" />
     <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
 </Project>

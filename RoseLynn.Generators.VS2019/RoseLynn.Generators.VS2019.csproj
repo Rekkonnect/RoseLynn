@@ -2,28 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>latest</LangVersion>
+
+    <RootNamespace>RoseLynn.Generators</RootNamespace>
+  
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.5.1-rc01</Version>
-    <PackageVersion>0.5.1-rc01</PackageVersion>
+    <Version>0.5.1</Version>
+    <PackageVersion>0.5.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
-    <Description>Additional tools for Roslyn-based applications.</Description>
+    <Description>Additional tools for Roslyn-based source generators, compatible with VS 2019.</Description>
     <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>0.5.1 changes:
-Dependencies:
-- Remove all breaking Microsoft.CodeAnalysis.* dependencies
-</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Label="Microsoft.CodeAnalysis">
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="4.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="3.11.0" />
   </ItemGroup>
 
   <ItemGroup>
