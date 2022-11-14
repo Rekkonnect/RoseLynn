@@ -26,8 +26,7 @@ public class GeneratorDiagnosticDescriptorStorage : DiagnosticDescriptorStorageB
     {
         return category switch
         {
-            // Cannot go higher in the case of a generator?
-            Categories.Validity => DiagnosticSeverity.Warning,
+            Categories.Validity => DiagnosticSeverity.Error,
             _ => null,
         };
     }

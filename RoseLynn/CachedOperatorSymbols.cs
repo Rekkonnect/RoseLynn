@@ -8,11 +8,6 @@ using System.Linq;
 
 namespace RoseLynn;
 
-/*
- * TODO: Report a bug in inheritdoc inside a primary constructor based on its inherited record
- *       - Should be done by 19/08/2022 12:43 UTC +03:00
- */
-
 /// <summary>Contains cached information about a type's operators.</summary>
 /// <remarks>For advanced querying, <seealso cref="CachedOperatorSymbolQueryingExtensions"/> contains extensions that apply common filters.</remarks>
 public class CachedOperatorSymbols
