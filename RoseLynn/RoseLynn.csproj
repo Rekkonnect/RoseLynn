@@ -5,8 +5,8 @@
     <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.5.1-rc01</Version>
-    <PackageVersion>0.5.1-rc01</PackageVersion>
+    <Version>0.5.1.1</Version>
+    <PackageVersion>0.5.1.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
@@ -17,6 +17,7 @@
     <PackageReleaseNotes>0.5.1 changes:
 Dependencies:
 - Remove all breaking Microsoft.CodeAnalysis.* dependencies
+- Depend on specially crafted packages for compatibility with VS 2019
 </PackageReleaseNotes>
   </PropertyGroup>
 

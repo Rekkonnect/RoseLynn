@@ -8,8 +8,8 @@
     
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.5.1</Version>
-    <PackageVersion>0.5.1</PackageVersion>
+    <Version>0.5.1.1</Version>
+    <PackageVersion>0.5.1.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
@@ -24,5 +24,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="3.11.0" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
 
 </Project>
