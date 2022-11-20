@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Compression;
 using System.Linq;
 
 namespace RoseLynn.CSharp.Syntax;
@@ -175,6 +174,55 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
     public static IEnumerable<UsingDirectiveStatementInfo> DirectivesOfKind(UsingDirectiveKind kind, params string[] qualifiedNames)
     {
         return DirectivesOfKind(kind, (IEnumerable<string>)qualifiedNames);
+    }
+
+    public static UsingDirectiveStatementInfo UsingForType<T>(UsingDirectiveKind kind)
+    {
+        return UsingForType(kind, typeof(T));
+    }
+    /// <summary>
+    /// Creates a using statement for the specified type, which may also include the type's name,
+    /// if the using directive kind contains the <seealso cref="UsingDirectiveKind.Static"/> flag.
+    /// </summary>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> of the resulting using statement.</param>
+    /// <param name="type">The type whose information will be used for the creation of the using statement.</param>
+    /// <returns>
+    /// A using statement of the specified kind, utilizing the type's information. If the using statement kind has the
+    /// <seealso cref="UsingDirectiveKind.Using"/> flag, only the namespace of the type is used, otherwise the type itself
+    /// is included, as the using directive kind will contain the <seealso cref="UsingDirectiveKind.UsingStatic"/> flag.
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    /// Thrown when the using directive kind contains the <seealso cref="UsingDirectiveKind.UsingAlias"/> flag.
+    /// To create alias declaration statements, use the <seealso cref="AliasForType(UsingDirectiveKind, Type, string)"/> overload.
+    /// </exception>
+    public static UsingDirectiveStatementInfo UsingForType(UsingDirectiveKind kind, Type type)
+    {
+        if (kind.HasFlag(UsingDirectiveKind.UsingAlias))
+        {
+            throw new ArgumentException("An alias must be specified to use a using alias statement.");
+        }
+
+        var qualifiedName = type.Namespace;
+        if (kind.IsStatic())
+        {
+            qualifiedName += $".{type.Name}";
+        }
+        return new(kind, qualifiedName);
+    }
+
+    public static UsingDirectiveStatementInfo AliasForType<T>(UsingDirectiveKind kind, string alias)
+    {
+        return AliasForType(kind, typeof(T), alias);
+    }
+    public static UsingDirectiveStatementInfo AliasForType(UsingDirectiveKind kind, Type type, string alias)
+    {
+        if (!kind.HasFlag(UsingDirectiveKind.UsingAlias))
+        {
+            throw new ArgumentException("The using directive kind must be a using alias.");
+        }
+
+        var qualifiedName = type.FullName;
+        return new(kind, alias, qualifiedName);
     }
 
     /// <summary>Provides a comparer that defines the order of two <see cref="UsingDirectiveStatementInfo"/> instances, based on how the IDE behaves.</summary>

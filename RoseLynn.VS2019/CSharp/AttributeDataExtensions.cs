@@ -3,6 +3,8 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoseLynn.CSharp.Syntax;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RoseLynn.CSharp;
 
@@ -31,5 +33,40 @@ public static class AttributeDataExtensions
     public static AttributeSyntax? GetAttributeApplicationSyntax(this AttributeData? attribute)
     {
         return attribute?.ApplicationSyntaxReference?.GetSyntax() as AttributeSyntax;
+    }
+    /// <summary>Gets the appropriate <seealso cref="AttributeSyntax"/> node representing the attribute whose information is contained in the provided <seealso cref="AttributeData"/> instance.</summary>
+    /// <param name="attribute">The <seealso cref="AttributeData"/> whose representing <seealso cref="AttributeSyntax"/> to get.</param>
+    /// <param name="cancellationToken">The cancellation token that may cancel the operation of getting the source syntax.</param>
+    /// <returns>The <seealso cref="AttributeSyntax"/> representing the attribute whose information is in <paramref name="attribute"/>.</returns>
+    public static async Task<AttributeSyntax?> GetAttributeApplicationSyntaxAsync(this AttributeData? attribute, CancellationToken cancellationToken = default)
+    {
+        var task = attribute?.ApplicationSyntaxReference?.GetSyntaxAsync(cancellationToken);
+        if (task is null)
+            return null;
+
+        return await task as AttributeSyntax;
+    }
+
+    /// <summary>
+    /// Gets the appropriate <seealso cref="AttributeArgumentListSyntax"/> node representing the argument
+    /// list whose arguments are contained in the provided <seealso cref="AttributeData"/> instance.
+    /// </summary>
+    /// <param name="attribute">The <seealso cref="AttributeData"/> whose representing <seealso cref="AttributeArgumentListSyntax"/> to get.</param>
+    /// <returns>The <seealso cref="AttributeArgumentListSyntax"/> representing the arguments contained in the <seealso cref="AttributeData"/>.</returns>
+    public static AttributeArgumentListSyntax? GetAttributeListApplicationSyntax(this AttributeData? attribute)
+    {
+        return GetAttributeApplicationSyntax(attribute)?.ArgumentList;
+    }
+    /// <summary>
+    /// Gets the appropriate <seealso cref="AttributeArgumentListSyntax"/> node representing the argument
+    /// list whose arguments are contained in the provided <seealso cref="AttributeData"/> instance.
+    /// </summary>
+    /// <param name="attribute">The <seealso cref="AttributeData"/> whose representing <seealso cref="AttributeArgumentListSyntax"/> to get.</param>
+    /// <param name="cancellationToken">The cancellation token that may cancel the operation of getting the source syntax.</param>
+    /// <returns>The <seealso cref="AttributeArgumentListSyntax"/> representing the arguments contained in the <seealso cref="AttributeData"/>.</returns>
+    public static async Task<AttributeArgumentListSyntax?> GetAttributeListApplicationSyntaxAsync(this AttributeData? attribute, CancellationToken cancellationToken = default)
+    {
+        var syntax = await GetAttributeApplicationSyntaxAsync(attribute, cancellationToken);
+        return syntax?.ArgumentList;
     }
 }

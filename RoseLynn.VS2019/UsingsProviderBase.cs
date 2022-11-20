@@ -7,22 +7,39 @@ namespace RoseLynn;
 /// <summary>Provides a framework to prepending usings to code snippets.</summary>
 public abstract class UsingsProviderBase
 {
+    /// <summary>The default separator used when initializing a usings provider.</summary>
+    public const string DefaultSeparator = "\r\n";
+
     /// <summary>Provides the default usings provider that applies no usings.</summary>
-    public static readonly UsingsProviderBase Default = new DefaultUsingsProvider();
+    public static UsingsProviderBase Default => new DefaultUsingsProvider();
 
     /// <summary>Provides the default necessary usings for a piece of source code.</summary>
     public abstract string DefaultNecessaryUsings { get; }
 
+    /// <summary>The separator that will be applied when prepending usings to the original source code.</summary>
+    public string Separator { get; set; } = DefaultSeparator;
+
     /// <summary>Prepends the default necessary usings before the original source code and returns the new code with the usings.</summary>
     /// <param name="original">The original source code on which to prepend the usings.</param>
     /// <returns>The resulting source code with the given usings prepended to the original source code.</returns>
-    public string WithUsings(string original) => WithUsings(original, DefaultNecessaryUsings);
+    public string WithUsings(string original) => WithUsings(original, DefaultNecessaryUsings, Separator);
+
+    /// <summary>Prepends the default necessary usings before the original source code and returns the new code with the usings.</summary>
+    /// <param name="original">The original source code on which to prepend the usings.</param>
+    /// <param name="separator">The separator between the usings and the source code.</param>
+    /// <returns>The resulting source code with the given usings prepended to the original source code.</returns>
+    public string WithUsings(string original, string separator)
+    {
+        Separator = separator;
+        return WithUsings(original);
+    }
 
     /// <summary>Prepends the specified usings before the original source code and returns the new code with the specified usings.</summary>
     /// <param name="original">The original source code on which to prepend the usings.</param>
     /// <param name="usings">The usings to prepend to the source code.</param>
+    /// <param name="separator">The separator between the usings and the source code.</param>
     /// <returns>The resulting source code with the given usings prepended to the original source code.</returns>
-    public static string WithUsings(string original, string usings) => $"{usings}\n{original}";
+    public static string WithUsings(string original, string usings, string separator = DefaultSeparator) => $"{usings}{separator}{original}";
 
     /// <summary>
     /// Creates an instance of a <seealso cref="UsingsProviderBase"/> for the specified qualified names

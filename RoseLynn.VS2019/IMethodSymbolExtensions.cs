@@ -1,4 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace RoseLynn;
 
@@ -29,5 +31,59 @@ public static class IMethodSymbolExtensions
             IsGenericMethod: false,
             Parameters.IsEmpty: true,
         };
+    }
+
+    /// <summary>Gets the types of the method's parameters.</summary>
+    /// <param name="method">The method whose parameter types to get.</param>
+    /// <returns>An immutable array with the types of the parameters of the method.</returns>
+    public static ImmutableArray<ITypeSymbol> GetParameterTypes(this IMethodSymbol method)
+    {
+        return method.Parameters
+                     .Select(p => p.Type)
+                     .ToImmutableArray();
+    }
+
+    /// <summary>Gets all the used type symbols for the specified method symbol's signature.</summary>
+    /// <param name="methodSymbol">The method symbol whose used types to get.</param>
+    /// <returns>
+    /// A collection of all the types that take part in the method symbol's signature, including its parameter types
+    /// and its return type.
+    /// </returns>
+    /// <remarks>
+    /// The same types will be returned more than once if the same type is used in multiple parameters.
+    /// </remarks>
+    public static ImmutableArray<ITypeSymbol> GetUsedSignatureTypeSymbols(this IMethodSymbol methodSymbol)
+    {
+        int totalTypes = methodSymbol.Parameters.Length + 1;
+        var immutableArrayBuilder = ImmutableArray.CreateBuilder<ITypeSymbol>(totalTypes);
+
+        immutableArrayBuilder.Add(methodSymbol.ReturnType);
+
+        var parameterTypes = methodSymbol.GetParameterTypes();
+
+        immutableArrayBuilder.AddRange(parameterTypes);
+
+        return immutableArrayBuilder.ToImmutable();
+    }
+
+    /// <summary>Gets all the used type symbols for the specified method symbol.</summary>
+    /// <param name="methodSymbol">The method symbol whose used types to get.</param>
+    /// <returns>
+    /// A collection of all the types that take part in the method symbol's signature, including its parameter types,
+    /// its return type and its generic type arguments, if any. If the type arguments are not substituted,
+    /// its type parameters are returned instead.
+    /// </returns>
+    /// <remarks>
+    /// The same types will be returned more than once if the same type is used in multiple parameters, or if the
+    /// generic type parameters are used in the method's signature.
+    /// </remarks>
+    public static ImmutableArray<ITypeSymbol> GetAllUsedTypeSymbols(this IMethodSymbol methodSymbol)
+    {
+        var result = GetUsedSignatureTypeSymbols(methodSymbol);
+        if (methodSymbol.IsGenericMethod)
+        {
+            result.AddRange(methodSymbol.TypeArguments);
+        }
+        return result;
     }
 }
