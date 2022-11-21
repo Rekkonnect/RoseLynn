@@ -2,7 +2,6 @@
 using RoseLynn.CSharp;
 using RoseLynn.Utilities;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 #nullable enable annotations
@@ -88,7 +87,8 @@ public sealed class TypeSymbolUsageInfo
                 return SelectTypeSymbols(functionPointer.GetUsedSignatureTypeSymbols());
 
             case INamedTypeSymbol named:
-                return SelectTypeSymbols(GetAllUsedTypeSymbols(named));
+                var typeArguments = SelectTypeSymbols(named.TypeArguments);
+                return new SingleElementCollection<INamedTypeSymbol>(named).Concat(typeArguments);
 
             default:
                 return new[] { GetUsedNamedTypeSymbol(typeSymbol) };
@@ -99,16 +99,5 @@ public sealed class TypeSymbolUsageInfo
     {
         return types
               .SelectMany(GetUsedNamedTypeSymbols);
-    }
-
-    private static ImmutableArray<ITypeSymbol> GetAllUsedTypeSymbols(INamedTypeSymbol namedTypeSymbol)
-    {
-        int typeCount = namedTypeSymbol.Arity + 1;
-        var immutableBuilder = ImmutableArray.CreateBuilder<ITypeSymbol>(typeCount);
-
-        immutableBuilder.Add(namedTypeSymbol);
-        immutableBuilder.AddRange(namedTypeSymbol.TypeArguments);
-
-        return immutableBuilder.ToImmutable();
     }
 }
