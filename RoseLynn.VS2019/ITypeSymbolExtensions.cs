@@ -144,4 +144,31 @@ public static class ITypeSymbolExtensions
         foreach (var baseInterface in interfaces)
             yield return baseInterface;
     }
+
+    /// <summary>
+    /// Gets a deep 
+    /// </summary>
+    /// <param name="typeSymbol"></param>
+    /// <param name="qualifiers"></param>
+    /// <returns></returns>
+    public static ISymbol? GetQualifiedMember(this ITypeSymbol typeSymbol, string[] qualifiers)
+    {
+        ISymbol? currentMember = null;
+        var currentType = typeSymbol;
+        for (int i = 0; i < qualifiers.Length; i++)
+        {
+            var members = currentType.GetMembers();
+            var fieldsProperties = members.Where(IsFieldOrProperty);
+            var targetMember = fieldsProperties.FirstOrDefault(m => m.Name == qualifiers[i]);
+            if (targetMember is null)
+            {
+                break;
+            }
+
+            currentType = targetMember.GetSymbolType();
+            currentMember = targetMember;
+        }
+
+        return currentMember;
+    }
 }

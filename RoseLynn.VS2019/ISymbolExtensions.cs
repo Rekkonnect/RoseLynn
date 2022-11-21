@@ -454,4 +454,19 @@ public static class ISymbolExtensions
             _ => null,
         };
     }
+
+    /// <summary>
+    /// Determines whether the symbol is a field or a property symbol.
+    /// </summary>
+    /// <param name="symbol">The symbol to check for its type.</param>
+    /// <returns>
+    /// <see langword="true"/> if the symbol instance inherits <seealso cref="IFieldSymbol"/>
+    /// or <seealso cref="IPropertySymbol"/>, otherwise <see langword="false"/>.
+    /// </returns>
+    public static bool IsFieldOrProperty(this ISymbol? symbol)
+    {
+        return symbol
+            is IFieldSymbol
+            or IPropertySymbol;
+    }
 }
