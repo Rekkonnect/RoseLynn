@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
+// TODO: Renamespace
 namespace RoseLynn.Generators.Testing;
 
 /// <summary>
@@ -28,14 +29,14 @@ public abstract class CSharpSourceGeneratorTestEx<TSourceGenerator, TVerifier> :
     /// Gets the language version to operate upon.
     /// </summary>
     public LanguageVersion LanguageVersion { get; set; } = LanguageVersion.LatestMajor;
-    
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
     public CSharpSourceGeneratorTestEx()
     {
         TestState.AdditionalReferences.AddRange(AdditionalReferences);
     }
-    
+
     protected override ParseOptions CreateParseOptions()
     {
         return (base.CreateParseOptions() as CSharpParseOptions).WithLanguageVersion(LanguageVersion);

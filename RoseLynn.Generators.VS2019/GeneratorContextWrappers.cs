@@ -27,6 +27,24 @@ public abstract record GeneratorContextWrapperBase
 
         HasFetchedInformation = true;
     }
+
+    /// <summary>
+    /// Fetches the additional information that is to be mapped to the specified generator context,
+    /// if <seealso cref="HasFetchedInformation"/> is <see langword="false"/>.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token that will be used to notify the operation's cancellation.</param>
+    /// <remarks>
+    /// This method is not automatically invoked, and may be used for lazily loading that additional information.
+    /// If the operation is cancelled through the provided <seealso cref="CancellationToken"/>, <seealso cref="HasFetchedInformation"/>
+    /// will remain <see langword="false"/>, regardless of the operations that have been successfully executed.
+    /// </remarks>
+    public void EnsureFetchedAdditionalInformation(CancellationToken cancellationToken = default)
+    {
+        if (HasFetchedInformation)
+            return;
+
+        FetchAdditionalInformation(cancellationToken);
+    }
 }
 
 /// <summary>Wraps a <seealso cref="GeneratorSyntaxContext"/> allowing for custom information to be mapped to the specified context.</summary>

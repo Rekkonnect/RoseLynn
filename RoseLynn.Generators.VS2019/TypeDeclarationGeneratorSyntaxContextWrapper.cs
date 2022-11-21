@@ -16,13 +16,15 @@ public abstract record TypeDeclarationGeneratorSyntaxContextWrapper<TTypeDeclara
     /// This is not automatically loaded; <see cref="FetchAdditionalInformation(CancellationToken)"/>
     /// must have been invoked beforehand.
     /// </remarks>
-    public INamedTypeSymbol DeclaredSymbol { get; private set; }
+    public INamedTypeSymbol? DeclaredSymbol { get; private set; }
 
     /// <summary>Gets the node in the <seealso cref="GeneratorSyntaxContext"/> as a <typeparamref name="TTypeDeclarationSyntax"/>.</summary>
-    public TTypeDeclarationSyntax DeclarationSyntax => Context.Node as TTypeDeclarationSyntax;
+    public TTypeDeclarationSyntax? DeclarationSyntax => Context.Node as TTypeDeclarationSyntax;
 
     /// <summary>
     /// Fetches the declared symbol that the node in the <seealso cref="GeneratorSyntaxContext"/> represents.
+    /// If the <seealso cref="DeclarationSyntax"/> is not of the specified type, it is considered <see langword="null"/>
+    /// and thus the <seealso cref="DeclaredSymbol"/> will also be <see langword="null"/>.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token that will be used to notify the operation's cancellation.</param>
     /// <remarks>
@@ -30,7 +32,11 @@ public abstract record TypeDeclarationGeneratorSyntaxContextWrapper<TTypeDeclara
     /// </remarks>
     public override void FetchAdditionalInformation(CancellationToken cancellationToken = default)
     {
-        DeclaredSymbol = Context.SemanticModel.GetDeclaredSymbol(DeclarationSyntax, cancellationToken) as INamedTypeSymbol;
+        if (DeclarationSyntax is not null)
+        {
+            DeclaredSymbol = Context.SemanticModel.GetDeclaredSymbol(DeclarationSyntax, cancellationToken) as INamedTypeSymbol;
+        }
+
         base.FetchAdditionalInformation(cancellationToken);
     }
 }
