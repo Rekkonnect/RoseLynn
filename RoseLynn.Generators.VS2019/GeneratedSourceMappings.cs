@@ -10,6 +10,11 @@ namespace RoseLynn.Generators;
 /// </summary>
 public sealed class GeneratedSourceMappings : SortedDictionary<string, SourceText>
 {
+    /// <summary>
+    /// Gets or sets the default encoding to use when adding new sources using the <see langword="string"/> overloads.
+    /// </summary>
+    public Encoding DefaultEncoding { get; set; } = Encoding.UTF8;
+
     public GeneratedSourceMappings() { }
     public GeneratedSourceMappings(IComparer<string> hintNameComparer)
         : base(hintNameComparer) { }
@@ -21,7 +26,7 @@ public sealed class GeneratedSourceMappings : SortedDictionary<string, SourceTex
     /// <param name="source">The generated source that will be added to the dictionary.</param>
     public void Add(string hintName, string source)
     {
-        Add(hintName, SourceText.From(source, Encoding.UTF8));
+        Add(hintName, SourceText.From(source, DefaultEncoding));
     }
 
     /// <summary>
@@ -31,6 +36,6 @@ public sealed class GeneratedSourceMappings : SortedDictionary<string, SourceTex
     /// <param name="source">The new generated source that will be mapped to the given hint name.</param>
     public void Set(string hintName, string source)
     {
-        this[hintName] = SourceText.From(source, Encoding.UTF8);
+        this[hintName] = SourceText.From(source, DefaultEncoding);
     }
 }

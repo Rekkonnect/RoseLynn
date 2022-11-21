@@ -29,27 +29,36 @@ public sealed class GeneratorExecutionConductor
         get => extension;
         set
         {
-            extension = ProcessExtension(value);
-
-            static string ProcessExtension(string value)
-            {
-                if (string.IsNullOrEmpty(value))
-                    return string.Empty;
-
-                bool startsWithPeriod = value.StartsWith(".");
-                if (!startsWithPeriod)
-                    value = $".{value}";
-                return value;
-            }
+            extension = value.EnsureStartsWith(".");
         }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <seealso cref="GeneratorExecutionConductor"/> class from a
+    /// <seealso cref="GeneratorExecutionContext"/> instance.
+    /// </summary>
+    /// <param name="context">
+    /// The <seealso cref="GeneratorExecutionContext"/> that links the compilation that the genrator acts upon.
+    /// </param>
+    /// <remarks>
+    /// Upon construction, <see cref="Extension"/> is set to the detected language of the compilation
+    /// the context refers to.
+    /// </remarks>
     public GeneratorExecutionConductor(GeneratorExecutionContext context)
         : this(context, Comparer<string>.Default) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <seealso cref="GeneratorExecutionConductor"/> class from a
+    /// <seealso cref="GeneratorExecutionContext"/> instance and a custom <seealso cref="IComparer{T}"/>
+    /// for the <seealso cref="HintNameComparer"/>.
+    /// </summary>
+    /// <param name="hintNameComparer">The custom hint name comparer that will be used for <seealso cref="HintNameComparer"/>.</param>
+    /// <inheritdoc cref="GeneratorExecutionConductor(GeneratorExecutionContext)"/>
     public GeneratorExecutionConductor(GeneratorExecutionContext context, IComparer<string> hintNameComparer)
     {
         Context = context;
         sourceMappings = new(hintNameComparer);
+        SetCommonGeneratedSourceFileExtension(context.GetCompilationLanguage());
     }
 
     /// <summary>Registers a source that will be added to the provided context.</summary>
@@ -64,6 +73,14 @@ public sealed class GeneratorExecutionConductor
     public void AddSource(string hintName, SourceText source)
     {
         sourceMappings.Add(FullHintName(hintName), source);
+    }
+
+    /// <inheritdoc cref="AddSource(string, string)"/>
+    /// <param name="source">The source to add.</param>
+    /// <param name="usingsProvider">The <seealso cref="UsingsProviderBase"/> whose usings to prepend to the given source.</param>
+    public void AddSource(string hintName, string source, UsingsProviderBase usingsProvider)
+    {
+        AddSource(hintName, usingsProvider.WithUsings(source));
     }
 
     /// <summary>Removes the source that was added with the given hint name.</summary>

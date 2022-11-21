@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace RoseLynn.CSharp.Syntax;
+namespace RoseLynn.CSharp.Syntax.VS2019;
 
 #nullable enable
 
@@ -15,10 +15,17 @@ public static class MemberDeclarationSyntaxExtensions
     {
         return declarationSyntax switch
         {
-            // VS2019 does not support namespace declarations
-            BaseNamespaceDeclarationSyntax namespaceDeclaration => namespaceDeclaration.Name,
+            NamespaceDeclarationSyntax namespaceDeclaration => namespaceDeclaration.Name,
+            BaseTypeDeclarationSyntax typeDeclarationSyntax => typeDeclarationSyntax.Identifier,
 
-            _ => VS2019.MemberDeclarationSyntaxExtensions.GetIdentifierTokenOrNameSyntax(declarationSyntax),
+            PropertyDeclarationSyntax propertyDeclarationSyntax => propertyDeclarationSyntax.Identifier,
+            EventDeclarationSyntax eventDeclarationSyntax => eventDeclarationSyntax.Identifier,
+            // Fields use VariableDeclarationSyntax, and it doesn't reflect a single name
+
+            MethodDeclarationSyntax methodDeclarationSyntax => methodDeclarationSyntax.Identifier,
+            ConstructorDeclarationSyntax constructorDeclarationSyntax => constructorDeclarationSyntax.Identifier,
+
+            _ => default,
         };
     }
 }

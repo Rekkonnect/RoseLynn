@@ -9,7 +9,7 @@ namespace RoseLynn.Utilities;
 
 /// <summary>Represents a <seealso cref="IReadOnlyCollection{T}"/> that contains a single element.</summary>
 /// <typeparam name="T">The type of the collection</typeparam>
-public struct SingleElementCollection<T> : IReadOnlyCollection<T?>, IEquatable<SingleElementCollection<T?>>
+public readonly struct SingleElementCollection<T> : IReadOnlyCollection<T?>, IEquatable<SingleElementCollection<T?>>
 {
     private readonly T? element;
 

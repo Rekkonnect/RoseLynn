@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace RoseLynn.CSharp.Syntax;
 
@@ -46,6 +47,10 @@ public static class UsingDirectiveKindExtensions
     {
         return WithFlag(kind, UsingDirectiveKind.Global, isGlobal);
     }
+    public static UsingDirectiveKind WithStatic(this UsingDirectiveKind kind, bool isStatic)
+    {
+        return WithFlag(kind, UsingDirectiveKind.Static, isStatic);
+    }
     public static UsingDirectiveKind WithFlag(this UsingDirectiveKind kind, UsingDirectiveKind flag, bool toggle)
     {
         if (toggle)
@@ -57,4 +62,27 @@ public static class UsingDirectiveKindExtensions
     }
 
     public static UsingDirectiveKind GetDirectiveKind(this UsingDirectiveKind kind) => kind & UsingDirectiveKind.UsingDirectiveMask;
+
+    /// <summary>Determines whether the <seealso cref="UsingDirectiveKind"/> contains a directive kind flag.</summary>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> value whose directive kind to evaluate.</param>
+    /// <returns><see langword="true"/> if <seealso cref="GetDirectiveKind(UsingDirectiveKind)"/> returns a non-zero value, otherwise <see langword="false"/>.</returns>
+    public static bool HasDirectiveKind(this UsingDirectiveKind kind)
+    {
+        return kind.GetDirectiveKind() is not 0;
+    }
+    /// <summary>
+    /// Validates that the <seealso cref="UsingDirectiveKind"/> contains a directive kind flag,
+    /// throwing an exception upon absence of such a flag.
+    /// </summary>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> value whose directive kind presence to assert.</param>
+    /// <exception cref="InvalidEnumArgumentException">
+    /// Thrown if the provided <seealso cref="UsingDirectiveKind"/> value does not have a directive kind flag.
+    /// </exception>
+    public static void ValidateDirectiveKindPresence(this UsingDirectiveKind kind)
+    {
+        if (!HasDirectiveKind(kind))
+        {
+            throw new InvalidEnumArgumentException("The using directive kind must contain a directive kind (using or alias).");
+        }
+    }
 }

@@ -10,7 +10,11 @@ public static class MetadataReferenceFactory
     /// <summary>Creates a <seealso cref="PortableExecutableReference"/> instance out of an <seealso cref="Assembly"/>.</summary>
     /// <param name="assembly">The assembly from which to create the <seealso cref="PortableExecutableReference"/>.</param>
     /// <returns>The <see cref="PortableExecutableReference"/> to the provided assembly.</returns>
-    /// <remarks>This acts as a replacement for the now-obsolete <seealso cref="MetadataReference.CreateFromAssembly(Assembly)"/> function.</remarks>
+    /// <remarks>
+    /// This acts as a replacement for the now-obsolete <seealso cref="MetadataReference.CreateFromAssembly(Assembly)"/> function.
+    /// The mechanism relies on the assembly's location, which might be an empty string if the assembly was loaded from a raw byte sequence.
+    /// In such a case, the method will fail.
+    /// </remarks>
     public static PortableExecutableReference CreateFromAssembly(Assembly assembly)
     {
         return MetadataReference.CreateFromFile(assembly.Location);

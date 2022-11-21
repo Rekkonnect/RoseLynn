@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace RoseLynn;
 
-#nullable enable
+#nullable enable annotations
 
 /// <summary>Contains extensions for the <seealso cref="Compilation"/> class.</summary>
 public static class CompilationExtensions
@@ -59,8 +59,7 @@ public static class CompilationExtensions
     {
         return compilation.References
             .Select(compilation.GetAssemblyOrModuleSymbol)
-            .Where(s => s is not null)
-            as IEnumerable<ISymbol>; // for the nullability warning
+            .Where(s => s is not null);
     }
     /// <summary>Gets all the referenced assembly symbols of the <seealso cref="Compilation"/>.</summary>
     /// <param name="compilation">The <seealso cref="Compilation"/> whose referenced assembly symbols to get.</param>
@@ -68,7 +67,14 @@ public static class CompilationExtensions
     public static IEnumerable<ISymbol> GetAllAssemblySymbols(this Compilation compilation)
     {
         return compilation.SourceModule.ReferencedAssemblySymbols
-            .Concat(compilation.Assembly.ToSingleElementCollection())
-            as IEnumerable<ISymbol>; // for the nullability warning
+            .Concat(compilation.Assembly.ToSingleElementCollection());
+    }
+
+    /// <summary>Gets the <seealso cref="NETLanguage"/> value representing the source language of the compilation.</summary>
+    /// <param name="compilation">The compilation whose source language to parse into a <seealso cref="NETLanguage"/> value.</param>
+    /// <returns>The <seealso cref="NETLanguage"/> of the compilation.</returns>
+    public static NETLanguage GetNETLanguage(this Compilation compilation)
+    {
+        return LanguageFacts.MapToNETLanguage(compilation.Language);
     }
 }
