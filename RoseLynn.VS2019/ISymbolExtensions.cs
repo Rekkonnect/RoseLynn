@@ -17,18 +17,20 @@ public static class ISymbolExtensions
     {
         return symbol switch
         {
-            INamespaceSymbol   => IdentifiableSymbolKind.Namespace,
+            INamespaceSymbol     => IdentifiableSymbolKind.Namespace,
 
-            ITypeSymbol type   => GetIdentifiableSymbolKind(type),
+            ITypeSymbol type     => GetIdentifiableSymbolKind(type),
 
-            IParameterSymbol   => IdentifiableSymbolKind.Parameter,
+            IParameterSymbol     => IdentifiableSymbolKind.Parameter,
 
-            IEventSymbol       => IdentifiableSymbolKind.Event,
-            IFieldSymbol       => IdentifiableSymbolKind.Field,
-            IPropertySymbol    => IdentifiableSymbolKind.Property,
-            IMethodSymbol      => IdentifiableSymbolKind.Method,
+            IEventSymbol         => IdentifiableSymbolKind.Event,
+            IFieldSymbol         => IdentifiableSymbolKind.Field,
+            IPropertySymbol      => IdentifiableSymbolKind.Property,
+            IMethodSymbol        => IdentifiableSymbolKind.Method,
 
-            IAliasSymbol alias => IdentifiableSymbolKind.Alias | GetIdentifiableSymbolKind(alias.Target),
+            IPreprocessingSymbol => IdentifiableSymbolKind.Preprocessing,
+
+            IAliasSymbol alias   => IdentifiableSymbolKind.Alias | GetIdentifiableSymbolKind(alias.Target),
 
             _ => IdentifiableSymbolKind.None,
         };
