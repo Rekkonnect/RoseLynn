@@ -23,11 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.VS2019", "RoseLynn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Generators.VS2019", "RoseLynn.Generators.VS2019\RoseLynn.Generators.VS2019.csproj", "{61235ABC-36B8-4497-A0CC-E60AD148308E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.Testing.VS2019", "RoseLynn.Testing.VS2019\RoseLynn.Testing.VS2019.csproj", "{3FAA17E5-6CD0-4FDD-AF39-0E73DBA6DAD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Testing.VS2019", "RoseLynn.Testing.VS2019\RoseLynn.Testing.VS2019.csproj", "{3FAA17E5-6CD0-4FDD-AF39-0E73DBA6DAD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.Analyzers.VS2019", "RoseLynn.Analyzers.VS2019\RoseLynn.Analyzers.VS2019.csproj", "{C827A4F7-3604-44EA-BE24-5D615C04CBBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Analyzers.VS2019", "RoseLynn.Analyzers.VS2019\RoseLynn.Analyzers.VS2019.csproj", "{C827A4F7-3604-44EA-BE24-5D615C04CBBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.CodeFixes.VS2019", "RoseLynn.CodeFixes.VS2019\RoseLynn.CodeFixes.VS2019.csproj", "{AEF76E9B-EDA9-4294-854F-1CF0015749E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.CodeFixes.VS2019", "RoseLynn.CodeFixes.VS2019\RoseLynn.CodeFixes.VS2019.csproj", "{AEF76E9B-EDA9-4294-854F-1CF0015749E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseLynn.PackageDeployment", "RoseLynn.PackageDeployment\RoseLynn.PackageDeployment.csproj", "{71C0DDFD-81B6-4E03-A41F-82165D856825}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{AEF76E9B-EDA9-4294-854F-1CF0015749E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEF76E9B-EDA9-4294-854F-1CF0015749E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEF76E9B-EDA9-4294-854F-1CF0015749E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71C0DDFD-81B6-4E03-A41F-82165D856825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C0DDFD-81B6-4E03-A41F-82165D856825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71C0DDFD-81B6-4E03-A41F-82165D856825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71C0DDFD-81B6-4E03-A41F-82165D856825}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

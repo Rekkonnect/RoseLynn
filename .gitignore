@@ -368,3 +368,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+RoseLynn.PackageDeployment/Secrets/apikey.txt
+RoseLynn.PackageDeployment/Secrets/testapikey.txt
+RoseLynn.PackageDeployment/HardProjectInfo.cs
