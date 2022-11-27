@@ -9,9 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="Garyon" Version="0.2.7" />
-    <PackageReference Include="NuGet.PackageManagement" Version="3.5.0" />
-    <PackageReference Include="NuGet.Packaging" Version="3.5.0" />
-    <PackageReference Include="NuGet.Protocol.Core.v3" Version="3.5.0" />
+    <PackageReference Include="NuGet.PackageManagement" Version="6.4.0" />
+    <PackageReference Include="NuGet.Packaging" Version="6.4.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>

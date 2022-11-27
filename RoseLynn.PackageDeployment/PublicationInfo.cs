@@ -1,5 +1,5 @@
 ﻿// COMMENT THIS LINE TO AVOID PUSHING TO TEST API
-#define TEST_PACKAGES
+//#define TEST_PACKAGES
 
 namespace RoseLynn.PackageDeployment;
 

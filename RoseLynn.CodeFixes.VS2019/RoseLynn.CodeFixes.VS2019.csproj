@@ -6,6 +6,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Version>0.6.1</Version>
     <PackageVersion>0.6.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
@@ -16,6 +17,10 @@
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup Label="README reference">
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup Label="Microsoft.CodeAnalysis">
     <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="3.11.0" />
