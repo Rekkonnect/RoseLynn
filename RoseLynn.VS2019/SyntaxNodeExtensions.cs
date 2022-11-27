@@ -2,6 +2,8 @@
 
 namespace RoseLynn;
 
+#nullable enable
+
 /// <summary>Provides useful extensions for the <seealso cref="SyntaxNode"/> type.</summary>
 public static class SyntaxNodeExtensions
 {
@@ -9,7 +11,7 @@ public static class SyntaxNodeExtensions
     /// <typeparam name="T">The type of the parent to get.</typeparam>
     /// <param name="node">The node whose parents to evaluate.</param>
     /// <returns>The parent that is the closest to the given node, and is of type <typeparamref name="T"/>.</returns>
-    public static T GetNearestParentOfType<T>(this SyntaxNode node)
+    public static T? GetNearestParentOfType<T>(this SyntaxNode node)
         where T : SyntaxNode
     {
         var parent = node;

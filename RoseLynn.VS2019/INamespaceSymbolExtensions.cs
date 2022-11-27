@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using RoseLynn.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,5 +67,54 @@ public static class INamespaceSymbolExtensions
         var types = namespaceSymbol.GetTypeMembers();
         var namespaces = namespaceSymbol.GetNamespaceMembers();
         return types.Concat(namespaces.SelectMany(GetAllContainedTypes));
+    }
+
+    /// <inheritdoc cref="GetQualifiedMember(INamespaceSymbol, Span{string})"/>
+    public static ISymbol? GetQualifiedMember(this INamespaceSymbol namespaceSymbol, params string[] qualifiers)
+    {
+        return GetQualifiedMember(namespaceSymbol, qualifiers.AsSpan());
+    }
+
+    /// <summary>
+    /// Gets a member accessed by its qualifiers from a higher level.
+    /// </summary>
+    /// <param name="namespaceSymbol">The namespace symbol whose members to get.</param>
+    /// <param name="qualifiers">The qualifiers directing the member to get.</param>
+    /// <returns>
+    /// The member accessed via the given qualifiers.<br/>
+    /// For example, if a namespace A.B.C contains a type D with a <see langword="string"/> property
+    /// named String1, the qualifiers { "A", "B", "C", "D", "String1", "Length" } with the initial
+    /// namespace symbol being the compilation's global namespace, will return the
+    /// <seealso cref="string.Length"/> property of the <see langword="string"/> type.
+    /// </returns>
+    public static ISymbol? GetQualifiedMember(this INamespaceSymbol namespaceSymbol, Span<string> qualifiers)
+    {
+        var currentNamespace = namespaceSymbol;
+        for (int i = 0; i < qualifiers.Length; i++)
+        {
+            var qualifier = qualifiers[i];
+            var members = currentNamespace.GetMembers();
+            var targetMember = members.FirstOrDefault(m => m.Name == qualifier);
+            switch (targetMember)
+            {
+                case null:
+                    return null;
+
+                case ITypeSymbol targetType:
+                    if (i == qualifier.Length - 1)
+                    {
+                        return targetType;
+                    }
+
+                    var nextQualifiers = qualifiers.Slice(i + 1);
+                    return targetType.GetQualifiedMember(nextQualifiers);
+
+                case INamespaceSymbol targetNamespace:
+                    currentNamespace = targetNamespace;
+                    break;
+            }
+        }
+
+        return currentNamespace;
     }
 }

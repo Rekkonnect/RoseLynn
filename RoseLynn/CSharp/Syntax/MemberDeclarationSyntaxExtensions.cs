@@ -15,7 +15,7 @@ public static class MemberDeclarationSyntaxExtensions
     {
         return declarationSyntax switch
         {
-            // VS2019 does not support namespace declarations
+            // VS2019 does not support file-scoped namespace declarations
             BaseNamespaceDeclarationSyntax namespaceDeclaration => namespaceDeclaration.Name,
 
             _ => VS2019.MemberDeclarationSyntaxExtensions.GetIdentifierTokenOrNameSyntax(declarationSyntax),

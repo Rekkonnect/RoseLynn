@@ -144,4 +144,42 @@ public static class ITypeSymbolExtensions
         foreach (var baseInterface in interfaces)
             yield return baseInterface;
     }
+
+    /// <inheritdoc cref="GetQualifiedMember(ITypeSymbol, Span{string})"/>
+    public static ISymbol? GetQualifiedMember(this ITypeSymbol typeSymbol, params string[] qualifiers)
+    {
+        return GetQualifiedMember(typeSymbol, qualifiers.AsSpan());
+    }
+
+    /// <summary>
+    /// Gets a member accessed by its qualifiers from a higher level.
+    /// </summary>
+    /// <param name="typeSymbol">The type symbol whose members to get.</param>
+    /// <param name="qualifiers">The qualifiers directing the member to get.</param>
+    /// <returns>
+    /// The member accessed via the given qualifiers.<br/>
+    /// For example, if a type contains a <see langword="string"/> property named String1,
+    /// the qualifiers { "String1", "Length" } will return the <seealso cref="string.Length"/>
+    /// property of the <see langword="string"/> type.
+    /// </returns>
+    public static ISymbol? GetQualifiedMember(this ITypeSymbol typeSymbol, Span<string> qualifiers)
+    {
+        ISymbol? currentMember = null;
+        var currentType = typeSymbol;
+        foreach (string qualifier in qualifiers)
+        {
+            var members = currentType.GetMembers();
+            var fieldsProperties = members.Where(ISymbolExtensions.IsFieldOrProperty);
+            var targetMember = fieldsProperties.FirstOrDefault(m => m.Name == qualifier);
+            if (targetMember is null)
+            {
+                return null;
+            }
+
+            currentType = targetMember.GetSymbolType()!;
+            currentMember = targetMember;
+        }
+
+        return currentMember;
+    }
 }

@@ -17,18 +17,20 @@ public static class ISymbolExtensions
     {
         return symbol switch
         {
-            INamespaceSymbol   => IdentifiableSymbolKind.Namespace,
+            INamespaceSymbol     => IdentifiableSymbolKind.Namespace,
 
-            ITypeSymbol type   => GetIdentifiableSymbolKind(type),
+            ITypeSymbol type     => GetIdentifiableSymbolKind(type),
 
-            IParameterSymbol   => IdentifiableSymbolKind.Parameter,
+            IParameterSymbol     => IdentifiableSymbolKind.Parameter,
 
-            IEventSymbol       => IdentifiableSymbolKind.Event,
-            IFieldSymbol       => IdentifiableSymbolKind.Field,
-            IPropertySymbol    => IdentifiableSymbolKind.Property,
-            IMethodSymbol      => IdentifiableSymbolKind.Method,
+            IEventSymbol         => IdentifiableSymbolKind.Event,
+            IFieldSymbol         => IdentifiableSymbolKind.Field,
+            IPropertySymbol      => IdentifiableSymbolKind.Property,
+            IMethodSymbol        => IdentifiableSymbolKind.Method,
 
-            IAliasSymbol alias => IdentifiableSymbolKind.Alias | GetIdentifiableSymbolKind(alias.Target),
+            IPreprocessingSymbol => IdentifiableSymbolKind.Preprocessing,
+
+            IAliasSymbol alias   => IdentifiableSymbolKind.Alias | GetIdentifiableSymbolKind(alias.Target),
 
             _ => IdentifiableSymbolKind.None,
         };
@@ -453,5 +455,20 @@ public static class ISymbolExtensions
             ITypeSymbol t => t,
             _ => null,
         };
+    }
+
+    /// <summary>
+    /// Determines whether the symbol is a field or a property symbol.
+    /// </summary>
+    /// <param name="symbol">The symbol to check for its type.</param>
+    /// <returns>
+    /// <see langword="true"/> if the symbol instance inherits <seealso cref="IFieldSymbol"/>
+    /// or <seealso cref="IPropertySymbol"/>, otherwise <see langword="false"/>.
+    /// </returns>
+    public static bool IsFieldOrProperty(this ISymbol? symbol)
+    {
+        return symbol
+            is IFieldSymbol
+            or IPropertySymbol;
     }
 }

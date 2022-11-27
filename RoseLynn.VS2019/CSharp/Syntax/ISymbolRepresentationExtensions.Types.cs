@@ -1,11 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RoseLynn.CSharp.Syntax;
 
-/// <summary>Contains helper methods involving representations of <seealso cref="ITypeSymbol"/> instances.</summary>
-public static class ITypeSymbolRepresentationExtensions
+/// <summary>Contains helper methods involving representations of <seealso cref="ISymbol"/> instances.</summary>
+public static partial class ISymbolRepresentationExtensions
 {
     /// <summary>Gets the full representation of the type symbol.</summary>
     /// <param name="typeSymbol">The type symbol whose representation to get.</param>
@@ -50,9 +49,7 @@ public static class ITypeSymbolRepresentationExtensions
     {
         if (typeSymbol.IsGenericType)
         {
-            var typeArgumentNames = typeSymbol.TypeArguments.Select(GetRepresentationForType);
-            var typeArgumentList = string.Join(", ", typeArgumentNames);
-            return $"{typeSymbol.Name}<{typeArgumentList}>";
+            return GetClosedGenericName(typeSymbol.Name, typeSymbol.TypeArguments);
         }
 
         return typeSymbol.GetKeywordIdentifierForPredefinedType()
@@ -79,9 +76,6 @@ public static class ITypeSymbolRepresentationExtensions
 
         signatureTypes.Add(functionPointerSymbol.Signature.ReturnType);
 
-        var signatureIdentifiers = signatureTypes.Select(GetRepresentationForType);
-        var signatureIdentifierList = string.Join(", ", signatureIdentifiers);
-
-        return $"delegate*<{signatureIdentifierList}>";
+        return GetClosedGenericName("delegate*", signatureTypes);
     }
 }

@@ -58,6 +58,10 @@ public enum IdentifiableSymbolKind : uint
     /// <summary>The mask for the field, property, event and method symbol kinds.</summary>
     MemberMask = Field | Property | Event | Method,
 
+    // Misc
+    /// <summary>Represents the preprocessing symbol kind.</summary>
+    Preprocessing = 1 << 25,
+
     // Flags
     /// <summary>Represents the alias symbol kind. This flag indicates that the symbol kind appeared with an alias. The flag is paired with the actual symbol kind.</summary>
     Alias = 1U << 31,

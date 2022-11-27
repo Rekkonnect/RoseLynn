@@ -65,4 +65,9 @@ public static class TypeParameterConstraintClauseSyntaxExtensions
         segmentation.AddConstraints(constraints);
         return segmentation.WithTheseConstraints(constraintClause);
     }
+
+    public static string ConstrainedTypeParameterName(this TypeParameterConstraintClauseSyntax clause)
+    {
+        return clause.Name.Identifier.Text;
+    }
 }

@@ -53,15 +53,11 @@ public static class NameSyntaxExtensions
 
     private static SimpleNameSyntax GetSelfAsParentNameSyntaxOrThrow(NameSyntax nameSyntax)
     {
-        return GetSelfAsParentNameSyntax(nameSyntax) ?? throw new ArgumentException("The provided name syntax does not represent a simple ");
+        return GetSelfAsParentNameSyntax(nameSyntax)
+            ?? throw new ArgumentException("The provided name syntax does not represent a simple name.");
     }
     private static SimpleNameSyntax? GetSelfAsParentNameSyntax(NameSyntax nameSyntax)
     {
-        return nameSyntax switch
-        {
-            SimpleNameSyntax simpleNameSyntax => simpleNameSyntax,
-
-            _ => null,
-        };
+        return nameSyntax as SimpleNameSyntax;
     }
 }
