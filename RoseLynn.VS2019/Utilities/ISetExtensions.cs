@@ -22,5 +22,5 @@ public static class ISetExtensions
     public static bool ContainsAll<T>(this ISet<T> set, IEnumerable<T> other)
     {
         return set.IsSupersetOf(other);
-    }    
+    }
 }

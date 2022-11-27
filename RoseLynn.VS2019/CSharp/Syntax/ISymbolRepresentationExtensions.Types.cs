@@ -78,5 +78,4 @@ public static partial class ISymbolRepresentationExtensions
 
         return GetClosedGenericName("delegate*", signatureTypes);
     }
-
 }

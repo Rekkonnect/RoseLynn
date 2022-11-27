@@ -6,8 +6,14 @@ namespace RoseLynn.CSharp.Syntax;
 /// <summary>Represents a target in an attribute list.</summary>
 public enum AttributeListTarget
 {
+    /// <summary>
+    /// Represents no attribute list target, meaning there is no
+    /// attributable member the attribute can be applied to.
+    /// </summary>
+    None = -1,
+
     /// <summary>Represents the default target, that is, the attribute list has no target identifier.</summary>
-    Default,
+    Default = 0,
 
     /// <summary>Represents the <see langword="assembly"/> target.</summary>
     Assembly,
@@ -27,6 +33,8 @@ public enum AttributeListTarget
     Return,
     /// <summary>Represents the <see langword="type"/> target.</summary>
     Type,
+    /// <summary>Represents the <see langword="typevar"/> target.</summary>
+    TypeVar,
 }
 
 internal static class AttributeListTargetCaches
@@ -38,7 +46,7 @@ internal static class AttributeListTargetCaches
         var values = EnumHelpers.GetValues<AttributeListTarget>();
         foreach (var targetValue in values)
         {
-            if (targetValue is AttributeListTarget.Default)
+            if (targetValue <= AttributeListTarget.Default)
                 continue;
 
             var syntaxKindValue = EnumHelpers.Parse<SyntaxKind>($"{targetValue}Keyword");
