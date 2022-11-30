@@ -14,8 +14,8 @@ public sealed class GeneratorExecutionConductor
     private readonly GeneratedSourceMappings sourceMappings;
     private string extension = string.Empty;
 
-    /// <summary>Gets the <seealso cref="GeneratorExecutionContext"/> that this instance reflects upon.</summary>
-    public GeneratorExecutionContext Context { get; }
+    /// <summary>Gets the <seealso cref="IGeneratorExecutionContext"/> that this instance reflects upon.</summary>
+    public IGeneratorExecutionContext Context { get; }
 
     /// <summary>Gets the generated sources dictionary.</summary>
     public IDictionary<string, SourceText> GeneratedSources => sourceMappings;
@@ -55,10 +55,34 @@ public sealed class GeneratorExecutionConductor
     /// <param name="hintNameComparer">The custom hint name comparer that will be used for <seealso cref="HintNameComparer"/>.</param>
     /// <inheritdoc cref="GeneratorExecutionConductor(GeneratorExecutionContext)"/>
     public GeneratorExecutionConductor(GeneratorExecutionContext context, IComparer<string> hintNameComparer)
+        : this(context.RoseContext(), hintNameComparer) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <seealso cref="GeneratorExecutionConductor"/> class from an
+    /// <seealso cref="IGeneratorExecutionContext"/> instance.
+    /// </summary>
+    /// <param name="context">
+    /// The <seealso cref="IGeneratorExecutionContext"/> that links the compilation that the genrator acts upon.
+    /// </param>
+    /// <remarks>
+    /// Upon construction, <see cref="Extension"/> is set to the detected language of the compilation
+    /// the context refers to.
+    /// </remarks>
+    public GeneratorExecutionConductor(IGeneratorExecutionContext context)
+        : this(context, Comparer<string>.Default) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <seealso cref="GeneratorExecutionConductor"/> class from an
+    /// <seealso cref="IGeneratorExecutionContext"/> instance and a custom <seealso cref="IComparer{T}"/>
+    /// for the <seealso cref="HintNameComparer"/>.
+    /// </summary>
+    /// <param name="hintNameComparer">The custom hint name comparer that will be used for <seealso cref="HintNameComparer"/>.</param>
+    /// <inheritdoc cref="GeneratorExecutionConductor(IGeneratorExecutionContext)"/>
+    public GeneratorExecutionConductor(IGeneratorExecutionContext context, IComparer<string> hintNameComparer)
     {
         Context = context;
         sourceMappings = new(hintNameComparer);
-        SetCommonGeneratedSourceFileExtension(context.GetCompilationLanguage());
+        SetCommonGeneratedSourceFileExtension(context.CompilationLanguage);
     }
 
     /// <summary>Registers a source that will be added to the provided context.</summary>
@@ -149,6 +173,9 @@ public sealed class GeneratorExecutionConductor
     /// <param name="language">The language of the generated sources.</param>
     public void SetCommonGeneratedSourceFileExtension(NETLanguage language)
     {
+        if (language is NETLanguage.Unknown)
+            return;
+
         extension = GetCommonGeneratedSourceFileExtension(language);
     }
     private static string GetCommonGeneratedSourceFileExtension(NETLanguage language)
