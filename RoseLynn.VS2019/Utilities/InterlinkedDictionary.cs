@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using Garyon.Functions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -24,7 +25,7 @@ public class InterlinkedDictionary<T1, T2>
     public IEnumerable<T2> Values2 => t2Dictionary.Keys;
     /// <summary>Gets all the currently stored pairs of values.</summary>
     [ExcludeFromCodeCoverage]
-    public IEnumerable<(T1, T2)> ValuePairs => t1Dictionary.Keys.Zip(t2Dictionary.Keys, Selectors.MakeTuple);
+    public IEnumerable<(T1, T2)> ValuePairs => t1Dictionary.Keys.Zip(t2Dictionary.Keys, TupleSelectors.MakeTuple);
 
     /// <summary>Initializes a new empty <seealso cref="InterlinkedDictionary{T1, T2}"/>.</summary>
     public InterlinkedDictionary()
