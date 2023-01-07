@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using System.Linq;
 
 namespace RoseLynn.CSharp.Syntax;
 

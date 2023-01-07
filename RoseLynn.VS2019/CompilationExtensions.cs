@@ -1,5 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
-using RoseLynn.Utilities;
+﻿using Garyon.Extensions;
+using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -67,7 +67,7 @@ public static class CompilationExtensions
     public static IEnumerable<ISymbol> GetAllAssemblySymbols(this Compilation compilation)
     {
         return compilation.SourceModule.ReferencedAssemblySymbols
-            .Concat(compilation.Assembly.ToSingleElementCollection());
+                          .ConcatSingleValue(compilation.Assembly);
     }
 
     /// <summary>Gets the <seealso cref="NETLanguage"/> value representing the source language of the compilation.</summary>

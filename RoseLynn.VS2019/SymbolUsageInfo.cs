@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Garyon.Objects.Enumerators;
+using Microsoft.CodeAnalysis;
 using RoseLynn.CSharp;
 using RoseLynn.Utilities;
 using System.Collections.Generic;
@@ -65,6 +66,15 @@ public sealed class TypeSymbolUsageInfo
         usedTypes.AddRange(used);
     }
 
+    /// <summary>
+    /// Adds all the used types of another <seealso cref="TypeSymbolUsageInfo"/>
+    /// into this instance.
+    /// </summary>
+    public void UnionWith(TypeSymbolUsageInfo typeSymbolUsageInfo)
+    {
+        usedTypes.UnionWith(typeSymbolUsageInfo.usedTypes);
+    }
+
     // TODO: Abstract those into extensions
 
     private static INamedTypeSymbol GetUsedNamedTypeSymbol(ITypeSymbol typeSymbol)
@@ -88,10 +98,12 @@ public sealed class TypeSymbolUsageInfo
 
             case INamedTypeSymbol named:
                 var typeArguments = SelectTypeSymbols(named.TypeArguments);
-                return new SingleElementCollection<INamedTypeSymbol>(named).Concat(typeArguments);
+                return new SingleElementCollection<INamedTypeSymbol>(named)
+                    .Concat(typeArguments);
 
             default:
-                return new[] { GetUsedNamedTypeSymbol(typeSymbol) };
+                var single = GetUsedNamedTypeSymbol(typeSymbol);
+                return new SingleElementCollection<INamedTypeSymbol>(single);
         }
     }
 

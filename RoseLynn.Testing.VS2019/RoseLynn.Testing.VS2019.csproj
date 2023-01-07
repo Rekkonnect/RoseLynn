@@ -21,10 +21,11 @@
   </PropertyGroup>
 
   <ItemGroup Label="README reference">
-    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup Label="Microsoft.CodeAnalysis">
+    <PackageReference Include="Garyon" Version="0.3.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

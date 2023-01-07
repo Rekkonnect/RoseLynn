@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Microsoft.CodeAnalysis">
+    <PackageReference Include="Garyon" Version="0.3.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="4.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="4.4.0" />

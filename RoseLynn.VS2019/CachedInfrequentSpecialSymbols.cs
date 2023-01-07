@@ -1,5 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
-using RoseLynn.Utilities;
+﻿using Garyon.Extensions;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
