@@ -5,6 +5,8 @@
     <LangVersion>preview</LangVersion>
 
     <IsPackable>false</IsPackable>
+
+    <Configurations>Debug;Release;Release Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup Label="Microsoft.CodeAnalysis">

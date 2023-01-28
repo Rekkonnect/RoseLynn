@@ -1,6 +1,5 @@
 ﻿using Garyon.Functions;
 using RoseLynn.PackageDeployment;
-using System.IO;
 using System.Text.RegularExpressions;
 
 string apiKey = Secrets.Instance.ApiKey;
@@ -35,13 +34,17 @@ static void WritePublicationEnvironment()
     // I know what I'm doing
 #pragma warning disable IDE0035 // Unreachable code detected
 #pragma warning disable CS0162 // Unreachable code detected
-    switch (PublicationInfo.IsTest)
+    switch (PublicationInfo.Environment)
     {
-        case true:
+        case PublicationInfo.DeploymentEnvironment.Development:
+            ConsoleUtilities.WriteWithColor("DEVELOPMENT", ConsoleColor.Red);
+            break;
+
+        case PublicationInfo.DeploymentEnvironment.Test:
             ConsoleUtilities.WriteWithColor("TEST", ConsoleColor.Yellow);
             break;
 
-        case false:
+        case PublicationInfo.DeploymentEnvironment.Production:
             ConsoleUtilities.WriteWithColor("PRODUCTION", ConsoleColor.Green);
             break;
     }

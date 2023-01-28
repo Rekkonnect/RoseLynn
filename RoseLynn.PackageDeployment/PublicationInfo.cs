@@ -1,15 +1,16 @@
-﻿// COMMENT THIS LINE TO AVOID PUSHING TO TEST API
-//#define TEST_PACKAGES
-
-namespace RoseLynn.PackageDeployment;
+﻿namespace RoseLynn.PackageDeployment;
 
 public static class PublicationInfo
 {
-    public const bool IsTest =
+    public const bool IsTest = Environment == DeploymentEnvironment.Test;
+
+    public const DeploymentEnvironment Environment =
 #if TEST_PACKAGES
-        true;
+        DeploymentEnvironment.Test;
+#elif DEBUG
+        DeploymentEnvironment.Development;
 #else
-        false;
+        DeploymentEnvironment.Production;
 #endif
 
     public const string NuGetRepositoryPath =
@@ -19,4 +20,10 @@ public static class PublicationInfo
         "https://api.nuget.org/v3/index.json";
 #endif
 
+    public enum DeploymentEnvironment
+    {
+        Development,
+        Test,
+        Production,
+    }
 }
