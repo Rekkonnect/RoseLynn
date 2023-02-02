@@ -15,17 +15,10 @@ public static class MemberDeclarationSyntaxExtensions
     {
         return declarationSyntax switch
         {
+            // VS2019 does not support file-scoped namespace declarations
             BaseNamespaceDeclarationSyntax namespaceDeclaration => namespaceDeclaration.Name,
-            BaseTypeDeclarationSyntax typeDeclarationSyntax => typeDeclarationSyntax.Identifier,
 
-            PropertyDeclarationSyntax propertyDeclarationSyntax => propertyDeclarationSyntax.Identifier,
-            EventDeclarationSyntax eventDeclarationSyntax => eventDeclarationSyntax.Identifier,
-            // Fields use VariableDeclarationSyntax, and it doesn't reflect a single name
-
-            MethodDeclarationSyntax methodDeclarationSyntax => methodDeclarationSyntax.Identifier,
-            ConstructorDeclarationSyntax constructorDeclarationSyntax => constructorDeclarationSyntax.Identifier,
-
-            _ => default,
+            _ => VS2019.MemberDeclarationSyntaxExtensions.GetIdentifierTokenOrNameSyntax(declarationSyntax),
         };
     }
 }

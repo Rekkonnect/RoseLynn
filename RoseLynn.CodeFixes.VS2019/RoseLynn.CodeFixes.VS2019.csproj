@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>0.6.1</Version>
+    <PackageVersion>0.6.1</PackageVersion>
+    <Authors>Alex Kalfakakos</Authors>
+    <Company />
+    <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
+    <Description>Additional code fix tools for Roslyn-based analyzers, compatible with VS 2019.</Description>
+    <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
+    <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Configurations>Debug;Release;Release Test</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup Label="README reference">
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup Label="Microsoft.CodeAnalysis">
+    <PackageReference Include="Garyon" Version="0.3.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="3.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" PrivateAssets="all" Version="3.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RoseLynn.Analyzers.VS2019\RoseLynn.Analyzers.VS2019.csproj" />
+    <ProjectReference Include="..\RoseLynn.VS2019\RoseLynn.VS2019.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

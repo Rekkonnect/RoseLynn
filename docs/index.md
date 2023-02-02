@@ -15,6 +15,7 @@ The packages are developed with C# code analysis in mind. VB or F# are not in th
 The links below direct to the index documentation pages for the respective packages:
 
 - [RoseLynn](RoseLynn/index.md)
+- [RoseLynn.Generators](RoseLynn.Generators/index.md)
 - [RoseLynn.Analyzers](RoseLynn.Analyzers/index.md)
 - [RoseLynn.CodeFixes](RoseLynn.CodeFixes/index.md)
 - [RoseLynn.Testing](RoseLynn.Testing/index.md)

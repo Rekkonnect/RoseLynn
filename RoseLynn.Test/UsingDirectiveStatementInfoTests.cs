@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using RoseLynn.CSharp.Syntax;
+using RoseLynn.Test.Resources;
+using System.Runtime.CompilerServices;
 
 namespace RoseLynn.Test;
 
@@ -89,5 +92,44 @@ public class UsingDirectiveStatementInfoTests
                                       """;
 
         Assert.AreEqual(expectedUsings, actualUsings);
+    }
+
+    [Test]
+    public void UsingForType()
+    {
+        AssertUsingCreation(
+            UsingDirectiveKind.Using,
+            $"using {ExampleTypes.BaseNamespace};");
+
+        AssertUsingCreation(
+            UsingDirectiveKind.GlobalUsing,
+            $"global using {ExampleTypes.BaseNamespace};");
+
+        AssertUsingCreation(
+            UsingDirectiveKind.UsingStatic,
+            $"using static {ExampleTypes.BaseNamespace}.{nameof(ExampleClass)};");
+
+        AssertUsingCreation(
+            UsingDirectiveKind.GlobalUsingStatic,
+            $"global using static {ExampleTypes.BaseNamespace}.{nameof(ExampleClass)};");
+
+        AssertInvalidUsingCreation(UsingDirectiveKind.UsingAlias);
+        AssertInvalidUsingCreation(UsingDirectiveKind.GlobalUsingAlias);
+
+        static void AssertInvalidUsingCreation(UsingDirectiveKind kind)
+        {
+            Assert.Catch(() => CreateExampleUsing(kind));
+        }
+
+        static void AssertUsingCreation(UsingDirectiveKind kind, string expectedUsing)
+        {
+            var created = CreateExampleUsing(kind);
+            Assert.AreEqual(expectedUsing, created.ToString());
+        }
+
+        static UsingDirectiveStatementInfo CreateExampleUsing(UsingDirectiveKind kind)
+        {
+            return UsingDirectiveStatementInfo.UsingForType<ExampleClass>(kind);
+        }
     }
 }

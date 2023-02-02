@@ -5,22 +5,25 @@
     <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>0.5.1-rc01</Version>
-    <PackageVersion>0.5.1-rc01</PackageVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>0.6.1</Version>
+    <PackageVersion>0.6.1</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
     <Description>Additional tools for testing Roslyn-based analyzers.</Description>
-    <RepositoryUrl>https://github.com/AlFasGD/RoseLynn</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, unit test, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>0.5.1 changes:
-Dependencies:
-- Remove all breaking Microsoft.CodeAnalysis.* dependencies
-</PackageReleaseNotes>
+    <Configurations>Debug;Release;Release Test</Configurations>
   </PropertyGroup>
 
+  <ItemGroup Label="README reference">
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
   <ItemGroup Label="Microsoft.CodeAnalysis">
+    <PackageReference Include="Garyon" Version="0.3.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,19 +31,24 @@ Dependencies:
     
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzer.Testing" PrivateAssets="all" Version="1.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" PrivateAssets="all" Version="1.1.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="4.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="4.4.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.4.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RoseLynn.Analyzers\RoseLynn.Analyzers.csproj" />
     <ProjectReference Include="..\RoseLynn.CodeFixes\RoseLynn.CodeFixes.csproj" />
     <ProjectReference Include="..\RoseLynn.Generators\RoseLynn.Generators.csproj" />
+    <ProjectReference Include="..\RoseLynn.Testing.VS2019\RoseLynn.Testing.VS2019.csproj" />
     <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
