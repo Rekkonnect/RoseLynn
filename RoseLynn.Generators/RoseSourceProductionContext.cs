@@ -8,7 +8,8 @@ namespace RoseLynn.Generators;
 /// Implements the <seealso cref="IGeneratorExecutionContext{TContext}"/> for the
 /// <seealso cref="SourceProductionContext"/> type.
 /// </summary>
-public record RoseSourceProductionContext(SourceProductionContext Context) : IGeneratorExecutionContext<SourceProductionContext>
+public record RoseSourceProductionContext(SourceProductionContext Context)
+    : IGeneratorExecutionContext<SourceProductionContext>
 {
     /// <inheritdoc/>
     public CancellationToken CancellationToken => Context.CancellationToken;
@@ -38,4 +39,3 @@ public record RoseSourceProductionContext(SourceProductionContext Context) : IGe
     /// </summary>
     public NETLanguage CompilationLanguage => NETLanguage.Unknown;
 }
-

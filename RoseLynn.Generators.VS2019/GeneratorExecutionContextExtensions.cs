@@ -12,4 +12,25 @@ public static class GeneratorExecutionContextExtensions
     {
         return context.Compilation.GetNETLanguage();
     }
+
+    /// <summary>
+    /// Reports a diagnostic on the <seealso cref="GeneratorExecutionContext"/>
+    /// that is created from a <seealso cref="DiagnosticDescriptor"/> and a
+    /// <seealso cref="SyntaxReference"/>.
+    /// </summary>
+    /// <param name="context">
+    /// The <seealso cref="GeneratorExecutionContext"/> on which to report the created diagnostic.
+    /// </param>
+    /// <param name="descriptor">
+    /// The <seealso cref="DiagnosticDescriptor"/> for creating the reported
+    /// <seealso cref="Diagnostic"/>.
+    /// </param>
+    /// <param name="reference">
+    /// The <seealso cref="SyntaxReference"/> for creating the reported
+    /// <seealso cref="Diagnostic"/>.
+    /// </param>
+    public static void ReportDiagnostic(this GeneratorExecutionContext context, DiagnosticDescriptor descriptor, SyntaxReference reference)
+    {
+        context.ReportDiagnostic(DiagnosticFactory.Create(descriptor, reference));
+    }
 }

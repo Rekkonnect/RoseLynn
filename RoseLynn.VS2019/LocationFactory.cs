@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace RoseLynn;
 
-/// <summary>Creates factory methods for constructing <seealso cref="Location"/> instances.</summary>
+/// <summary>Contains factory methods for constructing <seealso cref="Location"/> instances.</summary>
 public static class LocationFactory
 {
     /// <summary>Creates a new <seealso cref="Location"/> instance from the given node's <seealso cref="SyntaxTree"/>, and the specified bounds.</summary>
@@ -22,5 +22,21 @@ public static class LocationFactory
     public static Location CreateFromNodeTree(SyntaxNode node, TextSpan span)
     {
         return Location.Create(node.SyntaxTree, span);
+    }
+
+    /// <summary>
+    /// Creates a new <seealso cref="Location"/> instance from the given
+    /// node's <seealso cref="SyntaxReference"/>.
+    /// </summary>
+    /// <param name="reference">
+    /// The <seealso cref="SyntaxReference"/> whose position will be reflected by
+    /// the resulting <seealso cref="Location"/>.
+    /// </param>
+    /// <returns>
+    /// A <see cref="Location"/> reflecting the <seealso cref="SyntaxReference"/>'s position.
+    /// </returns>
+    public static Location Create(SyntaxReference reference)
+    {
+        return Location.Create(reference.SyntaxTree, reference.Span);
     }
 }
