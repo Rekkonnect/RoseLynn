@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 using RoseLynn.Analyzers;
 using System;
 using System.Collections.Generic;
@@ -54,16 +53,15 @@ public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGener
 
     private string GenerateMethods(GeneratorExecutionContext context, INamedTypeSymbol operatorKindSymbol)
     {
-        const string header =
-$@"
-using {nameof(System)};
-using static {FullOperatorKindName};
+        const string header = $$"""
+                                using {{nameof(System)}};
+                                using static {{FullOperatorKindName}};
 
-namespace {nameof(RoseLynn)};
+                                namespace {{nameof(RoseLynn)}};
 
-partial class {OperatorKindFactsName}
-{{
-";
+                                partial class {{OperatorKindFactsName}}
+                                {
+                                """;
 
         const string footer = "}";
 

@@ -12,10 +12,11 @@ public static class KnownSymbolNames
     {
         public static readonly string[] BaseNamespaces = new[] { nameof(RoseLynn) };
 
-        public static readonly FullSymbolName CSharpOperatorTokenAttribute = new(nameof(CSharpOperatorTokenAttribute), BaseNamespaces);
-        public static readonly FullSymbolName CanBeCheckedOperatorAttribute = new(nameof(CanBeCheckedOperatorAttribute), BaseNamespaces);
-        public static readonly FullSymbolName NaryOperatorAttribute = new(nameof(NaryOperatorAttribute), BaseNamespaces);
-        public static readonly FullSymbolName UnaryOperatorAttribute = new(nameof(UnaryOperatorAttribute), BaseNamespaces);
-        public static readonly FullSymbolName BinaryOperatorAttribute = new(nameof(BinaryOperatorAttribute), BaseNamespaces);
+        public static readonly FullSymbolName
+            CSharpOperatorTokenAttribute = new(KnownSymbolNames.CSharpOperatorTokenAttribute, BaseNamespaces),
+            CanBeCheckedOperatorAttribute = new(KnownSymbolNames.CanBeCheckedOperatorAttribute, BaseNamespaces),
+            NaryOperatorAttribute = new(KnownSymbolNames.NaryOperatorAttribute, BaseNamespaces),
+            UnaryOperatorAttribute = new(KnownSymbolNames.UnaryOperatorAttribute, BaseNamespaces),
+            BinaryOperatorAttribute = new(KnownSymbolNames.BinaryOperatorAttribute, BaseNamespaces);
     }
 }
