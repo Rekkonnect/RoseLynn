@@ -28,8 +28,7 @@ The usings provider does not perform any syntactical analysis on the usings. In 
 
 There also is the `VariableUsingsProvider` class that offers a more flexible usings provider whose usings may change per the user's request.
 
-Additionally, there are many more APIs to flexibly create using directive statements (for C#) using [UsingDirectiveStatementInfoList](gjk
-).
+Additionally, there are many more APIs to flexibly create using directive statements (for C#) using [UsingDirectiveStatementInfoList](usingDirectiveStatementInfo.md).
 
 ## Using Usings Provider
 
@@ -71,7 +70,7 @@ public class C
 *The resulting code snippet is not trimmed. This is due to the new lines in the verbatim string literal.*
 
 ## Creating From `UsingDirectiveStatementInfoList`
-There is the ability to create a usigns provider instance based on a `UsingDirectiveStatementInfoList` (refer to [this](`UsingDirectiveStatementInfoList`) document for more information about those objects), which allows for correctness about the using directive statments. There's also the `ForUsings` API that creates a very simple usings header consisting of usings of the same `UsingDirectiveKind`, optionally sorting them too.
+There is the ability to create a usigns provider instance based on a `UsingDirectiveStatementInfoList` (refer to [this](usingDirectiveStatementInfo.md) document for more information about those objects), which allows for correctness about the using directive statments. There's also the `ForUsings` API that creates a very simple usings header consisting of usings of the same `UsingDirectiveKind`, optionally sorting them too.
 
 ### Upcoming Features
 
