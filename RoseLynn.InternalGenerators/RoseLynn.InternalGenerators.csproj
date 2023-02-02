@@ -12,6 +12,7 @@
     
     <!-- This package is never intended to reach NuGet; it should be locally used -->
     <PackageId>RoseLynn.InternalGenerators</PackageId>
+    <Configurations>Debug;Release;Release Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
