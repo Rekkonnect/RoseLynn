@@ -2,7 +2,7 @@
 
 namespace RoseLynn.InternalGenerators;
 
-public static class LocationFactoryEx
+internal static class LocationFactoryEx
 {
     public static Location Create(SyntaxReference reference)
     {

@@ -22,14 +22,10 @@ public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGener
 
     protected override DiagnosticDescriptorStorageBase DiagnosticDescriptorStorage => GeneratorDiagnosticDescriptorStorage.Instance;
 
-    private readonly DiagnosticsGatherer gatherer = new();
-
     public override void Initialize(AnalysisContext context)
     {
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-
-        gatherer.RegisterReportingOnCompilation(context);
     }
 
     public void Execute(GeneratorExecutionContext context)
