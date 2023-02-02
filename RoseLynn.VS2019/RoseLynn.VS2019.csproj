@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="RoseLynn.InternalGenerators" Version="0.5.1-rc10" PrivateAssets="all" />
+    <PackageReference Include="RoseLynn.InternalGenerators" Version="0.6.2-rc01" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -24,9 +24,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.2.0" PrivateAssets="all" />
     
     <!-- The meta is too strong in this one-->
-    <PackageReference Include="RoseLynn" Version="0.5.1-rc01" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="RoseLynn.Analyzers" Version="0.5.1-rc01" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="RoseLynn.Generators" Version="0.5.1-rc01" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="RoseLynn" Version="0.6.1" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="RoseLynn.Analyzers" Version="0.6.1" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="RoseLynn.Generators" Version="0.6.1" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
 
   <PropertyGroup>

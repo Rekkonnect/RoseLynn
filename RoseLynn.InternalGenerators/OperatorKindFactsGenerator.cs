@@ -222,7 +222,7 @@ public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGener
 
             private static OperatorArity InferArity(IFieldSymbol fieldSymbol)
             {
-                var arityAttribute = fieldSymbol.AttributesInheriting(KnownSymbolNames.Full.NaryOperatorAttribute).FirstOrDefault();
+                var arityAttribute = fieldSymbol.AttributesInheriting(KnownSymbolNames.Full.OperatorArityAttribute).FirstOrDefault();
                 return InferArity(arityAttribute);
             }
             private static OperatorArity InferArity(AttributeData? arityAttribute)

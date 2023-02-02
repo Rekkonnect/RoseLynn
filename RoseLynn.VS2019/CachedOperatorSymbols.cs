@@ -1,15 +1,14 @@
 ﻿#nullable enable
 
+using Garyon.DataStructures;
 using Microsoft.CodeAnalysis;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
 namespace RoseLynn;
 
 /// <summary>Contains cached information about a type's operators.</summary>
-/// <remarks>For advanced querying, <seealso cref="CachedOperatorSymbolQueryingExtensions"/> contains extensions that apply common filters.</remarks>
+/// <remarks>For advanced querying, <seealso cref="CachedOperatorSymbolQuerying"/> contains extensions that apply common filters.</remarks>
 public class CachedOperatorSymbols
 {
     private readonly OperatorSymbolDictionary cachedOperators = new();
@@ -19,7 +18,7 @@ public class CachedOperatorSymbols
 
     #region Querying
     /// <summary>Gets all the operator symbols found in the type, in the form of <see cref="CachedOperatorSymbol"/> instances.</summary>
-    public IEnumerable<CachedOperatorSymbol> AllOperators => cachedOperators.Values.SelectMany(op => op);
+    public IEnumerable<CachedOperatorSymbol> AllOperators => cachedOperators.All;
 
     public IEnumerable<CachedUnaryOperatorSymbol> UnaryOperators => Operators<CachedUnaryOperatorSymbol>();
     public IEnumerable<CachedBinaryOperatorSymbol> BinaryOperators => Operators<CachedBinaryOperatorSymbol>();
@@ -27,16 +26,18 @@ public class CachedOperatorSymbols
     public IEnumerable<CachedImplicitOperatorSymbol> ImplicitConversions => Operators<CachedImplicitOperatorSymbol>();
     public IEnumerable<CachedExplicitOperatorSymbol> ExplicitConversions => Operators<CachedExplicitOperatorSymbol>();
 
+    public IEnumerable<CachedOperatorSymbol> UncheckedOperators => OfCheckingMode(OperatorCheckingMode.Unchecked);
+    public IEnumerable<CachedOperatorSymbol> CheckedOperators => OfCheckingMode(OperatorCheckingMode.Checked);
+
     private IEnumerable<TCachedOperator> Operators<TCachedOperator>()
         where TCachedOperator : CachedOperatorSymbol
     {
         return AllOperators.OfType<TCachedOperator>();
     }
 
-    public IEnumerable<CachedOperatorSymbol> OfKind(OperatorKind kind) => cachedOperators[kind];
     public IEnumerable<CachedOperatorSymbol> OfKind(CompositeOperatorKind kind) => cachedOperators[kind];
-
-    // There seems to be something missing here for sure
+    public IEnumerable<CachedOperatorSymbol> OfKind(OperatorKind kind) => cachedOperators[kind];
+    public IEnumerable<CachedOperatorSymbol> OfCheckingMode(OperatorCheckingMode mode) => cachedOperators[mode];
     #endregion
 
     #region Factory
@@ -60,8 +61,16 @@ public class CachedOperatorSymbols
     }
     #endregion
 
-    private sealed class OperatorSymbolDictionary : Dictionary<CompositeOperatorKind, List<CachedOperatorSymbol>>
+    private sealed class OperatorSymbolDictionary
     {
+        // Eminem would be proud
+        private readonly List<CachedOperatorSymbol> operatorList = new();
+        private readonly FlexibleInitializableValueDictionary<CompositeOperatorKind, List<CachedOperatorSymbol>> compositelyMapped = new();
+        private readonly FlexibleInitializableValueDictionary<OperatorKind, List<CachedOperatorSymbol>> operatorKindMapped = new();
+        private readonly FlexibleInitializableValueDictionary<OperatorCheckingMode, List<CachedOperatorSymbol>> checkingModeMapped = new();
+
+        public IEnumerable<CachedOperatorSymbol> All => operatorList;
+
         public void Add(IMethodSymbol symbol)
         {
             var parsed = CachedOperatorSymbol.Parse(symbol);
@@ -72,29 +81,20 @@ public class CachedOperatorSymbols
         }
         public void Add(CachedOperatorSymbol symbol)
         {
-            Add(symbol.CompositeOperatorKind, symbol);
+            operatorList.Add(symbol);
+            compositelyMapped[symbol.CompositeOperatorKind].Add(symbol);
+            operatorKindMapped[symbol.OperatorKind].Add(symbol);
+            checkingModeMapped[symbol.CheckingMode].Add(symbol);
         }
 
-        private void Add(CompositeOperatorKind kind, CachedOperatorSymbol symbol)
-        {
-            bool existed = TryGetValue(kind, out var list);
-            if (!existed)
-            {
-                list = new();
-                this[kind] = list;
-            }
-
-            list.Add(symbol);
-        }
+        public IEnumerable<CachedOperatorSymbol> this[CompositeOperatorKind kind]
+            => compositelyMapped[kind];
 
         public IEnumerable<CachedOperatorSymbol> this[OperatorKind kind]
-        {
-            get
-            {
-                CompositeOperatorKind.ForBothCheckingModes(kind, out var a, out var b);
-                return this[a].Concat(this[b]);
-            }
-        }
+            => operatorKindMapped[kind];
+
+        public IEnumerable<CachedOperatorSymbol> this[OperatorCheckingMode mode]
+            => checkingModeMapped[mode];
     }
 }
 
@@ -123,9 +123,9 @@ public abstract record class CachedOperatorSymbol(OperatorCheckingMode CheckingM
     /// </remarks>
     public abstract bool InvolvesDeclaringType { get; }
 
-    protected bool EqualsDeclaringType(ITypeSymbol type) => type.Equals(DeclaringType, SymbolEqualityComparer.Default);
+    private protected bool EqualsDeclaringType(ITypeSymbol type) => type.Equals(DeclaringType, SymbolEqualityComparer.Default);
 
-    protected ITypeSymbol MethodParameterType(int index) => Method.Parameters[index].Type;
+    private protected ITypeSymbol MethodParameterType(int index) => Method.Parameters[index].Type;
 
     private static bool IsOperatorMethod(IMethodSymbol method)
     {
@@ -176,7 +176,8 @@ public sealed record class CachedBinaryOperatorSymbol(OperatorCheckingMode Check
     public ITypeSymbol LeftParameterType => MethodParameterType(0);
     public ITypeSymbol RightParameterType => MethodParameterType(1);
 
-    public override bool InvolvesDeclaringType => EqualsDeclaringType(LeftParameterType) || EqualsDeclaringType(RightParameterType);
+    public override bool InvolvesDeclaringType => EqualsDeclaringType(LeftParameterType)
+                                               || EqualsDeclaringType(RightParameterType);
 }
 
 /// <summary>Contains cached information about a conversion operator method symbol.</summary>
@@ -184,22 +185,74 @@ public sealed record class CachedBinaryOperatorSymbol(OperatorCheckingMode Check
 public abstract record class CachedConversionOperatorSymbol(OperatorCheckingMode CheckingMode, OperatorKind OperatorKind, IMethodSymbol Method)
     : CachedUnaryOperatorSymbol(CheckingMode, OperatorKind, Method)
 {
+    /// <summary>
+    /// The type of the incoming value that is being converted.
+    /// </summary>
     public ITypeSymbol From => ParameterType;
+    /// <summary>
+    /// The type of the returning value, which is the result of
+    /// the conversion.
+    /// </summary>
     public ITypeSymbol To => Method.ReturnType;
 
-    public sealed override bool InvolvesDeclaringType => EqualsDeclaringType(From) || EqualsDeclaringType(To);
+    /// <inheritdoc/>
+    public sealed override bool InvolvesDeclaringType => EqualsDeclaringType(From)
+                                                      || EqualsDeclaringType(To);
 
+    /// <summary>
+    /// Gets the foreign type of the conversion, which is the type not
+    /// equal to the type declaring the operator. In other words, if the
+    /// direction is <seealso cref="ConversionOperatorDirection.FromDeclaring"/>,
+    /// <seealso cref="To"/> is returned, and vice versa.
+    /// </summary>
+    /// <remarks>
+    /// <seealso cref="InvolvesDeclaringType"/> is not evaluated and is always
+    /// assumed to be <see langword="true"/>.
+    /// </remarks>
     public ITypeSymbol OtherType => Direction switch
     {
         ConversionOperatorDirection.FromDeclaring => To,
         ConversionOperatorDirection.ToDeclaring => From,
         _ => null!, // Unreachable
     };
-    public ConversionOperatorDirection Direction => EqualsDeclaringType(From) switch
+
+    /// <summary>
+    /// Gets the direction of the operator, evaluating the <seealso cref="InvolvesDeclaringType"/>
+    /// property's result.
+    /// </summary>
+    /// <remarks>
+    /// If the <seealso cref="InvolvesDeclaringType"/> is <see langword="false"/>,
+    /// <seealso cref="ConversionOperatorDirection.Unrelated"/> is returned.
+    /// </remarks>
+    public ConversionOperatorDirection CheckedDirection
     {
-        true => ConversionOperatorDirection.FromDeclaring,
-        false => ConversionOperatorDirection.ToDeclaring,
-    };
+        get
+        {
+            if (!InvolvesDeclaringType)
+                return ConversionOperatorDirection.Unrelated;
+
+            return Direction;
+        }
+    }
+
+    /// <summary>
+    /// Gets the direction of the operator.
+    /// </summary>
+    /// <remarks>
+    /// The <seealso cref="InvolvesDeclaringType"/> is assumed to always be <see langword="true"/>.
+    /// Use <seealso cref="CheckedDirection"/> to evaluate that property's value.
+    /// </remarks>
+    public ConversionOperatorDirection Direction
+    {
+        get
+        {
+            return EqualsDeclaringType(From) switch
+            {
+                true => ConversionOperatorDirection.FromDeclaring,
+                false => ConversionOperatorDirection.ToDeclaring,
+            };
+        }
+    }
 }
 
 /// <summary>Contains cached information about an implicit conversion operator method symbol.</summary>
@@ -211,57 +264,3 @@ public sealed record class CachedImplicitOperatorSymbol(IMethodSymbol Method)
 /// <inheritdoc/>
 public sealed record class CachedExplicitOperatorSymbol(OperatorCheckingMode CheckingMode, IMethodSymbol Method)
     : CachedConversionOperatorSymbol(CheckingMode, OperatorKind.Explicit, Method);
-
-/// <summary>Denotes the direction of the conversion operator.</summary>
-public enum ConversionOperatorDirection
-{
-    /// <summary>Denotes that the conversion operator converts an instance of the declaring type into a foreign one.</summary>
-    FromDeclaring,
-    /// <summary>Denotes that the conversion operator converts an instance of a foreign type into the declaring one.</summary>
-    ToDeclaring,
-}
-
-public record struct CompositeOperatorKind(OperatorCheckingMode CheckingMode, OperatorKind Kind)
-{
-    public static void ForBothCheckingModes(OperatorKind kind, out CompositeOperatorKind uncheckedMode, out CompositeOperatorKind checkedMode)
-    {
-        uncheckedMode = new(OperatorCheckingMode.Unchecked, kind);
-        checkedMode = new(OperatorCheckingMode.Checked, kind);
-    }
-}
-
-/// <summary>Denotes the operator method kind of the operator method symbol.</summary>
-public enum OperatorMethodKind
-{
-    UserDefined,
-    Builtin,
-    Conversion,
-}
-
-public static class OperatorMethodKindExtensions
-{
-    public static OperatorMethodKind GetOperatorMethodKind(this MethodKind methodKind) => methodKind switch
-    {
-        MethodKind.UserDefinedOperator => OperatorMethodKind.UserDefined,
-        MethodKind.BuiltinOperator => OperatorMethodKind.Builtin,
-        MethodKind.Conversion => OperatorMethodKind.Conversion,
-
-        _ => throw new InvalidEnumArgumentException("The given MethodKind does not reflect an operator method kind.")
-    };
-    public static MethodKind GetMethodKind(this OperatorMethodKind operatorMethodKind) => operatorMethodKind switch
-    {
-        OperatorMethodKind.UserDefined => MethodKind.UserDefinedOperator,
-        OperatorMethodKind.Builtin => MethodKind.BuiltinOperator,
-        OperatorMethodKind.Conversion => MethodKind.Conversion,
-
-        _ => throw new InvalidEnumArgumentException("The given value is undefined.")
-    };
-}
-
-public enum OperatorCheckingMode
-{
-    Unchecked,
-    Checked,
-
-    Undefined = Unchecked,
-}

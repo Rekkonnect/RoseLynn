@@ -7,7 +7,7 @@ using System.Linq;
 namespace RoseLynn;
 
 // Querying is abstracted over here to avoid bloating CachedOperatorSymbols with unnecessary semantics
-public static class CachedOperatorSymbolQueryingExtensions
+public static class CachedOperatorSymbolQuerying
 {
     /// <summary>Gets the binary operators that receive arguments of the specified types. A <see langword="null"/> type is treated as a wildcard.</summary>
     /// <param name="symbols">The symbols whose type argument types to match.</param>
