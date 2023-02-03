@@ -6,8 +6,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>0.6.2</Version>
-    <PackageVersion>0.6.2</PackageVersion>
+    <Version>0.6.3</Version>
+    <PackageVersion>0.6.3</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2023, Alex Kalfakakos</Copyright>
@@ -34,8 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RoseLynn.VS2019\RoseLynn.VS2019.csproj" />
-    
-    <PackageReference Include="RoseLynn.InternalGenerators" Version="0.5.1-rc10" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
