@@ -4,13 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>11.0</LangVersion>
 
-    <Version>0.6.2-rc01</Version>
+    <Version>0.6.3</Version>
     
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     
-    <!-- This package is never intended to reach NuGet; it should be locally used -->
     <PackageId>RoseLynn.InternalGenerators</PackageId>
     <Configurations>Debug;Release;Release Test</Configurations>
   </PropertyGroup>
@@ -24,9 +23,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.2.0" PrivateAssets="all" />
     
     <!-- The meta is too strong in this one-->
-    <PackageReference Include="RoseLynn" Version="0.6.1" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="RoseLynn.Analyzers" Version="0.6.1" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="RoseLynn.Generators" Version="0.6.1" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="RoseLynn" Version="0.6.2" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="RoseLynn.Analyzers" Version="0.6.2" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="RoseLynn.Generators" Version="0.6.2" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
 
   <PropertyGroup>
