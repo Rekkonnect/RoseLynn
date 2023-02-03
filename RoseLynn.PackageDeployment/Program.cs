@@ -72,7 +72,9 @@ static Version HighestVersion(IEnumerable<FileInfo> fileInfos)
 }
 static IEnumerable<FileInfo> GetLatestRoseLynnNuGetPackages(out Version highestVersion)
 {
-    var allPackages = GetRoseLynnNuGetPackages().ToList();
+    var allPackages = GetRoseLynnNuGetPackages()
+                        .Where(p => !p.Name.Contains("RoseLynn.InternalGenerators"))
+                        .ToList();
     highestVersion = HighestVersion(allPackages);
     // Lambda won't work without it
     var highestVersionLocal = highestVersion;

@@ -50,7 +50,10 @@ public static class ITypeParameterSymbolExtensions
             if (!typeArgument.IsNotNull())
                 return false;
 
+        // Immortal warning
+#pragma warning disable RS1024 // Compare symbols correctly
         var baseTypeSet = new HashSet<ITypeSymbol>(typeArgument.GetAllBaseTypesAndInterfaces(), SymbolEqualityComparer.Default);
+#pragma warning restore RS1024 // Compare symbols correctly
         foreach (var constraintType in typeParameter.ConstraintTypes)
         {
             if (constraintType is ITypeParameterSymbol typeParameterConstraint)

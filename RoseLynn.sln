@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Test", "RoseLynn.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Generators", "RoseLynn.Generators\RoseLynn.Generators.csproj", "{A89858C7-73BB-4C7D-AFA0-04B2E34F958C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.InternalGenerators", "RoseLynn.InternalGenerators\RoseLynn.InternalGenerators.csproj", "{B43F4B81-0F9E-4025-8CD3-99C65925F2E7}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.VS2019", "RoseLynn.VS2019\RoseLynn.VS2019.csproj", "{3FB6DC13-D2DE-480A-9A4A-FACF0DA8559D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseLynn.Generators.VS2019", "RoseLynn.Generators.VS2019\RoseLynn.Generators.VS2019.csproj", "{61235ABC-36B8-4497-A0CC-E60AD148308E}"
@@ -86,6 +88,12 @@ Global
 		{A89858C7-73BB-4C7D-AFA0-04B2E34F958C}.Release Test|Any CPU.Build.0 = Release Test|Any CPU
 		{A89858C7-73BB-4C7D-AFA0-04B2E34F958C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A89858C7-73BB-4C7D-AFA0-04B2E34F958C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B43F4B81-0F9E-4025-8CD3-99C65925F2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B43F4B81-0F9E-4025-8CD3-99C65925F2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B43F4B81-0F9E-4025-8CD3-99C65925F2E7}.Release Test|Any CPU.ActiveCfg = Release Test|Any CPU
+		{B43F4B81-0F9E-4025-8CD3-99C65925F2E7}.Release Test|Any CPU.Build.0 = Release Test|Any CPU
+		{B43F4B81-0F9E-4025-8CD3-99C65925F2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B43F4B81-0F9E-4025-8CD3-99C65925F2E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3FB6DC13-D2DE-480A-9A4A-FACF0DA8559D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3FB6DC13-D2DE-480A-9A4A-FACF0DA8559D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FB6DC13-D2DE-480A-9A4A-FACF0DA8559D}.Release Test|Any CPU.ActiveCfg = Release Test|Any CPU

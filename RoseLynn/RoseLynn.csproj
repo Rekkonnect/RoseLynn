@@ -6,11 +6,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>0.6.1</Version>
-    <PackageVersion>0.6.1</PackageVersion>
+    <Version>0.6.3</Version>
+    <PackageVersion>0.6.3</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
-    <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
+    <Copyright>© 2021-2023, Alex Kalfakakos</Copyright>
     <Description>Additional tools for Roslyn-based applications.</Description>
     <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
@@ -37,10 +37,6 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
