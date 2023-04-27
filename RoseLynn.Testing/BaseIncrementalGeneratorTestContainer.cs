@@ -6,19 +6,19 @@ using Microsoft.CodeAnalysis.Testing;
 namespace RoseLynn.Testing;
 
 /// <summary>Represents a source generator test container, providing helpful features for building tests for source generators.</summary>
-/// <typeparam name="TSourceGenerator">The type of the source generator.</typeparam>
+/// <typeparam name="TIncrementalGenerator">The type of the source generator.</typeparam>
 /// <typeparam name="TVerifier">The type of the verifier.</typeparam>
 /// <typeparam name="TSourceGeneratorTest">The type of the source generator test fixture.</typeparam>
-public abstract class BaseSourceGeneratorTestContainer<TSourceGenerator, TVerifier, TSourceGeneratorTest>
-    : BaseGeneratorTestContainer<TSourceGenerator, TVerifier, TSourceGeneratorTest>
+public abstract class BaseIncrementalGeneratorTestContainer<TIncrementalGenerator, TVerifier, TSourceGeneratorTest>
+    : BaseGeneratorTestContainer<TIncrementalGenerator, TVerifier, TSourceGeneratorTest>
 
-    where TSourceGenerator : ISourceGenerator, new()
+    where TIncrementalGenerator : IIncrementalGenerator, new()
     where TVerifier : IVerifier, new()
-    where TSourceGeneratorTest : CSharpSourceGeneratorTest<TSourceGenerator, TVerifier>, new()
+    where TSourceGeneratorTest : CSharpSourceGeneratorTest<InterfacingSourceGenerator, TVerifier>, new()
 {
     /// <inheritdoc/>
     protected override void CreateDriverGenerator(
-        out TSourceGenerator generator,
+        out TIncrementalGenerator generator,
         out GeneratorDriver driver)
     {
         generator = new();
