@@ -6,8 +6,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>0.6.3</Version>
-    <PackageVersion>0.6.3</PackageVersion>
+    <Version>0.6.4</Version>
+    <PackageVersion>0.6.4</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2023, Alex Kalfakakos</Copyright>
@@ -16,6 +16,8 @@
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Configurations>Debug;Release;Release Test</Configurations>
+    <PackageReleaseNotes>Extensions:
+- SyntaxValueProviderExtensions</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">

@@ -15,8 +15,7 @@ internal static class NuGetHelpers
 {
     public async static Task UploadPackages(string nugetRepositoryUrl, IList<string> packagePaths, string apiKey)
     {
-        var providers = new List<Lazy<INuGetResourceProvider>>();
-        providers.AddRange(Repository.Provider.GetCoreV3());
+        var providers = Repository.Provider.GetCoreV3();
         var packageSource = new PackageSource(nugetRepositoryUrl);
         var sourceRepository = new SourceRepository(packageSource, providers);
 
