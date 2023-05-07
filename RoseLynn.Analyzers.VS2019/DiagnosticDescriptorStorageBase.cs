@@ -2,6 +2,7 @@
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using RoseLynn.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -71,7 +72,7 @@ public abstract class DiagnosticDescriptorStorageBase
     public ImmutableArray<DiagnosticDescriptor> GetDiagnosticDescriptors(Type diagnosticAnalyzerType)
     {
         analyzerGroupedDiagnostics.TryGetValue(diagnosticAnalyzerType, out var set);
-        return set.ToImmutableArray();
+        return set.ToImmutableArrayOrEmpty();
     }
 
     /// <inheritdoc cref="GetDiagnosticDescriptor(int)"/>
