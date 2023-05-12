@@ -70,7 +70,7 @@ public static class AttributeSyntaxExtensions
         {
             AttributeListTarget.Assembly => semanticModel.Compilation.Assembly,
             AttributeListTarget.Module => semanticModel.Compilation.SourceModule,
-            _ => semanticModel.GetDeclaredSymbol(attributeSyntax.GetAttributeDeclarationParent()),
+            _ => semanticModel.GetDeclaredOrAnonymousSymbol(attributeSyntax.GetAttributeDeclarationParent()),
         };
     }
 

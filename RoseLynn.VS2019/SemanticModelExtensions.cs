@@ -66,4 +66,38 @@ public static class SemanticModelExtensions
     {
         return semanticModel.GetTypeSymbol<INamedTypeSymbol>(attributeNode, cancellationToken)!;
     }
+
+    /// <summary>
+    /// Gets the declared symbol based on the result of the
+    /// <seealso cref="ModelExtensions.GetDeclaredSymbol(SemanticModel, SyntaxNode, CancellationToken)"/>
+    /// method, or the anonymous method symbol if the provided syntax node represents
+    /// an anonymous function expression syntax.
+    /// </summary>
+    /// <param name="semanticModel">The <seealso cref="SemanticModel"/> to get the symbol from.</param>
+    /// <param name="node">The syntax node that declares the symbol.</param>
+    /// <returns>
+    /// The result of the
+    /// <seealso cref="ModelExtensions.GetDeclaredSymbol(SemanticModel, SyntaxNode, CancellationToken)"/>
+    /// extension, if not <see langword="null"/>, or the symbol info from the
+    /// <seealso cref="ModelExtensions.GetSymbolInfo(SemanticModel, SyntaxNode, CancellationToken)"/>
+    /// extension, if the node represents an anonyous method declaration,
+    /// otherwise <see langword="null"/>.
+    /// </returns>
+    /// <remarks>
+    /// Currently, only the <seealso cref="AnonymousFunctionExpressionSyntax"/> type
+    /// for C# is supported.
+    /// </remarks>
+    public static ISymbol? GetDeclaredOrAnonymousSymbol(this SemanticModel semanticModel, SyntaxNode node)
+    {
+        var declaredSymbol = semanticModel.GetDeclaredSymbol(node);
+        if (declaredSymbol is not null)
+            return declaredSymbol;
+
+        if (node is AnonymousFunctionExpressionSyntax)
+            return semanticModel.GetSymbolInfo(node).Symbol;
+
+        // TODO: Handle the respective case for VB
+
+        return null;
+    }
 }
