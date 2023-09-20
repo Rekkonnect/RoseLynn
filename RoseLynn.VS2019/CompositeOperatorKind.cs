@@ -1,6 +1,5 @@
 ﻿#nullable enable
 
-
 namespace RoseLynn;
 
 /// <summary>

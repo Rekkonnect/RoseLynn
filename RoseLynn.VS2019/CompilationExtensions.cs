@@ -20,7 +20,11 @@ public static class CompilationExtensions
     /// A <seealso cref="ISymbol"/> contained in <paramref name="compilation"/> that matches the name and kind of <paramref name="match"/>,
     /// or <see langword="null"/> if the operation has been cancelled, or no symbol matched the requested symbol's properties.
     /// </returns>
-    public static ISymbol? GetMatchingSymbol(this Compilation compilation, ISymbol? match, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace, CancellationToken cancellationToken = default)
+    public static ISymbol? GetMatchingSymbol(
+        this Compilation compilation,
+        ISymbol? match,
+        SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace,
+        CancellationToken cancellationToken = default)
     {
         if (match is null)
             return null;

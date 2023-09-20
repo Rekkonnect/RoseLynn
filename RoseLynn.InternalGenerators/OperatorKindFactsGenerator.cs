@@ -201,7 +201,12 @@ public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGener
         {
             protected override void AppendPatternValueImpl(string value)
             {
-                Builder.Append("nameof(").Append(value).Append(") => ").Append(value).Append(',').AppendLine();
+                Builder.Append("nameof(")
+                    .Append(value)
+                    .Append(") => ")
+                    .Append(value)
+                    .Append(',')
+                    .AppendLine();
             }
         }
 
