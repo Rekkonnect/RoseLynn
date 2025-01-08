@@ -64,7 +64,7 @@ public class OperatorKindFactsGenerator : DiagnosticAnalyzer, IIncrementalGenera
         const string footer = "}";
 
         var builder = new StringBuilder();
-        builder.Append(header);
+        builder.AppendLine(header);
 
         var methodGenerator = new MethodGenerator(context, operatorKindSymbol, builder);
         methodGenerator.GenerateMethods();
