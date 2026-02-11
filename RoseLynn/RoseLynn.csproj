@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Packages">
-    <PackageReference Include="Garyon" Version="0.3.2" />
+    <PackageReference Include="Garyon" Version="0.4.3" />
   </ItemGroup>
   
   <ItemGroup Label="Microsoft.CodeAnalysis">

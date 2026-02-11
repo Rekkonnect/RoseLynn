@@ -23,27 +23,6 @@ public static class StringExtensions
     }
 
     /// <summary>
-    /// Evaluates a string such that the returned result will begin with the specified prefix,
-    /// without concatenating it if it is already present.
-    /// </summary>
-    /// <param name="source">The source string to which to guarantee a prefix.</param>
-    /// <param name="prefix">The prefix that will be contained in the resulting string.</param>
-    /// <returns>
-    /// The prefix itself if the source string is null or empty, or the source string if it already
-    /// contains the prefix, otherwise a concatenation of the prefix and the source string.
-    /// </returns>
-    public static string EnsureStartsWith(this string? source, string prefix)
-    {
-        if (string.IsNullOrEmpty(source))
-            return prefix;
-
-        bool startsWithPrefix = source.StartsWith(prefix);
-        if (!startsWithPrefix)
-            source = $"{prefix}{source}";
-        return source;
-    }
-
-    /// <summary>
     /// Trims the first newline of the string, if there is any.
     /// </summary>
     /// <param name="s">The string that may start with a newline.</param>

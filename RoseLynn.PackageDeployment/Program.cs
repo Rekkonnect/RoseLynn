@@ -73,18 +73,33 @@ static Version HighestVersion(IEnumerable<FileInfo> fileInfos)
 static IEnumerable<FileInfo> GetLatestRoseLynnNuGetPackages(out Version highestVersion)
 {
     var allPackages = GetRoseLynnNuGetPackages()
-                        .Where(p => !p.Name.Contains("RoseLynn.InternalGenerators"))
-                        .ToList();
+        .Where(p => !p.Name.Contains("RoseLynn.InternalGenerators"))
+        .ToList();
     highestVersion = HighestVersion(allPackages);
     // Lambda won't work without it
     var highestVersionLocal = highestVersion;
     return allPackages.Where(p => NuGetPackageFileInfo.ParseVersion(p) == highestVersionLocal)
-                      .ToList();
+        .ToList();
 }
 static IEnumerable<FileInfo> GetRoseLynnNuGetPackages()
 {
-    var roseLynnDirectory = new DirectoryInfo(HardProjectInfo.ProjectPath);
+    var roseLynnDirectory = GetProjectRoot();
     return roseLynnDirectory.EnumerateFiles("RoseLynn*.nupkg", SearchOption.AllDirectories);
+}
+
+static DirectoryInfo GetProjectRoot()
+{
+    var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
+    var root = currentDirectory.FullName;
+    while (currentDirectory != null)
+    {
+        var solutionFile = currentDirectory.EnumerateFiles("*.sln*").FirstOrDefault();
+        if (solutionFile != null)
+            return currentDirectory;
+        currentDirectory = currentDirectory.Parent;
+    }
+
+    throw new InvalidOperationException("Could not find the .sln* file in any of the directories");
 }
 
 readonly partial struct NuGetPackageFileInfo

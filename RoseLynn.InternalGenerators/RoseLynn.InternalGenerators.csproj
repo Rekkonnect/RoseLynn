@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.2.0" PrivateAssets="all" />
     
     <!-- The meta is too strong in this one-->
-    <PackageReference Include="Garyon" Version="0.3.2" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Garyon" Version="0.4.3" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="RoseLynn" Version="0.6.2" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="RoseLynn.VS2019" Version="0.6.2" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="RoseLynn.Analyzers" Version="0.6.2" PrivateAssets="all" GeneratePathProperty="true" />

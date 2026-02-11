@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Microsoft.CodeAnalysis">
-    <PackageReference Include="Garyon" Version="0.3.2" />
+    <PackageReference Include="Garyon" Version="0.4.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="3.11.0" />

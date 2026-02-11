@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Garyon" Version="0.3.2" />
+    <PackageReference Include="Garyon" Version="0.4.3" />
     <PackageReference Include="NuGet.PackageManagement" Version="6.4.0" />
     <PackageReference Include="NuGet.Packaging" Version="6.4.0" />
     <PackageReference Include="NuGet.Protocol" Version="6.4.0" />

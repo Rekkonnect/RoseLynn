@@ -65,9 +65,9 @@ public class CachedOperatorSymbols
     {
         // Eminem would be proud
         private readonly List<CachedOperatorSymbol> operatorList = new();
-        private readonly FlexibleInitializableValueDictionary<CompositeOperatorKind, List<CachedOperatorSymbol>> compositelyMapped = new();
-        private readonly FlexibleInitializableValueDictionary<OperatorKind, List<CachedOperatorSymbol>> operatorKindMapped = new();
-        private readonly FlexibleInitializableValueDictionary<OperatorCheckingMode, List<CachedOperatorSymbol>> checkingModeMapped = new();
+        private readonly FlexInitDictionary<CompositeOperatorKind, List<CachedOperatorSymbol>> compositelyMapped = new();
+        private readonly FlexInitDictionary<OperatorKind, List<CachedOperatorSymbol>> operatorKindMapped = new();
+        private readonly FlexInitDictionary<OperatorCheckingMode, List<CachedOperatorSymbol>> checkingModeMapped = new();
 
         public IEnumerable<CachedOperatorSymbol> All => operatorList;
 
