@@ -11,7 +11,7 @@
     <PackageVersion>0.7.0</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
-    <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
+    <Copyright>© 2021-2026, Alex Kalfakakos</Copyright>
     <Description>Additional tools for Roslyn-based generators.</Description>
     <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, generator, source-generator, tools, extensions</PackageTags>

@@ -9,7 +9,7 @@
     <PackageVersion>0.7.0</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
-    <Copyright>© 2021-2023, Alex Kalfakakos</Copyright>
+    <Copyright>© 2021-2026, Alex Kalfakakos</Copyright>
     <Description>Additional tools for Roslyn-based applications.</Description>
     <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
