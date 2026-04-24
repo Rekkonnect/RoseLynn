@@ -1,7 +1,7 @@
 ﻿namespace RoseLynn;
 
 /// <summary>Represents a .NET language.</summary>
-public enum NETLanguage
+public enum NetLanguage
 {
     /// <summary>Denotes that the language is an unknown language running in the .NET platform.</summary>
     Unknown = -1,

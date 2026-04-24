@@ -16,9 +16,6 @@
     <PackageTags>roslyn, analyzer, tools, unit test, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Configurations>Debug;Release;Release Test</Configurations>
-    <PackageReleaseNotes>Improvements:
-- More methods for verifying source generator outputs
-- Support for incremental source generators</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">

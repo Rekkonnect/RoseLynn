@@ -74,10 +74,10 @@ public static class CompilationExtensions
                           .ConcatSingleValue(compilation.Assembly);
     }
 
-    /// <summary>Gets the <seealso cref="NETLanguage"/> value representing the source language of the compilation.</summary>
-    /// <param name="compilation">The compilation whose source language to parse into a <seealso cref="NETLanguage"/> value.</param>
-    /// <returns>The <seealso cref="NETLanguage"/> of the compilation.</returns>
-    public static NETLanguage GetNETLanguage(this Compilation compilation)
+    /// <summary>Gets the <seealso cref="NetLanguage"/> value representing the source language of the compilation.</summary>
+    /// <param name="compilation">The compilation whose source language to parse into a <seealso cref="NetLanguage"/> value.</param>
+    /// <returns>The <seealso cref="NetLanguage"/> of the compilation.</returns>
+    public static NetLanguage GetNetLanguage(this Compilation compilation)
     {
         return LanguageFacts.MapToNETLanguage(compilation.Language);
     }

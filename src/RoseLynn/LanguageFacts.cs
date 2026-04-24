@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace RoseLynn;
 
-/// <summary>Provides facts for .NET languages and extensions for the <seealso cref="NETLanguage"/> enum.</summary>
+/// <summary>Provides facts for .NET languages and extensions for the <seealso cref="NetLanguage"/> enum.</summary>
 public static class LanguageFacts
 {
     #region Language Names
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public const string CodeFriendlyCSharp = nameof(NETLanguage.CSharp);
-    public const string CodeFriendlyFSharp = nameof(NETLanguage.FSharp);
-    public const string CodeFriendlyVisualBasic = nameof(NETLanguage.VisualBasic);
+    public const string CodeFriendlyCSharp = nameof(NetLanguage.CSharp);
+    public const string CodeFriendlyFSharp = nameof(NetLanguage.FSharp);
+    public const string CodeFriendlyVisualBasic = nameof(NetLanguage.VisualBasic);
     
     public const string CSharpExtension = "cs";
     public const string FSharpExtension = "fs";
@@ -22,49 +22,49 @@ public static class LanguageFacts
 
     static LanguageFacts()
     {
-        languageNameMappings.MapRange(NETLanguage.CSharp, 
+        languageNameMappings.MapRange(NetLanguage.CSharp, 
             LanguageNames.CSharp, CodeFriendlyCSharp, CSharpExtension);
 
-        languageNameMappings.MapRange(NETLanguage.FSharp,
+        languageNameMappings.MapRange(NetLanguage.FSharp,
             LanguageNames.FSharp, CodeFriendlyFSharp, FSharpExtension);
 
-        languageNameMappings.MapRange(NETLanguage.VisualBasic,
+        languageNameMappings.MapRange(NetLanguage.VisualBasic,
             LanguageNames.VisualBasic, CodeFriendlyVisualBasic, VisualBasicExtension);
     }
 
-    /// <summary>Determines whether the given <seealso cref="NETLanguage"/> value reflects a .NET language supported by Roslyn.</summary>
+    /// <summary>Determines whether the given <seealso cref="NetLanguage"/> value reflects a .NET language supported by Roslyn.</summary>
     /// <param name="language">The .NET language to determine whether it's supported by Roslyn.</param>
     /// <returns><see langword="true"/> if the given language is supported by Roslyn, otherwise <see langword="false"/>.</returns>
-    public static bool IsRoslynNETLanguage(this NETLanguage language)
+    public static bool IsRoslynNETLanguage(this NetLanguage language)
     {
-        return language is NETLanguage.CSharp
-                        or NETLanguage.VisualBasic;
+        return language is NetLanguage.CSharp
+                        or NetLanguage.VisualBasic;
     }
 
     /// <summary>Gets the source file extension for the specified language.</summary>
     /// <param name="language">The language for which the file extension to get.</param>
     /// <returns>
-    /// The file extension, excluding the period. If the given <seealso cref="NETLanguage"/>
+    /// The file extension, excluding the period. If the given <seealso cref="NetLanguage"/>
     /// value is not known/supported, the string representation of the value is returned instead.
     /// </returns>
-    public static string GetSourceFileExtension(this NETLanguage language) => language switch
+    public static string GetSourceFileExtension(this NetLanguage language) => language switch
     {
-        NETLanguage.CSharp => CSharpExtension,
-        NETLanguage.FSharp => FSharpExtension,
-        NETLanguage.VisualBasic => VisualBasicExtension,
+        NetLanguage.CSharp => CSharpExtension,
+        NetLanguage.FSharp => FSharpExtension,
+        NetLanguage.VisualBasic => VisualBasicExtension,
 
         _ => language.ToString(),
     };
-    /// <summary>Maps the name of the language to a <seealso cref="NETLanguage"/> instance.</summary>
+    /// <summary>Maps the name of the language to a <seealso cref="NetLanguage"/> instance.</summary>
     /// <param name="languageName">
     /// The name of the language. It may be any of the <see langword="const"/> strings in
     /// <seealso cref="LanguageNames"/>, or in <seealso cref="LanguageFacts"/>. Character casing is ignored.
     /// </param>
     /// <returns>
-    /// A <seealso cref="NETLanguage"/> value representing the .NET language represented by the
-    /// provided language name if available, otherwise <seealso cref="NETLanguage.Unknown"/>.
+    /// A <seealso cref="NetLanguage"/> value representing the .NET language represented by the
+    /// provided language name if available, otherwise <seealso cref="NetLanguage.Unknown"/>.
     /// </returns>
-    public static NETLanguage MapToNETLanguage(string languageName) => languageNameMappings.MapToNETLanguage(languageName);
+    public static NetLanguage MapToNETLanguage(string languageName) => languageNameMappings.MapToNETLanguage(languageName);
 
     /// <summary>Gets the source file extension for the specified language.</summary>
     /// <param name="languageName">The name of the language for which the file extension to get.</param>
@@ -74,25 +74,25 @@ public static class LanguageFacts
         return GetSourceFileExtension(MapToNETLanguage(languageName));
     }
 
-    private sealed class NETLanguageNameDictionary : Dictionary<string, NETLanguage>
+    private sealed class NETLanguageNameDictionary : Dictionary<string, NetLanguage>
     {
-        public void Map(string name, NETLanguage language)
+        public void Map(string name, NetLanguage language)
         {
             Add(name.ToLower(), language);
         }
         
-        public void MapRange(NETLanguage language, params string[] names)
+        public void MapRange(NetLanguage language, params string[] names)
         {
             foreach (var name in names)
                 Map(name, language);
         }
 
-        public NETLanguage MapToNETLanguage(string name)
+        public NetLanguage MapToNETLanguage(string name)
         {
             if (TryGetValue(name.ToLower(), out var language))
                 return language;
             
-            return NETLanguage.Unknown;
+            return NetLanguage.Unknown;
         }
     }
 }

@@ -15,8 +15,6 @@
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Configurations>Debug;Release;Release Test</Configurations>
-    <PackageReleaseNotes>Extensions:
-- SyntaxValueProviderExtensions</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">
