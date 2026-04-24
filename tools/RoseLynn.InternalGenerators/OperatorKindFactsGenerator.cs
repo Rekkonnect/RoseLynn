@@ -7,6 +7,7 @@ using System.Text;
 namespace RoseLynn.InternalGenerators;
 
 // A generator that also reports diagnostics; not so bad for such simple solutions
+// TODO: Convert into an incremental generator
 [Generator]
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class OperatorKindFactsGenerator : DiagnosticAnalyzer, IIncrementalGenerator
