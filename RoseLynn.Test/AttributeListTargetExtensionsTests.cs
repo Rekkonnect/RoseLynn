@@ -1,14 +1,14 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
-using NUnit.Framework;
 using RoseLynn.CSharp.Syntax;
+using System.Threading.Tasks;
 
 namespace RoseLynn.Test;
 
 public class AttributeListTargetExtensionsTests
 {
     [Test]
-    public void GetSyntaxKind()
+    public async Task GetSyntaxKind()
     {
-        Assert.AreEqual(SyntaxKind.ModuleKeyword, AttributeListTarget.Module.GetSyntaxKind());
+        await Assert.That(AttributeListTarget.Module.GetSyntaxKind()).IsEqualTo(SyntaxKind.ModuleKeyword);
     }
 }

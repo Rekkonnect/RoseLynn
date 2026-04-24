@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using RoseLynn.Utilities;
+﻿using RoseLynn.Utilities;
 using System;
+using System.Threading.Tasks;
 
 namespace RoseLynn.Test.Utilities;
 
@@ -20,46 +20,43 @@ public class InterlinkedDictionaryTests
     }
 
     [Test]
-    public void AddTest()
+    public async Task AddTest()
     {
-        Assert.AreEqual(1, baseDictionary.Count);
+        await Assert.That(baseDictionary.Count).IsEqualTo(1);
 
-        Assert.AreEqual(intValue, baseDictionary[stringValue]);
-        Assert.AreEqual(stringValue, baseDictionary[intValue]);
+        await Assert.That(baseDictionary[stringValue]).IsEqualTo(intValue);
+        await Assert.That(baseDictionary[intValue]).IsEqualTo(stringValue);
 
-        // + 1 ensures that the values are different
-        Assert.Throws<ArgumentException>(GetDictionaryAddDelegate(baseDictionary, intValue + 1, stringValue));
-        Assert.Throws<ArgumentException>(GetDictionaryAddDelegate(baseDictionary, intValue, stringValue + 1));
+        await Assert.That(GetDictionaryAddDelegate(baseDictionary, intValue + 1, stringValue)).Throws<ArgumentException>();
+        await Assert.That(GetDictionaryAddDelegate(baseDictionary, intValue, stringValue + 1)).Throws<ArgumentException>();
 
-        // We don't care about the type of the exception that is thrown if both invalid cases
-        // occur, for long as the individual invalid cases are caught
-        Assert.Throws<ArgumentNullException>(GetDictionaryAddDelegate(baseDictionary, intValue + 1, null));
+        await Assert.That(GetDictionaryAddDelegate(baseDictionary, intValue + 1, null)).Throws<ArgumentNullException>();
 
-        Assert.AreEqual(1, baseDictionary.Count);
+        await Assert.That(baseDictionary.Count).IsEqualTo(1);
 
-        static TestDelegate GetDictionaryAddDelegate<T1, T2>(InterlinkedDictionary<T1, T2> dictionary, T1 t1, T2 t2)
+        static Action GetDictionaryAddDelegate<T1, T2>(InterlinkedDictionary<T1, T2> dictionary, T1 t1, T2 t2)
         {
             return () => dictionary.Add(t1, t2);
         }
     }
 
     [Test]
-    public void RemoveTest()
+    public async Task RemoveTest()
     {
         var dictionary = new InterlinkedDictionary<int, string>(baseDictionary);
 
-        Assert.True(dictionary.Remove(intValue));
-        AssertEmptyDictionary(dictionary);
+        await Assert.That(dictionary.Remove(intValue)).IsTrue();
+        await AssertEmptyDictionary(dictionary);
 
         // For the string version too
         dictionary = new InterlinkedDictionary<int, string>(baseDictionary);
 
-        Assert.True(dictionary.Remove(stringValue));
-        AssertEmptyDictionary(dictionary);
+        await Assert.That(dictionary.Remove(stringValue)).IsTrue();
+        await AssertEmptyDictionary(dictionary);
     }
 
     [Test]
-    public void AccessorTest()
+    public async Task AccessorTest()
     {
         var dictionary = new InterlinkedDictionary<int, string>(baseDictionary);
 
@@ -68,44 +65,44 @@ public class InterlinkedDictionaryTests
         var newStringValue = stringValue + 1;
         dictionary[intValue] = newStringValue;
 
-        Assert.AreNotEqual(stringValue, dictionary[intValue]);
-        Assert.AreEqual(stringValue, baseDictionary[intValue]);
+        await Assert.That(dictionary[intValue]).IsNotEqualTo(stringValue);
+        await Assert.That(baseDictionary[intValue]).IsEqualTo(stringValue);
 
-        Assert.False(dictionary.Contains(stringValue));
+        await Assert.That(dictionary.Contains(stringValue)).IsFalse();
 
         int newIntValue = intValue + 1;
         dictionary[newStringValue] = newIntValue;
-        Assert.AreNotEqual(intValue, dictionary[newStringValue]);
+        await Assert.That(dictionary[newStringValue]).IsNotEqualTo(intValue);
 
-        Assert.False(dictionary.Contains(intValue));
+        await Assert.That(dictionary.Contains(intValue)).IsFalse();
 
-        Assert.AreEqual(oldCount, dictionary.Count);
+        await Assert.That(dictionary.Count).IsEqualTo(oldCount);
     }
 
     [Test]
-    public void ClearTest()
+    public async Task ClearTest()
     {
         var dictionary = new InterlinkedDictionary<int, string>(baseDictionary);
 
         dictionary.Clear();
-        AssertEmptyDictionary(dictionary);
+        await AssertEmptyDictionary(dictionary);
     }
 
     [Test]
-    public void TryGetValue()
+    public async Task TryGetValue()
     {
-        Assert.True(baseDictionary.TryGetValue(intValue, out var outputStringValue));
-        Assert.AreEqual(stringValue, outputStringValue);
+        await Assert.That(baseDictionary.TryGetValue(intValue, out var outputStringValue)).IsTrue();
+        await Assert.That(outputStringValue).IsEqualTo(stringValue);
 
-        Assert.True(baseDictionary.TryGetValue(stringValue, out int outputIntValue));
-        Assert.AreEqual(intValue, outputIntValue);
+        await Assert.That(baseDictionary.TryGetValue(stringValue, out int outputIntValue)).IsTrue();
+        await Assert.That(outputIntValue).IsEqualTo(intValue);
     }
 
-    private static void AssertEmptyDictionary(InterlinkedDictionary<int, string> dictionary)
+    private static async Task AssertEmptyDictionary(InterlinkedDictionary<int, string> dictionary)
     {
-        Assert.AreEqual(0, dictionary.Count);
+        await Assert.That(dictionary.Count).IsEqualTo(0);
 
-        Assert.False(dictionary.Contains(intValue));
-        Assert.False(dictionary.Contains(stringValue));
+        await Assert.That(dictionary.Contains(intValue)).IsFalse();
+        await Assert.That(dictionary.Contains(stringValue)).IsFalse();
     }
 }

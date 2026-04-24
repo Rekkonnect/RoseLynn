@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,8 +6,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>0.6.4.1</Version>
-    <PackageVersion>0.6.4.1</PackageVersion>
+    <Version>0.7.0</Version>
+    <PackageVersion>0.7.0</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
     <Copyright>© 2021-2023, Alex Kalfakakos</Copyright>
@@ -29,13 +29,20 @@
   </ItemGroup>
   
   <ItemGroup Label="Microsoft.CodeAnalysis">
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="4.4.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="4.4.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="5.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="5.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="5.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoseLynn.VS2019\RoseLynn.VS2019.csproj" />
+    <ProjectReference Include="..\RoseLynn.InternalGenerators\RoseLynn.InternalGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\RoseLynn.VS2019\**\*.cs"
+             Exclude="..\RoseLynn.VS2019\bin\**\*;..\RoseLynn.VS2019\obj\**\*" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

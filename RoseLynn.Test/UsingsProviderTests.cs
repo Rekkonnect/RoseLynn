@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
 
 namespace RoseLynn.Test;
 
 public class UsingsProviderTests
 {
     [Test]
-    public void ClassicUsings()
+    public async Task ClassicUsings()
     {
         const string classicUsings = """
                                      using System;
@@ -30,6 +30,6 @@ public class UsingsProviderTests
         var usingsProvider = new VariableUsingsProvider(classicUsings);
         var withUsings = usingsProvider.WithUsings(exampleCode).ReplaceLineEndings();
         var expected = $"{classicUsings}\n{exampleCode}".ReplaceLineEndings();
-        Assert.AreEqual(expected, withUsings);
+        await Assert.That(withUsings).IsEqualTo(expected);
     }
 }

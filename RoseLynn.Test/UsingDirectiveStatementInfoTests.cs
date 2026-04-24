@@ -1,15 +1,15 @@
-﻿using NUnit.Framework;
-using NUnit.Framework.Constraints;
-using RoseLynn.CSharp.Syntax;
+﻿using RoseLynn.CSharp.Syntax;
 using RoseLynn.Test.Resources;
+using System;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace RoseLynn.Test;
 
 public class UsingDirectiveStatementInfoTests
 {
     [Test]
-    public void SimpleUsings()
+    public async Task SimpleUsings()
     {
         var list = new UsingDirectiveStatementInfoList();
         list.AddRange(UsingDirectiveKind.Using, "A", "B", "C", "A.D.E", "A.A0", "F.G");
@@ -23,11 +23,11 @@ public class UsingDirectiveStatementInfoTests
                                       using F.G;
                                       """;
 
-        Assert.AreEqual(expectedUsings, actualUsings);
+        await Assert.That(actualUsings).IsEqualTo(expectedUsings);
     }
 
     [Test]
-    public void SimpleUsingsSorted()
+    public async Task SimpleUsingsSorted()
     {
         var list = new UsingDirectiveStatementInfoList();
         list.AddRange(UsingDirectiveKind.Using, "A", "B", "C", "A.D.E", "A.A0", "F.G");
@@ -41,11 +41,11 @@ public class UsingDirectiveStatementInfoTests
                                       using F.G;
                                       """;
 
-        Assert.AreEqual(expectedUsings, actualUsings);
+        await Assert.That(actualUsings).IsEqualTo(expectedUsings);
     }
 
     [Test]
-    public void VariousUsingsKinds()
+    public async Task VariousUsingsKinds()
     {
         var list = new UsingDirectiveStatementInfoList
         {
@@ -66,11 +66,11 @@ public class UsingDirectiveStatementInfoTests
                                       global using AliasB = B;
                                       """;
 
-        Assert.AreEqual(expectedUsings, actualUsings);
+        await Assert.That(actualUsings).IsEqualTo(expectedUsings);
     }
 
     [Test]
-    public void VariousUsingsKindsSorted()
+    public async Task VariousUsingsKindsSorted()
     {
         var list = new UsingDirectiveStatementInfoList
         {
@@ -91,40 +91,40 @@ public class UsingDirectiveStatementInfoTests
                                       using Alias = A;
                                       """;
 
-        Assert.AreEqual(expectedUsings, actualUsings);
+        await Assert.That(actualUsings).IsEqualTo(expectedUsings);
     }
 
     [Test]
-    public void UsingForType()
+    public async Task UsingForType()
     {
-        AssertUsingCreation(
+        await AssertUsingCreation(
             UsingDirectiveKind.Using,
             $"using {ExampleTypes.BaseNamespace};");
 
-        AssertUsingCreation(
+        await AssertUsingCreation(
             UsingDirectiveKind.GlobalUsing,
             $"global using {ExampleTypes.BaseNamespace};");
 
-        AssertUsingCreation(
+        await AssertUsingCreation(
             UsingDirectiveKind.UsingStatic,
             $"using static {ExampleTypes.BaseNamespace}.{nameof(ExampleClass)};");
 
-        AssertUsingCreation(
+        await AssertUsingCreation(
             UsingDirectiveKind.GlobalUsingStatic,
             $"global using static {ExampleTypes.BaseNamespace}.{nameof(ExampleClass)};");
 
-        AssertInvalidUsingCreation(UsingDirectiveKind.UsingAlias);
-        AssertInvalidUsingCreation(UsingDirectiveKind.GlobalUsingAlias);
+        await AssertInvalidUsingCreation(UsingDirectiveKind.UsingAlias);
+        await AssertInvalidUsingCreation(UsingDirectiveKind.GlobalUsingAlias);
 
-        static void AssertInvalidUsingCreation(UsingDirectiveKind kind)
+        static async Task AssertInvalidUsingCreation(UsingDirectiveKind kind)
         {
-            Assert.Catch(() => CreateExampleUsing(kind));
+            await Assert.That(() => CreateExampleUsing(kind)).Throws<Exception>();
         }
 
-        static void AssertUsingCreation(UsingDirectiveKind kind, string expectedUsing)
+        static async Task AssertUsingCreation(UsingDirectiveKind kind, string expectedUsing)
         {
             var created = CreateExampleUsing(kind);
-            Assert.AreEqual(expectedUsing, created.ToString());
+            await Assert.That(created.ToString()).IsEqualTo(expectedUsing);
         }
 
         static UsingDirectiveStatementInfo CreateExampleUsing(UsingDirectiveKind kind)

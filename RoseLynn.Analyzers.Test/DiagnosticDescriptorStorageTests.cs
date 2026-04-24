@@ -1,5 +1,5 @@
-using Microsoft.CodeAnalysis;
-using NUnit.Framework;
+﻿using Microsoft.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace RoseLynn.Analyzers.Test;
 
@@ -8,29 +8,29 @@ using static MockedResources.MockStorage;
 public class DiagnosticDescriptorStorageTests
 {
     [Test]
-    public void GetDiagnosticDescriptor()
+    public async Task GetDiagnosticDescriptor()
     {
-        Assert.AreEqual(Instance.MOCK0001_Rule, Instance[0001]);
-        Assert.AreEqual(Instance.MOCK0002_Rule, Instance[0002]);
-        Assert.AreEqual(Instance.MOCK1001_Rule, Instance[1001]);
+        await Assert.That(Instance[0001]).IsEqualTo(Instance.MOCK0001_Rule);
+        await Assert.That(Instance[0002]).IsEqualTo(Instance.MOCK0002_Rule);
+        await Assert.That(Instance[1001]).IsEqualTo(Instance.MOCK1001_Rule);
 
-        Assert.Null(Instance[0003]);
-        Assert.Null(Instance[9999]);
-        Assert.Null(Instance[5555]);
-        Assert.Null(Instance[1111]);
+        await Assert.That(Instance[0003]).IsNull();
+        await Assert.That(Instance[9999]).IsNull();
+        await Assert.That(Instance[5555]).IsNull();
+        await Assert.That(Instance[1111]).IsNull();
     }
 
     [Test]
-    public void DefaultDiagnosticSeverity()
+    public async Task DefaultDiagnosticSeverity()
     {
         var mappedSeverity = Instance[1002];
-        Assert.AreEqual(DiagnosticSeverity.Warning, mappedSeverity.DefaultSeverity);
+        await Assert.That(mappedSeverity.DefaultSeverity).IsEqualTo(DiagnosticSeverity.Warning);
     }
 
     [Test]
-    public void GetInvalidDiagnosticID()
+    public async Task GetInvalidDiagnosticID()
     {
-        Assert.Null(Instance[-1]);
-        Assert.Null(Instance[15023]);
+        await Assert.That(Instance[-1]).IsNull();
+        await Assert.That(Instance[15023]).IsNull();
     }
 }

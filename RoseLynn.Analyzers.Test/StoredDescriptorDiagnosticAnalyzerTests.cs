@@ -1,14 +1,14 @@
-﻿using NUnit.Framework;
-using RoseLynn.Analyzers.Test.MockedResources;
+﻿using RoseLynn.Analyzers.Test.MockedResources;
+using System.Threading.Tasks;
 
 namespace RoseLynn.Analyzers.Test;
 
 public class StoredDescriptorDiagnosticAnalyzerTests
 {
     [Test]
-    public void SupportedDiagnosticsTest()
+    public async Task SupportedDiagnosticsTest()
     {
         var analyzerInstance = new MockAnalyzer();
-        Assert.AreEqual(MockStorage.Instance.GetDiagnosticDescriptors(typeof(MockAnalyzer)).Length, analyzerInstance.SupportedDiagnostics.Length);
+        await Assert.That(analyzerInstance.SupportedDiagnostics.Length).IsEqualTo(MockStorage.Instance.GetDiagnosticDescriptors(typeof(MockAnalyzer)).Length);
     }
 }

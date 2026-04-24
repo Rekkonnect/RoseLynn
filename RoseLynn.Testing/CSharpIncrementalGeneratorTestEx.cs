@@ -1,7 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using System.Collections.Generic;
 using RoseLynn.Generators.Testing;
 
 namespace RoseLynn.Testing;
@@ -19,9 +17,5 @@ public abstract class CSharpIncrementalGeneratorTestEx<TIncrementalGenerator, TV
     where TIncrementalGenerator : IIncrementalGenerator, new()
     where TVerifier : IVerifier, new()
 {
-    protected override IEnumerable<ISourceGenerator> GetSourceGenerators()
-    {
-        return new[] { new TIncrementalGenerator().AsSourceGenerator() };
-    }
 }
 

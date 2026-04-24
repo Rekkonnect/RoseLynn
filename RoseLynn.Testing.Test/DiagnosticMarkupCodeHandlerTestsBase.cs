@@ -1,6 +1,8 @@
-﻿namespace RoseLynn.Testing.Test;
+﻿using System.Threading.Tasks;
+
+namespace RoseLynn.Testing.Test;
 
 public abstract class DiagnosticMarkupCodeHandlerTestsBase
 {
-    public abstract void RemoveMarkupTest();
+    public abstract Task RemoveMarkupTest();
 }

@@ -50,7 +50,7 @@ public static class KeywordIdentifierExtensions
 
     /// <summary>Determines whether the given type symbol has a keyword identifier for its represented predefined type.</summary>
     /// <param name="typeSymbol">The type to determine whether it has a keyword identifier.</param>
-    /// <returns><see langword="true"/> if the type symbol can be represented by a keyword identifier, otherwise <see langword="false"/>./</returns>
+    /// <returns><see langword="true"/> if the type symbol can be represented by a keyword identifier, otherwise <see langword="false"/>.</returns>
     public static bool HasKeywordIdentifier(this ITypeSymbol? typeSymbol)
     {
         return typeSymbol.GetKeywordIdentifierForPredefinedType() is not null;

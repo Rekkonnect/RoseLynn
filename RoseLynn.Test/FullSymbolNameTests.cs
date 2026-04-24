@@ -1,12 +1,12 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace RoseLynn.Test;
 
 public class FullSymbolNameTests
 {
     [Test]
-    public void FullNames()
+    public async Task FullNames()
     {
         var namespaces = new[] { nameof(RoseLynn), nameof(Test) };
         var containerTypes = new[] { nameof(FullSymbolName), nameof(FullSymbolNameTests) };
@@ -17,35 +17,35 @@ public class FullSymbolNameTests
 
         var expectedNamespacesString = $"{nameof(RoseLynn)}{fullName.NamespaceDelimiter}{nameof(Test)}";
         var actualNamespacesString = fullName.FullNamespaceString;
-        Assert.AreEqual(expectedNamespacesString, actualNamespacesString);
+        await Assert.That(actualNamespacesString).IsEqualTo(expectedNamespacesString);
 
         var expectedContainerTypeString = $"{nameof(FullSymbolName)}{fullName.ContainerTypeDelimiter}{nameof(FullSymbolNameTests)}";
         var actualContainerTypeString = fullName.FullContainerTypeString;
-        Assert.AreEqual(expectedContainerTypeString, actualContainerTypeString);
+        await Assert.That(actualContainerTypeString).IsEqualTo(expectedContainerTypeString);
 
         var expectedContainerMethodString = $"{nameof(Equals)}{fullName.ContainerMethodDelimiter}{nameof(FullNames)}";
         var actualContainerMethodString = fullName.FullContainerMethodString;
-        Assert.AreEqual(expectedContainerMethodString, actualContainerMethodString);
+        await Assert.That(actualContainerMethodString).IsEqualTo(expectedContainerMethodString);
 
         var expectedFullNameString = $"{expectedNamespacesString}{fullName.NamespaceDelimiter}{expectedContainerTypeString}{fullName.ContainerTypeDelimiter}{expectedContainerMethodString}{fullName.ContainerMethodDelimiter}{symbolName}";
-        Assert.AreEqual(expectedFullNameString, fullName.FullNameString);
+        await Assert.That(fullName.FullNameString).IsEqualTo(expectedFullNameString);
     }
     [Test]
-    public void FullNamesOnlySingleNamespace()
+    public async Task FullNamesOnlySingleNamespace()
     {
         var namespaces = new[] { nameof(RoseLynn) };
         var symbolName = nameof(String);
 
         var fullName = new FullSymbolName(symbolName, namespaces, null, null);
 
-        Assert.AreEqual(nameof(RoseLynn), fullName.FullNamespaceString);
-        Assert.AreEqual("", fullName.FullContainerTypeString);
-        Assert.AreEqual("", fullName.FullContainerMethodString);
+        await Assert.That(fullName.FullNamespaceString).IsEqualTo(nameof(RoseLynn));
+        await Assert.That(fullName.FullContainerTypeString).IsEqualTo("");
+        await Assert.That(fullName.FullContainerMethodString).IsEqualTo("");
 
-        Assert.AreEqual($"{nameof(RoseLynn)}{fullName.NamespaceDelimiter}{symbolName}", fullName.FullNameString);
+        await Assert.That(fullName.FullNameString).IsEqualTo($"{nameof(RoseLynn)}{fullName.NamespaceDelimiter}{symbolName}");
     }
     [Test]
-    public void FullNamesOnlySingleContainerTypeAndMethod()
+    public async Task FullNamesOnlySingleContainerTypeAndMethod()
     {
         var containerTypes = new[] { nameof(FullSymbolNameTests) };
         var containerMethods = new[] { nameof(FullNames) };
@@ -53,15 +53,15 @@ public class FullSymbolNameTests
 
         var fullName = new FullSymbolName(symbolName, null, containerTypes, containerMethods);
 
-        Assert.AreEqual("", fullName.FullNamespaceString);
-        Assert.AreEqual(nameof(FullSymbolNameTests), fullName.FullContainerTypeString);
-        Assert.AreEqual(nameof(FullNames), fullName.FullContainerMethodString);
+        await Assert.That(fullName.FullNamespaceString).IsEqualTo("");
+        await Assert.That(fullName.FullContainerTypeString).IsEqualTo(nameof(FullSymbolNameTests));
+        await Assert.That(fullName.FullContainerMethodString).IsEqualTo(nameof(FullNames));
 
-        Assert.AreEqual($"{nameof(FullSymbolNameTests)}{fullName.ContainerTypeDelimiter}{nameof(FullNames)}{fullName.ContainerMethodDelimiter}{symbolName}", fullName.FullNameString);
+        await Assert.That(fullName.FullNameString).IsEqualTo($"{nameof(FullSymbolNameTests)}{fullName.ContainerTypeDelimiter}{nameof(FullNames)}{fullName.ContainerMethodDelimiter}{symbolName}");
     }
 
     [Test]
-    public void FullNameForNestedType()
+    public async Task FullNameForNestedType()
     {
         var name = FullSymbolName.ForType<TestType>();
         
@@ -71,10 +71,10 @@ public class FullSymbolNameTests
 
         var targetFullName = new FullSymbolName(symbolName, containerNamespaces, containerTypes, null);
 
-        Assert.True(name.Matches(targetFullName, SymbolNameMatchingLevel.Namespace));
+        await Assert.That(name.Matches(targetFullName, SymbolNameMatchingLevel.Namespace)).IsTrue();
     }
     [Test]
-    public void FullNameForMethodTypeParameter()
+    public async Task FullNameForMethodTypeParameter()
     {
         var typeParameter = typeof(TestType).GetMethod(nameof(TestType.Method)).GetGenericArguments()[0];
         var name = FullSymbolName.ForType(typeParameter);
@@ -86,7 +86,7 @@ public class FullSymbolNameTests
 
         var targetFullName = new FullSymbolName(symbolName, containerNamespaces, containerTypes, containerMethods);
 
-        Assert.True(name.Matches(targetFullName, SymbolNameMatchingLevel.Namespace));
+        await Assert.That(name.Matches(targetFullName, SymbolNameMatchingLevel.Namespace)).IsTrue();
     }
 
     private abstract class TestType

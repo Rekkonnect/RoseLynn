@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -33,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="RoseLynn.InternalGenerators" Version="0.6.3.2" PrivateAssets="all" />
+    <ProjectReference Include="..\RoseLynn.InternalGenerators\RoseLynn.InternalGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

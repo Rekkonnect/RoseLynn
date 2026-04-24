@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
 
 namespace RoseLynn.Testing.Test;
 
 public class DiagnosticMarkupCodeHandlerConversionTests
 {
     [Test]
-    public void MicrosoftToGuTest()
+    public async Task MicrosoftToGuTest()
     {
         var microsoft = DiagnosticMarkupCodeHandler.MicrosoftCodeAnalysis;
         var gu = DiagnosticMarkupCodeHandler.GuRoslynAsserts;
@@ -14,7 +14,7 @@ public class DiagnosticMarkupCodeHandlerConversionTests
         var expectedConverted = GenerateMarkedCode(gu);
         var converted = microsoft.ConvertMarkup(original, gu);
 
-        Assert.AreEqual(expectedConverted, converted);
+        await Assert.That(converted).IsEqualTo(expectedConverted);
 
         static string GenerateMarkedCode(DiagnosticMarkupCodeHandler handler)
         {
