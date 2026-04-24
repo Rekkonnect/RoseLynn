@@ -4,14 +4,20 @@
     <BuildType Name="Release" />
     <BuildType Name="Release Test" />
   </Configurations>
-  <Project Path="RoseLynn.Analyzers.Test/RoseLynn.Analyzers.Test.csproj" />
-  <Project Path="RoseLynn.Analyzers/RoseLynn.Analyzers.csproj" />
-  <Project Path="RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj" />
-  <Project Path="RoseLynn.Generators/RoseLynn.Generators.csproj" />
-  <Project Path="RoseLynn.InternalGenerators/RoseLynn.InternalGenerators.csproj" />
-  <Project Path="RoseLynn.PackageDeployment/RoseLynn.PackageDeployment.csproj" />
-  <Project Path="RoseLynn.Test/RoseLynn.Test.csproj" />
-  <Project Path="RoseLynn.Testing.Test/RoseLynn.Testing.Test.csproj" />
-  <Project Path="RoseLynn.Testing/RoseLynn.Testing.csproj" />
-  <Project Path="RoseLynn/RoseLynn.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/RoseLynn.Analyzers/RoseLynn.Analyzers.csproj" />
+    <Project Path="src/RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj" />
+    <Project Path="src/RoseLynn.Generators/RoseLynn.Generators.csproj" />
+    <Project Path="src/RoseLynn.Testing/RoseLynn.Testing.csproj" />
+    <Project Path="src/RoseLynn/RoseLynn.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/RoseLynn.Analyzers.Test/RoseLynn.Analyzers.Test.csproj" />
+    <Project Path="test/RoseLynn.Test/RoseLynn.Test.csproj" />
+    <Project Path="test/RoseLynn.Testing.Test/RoseLynn.Testing.Test.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/RoseLynn.InternalGenerators/RoseLynn.InternalGenerators.csproj" />
+    <Project Path="tools/RoseLynn.PackageDeployment/RoseLynn.PackageDeployment.csproj" />
+  </Folder>
 </Solution>

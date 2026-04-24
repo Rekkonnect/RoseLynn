@@ -20,7 +20,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
+    <ProjectReference Include="..\..\src\RoseLynn.Analyzers\RoseLynn.Analyzers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MockedResources\MockDiagnosticResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MockDiagnosticResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="MockedResources\MockDiagnosticResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MockDiagnosticResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

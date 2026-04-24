@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 
 #nullable enable annotations
 
@@ -31,7 +32,7 @@ public static class RecordDeclarationSyntaxExtensions
         {
             SyntaxKind.RecordStructDeclaration => TypeKind.Struct,
             SyntaxKind.RecordDeclaration => TypeKind.Class,
-            _ => throw new System.NotImplementedException(),
+            _ => throw new NotImplementedException(),
         };
     }
 }

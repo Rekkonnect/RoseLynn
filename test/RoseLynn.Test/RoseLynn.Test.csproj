@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
 
@@ -21,8 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoseLynn.Testing\RoseLynn.Testing.csproj" />
-    <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
+    <ProjectReference Include="..\..\src\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,43 +2,44 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <NoWarn>$(NoWarn);RS1042</NoWarn>
     <Version>0.7.0</Version>
     <PackageVersion>0.7.0</PackageVersion>
     <Authors>Alex Kalfakakos</Authors>
     <Company />
-    <Copyright>© 2021-2022, Alex Kalfakakos</Copyright>
-    <Description>Additional tools for Roslyn-based generators.</Description>
+    <Copyright>© 2021-2023, Alex Kalfakakos</Copyright>
+    <Description>Additional tools for Roslyn-based applications.</Description>
     <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
-    <PackageTags>roslyn, analyzer, generator, source-generator, tools, extensions</PackageTags>
+    <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Configurations>Debug;Release;Release Test</Configurations>
+    <PackageReleaseNotes>Extensions:
+- SyntaxValueProviderExtensions</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">
-    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <ItemGroup Label="Microsoft.CodeAnalysis">
+  <ItemGroup Label="Packages">
     <PackageReference Include="Garyon" Version="0.4.3" />
+  </ItemGroup>
+  
+  <ItemGroup Label="Microsoft.CodeAnalysis">
     <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="5.3.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="5.3.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="5.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
+    <ProjectReference Include="..\RoseLynn.InternalGenerators\RoseLynn.InternalGenerators.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
