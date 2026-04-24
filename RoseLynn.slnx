@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+    <BuildType Name="Release Test" />
+  </Configurations>
+  <Project Path="RoseLynn.Analyzers.Test/RoseLynn.Analyzers.Test.csproj" />
+  <Project Path="RoseLynn.Analyzers/RoseLynn.Analyzers.csproj" />
+  <Project Path="RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj" />
+  <Project Path="RoseLynn.Generators/RoseLynn.Generators.csproj" />
+  <Project Path="RoseLynn.InternalGenerators/RoseLynn.InternalGenerators.csproj" />
+  <Project Path="RoseLynn.PackageDeployment/RoseLynn.PackageDeployment.csproj" />
+  <Project Path="RoseLynn.Test/RoseLynn.Test.csproj" />
+  <Project Path="RoseLynn.Testing.Test/RoseLynn.Testing.Test.csproj" />
+  <Project Path="RoseLynn.Testing/RoseLynn.Testing.csproj" />
+  <Project Path="RoseLynn/RoseLynn.csproj" />
+</Solution>

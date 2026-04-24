@@ -3,6 +3,7 @@ using Garyon.Reflection;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -171,6 +172,9 @@ public sealed class FullSymbolName
     }
 
     /// <summary>Resets all delimiters to their individual default values.</summary>
+    [MemberNotNull(nameof(NamespaceDelimiter))]
+    [MemberNotNull(nameof(ContainerTypeDelimiter))]
+    [MemberNotNull(nameof(ContainerMethodDelimiter))]
     public void ResetAllDelimiters()
     {
         NamespaceDelimiter = DefaultNamespaceDelimiter;
@@ -216,6 +220,7 @@ public sealed class FullSymbolName
             ContainerSymbolKind.Namespace => NamespaceDelimiter,
             ContainerSymbolKind.Type => ContainerTypeDelimiter,
             ContainerSymbolKind.Method => ContainerMethodDelimiter,
+            _ => throw new NotImplementedException(),
         };
     }
 
@@ -236,6 +241,7 @@ public sealed class FullSymbolName
             ContainerSymbolKind.Namespace => Namespaces,
             ContainerSymbolKind.Type => ContainerTypes,
             ContainerSymbolKind.Method => ContainerMethods,
+            _ => throw new NotImplementedException(),
         };
     }
 

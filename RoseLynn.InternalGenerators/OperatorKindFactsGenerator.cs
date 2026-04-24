@@ -1,12 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using RoseLynn.Analyzers;
-using RoseLynn.Generators;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace RoseLynn.InternalGenerators;
 
@@ -15,13 +15,14 @@ namespace RoseLynn.InternalGenerators;
 // A generator that also reports diagnostics; not so bad for such simple solutions
 [Generator]
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGenerator
+public class OperatorKindFactsGenerator : DiagnosticAnalyzer, IIncrementalGenerator
 {
     private const string OperatorKindFactsName = "OperatorKindFacts";
     private const string OperatorKindName = "OperatorKind";
     private const string FullOperatorKindName = $"{nameof(RoseLynn)}.{OperatorKindName}";
 
-    protected override DiagnosticDescriptorStorageBase DiagnosticDescriptorStorage => GeneratorDiagnosticDescriptorStorage.Instance;
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
+        => [GeneratorDiagnosticDescriptorStorage.Rose0001];
 
     public override void Initialize(AnalysisContext context)
     {
@@ -29,36 +30,41 @@ public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGener
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
     }
 
-    public void Execute(GeneratorExecutionContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var matchedSymbol = context.Compilation.GetTypeByMetadataName(FullOperatorKindName);
+        var provider = context.SyntaxProvider.CreateSyntaxProvider(FilterOperatorKindEnum, static (t, _) => t);
+        context.RegisterSourceOutput(provider, GenerateSourceOnCompilation);
+    }
 
-        if (matchedSymbol is null)
+    private bool FilterOperatorKindEnum(SyntaxNode node, CancellationToken token)
+    {
+        return node is EnumDeclarationSyntax { Identifier.ValueText: OperatorKindName };
+    }
+
+    private void GenerateSourceOnCompilation(SourceProductionContext context, GeneratorSyntaxContext generatorSyntaxContext)
+    {
+        var matchedSymbol = generatorSyntaxContext.SemanticModel.GetDeclaredSymbol(generatorSyntaxContext.Node);
+        if (matchedSymbol is not INamedTypeSymbol named)
         {
             throw new Exception($"Failed to find {FullOperatorKindName}; which is the component we're operating on today.");
         }
 
-        var methodsSource = GenerateMethods(context, matchedSymbol);
+        var methodsSource = GenerateMethods(context, named);
 
         context.AddSource($"{OperatorKindFactsName}.g.cs", methodsSource);
     }
 
-    void ISourceGenerator.Initialize(GeneratorInitializationContext context)
-    {
-        
-    }
-
-    private string GenerateMethods(GeneratorExecutionContext context, INamedTypeSymbol operatorKindSymbol)
+    private string GenerateMethods(SourceProductionContext context, INamedTypeSymbol operatorKindSymbol)
     {
         const string header = $$"""
-                                using {{nameof(System)}};
-                                using static {{FullOperatorKindName}};
+            using {{nameof(System)}};
+            using static {{FullOperatorKindName}};
 
-                                namespace {{nameof(RoseLynn)}};
+            namespace {{nameof(RoseLynn)}};
 
-                                partial class {{OperatorKindFactsName}}
-                                {
-                                """;
+            partial class {{OperatorKindFactsName}}
+            {
+            """;
 
         const string footer = "}";
 
@@ -73,7 +79,7 @@ public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGener
     }
 
     // Totally abusing records
-    private sealed record MethodGenerator(GeneratorExecutionContext Context, INamedTypeSymbol OperatorKindSymbol, StringBuilder Builder)
+    private sealed record MethodGenerator(SourceProductionContext Context, INamedTypeSymbol OperatorKindSymbol, StringBuilder Builder)
     {
         private const string indentation = "    ";
 
@@ -96,7 +102,9 @@ public class OperatorKindFactsGenerator : CSharpDiagnosticAnalyzer, ISourceGener
             {
                 var reference = undefinedArity.FieldSymbol.DeclaringSyntaxReferences.First();
                 // Definitely not too great as a solution, but at least we can report diagnostics through SGs
-                Context.ReportDiagnostic(GeneratorDiagnosticDescriptorStorage.Instance[0001]!, reference);
+                var diagnostic = DiagnosticFactory.Create(
+                    GeneratorDiagnosticDescriptorStorage.Rose0001, reference);
+                Context.ReportDiagnostic(diagnostic);
             }
         }
 

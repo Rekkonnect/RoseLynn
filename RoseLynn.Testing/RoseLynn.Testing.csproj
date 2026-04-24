@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NoWarn>$(NoWarn);RS1042</NoWarn>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -45,13 +44,6 @@
     <ProjectReference Include="..\RoseLynn.CodeFixes\RoseLynn.CodeFixes.csproj" />
     <ProjectReference Include="..\RoseLynn.Generators\RoseLynn.Generators.csproj" />
     <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\RoseLynn.Testing.VS2019\**\*.cs"
-             Exclude="..\RoseLynn.Testing.VS2019\bin\**\*;..\RoseLynn.Testing.VS2019\obj\**\*" />
-    <Compile Include="..\RoseLynn.Generators.VS2019\GeneratedSourceMappings.cs"
-             Link="GeneratedSourceMappings.cs" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -151,6 +151,7 @@ public static class ISymbolExtensions
             ContainerSymbolKind.Namespace => symbol.ContainingNamespace,
             ContainerSymbolKind.Module => symbol.ContainingModule,
             ContainerSymbolKind.Assembly => symbol.ContainingAssembly,
+            _ => throw new NotImplementedException(),
         };
     }
 

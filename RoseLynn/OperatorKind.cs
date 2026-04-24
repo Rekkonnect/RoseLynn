@@ -206,17 +206,17 @@ public sealed class CSharpOperatorTokenAttribute : Attribute
 /// Denotes that the operator can have a <see langword="checked"/>
 /// variant.
 /// </summary>
-public sealed class CanBeCheckedOperatorAttribute : Attribute { }
+public sealed class CanBeCheckedOperatorAttribute : Attribute;
 
 /// <summary>
 /// Denotes the arity of the operator.
 /// </summary>
-public abstract class OperatorArityAttribute : Attribute { }
+public abstract class OperatorArityAttribute : Attribute;
 /// <summary>
 /// Denotes that the operator is unary.
 /// </summary>
-public sealed class UnaryOperatorAttribute : OperatorArityAttribute { }
+public sealed class UnaryOperatorAttribute : OperatorArityAttribute;
 /// <summary>
 /// Denotes that the operator is binary.
 /// </summary>
-public sealed class BinaryOperatorAttribute : OperatorArityAttribute { }
+public sealed class BinaryOperatorAttribute : OperatorArityAttribute;

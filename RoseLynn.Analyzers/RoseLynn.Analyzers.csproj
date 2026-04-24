@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>10.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -31,11 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\RoseLynn.Analyzers.VS2019\**\*.cs"
-             Exclude="..\RoseLynn.Analyzers.VS2019\bin\**\*;..\RoseLynn.Analyzers.VS2019\obj\**\*" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

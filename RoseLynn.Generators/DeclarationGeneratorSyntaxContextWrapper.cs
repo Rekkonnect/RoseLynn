@@ -38,7 +38,9 @@ public abstract record DeclarationGeneratorSyntaxContextWrapper<TDeclarationSynt
     {
         if (DeclarationSyntax is not null)
         {
+#pragma warning disable RS1039 // This call to 'SemanticModel.GetDeclaredSymbol()' will always return 'null'
             DeclaredSymbol = Context.SemanticModel.GetDeclaredSymbol(DeclarationSyntax, cancellationToken) as TDeclaredSymbol;
+#pragma warning restore RS1039 // This call to 'SemanticModel.GetDeclaredSymbol()' will always return 'null'
         }
 
         base.FetchAdditionalInformation(cancellationToken);

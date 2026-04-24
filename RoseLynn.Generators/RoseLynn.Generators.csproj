@@ -34,11 +34,6 @@
     <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="..\RoseLynn.Generators.VS2019\**\*.cs"
-             Exclude="..\RoseLynn.Generators.VS2019\bin\**\*;..\RoseLynn.Generators.VS2019\obj\**\*" />
-  </ItemGroup>
-  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>

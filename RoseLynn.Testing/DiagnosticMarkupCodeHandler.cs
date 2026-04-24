@@ -17,8 +17,6 @@ public abstract class DiagnosticMarkupCodeHandler
 {
     /// <summary>Gets the <seealso cref="MicrosoftCodeAnalysisDiagnosticMarkupCodeHandler"/> instance.</summary>
     public static readonly MicrosoftCodeAnalysisDiagnosticMarkupCodeHandler MicrosoftCodeAnalysis = new();
-    /// <summary>Gets the <seealso cref="GuRoslynAssertsDiagnosticMarkupCodeHandler"/> instance.</summary>
-    public static readonly GuRoslynAssertsDiagnosticMarkupCodeHandler GuRoslynAsserts = new();
 
     private DiagnosticIndicatorInfo? indicatorInfo;
     /// <summary>Gets the <seealso cref="DiagnosticIndicatorInfo"/> for this markup style.</summary>
@@ -105,7 +103,7 @@ public abstract class DiagnosticMarkupCodeHandler
         int unboundStart = 0;
         int boundStart = 0;
 
-        if (string.IsNullOrEmpty(IndicatorInfo.BoundStart))
+        if (!string.IsNullOrEmpty(IndicatorInfo.BoundStart))
             boundStart = -1;
 
         int eatenMarkupCharacters = 0;
@@ -118,7 +116,7 @@ public abstract class DiagnosticMarkupCodeHandler
         void MoveNextBound()
         {
             if (boundStart >= 0)
-                boundStart = markupCode.IndexOfAfter(IndicatorInfo.BoundStart, boundStart);
+                boundStart = markupCode.IndexOfAfter(IndicatorInfo.BoundStart!, boundStart);
         }
 
         MoveNextUnbound();
@@ -322,28 +320,5 @@ public sealed class MicrosoftCodeAnalysisDiagnosticMarkupCodeHandler : Diagnosti
     public override string MarkupDiagnostic(string rawStringNode, string expectedDiagnosticID)
     {
         return $"{{|{expectedDiagnosticID}:{rawStringNode}|}}";
-    }
-}
-
-/// <summary>Provides an implementation of the <seealso cref="DiagnosticMarkupCodeHandler"/> for the Gu.Roslyn.Asserts framework.</summary>
-public sealed class GuRoslynAssertsDiagnosticMarkupCodeHandler : DiagnosticMarkupCodeHandler
-{
-    /// <inheritdoc/>
-    protected override DiagnosticIndicatorInfo GetIndicatorInfo()
-    {
-        return DiagnosticIndicatorInfo.StartUnboundDiagnostic("↓");
-    }
-
-    /// <inheritdoc/>
-    public override string RemoveMarkup(string code)
-    {
-        return code.Remove("↓");
-    }
-
-    /// <inheritdoc/>
-    [ExcludeFromCodeCoverage]
-    public override string MarkupDiagnostic(string rawStringNode)
-    {
-        return $"↓{rawStringNode}";
     }
 }

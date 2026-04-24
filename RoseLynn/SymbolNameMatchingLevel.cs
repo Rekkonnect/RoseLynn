@@ -36,6 +36,7 @@ public static class SymbolNameMatchingLevelExtensions
             SymbolNameMatchingLevel.Namespace => ContainerSymbolKind.Namespace,
             SymbolNameMatchingLevel.Module => ContainerSymbolKind.Module,
             SymbolNameMatchingLevel.Assembly => ContainerSymbolKind.Assembly,
+            _ => throw new System.NotImplementedException(),
         };
     }
 }

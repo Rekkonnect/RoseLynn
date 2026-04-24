@@ -1,35 +1,18 @@
 ﻿using Microsoft.CodeAnalysis;
-using RoseLynn.Analyzers;
-using System.Resources;
 
 namespace RoseLynn.InternalGenerators;
 
-public class GeneratorDiagnosticDescriptorStorage : DiagnosticDescriptorStorageBase
+#pragma warning disable RS2008 // Enable analyzer release tracking
+
+public static class GeneratorDiagnosticDescriptorStorage
 {
-    public static GeneratorDiagnosticDescriptorStorage Instance { get; } = new();
-
-    // No docs
-    protected override string BaseRuleDocsURI => "";
-    protected override string DiagnosticIDPrefix => "REN"; // Ros[E]lyn[N]
-
-    protected override ResourceManager ResourceManager => DiagnosticResources.ResourceManager;
-
-    private GeneratorDiagnosticDescriptorStorage()
-    {
-        // Gladly I never imposed a type restriction
-        SetDefaultDiagnosticAnalyzer<OperatorKindFactsGenerator>();
-
-        CreateDiagnosticDescriptor(0001, Categories.Validity);
-    }
-
-    protected override DiagnosticSeverity? GetDefaultSeverity(string category)
-    {
-        return category switch
-        {
-            Categories.Validity => DiagnosticSeverity.Error,
-            _ => null,
-        };
-    }
+    public static readonly DiagnosticDescriptor Rose0001 = new(
+        id: "ROSE0001",
+        title: "Missing arity defition for operator kind",
+        messageFormat: "Operator kinds should always have defined arities",
+        category: Categories.Validity,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
 
     private static class Categories
     {

@@ -31,6 +31,7 @@ public static class RecordDeclarationSyntaxExtensions
         {
             SyntaxKind.RecordStructDeclaration => TypeKind.Struct,
             SyntaxKind.RecordDeclaration => TypeKind.Class,
+            _ => throw new System.NotImplementedException(),
         };
     }
 }
