@@ -13,15 +13,19 @@ public class DiagnosticDescriptorStorageTests
         await Assert.That(Instance[0001]).IsEqualTo(Instance.MOCK0001_Rule);
         await Assert.That(Instance[0002]).IsEqualTo(Instance.MOCK0002_Rule);
         await Assert.That(Instance[1001]).IsEqualTo(Instance.MOCK1001_Rule);
+        await Assert.That(Instance["MOCK0001"]).IsEqualTo(Instance.MOCK0001_Rule);
+        await Assert.That(Instance["MOCK1002"]).IsEqualTo(Instance.MOCK1002_Rule);
 
         await Assert.That(Instance[0003]).IsNull();
         await Assert.That(Instance[9999]).IsNull();
         await Assert.That(Instance[5555]).IsNull();
         await Assert.That(Instance[1111]).IsNull();
+        await Assert.That(Instance["MOCK0003"]).IsNull();
+        await Assert.That(Instance["OTHER0001"]).IsNull();
     }
 
     [Test]
-    public async Task DefaultDiagnosticSeverity()
+    public async Task DiagnosticSeverityIsDeclaredExplicitly()
     {
         var mappedSeverity = Instance[1002];
         await Assert.That(mappedSeverity.DefaultSeverity).IsEqualTo(DiagnosticSeverity.Warning);

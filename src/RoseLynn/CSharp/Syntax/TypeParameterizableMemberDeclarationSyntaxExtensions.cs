@@ -94,18 +94,4 @@ public static class TypeParameterizableMemberDeclarationSyntaxExtensions
         };
     }
 
-    /// <summary>Removes the type parameter list syntax node from the given <seealso cref="MemberDeclarationSyntax"/> while also maintaining exterior trivia associated with the type parameter list node.</summary>
-    /// <param name="memberDeclarationNode">The <seealso cref="MemberDeclarationSyntax"/> whose type parameter list to remove. The original node remains unaffected.</param>
-    /// <returns>If the given <seealso cref="MemberDeclarationSyntax"/> is generic, returns the resulting <seealso cref="MemberDeclarationSyntax"/> without a type parameter list and with its exterior trivia being merged with that of the removed type parameter list's. The resulting node is a copy of the original one without adjusting it. Otherwise, it returns the original node without any adjustments.</returns>
-    public static MemberDeclarationSyntax WithoutTypeParameterList(this MemberDeclarationSyntax memberDeclarationNode)
-    {
-        if (!memberDeclarationNode.IsGeneric())
-            return memberDeclarationNode;
-
-        var decalarationIdentifier = memberDeclarationNode.GetIdentifier();
-        var triviaAfterTypeParameterList = memberDeclarationNode.GetTypeParameterList().GetTrailingTrivia();
-        var identifierWithTrivia = decalarationIdentifier.WithTrailingTrivia(decalarationIdentifier.TrailingTrivia.AddRange(triviaAfterTypeParameterList));
-        var appendedTriviaResultingNode = memberDeclarationNode.WithIdentifier(identifierWithTrivia);
-        return appendedTriviaResultingNode.WithTypeParameterList(null);
-    }
 }

@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoseLynn.InternalGenerators\RoseLynn.InternalGenerators.csproj"
+    <ProjectReference Include="..\..\tools\RoseLynn.InternalGenerators\RoseLynn.InternalGenerators.csproj"
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="false" />
   </ItemGroup>

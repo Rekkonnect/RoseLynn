@@ -103,7 +103,7 @@ public abstract class DiagnosticMarkupCodeHandler
         int unboundStart = 0;
         int boundStart = 0;
 
-        if (!string.IsNullOrEmpty(IndicatorInfo.BoundStart))
+        if (string.IsNullOrEmpty(IndicatorInfo.BoundStart))
             boundStart = -1;
 
         int eatenMarkupCharacters = 0;

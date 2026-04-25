@@ -17,7 +17,7 @@ public static class CodeFixContextExtensions
         SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepExteriorTrivia,
         CancellationToken cancellationToken = default
     )
-        => await context.Document.RemoveAttributeCleanAsync(attributeSyntax, options, cancellationToken);
+        => await context.Document.WithSyntaxRootAsync(root => root.RemoveAttributeClean(attributeSyntax, options), cancellationToken);
 
     public static async Task<Document> RemoveAttributeArgumentCleanAsync
     (
@@ -26,7 +26,7 @@ public static class CodeFixContextExtensions
         SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepExteriorTrivia,
         CancellationToken cancellationToken = default
     )
-        => await context.Document.RemoveAttributeArgumentCleanAsync(attributeArgumentSyntax, options, cancellationToken);
+        => await context.Document.WithSyntaxRootAsync(root => root.RemoveAttributeArgumentClean(attributeArgumentSyntax, options), cancellationToken);
 
     public static async Task<Document> RemoveAttributeArgumentsCleanAsync
     (
@@ -35,7 +35,7 @@ public static class CodeFixContextExtensions
         SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepExteriorTrivia,
         CancellationToken cancellationToken = default
     )
-        => await context.Document.RemoveAttributeArgumentsCleanAsync(attributeArgumentNodes, options, cancellationToken);
+        => await context.Document.WithSyntaxRootAsync(root => root.RemoveAttributeArgumentsClean(attributeArgumentNodes, options), cancellationToken);
 
     public static async Task<Document> RemoveSyntaxNodeAsync
     (
@@ -44,7 +44,7 @@ public static class CodeFixContextExtensions
         SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepExteriorTrivia,
         CancellationToken cancellationToken = default
     )
-        => await context.Document.RemoveSyntaxNodeAsync(removedNode, options, cancellationToken);
+        => await context.Document.WithSyntaxRootAsync(root => root.RemoveSyntaxNode(removedNode, options), cancellationToken);
 
     public static async Task<Document> RemoveSyntaxNodesAsync
     (
@@ -53,7 +53,7 @@ public static class CodeFixContextExtensions
         SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepExteriorTrivia,
         CancellationToken cancellationToken = default
     )
-        => await context.Document.RemoveSyntaxNodesAsync(removedNodes, options, cancellationToken);
+        => await context.Document.WithSyntaxRootAsync(root => root.RemoveSyntaxNodes(removedNodes, options), cancellationToken);
 
     public static async Task<Document> InsertSyntaxNodesAfterAsync
     (
@@ -62,7 +62,7 @@ public static class CodeFixContextExtensions
         IEnumerable<SyntaxNode> insertedNodes,
         CancellationToken cancellationToken = default
     )
-        => await context.Document.InsertSyntaxNodesAfterAsync(referenceNode, insertedNodes, cancellationToken);
+        => await context.Document.WithSyntaxRootAsync(root => root.InsertSyntaxNodesAfter(referenceNode, insertedNodes), cancellationToken);
 
     public static async Task<Document> InsertSyntaxNodesBeforeAsync
     (
@@ -71,7 +71,7 @@ public static class CodeFixContextExtensions
         IEnumerable<SyntaxNode> insertedNodes,
         CancellationToken cancellationToken = default
     )
-        => await context.Document.InsertSyntaxNodesBeforeAsync(referenceNode, insertedNodes, cancellationToken);
+        => await context.Document.WithSyntaxRootAsync(root => root.InsertSyntaxNodesBefore(referenceNode, insertedNodes), cancellationToken);
 
     public static async Task<SyntaxNode> GetSyntaxRootAsync(this CodeFixContext context) => await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using RoseLynn.Analyzers;
+using System;
+using System.Linq;
 
 namespace RoseLynn.Testing;
 
@@ -20,8 +22,16 @@ public abstract class BaseAnalyzerTestFixture
             if (testedDiagnosticRule != null)
                 return testedDiagnosticRule;
 
-            var ruleID = GetType().Name.Substring(0, DiagnosticDescriptorStorage.DiagnosticIDLength);
-            return testedDiagnosticRule = DiagnosticDescriptorStorage.GetDiagnosticDescriptor(ruleID);
+            var ruleID = DiagnosticDescriptorStorage
+                .GetDiagnosticDescriptorsByAnalyzersImmutable()
+                .Values
+                .SelectMany(static diagnostics => diagnostics)
+                .Select(static descriptor => descriptor.Id)
+                .OrderByDescending(static id => id.Length)
+                .FirstOrDefault(id => GetType().Name.StartsWith(id, StringComparison.Ordinal));
+
+            return testedDiagnosticRule = DiagnosticDescriptorStorage.GetDiagnosticDescriptor(ruleID)
+                ?? throw new InvalidOperationException("Could not infer the tested diagnostic rule from the test type name.");
         }
     }
 
