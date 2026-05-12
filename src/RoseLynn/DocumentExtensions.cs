@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -56,5 +57,25 @@ public static class DocumentExtensions
         var originalText = await document.GetTextAsync(cancellationToken);
         var newText = originalText.Replace(location, "");
         return document.WithText(newText);
+    }
+
+    /// <summary>
+    /// Changes the text content of the <seealso cref="Document"/> to the specified content,
+    /// while preserving the original encoding and checksum algorithm if possible.
+    /// If the text content of the given <seealso cref="Document"/> cannot be retrieved,
+    /// the new text content will be created with <see cref="Encoding.UTF8"/> encoding
+    /// and <see cref="SourceHashAlgorithm.Sha256"/> as the checksum algorithm by default.
+    /// </summary>
+    /// <param name="document">The <seealso cref="Document"/> whose text content to change.</param>
+    /// <param name="content">The new text content.</param>
+    /// <returns>The <seealso cref="Document"/> with the updated text content.</returns>
+    public static Document WithTextContent(this Document document, string content)
+    {
+        _ = document.TryGetText(out var text);
+        var resultText = SourceText.From(
+            content,
+            text?.Encoding ?? Encoding.UTF8,
+            text?.ChecksumAlgorithm ?? SourceHashAlgorithm.Sha256);
+        return document.WithText(resultText);
     }
 }

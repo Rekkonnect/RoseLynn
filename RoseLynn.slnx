@@ -1,4 +1,5 @@
 <Solution>
+  <File Path="Directory.Build.props" />
   <Configurations>
     <BuildType Name="Debug" />
     <BuildType Name="Release" />
@@ -21,3 +22,5 @@
     <Project Path="tools/RoseLynn.PackageDeployment/RoseLynn.PackageDeployment.csproj" />
   </Folder>
 </Solution>
+
+

@@ -9,14 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup Label="Microsoft.CodeAnalysis">
-    <PackageReference Include="Garyon" Version="0.4.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="5.3.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="5.3.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="5.3.0" />
+    <PackageReference Include="Garyon" Version="0.5.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" Version="$(MicrosoftCodeAnalysisVersion)" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" Version="$(MicrosoftCodeAnalysisVersion)" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" Version="$(MicrosoftCodeAnalysisVersion)" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="TUnit" Version="1.39.0" />
+    <PackageReference Include="TUnit" Version="1.44.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Garyon" Version="0.4.3" />
-    <PackageReference Include="NuGet.PackageManagement" Version="7.3.1" />
-    <PackageReference Include="NuGet.Packaging" Version="7.3.1" />
-    <PackageReference Include="NuGet.Protocol" Version="7.3.1" />
+    <PackageReference Include="Garyon" Version="0.5.0" />
+    <PackageReference Include="NuGet.PackageManagement" Version="$(NuGetClientVersion)" />
+    <PackageReference Include="NuGet.Packaging" Version="$(NuGetClientVersion)" />
+    <PackageReference Include="NuGet.Protocol" Version="$(NuGetClientVersion)" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
