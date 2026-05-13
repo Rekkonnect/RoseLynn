@@ -1,10 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace RoseLynn.Utilities;
+﻿namespace RoseLynn.Utilities;
 
 public static class FluentExtensions
 {
+    // Kind of a misnomer; it's not really select, but transform doesn't sit well either
+    public static TResult? SelectOrNull<TSource, TResult>(
+        this TSource? source,
+        Func<TSource, TResult?> selector)
+        where TSource : class
+        where TResult : class
+    {
+        if (source is null)
+        {
+            return null;
+        }
+
+        return selector(source);
+    }
+
     public static void IfNotNull<T>(
         this T? source,
         Action<T> action)
