@@ -10,9 +10,9 @@ public static class ITypeParameterSymbolExtensions
     /// <summary>Gets the declaring symbol of the <seealso cref="ITypeParameterSymbol"/>.</summary>
     /// <param name="symbol">The <seealso cref="ITypeParameterSymbol"/> whose </param>
     /// <returns>The declaring symbol of the <seealso cref="ITypeParameterSymbol"/>. It could either be a <seealso cref="INamedTypeSymbol"/> or a <seealso cref="IMethodSymbol"/>.</returns>
-    public static ISymbol GetDeclaringSymbol(this ITypeParameterSymbol symbol)
+    public static ISymbol? GetDeclaringSymbol(this ITypeParameterSymbol symbol)
     {
-        return (ISymbol)symbol.DeclaringType ?? symbol.DeclaringMethod;
+        return symbol.DeclaringType as ISymbol ?? symbol.DeclaringMethod;
     }
 
     /// <summary>Evaluates whether a given type arugment can substitute a parameter symbol, given its constraints. If the constraints also include other type parameters, this function will be recursively called for each type parameter type constraint, while only taking the declared constraints into account.</summary>

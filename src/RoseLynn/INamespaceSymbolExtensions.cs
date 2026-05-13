@@ -19,8 +19,9 @@ public static class INamespaceSymbolExtensions
     /// </returns>
     public static IEnumerable<INamespaceSymbol> AncestorNamespacesIncludingThis(this INamespaceSymbol namespaceSymbol)
     {
-        return namespaceSymbol.GetContainingNamespaces()
-                              .Concat(new SingleElementCollection<INamespaceSymbol>(namespaceSymbol));
+        return namespaceSymbol
+            .GetContainingNamespaces()
+            .Concat(new SingleElementCollection<INamespaceSymbol>(namespaceSymbol))!;
     }
 
     /// <summary>Gets a collection of all the child namespaces, recursing to every child namespace.</summary>

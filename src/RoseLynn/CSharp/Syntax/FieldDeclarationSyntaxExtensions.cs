@@ -23,6 +23,6 @@ public static class FieldDeclarationSyntaxExtensions
     public static FieldDeclarationSyntax WithIdentifier(this FieldDeclarationSyntax fieldDeclaration, SyntaxToken identifier, int declaredFieldIndex = 0)
     {
         var result = fieldDeclaration.Declaration.Variables[declaredFieldIndex].WithIdentifier(identifier);
-        return result.GetNearestParentOfType<FieldDeclarationSyntax>();
+        return result.GetNearestParentOfType<FieldDeclarationSyntax>()!;
     }
 }

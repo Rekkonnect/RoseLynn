@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using Garyon.DataStructures;
+using Microsoft.CodeAnalysis.CSharp;
 using RoseLynn.Utilities;
 
 namespace RoseLynn.CSharp.Syntax;
@@ -37,24 +38,6 @@ public enum AttributeListTarget
     TypeVar,
 }
 
-internal static class AttributeListTargetCaches
-{
-    public static readonly InterlinkedDictionary<AttributeListTarget, SyntaxKind> SyntaxKindInterlinks = new();
-
-    static AttributeListTargetCaches()
-    {
-        var values = EnumHelpers.GetValues<AttributeListTarget>();
-        foreach (var targetValue in values)
-        {
-            if (targetValue <= AttributeListTarget.Default)
-                continue;
-
-            var syntaxKindValue = EnumHelpers.Parse<SyntaxKind>($"{targetValue}Keyword");
-            SyntaxKindInterlinks.Add(targetValue, syntaxKindValue);
-        }
-    }
-}
-
 /// <summary>Provides extension methods for the <seealso cref="AttributeListTarget"/> enum.</summary>
 public static class AttributeListTargetExtensions
 {
@@ -63,13 +46,31 @@ public static class AttributeListTargetExtensions
     /// <returns>The appropriate <seealso cref="SyntaxKind"/> if <paramref name="attributeListTarget"/> is not <seealso cref="AttributeListTarget.Default"/>, otherwise <see langword="default"/>.</returns>
     public static SyntaxKind GetSyntaxKind(this AttributeListTarget attributeListTarget)
     {
-        return AttributeListTargetCaches.SyntaxKindInterlinks.ValueOrDefault(attributeListTarget);
+        return AttributeListTargetCache.SyntaxKindInterlinks.ValueOrDefault(attributeListTarget);
     }
     /// <summary>Gets the <seealso cref="AttributeListTarget"/> represented by the provided <seealso cref="SyntaxKind"/>.</summary>
     /// <param name="syntaxKind">The <see cref="SyntaxKind"/> representing an <seealso cref="AttributeListTarget"/>.</param>
     /// <returns>The appropriate <seealso cref="AttributeListTarget"/> if <paramref name="syntaxKind"/> is a valid attribute target keyword, otherwise <seealso cref="AttributeListTarget.Default"/>.</returns>
     public static AttributeListTarget GetAttributeListTarget(this SyntaxKind syntaxKind)
     {
-        return AttributeListTargetCaches.SyntaxKindInterlinks.ValueOrDefault(syntaxKind);
+        return AttributeListTargetCache.SyntaxKindInterlinks.ValueOrDefault(syntaxKind);
+    }
+
+    internal static class AttributeListTargetCache
+    {
+        public static readonly InterlinkedDictionary<AttributeListTarget, SyntaxKind> SyntaxKindInterlinks = new();
+
+        static AttributeListTargetCache()
+        {
+            var values = EnumHelpers.GetValues<AttributeListTarget>();
+            foreach (var targetValue in values)
+            {
+                if (targetValue <= AttributeListTarget.Default)
+                    continue;
+
+                var syntaxKindValue = EnumHelpers.Parse<SyntaxKind>($"{targetValue}Keyword");
+                SyntaxKindInterlinks.Add(targetValue, syntaxKindValue);
+            }
+        }
     }
 }

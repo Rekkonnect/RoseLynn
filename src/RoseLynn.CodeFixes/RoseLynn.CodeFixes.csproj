@@ -3,15 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Authors>Alex Kalfakakos</Authors>
-    <Company />
-    <Copyright>© 2021-2026, Alex Kalfakakos</Copyright>
     <Description>Additional code fix tools for Roslyn-based analyzers.</Description>
-    <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
     <PackageTags>roslyn, analyzer, tools, code fix, extensions</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Configurations>Debug;Release;Release Test</Configurations>
   </PropertyGroup>
 

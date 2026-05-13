@@ -1,7 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
+using Polyfills;
 using RoseLynn.Analyzers;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -10,6 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace RoseLynn.CodeFixes;
+
+// Soon to be replaced with an implementation less invasive to resources
 
 /// <summary>Provides mechanisms to better organize registering code fixes to the environment.</summary>
 public abstract class MultipleDiagnosticCodeFixProvider : CodeFixProvider
@@ -22,7 +26,8 @@ public abstract class MultipleDiagnosticCodeFixProvider : CodeFixProvider
     /// <inheritdoc/>
     public sealed override ImmutableArray<string> FixableDiagnosticIds => fixableDiagnosticIds;
 
-    private string codeFixTitle;
+    private string? codeFixTitle;
+
     /// <summary>The title of the code fix. By default, it looks up for a resource string named "{TypeName}_Title" with TypeName being the name of the type.</summary>
     public virtual string CodeFixTitle => codeFixTitle ??= ResourceManager.GetString($"{GetType().Name}_Title");
 
@@ -51,6 +56,7 @@ public abstract class MultipleDiagnosticCodeFixProvider : CodeFixProvider
 
             Task<Document> PerformAction(CancellationToken cancellationToken)
             {
+                ArgumentNullException.ThrowIfNull(root);
                 var syntaxNode = root.FindNode(diagnostic.Location.SourceSpan);
                 return PerformCodeFixActionAsync(context, syntaxNode, cancellationToken);
             }

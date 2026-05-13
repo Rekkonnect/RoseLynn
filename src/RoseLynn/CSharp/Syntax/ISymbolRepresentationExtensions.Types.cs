@@ -20,7 +20,7 @@ public static partial class ISymbolRepresentationExtensions
     /// <item><seealso cref="IDynamicTypeSymbol"/></item>
     /// </list>
     /// </remarks>
-    public static string GetRepresentationForType(this ITypeSymbol typeSymbol)
+    public static string? GetRepresentationForType(this ITypeSymbol typeSymbol)
     {
         switch (typeSymbol)
         {

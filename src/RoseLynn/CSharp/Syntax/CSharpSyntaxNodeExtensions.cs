@@ -276,7 +276,7 @@ public static class CSharpSyntaxNodeExtensions
     /// <param name="node">The <seealso cref="CSharpSyntaxNode"/> from which to create the new node.</param>
     /// <param name="identifier">The identifier of the created node.</param>
     /// <returns>The resulting node with the specified identifier, if it can have one, otherwise <see langword="null"/>.</returns>
-    public static TSyntax? WithIdentifier<TSyntax>(this TSyntax node, SyntaxToken identifier)
+    public static TSyntax WithIdentifier<TSyntax>(this TSyntax node, SyntaxToken identifier)
         where TSyntax : CSharpSyntaxNode
     {
         CSharpSyntaxNode? withIdentifier = node switch
@@ -311,8 +311,8 @@ public static class CSharpSyntaxNodeExtensions
             AttributeTargetSpecifierSyntax n => n.WithIdentifier(identifier),
             TypeParameterSyntax n => n.WithIdentifier(identifier),
 
-            _ => null,
+            _ => node,
         };
-        return withIdentifier as TSyntax;
+        return (TSyntax)withIdentifier!;
     }
 }

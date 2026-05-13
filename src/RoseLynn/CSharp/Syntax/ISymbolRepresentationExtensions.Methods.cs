@@ -49,7 +49,7 @@ public static partial class ISymbolRepresentationExtensions
     {
         delegateSymbol = delegateSymbol.OriginalDefinition;
 
-        var delegateInvokeMethod = delegateSymbol.DelegateInvokeMethod;
+        var delegateInvokeMethod = delegateSymbol.DelegateInvokeMethod!;
         var delegateNameRepresentation = GetRepresentationForType(delegateSymbol);
         return GetMethodSignatureRepresentation(delegateNameRepresentation, delegateInvokeMethod.Parameters);
     }

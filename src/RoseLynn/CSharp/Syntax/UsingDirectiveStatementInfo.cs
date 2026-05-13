@@ -8,22 +8,13 @@ namespace RoseLynn.CSharp.Syntax;
 /// <param name="Kind">The using kind of the using directive.</param>
 /// <param name="Alias">The alias of the type that is being created. May be <see langword="null"/> if the using directive is not an alias declaration.</param>
 /// <param name="QualifiedName">The qualified name of the symbol.</param>
-public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias, string QualifiedName)
+public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias, string QualifiedName)
 {
     public bool IsGlobal => Kind.IsGlobal();
     public bool IsStatic => Kind.IsStatic();
     public UsingDirectiveKind DirectiveKind => Kind.GetDirectiveKind();
 
-    public string IdentifierSortKey
-    {
-        get
-        {
-            if (DirectiveKind is UsingDirectiveKind.UsingAlias)
-                return Alias;
-
-            return QualifiedName;
-        }
-    }
+    public string IdentifierSortKey => Alias ?? QualifiedName;
 
     public UsingDirectiveStatementInfo(UsingDirectiveKind kind, string qualifiedName)
         : this(kind, null, qualifiedName) { }
@@ -40,7 +31,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
 
         var directiveKind = Kind.GetDirectiveKind();
 
-        string intermediate = null;
+        var intermediate = string.Empty;
         if (directiveKind is UsingDirectiveKind.UsingAlias)
             intermediate = $"{Alias} = ";
 
@@ -105,7 +96,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
     /// <param name="isGlobal">Determines whether the <see langword="using"/> directive will be <see langword="global"/> or not.</param>
     /// <returns>The created <seealso cref="UsingDirectiveStatementInfo"/> reflecting a <see langword="using static"/> directive statement.</returns>
     /// <exception cref="ArgumentException">Thrown when <paramref name="typeSymbolName"/> does not reflect the name of a type symbol.</exception>
-    public static UsingDirectiveStatementInfo UsingStaticForTypeSymbol(FullSymbolName typeSymbolName, string[] typeArguments = null, bool isGlobal = false)
+    public static UsingDirectiveStatementInfo UsingStaticForTypeSymbol(FullSymbolName typeSymbolName, string[]? typeArguments = null, bool isGlobal = false)
     {
         if (typeSymbolName.NearestContainerSymbolKind is ContainerSymbolKind.Method)
         {
@@ -131,7 +122,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string Alias,
     /// <param name="isGlobal">Determines whether the alias <see langword="using"/> directive will be <see langword="global"/> or not.</param>
     /// <returns>The created <seealso cref="UsingDirectiveStatementInfo"/> reflecting an alias <see langword="using"/> statement.</returns>
     /// <exception cref="ArgumentException">Thrown when <paramref name="symbolName"/> does not reflect the name of a namespace or type symbol.</exception>
-    public static UsingDirectiveStatementInfo UsingAliasForSymbol(FullSymbolName symbolName, string alias, string[] typeArguments = null, bool isGlobal = false)
+    public static UsingDirectiveStatementInfo UsingAliasForSymbol(FullSymbolName symbolName, string alias, string[]? typeArguments = null, bool isGlobal = false)
     {
         if (symbolName.NearestContainerSymbolKind is ContainerSymbolKind.Method)
         {

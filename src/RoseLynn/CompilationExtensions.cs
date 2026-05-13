@@ -1,5 +1,6 @@
 ﻿using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -63,7 +64,7 @@ public static class CompilationExtensions
     {
         return compilation.References
             .Select(compilation.GetAssemblyOrModuleSymbol)
-            .Where(s => s is not null);
+            .WhereNotNull();
     }
     /// <summary>Gets all the referenced assembly symbols of the <seealso cref="Compilation"/>.</summary>
     /// <param name="compilation">The <seealso cref="Compilation"/> whose referenced assembly symbols to get.</param>
@@ -80,5 +81,47 @@ public static class CompilationExtensions
     public static NetLanguage GetNetLanguage(this Compilation compilation)
     {
         return LanguageFacts.MapToNETLanguage(compilation.Language);
+    }
+
+    extension(CompilationOptions compilationOptions)
+    {
+        public CompilationOptions WithNullableContextOptions(
+            NullableContextOptions nullableContextOptions)
+        {
+            if (compilationOptions is CSharpCompilationOptions csharpCompilationOptions)
+            {
+                return csharpCompilationOptions.WithNullableContextOptions(nullableContextOptions);
+            }
+
+            return compilationOptions;
+        }
+    }
+
+    extension<TCompilation>(TCompilation compilation)
+        where TCompilation : Compilation
+    {
+        public Compilation ReplaceSyntaxTree(
+            SyntaxTree tree,
+            string text)
+        {
+            var newTree = tree.WithChangedText(text);
+            return compilation.ReplaceSyntaxTree(tree, newTree);
+        }
+
+        public TCompilation WithNullableContextOptions(
+            NullableContextOptions nullableContextOptions)
+        {
+            return (TCompilation)compilation.WithOptions(
+                compilation.Options
+                    .WithNullableContextOptions(nullableContextOptions));
+        }
+
+        public Compilation RemoveGeneratedTrees(
+            GeneratorDriver driver)
+        {
+            var runResult = driver.GetRunResult();
+            var generatedTrees = runResult.GeneratedTrees;
+            return compilation.RemoveSyntaxTrees(generatedTrees);
+        }
     }
 }

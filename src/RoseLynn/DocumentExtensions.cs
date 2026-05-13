@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Polyfills;
 using System;
 using System.Text;
 using System.Threading;
@@ -23,6 +24,9 @@ public static class DocumentExtensions
         var originalRoot = await originalRootTask;
         var newRoot = await newRootTask;
 
+        ArgumentNullException.ThrowIfNull(originalRoot);
+        ArgumentNullException.ThrowIfNull(newRoot);
+
         return newRoot.FullSpan.Length - originalRoot.FullSpan.Length;
     }
 
@@ -34,6 +38,7 @@ public static class DocumentExtensions
     )
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken);
+        ArgumentNullException.ThrowIfNull(root);
         return document.WithSyntaxRoot(selectNode(root));
     }
 

@@ -8,7 +8,7 @@ namespace RoseLynn.Testing;
 /// <summary>Provides an analyzer test fixture with built-in mechanisms to identify the tested diagnostic rule.</summary>
 public abstract class BaseAnalyzerTestFixture
 {
-    private DiagnosticDescriptor testedDiagnosticRule;
+    private DiagnosticDescriptor? testedDiagnosticRule;
 
     /// <summary>
     /// Gets the tested diagnostic rule. This is by default assumed to be equal to the prefix of the test type's name.<br/>
@@ -19,7 +19,7 @@ public abstract class BaseAnalyzerTestFixture
     {
         get
         {
-            if (testedDiagnosticRule != null)
+            if (testedDiagnosticRule is not null)
                 return testedDiagnosticRule;
 
             var ruleID = DiagnosticDescriptorStorage

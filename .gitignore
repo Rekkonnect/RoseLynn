@@ -63,6 +63,12 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# Environment files (never commit secrets)
+*.env*
+
+# Legacy PackageDeployment secrets (deprecated)
+tools/RoseLynn.PackageDeployment/Secrets/*.txt
+
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 

@@ -22,20 +22,20 @@ public static class SyntaxNodeParentRetrievalExtensions
     /// <returns>The parent <seealso cref="AttributeArgumentListSyntax"/> of <paramref name="argument"/>.</returns>
     public static AttributeArgumentListSyntax GetParentAttributeArgumentList(this AttributeArgumentSyntax argument)
     {
-        return argument.Parent as AttributeArgumentListSyntax;
+        return (AttributeArgumentListSyntax)argument.Parent!;
     }
     /// <summary>Gets the parent <seealso cref="AttributeSyntax"/> of an <seealso cref="AttributeArgumentListSyntax"/></summary>
     /// <param name="argumentList">The <seealso cref="AttributeArgumentListSyntax"/> whose parent to get.</param>
     /// <returns>The parent <seealso cref="AttributeSyntax"/> of <paramref name="argumentList"/>.</returns>
     public static AttributeSyntax GetParentAttribute(this AttributeArgumentListSyntax argumentList)
     {
-        return argumentList.Parent as AttributeSyntax;
+        return (AttributeSyntax)argumentList.Parent!;
     }
     /// <summary>Gets the parent <seealso cref="AttributeListSyntax"/> of an <seealso cref="AttributeSyntax"/></summary>
     /// <param name="attribute">The <seealso cref="AttributeSyntax"/> whose parent to get.</param>
     /// <returns>The parent <seealso cref="AttributeListSyntax"/> of <paramref name="attribute"/>.</returns>
     public static AttributeListSyntax GetParentAttributeList(this AttributeSyntax attribute)
     {
-        return attribute.Parent as AttributeListSyntax;
+        return (AttributeListSyntax)attribute.Parent!;
     }
 }

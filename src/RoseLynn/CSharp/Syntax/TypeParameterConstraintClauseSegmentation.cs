@@ -12,18 +12,18 @@ public class TypeParameterConstraintClauseSegmentation
 {
     private readonly SemanticModel semanticModel;
 
-    private TypeParameterConstraintSyntax keywordOrClassConstraint;
-    private TypeParameterConstraintSyntax delegateOrEnumConstraint;
+    private TypeParameterConstraintSyntax? keywordOrClassConstraint;
+    private TypeParameterConstraintSyntax? delegateOrEnumConstraint;
     private List<TypeConstraintSyntax> otherConstraints = new();
 
     /// <summary>Gets or sets the keyword or class type constraint. That slot enables using either a keyword constraint (<see langword="class"/>, <see langword="struct"/>, <see langword="unmanaged"/>, <see langword="notnull"/> or <see langword="default"/>), or a class type other than <seealso cref="Delegate"/>, <seealso cref="MulticastDelegate"/> or <seealso cref="Enum"/>.</summary>
-    public TypeParameterConstraintSyntax KeywordOrClassConstraint
+    public TypeParameterConstraintSyntax? KeywordOrClassConstraint
     {
         get => keywordOrClassConstraint;
         set => keywordOrClassConstraint = value;
     }
     /// <summary>Gets or sets the <see langword="delegate"/> or <see langword="enum"/> constraint. That slot enables using one of the following class types: <seealso cref="Delegate"/>, <seealso cref="MulticastDelegate"/> or <seealso cref="Enum"/>.</summary>
-    public TypeConstraintSyntax DelegateOrEnumConstraint
+    public TypeConstraintSyntax? DelegateOrEnumConstraint
     {
         get => delegateOrEnumConstraint as TypeConstraintSyntax;
         set => delegateOrEnumConstraint = value;
@@ -41,7 +41,7 @@ public class TypeParameterConstraintClauseSegmentation
         }
     }
     /// <summary>Gets or sets the <see langword="new"/>() constraint.</summary>
-    public ConstructorConstraintSyntax NewConstraint { get; set; }
+    public ConstructorConstraintSyntax? NewConstraint { get; set; }
 
     // TODO: Add ability to get the interface constraints and the type parameter constraints individually
 
@@ -66,6 +66,7 @@ public class TypeParameterConstraintClauseSegmentation
         foreach (var c in constraints)
             AddConstraint(c);
     }
+
     /// <summary>Adds the given constraint to the segmentation. If not an interface constraint, any existing constraint of the respective kind will be replaced.</summary>
     /// <param name="constraint">The constraint to add.</param>
     public void AddConstraint(TypeParameterConstraintSyntax constraint)
@@ -94,11 +95,12 @@ public class TypeParameterConstraintClauseSegmentation
         var typeSymbol = semanticModel.GetTypeInfo(typeConstraint.Type).Type;
         AddTypeConstraint(typeConstraint, typeSymbol);
     }
+
     /// <inheritdoc cref="AddTypeConstraint(TypeConstraintSyntax)"></inheritdoc>
     /// <param name="typeSymbol">The <seealso cref="ITypeSymbol"/> of the type that the type constraint refers to.</param>
-    public void AddTypeConstraint(TypeConstraintSyntax typeConstraint, ITypeSymbol typeSymbol)
+    public void AddTypeConstraint(TypeConstraintSyntax typeConstraint, ITypeSymbol? typeSymbol)
     {
-        switch (typeSymbol.TypeKind)
+        switch (typeSymbol?.TypeKind)
         {
             case TypeKind.Class:
                 ref var relevantConstraint = ref keywordOrClassConstraint;

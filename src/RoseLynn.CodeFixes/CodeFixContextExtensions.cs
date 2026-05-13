@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Garyon.Extensions;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
@@ -73,5 +74,5 @@ public static class CodeFixContextExtensions
     )
         => await context.Document.WithSyntaxRootAsync(root => root.InsertSyntaxNodesBefore(referenceNode, insertedNodes), cancellationToken);
 
-    public static async Task<SyntaxNode> GetSyntaxRootAsync(this CodeFixContext context) => await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+    public static async Task<SyntaxNode?> GetSyntaxRootAsync(this CodeFixContext context) => await context.Document.GetSyntaxRootAsync(context.CancellationToken).NoContext;
 }

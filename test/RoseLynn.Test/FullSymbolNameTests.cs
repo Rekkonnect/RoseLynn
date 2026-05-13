@@ -76,7 +76,7 @@ public class FullSymbolNameTests
     [Test]
     public async Task FullNameForMethodTypeParameter()
     {
-        var typeParameter = typeof(TestType).GetMethod(nameof(TestType.Method)).GetGenericArguments()[0];
+        var typeParameter = typeof(TestType).GetMethod(nameof(TestType.Method))!.GetGenericArguments()[0];
         var name = FullSymbolName.ForType(typeParameter);
 
         var containerNamespaces = new[] { nameof(RoseLynn), nameof(Test) };

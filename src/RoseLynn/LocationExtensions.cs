@@ -13,6 +13,9 @@ public static class LocationExtensions
     public static Location WithOffset(this Location location, int startOffset, int endOffset)
     {
         var offsetSpan = location.SourceSpan.WithOffset(startOffset, endOffset);
-        return Location.Create(location.SourceTree, offsetSpan);
+        // TODO: This will probably explode in our faces if the location is not a source tree one,
+        // but a file path one. Ensure that we properly test against this, and properly handle
+        // the type of location to create
+        return Location.Create(location.SourceTree!, offsetSpan);
     }
 }

@@ -184,8 +184,8 @@ public static class SyntaxNodeMutationExtensions
             return memberDeclarationNode;
 
         var declarationIdentifier = memberDeclarationNode.GetIdentifier();
-        var triviaAfterTypeParameterList = memberDeclarationNode.GetTypeParameterList().GetTrailingTrivia();
-        var identifierWithTrivia = declarationIdentifier.WithTrailingTrivia(declarationIdentifier.TrailingTrivia.AddRange(triviaAfterTypeParameterList));
+        var triviaAfterTypeParameterList = memberDeclarationNode.GetTypeParameterList()?.GetTrailingTrivia();
+        var identifierWithTrivia = declarationIdentifier.WithTrailingTrivia(declarationIdentifier.TrailingTrivia.AddRange(triviaAfterTypeParameterList ?? []));
         var appendedTriviaResultingNode = memberDeclarationNode.WithIdentifier(identifierWithTrivia);
         return appendedTriviaResultingNode.WithTypeParameterList(null);
     }

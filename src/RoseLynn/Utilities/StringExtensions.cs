@@ -36,7 +36,7 @@ public static class StringExtensions
         if (string.IsNullOrEmpty(s))
             return s;
 
-        if (s.StartsWith("\r\n"))
+        if (s!.StartsWith("\r\n"))
             return s.Substring(2);
 
         return s[0] switch

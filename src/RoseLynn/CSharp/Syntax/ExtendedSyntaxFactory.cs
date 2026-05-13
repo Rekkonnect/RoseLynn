@@ -32,7 +32,7 @@ public static class ExtendedSyntaxFactory
     /// <param name="attributeArgumentList">The <seealso cref="AttributeArgumentListSyntax"/> for the attribute.</param>
     /// <param name="assumeImported">If <see langword="true"/>, type's short name will be used as the identifier, assuming that it will be properly bound to one of the present usings. Otherwise, the type's full name (including namespaces) is used as the identifier.</param>
     /// <returns>The resulting <seealso cref="AttributeSyntax"/>.</returns>
-    public static AttributeSyntax Attribute<T>(AttributeArgumentListSyntax attributeArgumentList, bool assumeImported = true)
+    public static AttributeSyntax Attribute<T>(AttributeArgumentListSyntax? attributeArgumentList, bool assumeImported = true)
         where T : Attribute
     {
         return Attribute(typeof(T), attributeArgumentList, assumeImported);
@@ -42,7 +42,7 @@ public static class ExtendedSyntaxFactory
     /// <param name="attributeArgumentList">The <seealso cref="AttributeArgumentListSyntax"/> for the attribute.</param>
     /// <param name="assumeImported">If <see langword="true"/>, type's short name will be used as the identifier, assuming that it will be properly bound to one of the present usings. Otherwise, the type's full name (including namespaces) is used as the identifier.</param>
     /// <returns>The resulting <seealso cref="AttributeSyntax"/>.</returns>
-    public static AttributeSyntax Attribute(Type attributeType, AttributeArgumentListSyntax attributeArgumentList, bool assumeImported = true)
+    public static AttributeSyntax Attribute(Type attributeType, AttributeArgumentListSyntax? attributeArgumentList, bool assumeImported = true)
     {
         var attributeName = SimplifyAttributeNameUsage(assumeImported ? attributeType.Name : attributeType.FullName);
         return SyntaxFactory.Attribute(SyntaxFactory.ParseName(attributeName), attributeArgumentList);
@@ -59,7 +59,7 @@ public static class ExtendedSyntaxFactory
     /// <param name="attributeTargetSpecifierNode">The <seealso cref="AttributeTargetSpecifierSyntax"/>.</param>
     /// <param name="attributeNode">The single <seealso cref="AttributeSyntax"/> in the <seealso cref="AttributeListSyntax"/>.</param>
     /// <returns>The resulting <seealso cref="AttributeListSyntax"/>.</returns>
-    public static AttributeListSyntax AttributeList(AttributeTargetSpecifierSyntax attributeTargetSpecifierNode, AttributeSyntax attributeNode)
+    public static AttributeListSyntax AttributeList(AttributeTargetSpecifierSyntax? attributeTargetSpecifierNode, AttributeSyntax attributeNode)
     {
         return SyntaxFactory.AttributeList(attributeTargetSpecifierNode, SyntaxFactory.SeparatedList(new[] { attributeNode }));
     }
@@ -118,7 +118,7 @@ public static class ExtendedSyntaxFactory
             var outer = SyntaxFactory.QualifiedName(currentNameSyntax, identifier);
             currentNameSyntax = outer;
         }
-        return currentNameSyntax as QualifiedNameSyntax;
+        return (QualifiedNameSyntax)currentNameSyntax!;
     }
 
     // TODO: Support alias usings

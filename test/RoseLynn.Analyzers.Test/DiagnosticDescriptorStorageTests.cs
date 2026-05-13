@@ -28,7 +28,7 @@ public class DiagnosticDescriptorStorageTests
     public async Task DiagnosticSeverityIsDeclaredExplicitly()
     {
         var mappedSeverity = Instance[1002];
-        await Assert.That(mappedSeverity.DefaultSeverity).IsEqualTo(DiagnosticSeverity.Warning);
+        await Assert.That(mappedSeverity?.DefaultSeverity).IsEqualTo(DiagnosticSeverity.Warning);
     }
 
     [Test]

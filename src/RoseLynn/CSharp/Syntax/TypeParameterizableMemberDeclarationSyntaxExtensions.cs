@@ -30,9 +30,9 @@ public static class TypeParameterizableMemberDeclarationSyntaxExtensions
     {
         return node switch
         {
-            TypeDeclarationSyntax     t => t.Arity,
+            TypeDeclarationSyntax t => t.Arity,
             DelegateDeclarationSyntax d => d.Arity,
-            MethodDeclarationSyntax   m => m.Arity,
+            MethodDeclarationSyntax m => m.Arity,
             _ => 0,
         };
     }
@@ -44,9 +44,9 @@ public static class TypeParameterizableMemberDeclarationSyntaxExtensions
     {
         return node switch
         {
-            TypeDeclarationSyntax     t => t.ConstraintClauses,
+            TypeDeclarationSyntax t => t.ConstraintClauses,
             DelegateDeclarationSyntax d => d.ConstraintClauses,
-            MethodDeclarationSyntax   m => m.ConstraintClauses,
+            MethodDeclarationSyntax m => m.ConstraintClauses,
             _ => default,
         };
     }
@@ -54,13 +54,13 @@ public static class TypeParameterizableMemberDeclarationSyntaxExtensions
     /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/>.</param>
     /// <returns>The type parameter list of the declaring member if it can be generic, otherwise <see langword="null"/>.</returns>
     /// <inheritdoc cref="SupportedTypeRemarks"/>
-    public static TypeParameterListSyntax GetTypeParameterList(this MemberDeclarationSyntax node)
+    public static TypeParameterListSyntax? GetTypeParameterList(this MemberDeclarationSyntax node)
     {
         return node switch
         {
-            TypeDeclarationSyntax     t => t.TypeParameterList,
+            TypeDeclarationSyntax t => t.TypeParameterList,
             DelegateDeclarationSyntax d => d.TypeParameterList,
-            MethodDeclarationSyntax   m => m.TypeParameterList,
+            MethodDeclarationSyntax m => m.TypeParameterList,
             _ => null,
         };
     }
@@ -69,13 +69,13 @@ public static class TypeParameterizableMemberDeclarationSyntaxExtensions
     /// <param name="node">The <seealso cref="MemberDeclarationSyntax"/> whose type parameter list to change. The original instance remains unaffected.</param>
     /// <param name="typeParameterList">The <seealso cref="TypeParameterListSyntax"/> of the new node.</param>
     /// <returns>The new node with the specified <seealso cref="TypeParameterListSyntax"/>, if it can be generic, otherwise the original unaffected node.</returns>
-    public static MemberDeclarationSyntax WithTypeParameterList(this MemberDeclarationSyntax node, TypeParameterListSyntax typeParameterList)
+    public static MemberDeclarationSyntax WithTypeParameterList(this MemberDeclarationSyntax node, TypeParameterListSyntax? typeParameterList)
     {
         return node switch
         {
-            TypeDeclarationSyntax     t => t.WithTypeParameterList(typeParameterList),
+            TypeDeclarationSyntax t => t.WithTypeParameterList(typeParameterList),
             DelegateDeclarationSyntax d => d.WithTypeParameterList(typeParameterList),
-            MethodDeclarationSyntax   m => m.WithTypeParameterList(typeParameterList),
+            MethodDeclarationSyntax m => m.WithTypeParameterList(typeParameterList),
             _ => node,
         };
     }
@@ -87,9 +87,9 @@ public static class TypeParameterizableMemberDeclarationSyntaxExtensions
     {
         return node switch
         {
-            TypeDeclarationSyntax     t => t.WithConstraintClauses(constraintClauses),
+            TypeDeclarationSyntax t => t.WithConstraintClauses(constraintClauses),
             DelegateDeclarationSyntax d => d.WithConstraintClauses(constraintClauses),
-            MethodDeclarationSyntax   m => m.WithConstraintClauses(constraintClauses),
+            MethodDeclarationSyntax m => m.WithConstraintClauses(constraintClauses),
             _ => node,
         };
     }

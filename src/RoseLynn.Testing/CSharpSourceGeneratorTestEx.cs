@@ -39,7 +39,8 @@ public abstract class CSharpSourceGeneratorTestEx<TSourceGenerator, TVerifier> :
 
     protected override ParseOptions CreateParseOptions()
     {
-        return (base.CreateParseOptions() as CSharpParseOptions).WithLanguageVersion(LanguageVersion);
+        return ((CSharpParseOptions)base.CreateParseOptions())
+            .WithLanguageVersion(LanguageVersion);
     }
 
     protected override CompilationOptions CreateCompilationOptions()

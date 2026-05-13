@@ -17,10 +17,10 @@ public sealed class TypeSymbolUsageInfo
 #pragma warning restore RS1024 // Compare symbols correctly
 
     /// <summary>Gets the <seealso cref="FullSymbolName"/>s of all the used types.</summary>
-    public IEnumerable<FullSymbolName> FullSymbolNames => usedTypes.Select(u => u.GetFullSymbolName());
+    public IEnumerable<FullSymbolName?> FullSymbolNames => usedTypes.Select(u => u.GetFullSymbolName());
 
     /// <summary>Gets the namespaces of all the used types.</summary>
-    public IEnumerable<string> Namespaces => FullSymbolNames.Select(n => n.FullNamespaceString);
+    public IEnumerable<string> Namespaces => FullSymbolNames.Select(n => n?.FullNamespaceString ?? string.Empty);
 
     /// <summary>Registers the types used in the signature of a provided <seealso cref="IMethodSymbol"/>.</summary>
     /// <param name="method">The method symbol whose signature's types to register for usage.</param>
@@ -77,7 +77,7 @@ public sealed class TypeSymbolUsageInfo
 
     // TODO: Abstract those into extensions
 
-    private static INamedTypeSymbol GetUsedNamedTypeSymbol(ITypeSymbol typeSymbol)
+    private static INamedTypeSymbol? GetUsedNamedTypeSymbol(ITypeSymbol typeSymbol)
     {
         return typeSymbol switch
         {
@@ -99,7 +99,7 @@ public sealed class TypeSymbolUsageInfo
             case INamedTypeSymbol named:
                 var typeArguments = SelectTypeSymbols(named.TypeArguments);
                 return new SingleElementCollection<INamedTypeSymbol>(named)
-                    .Concat(typeArguments);
+                    .Concat(typeArguments)!;
 
             default:
                 var single = GetUsedNamedTypeSymbol(typeSymbol);
