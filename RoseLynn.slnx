@@ -6,6 +6,9 @@
     <BuildType Name="Release Test" />
   </Configurations>
   <Folder Name="/src/">
+    <Project Path="RoseLynn.Writing/RoseLynn.Writing.csproj" Id="c811c605-7d75-47b6-b680-87d8c63c75d3">
+      <BuildType Solution="Release Test|*" Project="Release" />
+    </Project>
     <Project Path="src/RoseLynn.Analyzers/RoseLynn.Analyzers.csproj" />
     <Project Path="src/RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj" />
     <Project Path="src/RoseLynn.Generators/RoseLynn.Generators.csproj" />
@@ -13,6 +16,9 @@
     <Project Path="src/RoseLynn/RoseLynn.csproj" />
   </Folder>
   <Folder Name="/test/">
+    <Project Path="RoseLynn.Writing.Test/RoseLynn.Writing.Test.csproj" Id="1e85268b-a957-47be-afff-f262ddbaf17e">
+      <BuildType Solution="Release Test|*" Project="Release" />
+    </Project>
     <Project Path="test/RoseLynn.Analyzers.Test/RoseLynn.Analyzers.Test.csproj" />
     <Project Path="test/RoseLynn.Test/RoseLynn.Test.csproj" />
     <Project Path="test/RoseLynn.Testing.Test/RoseLynn.Testing.Test.csproj" />
@@ -20,6 +26,9 @@
   <Folder Name="/tools/">
     <Project Path="tools/RoseLynn.InternalGenerators/RoseLynn.InternalGenerators.csproj" />
     <Project Path="tools/RoseLynn.PackageDeployment/RoseLynn.PackageDeployment.csproj" />
+  </Folder>
+  <Folder Name="/tools/scripts/">
+    <File Path="tools/scripts/run-coverage.cs" />
   </Folder>
 </Solution>
 

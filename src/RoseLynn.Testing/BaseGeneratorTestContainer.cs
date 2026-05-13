@@ -1,10 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
+using Polyfills;
 using RoseLynn.Generators;
+using RoseLynn.Writing;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,217 +15,244 @@ namespace RoseLynn.Testing;
 
 /// <summary>Represents a source generator test container, providing helpful features for building tests for source generators.</summary>
 /// <typeparam name="TSourceGenerator">The type of the source generator.</typeparam>
-/// <typeparam name="TVerifier">The type of the verifier.</typeparam>
-/// <typeparam name="TSourceGeneratorTest">The type of the source generator test fixture.</typeparam>
-public abstract class BaseGeneratorTestContainer<TSourceGenerator, TVerifier, TSourceGeneratorTest>
-    where TSourceGenerator : new()
-    where TVerifier : IVerifier, new()
-    where TSourceGeneratorTest : SourceGeneratorTest<TVerifier>, new()
+public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest>
+    : BaseDrivenCSharpIncrementalGeneratorTestContainer<
+        TSourceGenerator,
+        TTest>
+    where TSourceGenerator : IIncrementalGenerator, new()
+    where TTest : BaseGeneratorTestContainer<TSourceGenerator, TTest>.SimpleGeneratorTest, new()
 {
-    /// <summary>
-    /// Gets the default metadata references that are mandatory for the operation of the test container
-    /// which will be used when creating <seealso cref="Compilation"/> instances to run the generator.
-    /// </summary>
-    protected virtual IEnumerable<MetadataReference> DefaultMetadataReferences => Enumerable.Empty<MetadataReference>();
-
-    /// <summary>
-    /// Gets the default language version to use when creating <seealso cref="Compilation"/> instances.
-    /// </summary>
-    protected virtual LanguageVersion LanguageVersion => LanguageVersion.LatestMajor;
-
-    /// <summary>
-    /// Gets the default output kind to use when creating <seealso cref="Compilation"/> instances.
-    /// </summary>
-    protected virtual OutputKind OutputKind => OutputKind.NetModule;
-    /// <summary>
-    /// Creates a <seealso cref="Compilation"/> and for the provided collection of sources and initializes
-    /// instances around running the generator on the provided sources.
-    /// </summary>
-    /// <param name="sources">The collection of sources the generator will act upon.</param>
-    /// <param name="generator">The generator instance that was created.</param>
-    /// <param name="resultingGeneratorDriver">The resulting generator driver.</param>
-    /// <param name="initialCompilation">The initial compilation before the generator runs.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>The resulting compilation after the source generator is run.</returns>
-    protected Compilation CreateCompilationRunGenerator(
-        IEnumerable<string> sources,
-        out TSourceGenerator generator,
-        out GeneratorDriver resultingGeneratorDriver,
-        out Compilation initialCompilation,
-        CancellationToken cancellationToken = default)
+    public static SourceText Utf8CSharpSource(
+        [StringSyntax(PredefinedEmbeddedLanguageNames.CSharpTest)]
+        string source)
     {
-        CreateDriverGenerator(out generator, out var driver);
-
-        return CreateCompilationRunGenerator(
-            sources,
-            driver,
-            out resultingGeneratorDriver,
-            out initialCompilation,
-            cancellationToken);
+        return GeneralGeneratorTestHelpers.Utf8CSharpSource(source);
     }
 
-    /// <summary>
-    /// Creates a <seealso cref="Compilation"/> and for the provided collection of sources and initializes
-    /// instances around running the generator on the provided sources.
-    /// </summary>
-    /// <param name="source">The collection of sources the generator will act upon.</param>
-    /// <inheritdoc cref="CreateCompilationRunGenerator(IEnumerable{string}, out TSourceGenerator, out GeneratorDriver, out Compilation, CancellationToken)"/>
-    protected Compilation CreateCompilationRunGenerator(
-        string source,
-#pragma warning disable CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
-        out TSourceGenerator generator,
-        out GeneratorDriver resultingGeneratorDriver,
-        out Compilation initialCompilation,
-        CancellationToken cancellationToken = default)
-#pragma warning restore CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
+    public abstract class SimpleGeneratorTest
+        : CSharpSourceGeneratorTestEx<TSourceGenerator>
     {
-        return CreateCompilationRunGenerator(new[] { source }, out generator, out resultingGeneratorDriver, out initialCompilation, cancellationToken);
-    }
-
-    private Compilation CreateCompilationRunGenerator(
-        IEnumerable<string> sources,
-        GeneratorDriver driver,
-        out GeneratorDriver resultingGeneratorDriver,
-        out Compilation initialCompilation,
-        CancellationToken cancellationToken = default)
-    {
-        var references = DefaultMetadataReferences;
-        var parseOptions = new CSharpParseOptions(LanguageVersion);
-        var trees = sources.Select(source => CSharpSyntaxTree.ParseText(source, options: parseOptions));
-        var options = new CSharpCompilationOptions(OutputKind);
-        initialCompilation = CSharpCompilation.Create(null, trees, references, options);
-
-        resultingGeneratorDriver = driver.RunGeneratorsAndUpdateCompilation(initialCompilation, out var resultCompilation, out _, cancellationToken);
-        return resultCompilation;
-    }
-
-    /// <summary>
-    /// Creates a new instance of the <typeparamref name="TSourceGenerator"/>
-    /// type and initializes a <seealso cref="GeneratorDriver"/> using that
-    /// generator.
-    /// </summary>
-    /// <param name="generator">The initialized generator instance.</param>
-    /// <param name="driver">The initiailzed <seealso cref="GeneratorDriver"/> instance.</param>
-    protected abstract void CreateDriverGenerator(
-        out TSourceGenerator generator,
-        out GeneratorDriver driver);
-
-    #region Verifying
-    /// <summary>
-    /// Verifies that the provided collection of sources causes the generator to produce sources matching the given mappings.
-    /// </summary>
-    /// <param name="sources">The original collection of sources that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    protected async Task VerifyAsync(IEnumerable<string> sources, GeneratedSourceMappings mappings, CancellationToken cancellationToken = default)
-    {
-        await VerifyAsync(sources, mappings, new TSourceGeneratorTest(), cancellationToken);
-    }
-    /// <summary>
-    /// Verifies that the provided collection of sources causes the generator to produce sources matching the given mappings,
-    /// acting on a pre-initialized <typeparamref name="TSourceGeneratorTest"/> instance.
-    /// </summary>
-    /// <param name="sources">The original collection of sources that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
-    /// <param name="test">The custom <typeparamref name="TSourceGeneratorTest"/> instance.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    protected async Task VerifyAsync(IEnumerable<string> sources, GeneratedSourceMappings mappings, TSourceGeneratorTest test, CancellationToken cancellationToken = default)
-    {
-        test.TestState.Sources.AddRange(sources);
-        foreach (var mapping in mappings)
+        protected override CompilationOptions CreateCompilationOptions()
         {
-            test.TestState.GeneratedSources.Add((typeof(TSourceGenerator), mapping.Key, mapping.Value));
+            return base.CreateCompilationOptions()
+                .WithNullableContextOptions(NullableContextOptions.Enable);
         }
 
-        await test.RunAsync(cancellationToken);
-    }
-    /// <summary>
-    /// Verifies that the provided source causes the generator to produce sources matching the given mappings.
-    /// </summary>
-    /// <param name="source">The original source that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    protected async Task VerifyAsync(string source, GeneratedSourceMappings mappings, CancellationToken cancellationToken = default)
-    {
-        await VerifyAsync(new[] { source }, mappings, cancellationToken);
-    }
-    /// <summary>
-    /// Verifies that the provided source causes the generator to produce sources matching the given mappings,
-    /// acting on a pre-initialized <typeparamref name="TSourceGeneratorTest"/> instance.
-    /// </summary>
-    /// <param name="source">The original source that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
-    /// <param name="test">The custom <typeparamref name="TSourceGeneratorTest"/> instance.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    protected async Task VerifyAsync(string source, GeneratedSourceMappings mappings, TSourceGeneratorTest test, CancellationToken cancellationToken = default)
-    {
-        await VerifyAsync(new[] { source }, mappings, test, cancellationToken);
-    }
-
-    /// <summary>
-    /// Verifies that the provided source causes the generator to produce one single source,
-    /// with the specified hint name and source.
-    /// </summary>
-    /// <param name="source">The original source that the source generator will act upon.</param>
-    /// <param name="generatedHintName">The expected hint name of the single generated source.</param>
-    /// <param name="generatedSource">The single generated source.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    protected async Task VerifyAsync(string source, string generatedHintName, string generatedSource, CancellationToken cancellationToken = default)
-    {
-        var mappings = new GeneratedSourceMappings()
+        protected override async Task RunImplAsync(CancellationToken cancellationToken)
         {
-            { generatedHintName, generatedSource }
-        };
-        await VerifyAsync(source, mappings, cancellationToken);
-    }
-    
-    /// <inheritdoc cref="VerifyAsync(IEnumerable{string}, GeneratedSourceMappings, CancellationToken)"/>
-    protected async Task VerifyAsync(
-        string source,
-        IEnumerable<(string fileName, string source)> mappings,
-        CancellationToken cancellationToken = default)
-    {
-        await VerifyAsync(new[] { source }, mappings, new TSourceGeneratorTest(), cancellationToken);
-    }
-    /// <inheritdoc cref="VerifyAsync(IEnumerable{string}, GeneratedSourceMappings, CancellationToken)"/>
-    protected async Task VerifyAsync(
-        string source,
-        IEnumerable<(string fileName, SourceText source)> mappings,
-        CancellationToken cancellationToken = default)
-    {
-        await VerifyAsync(new[] { source }, mappings, new TSourceGeneratorTest(), cancellationToken);
-    }
-
-    /// <inheritdoc cref="VerifyAsync(IEnumerable{string}, GeneratedSourceMappings, TSourceGeneratorTest, CancellationToken)"/>
-    protected async Task VerifyAsync(
-        IEnumerable<string> sources,
-        IEnumerable<(string fileName, SourceText source)> mappings,
-        TSourceGeneratorTest test,
-        CancellationToken cancellationToken = default)
-    {
-        test.TestState.Sources.AddRange(sources);
-        foreach (var (fileName, source) in mappings)
-        {
-            test.TestState.GeneratedSources.Add((typeof(TSourceGenerator), fileName, source));
+            try
+            {
+                await base.RunImplAsync(cancellationToken);
+            }
+            catch
+            {
+                await HandleGeneratorAssertionFailure(cancellationToken);
+                throw;
+            }
         }
 
-        await test.RunAsync(cancellationToken);
-    }
-
-    /// <inheritdoc cref="VerifyAsync(IEnumerable{string}, GeneratedSourceMappings, TSourceGeneratorTest, CancellationToken)"/>
-    protected async Task VerifyAsync(
-        IEnumerable<string> sources,
-        IEnumerable<(string fileName, string source)> mappings,
-        TSourceGeneratorTest test,
-        CancellationToken cancellationToken = default)
-    {
-        test.TestState.Sources.AddRange(sources);
-        foreach (var (fileName, source) in mappings)
+        // TODO: Abstract the test context provider/adapter so that we can be agnostic to
+        // TUnit and instead change this into a workflow-based model that 
+        private async Task HandleGeneratorAssertionFailure(
+            CancellationToken cancellationToken)
         {
-            test.TestState.GeneratedSources.Add((typeof(TSourceGenerator), fileName, source));
+            var context = TestContext.Current;
+            if (context is null)
+            {
+                throw new InvalidCastException(
+                    "Cannot retrieve the current test context");
+            }
+
+            var testName = $"{context.ClassContext.ClassType.Name}.{context.Metadata.TestName}";
+            var artifacts = await RunTestWriteHelpArtifacts(
+                testName, cancellationToken);
+
+            foreach (var artifact in artifacts)
+            {
+                context.Output.AttachArtifact(artifact);
+            }
         }
 
-        await test.RunAsync(cancellationToken);
+        private async Task<IReadOnlyList<Artifact>> RunTestWriteHelpArtifacts(
+            string testName,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await CreateCompilationRunGenerator(
+                TestState.Sources.Select(s => s.content.ToString()),
+                cancellationToken);
+
+            return await WriteTestGeneratorOutput(
+                testName,
+                result.ResultingDriver,
+                cancellationToken);
+        }
+
+        private static async Task<IReadOnlyList<Artifact>> WriteTestGeneratorOutput(
+            string testName,
+            GeneratorDriver resultingGeneratorDriver,
+            CancellationToken cancellationToken = default)
+        {
+            var now = DateTime.UtcNow;
+            var fileNameBase = $"{testName}_{now:yyyyMMdd_HHmmss}";
+            const string directoryBase = "generator_outputs";
+
+            var fileSystem = new FileSystem();
+            var targetDirectory = fileSystem.DirectoryInfo.New(directoryBase);
+            targetDirectory.CreateSafe();
+
+            var runResult = resultingGeneratorDriver.GetRunResult();
+
+            var generatorOutputFile = targetDirectory.File($"{fileNameBase}.cs");
+            var outputMappings = GenerateMappingsFromRunResult(runResult);
+            var code = GeneratorOutputWriter.GenerateSourceMappingsCode(outputMappings);
+            await generatorOutputFile.WriteAllTextAsync(code, cancellationToken);
+
+            var generatorDriverInfoFile = targetDirectory
+                .File($"{fileNameBase}_driverinfo.txt");
+            var aggregateDriverResult = AggregateGeneratorDriverResult
+                .ResultsForDriver(resultingGeneratorDriver);
+            var driverInfoText = GenerateDriverInfoText(aggregateDriverResult);
+            await generatorDriverInfoFile.WriteAllTextAsync(
+                driverInfoText, cancellationToken);
+
+            return [
+                new()
+                {
+                    File = generatorOutputFile.Concrete,
+                    DisplayName = "Expected generator sources output",
+                    Description = "A RoseLynn-friendly representation of the actual outputs to be copied as expected",
+                },
+                new()
+                {
+                    File = generatorDriverInfoFile.Concrete,
+                    DisplayName = "Generator driver run result information",
+                    Description = "Extra information aggregated from the driver's run result, helping with debug",
+                },
+            ];
+        }
+
+        private static GeneratedSourceMappings GenerateMappingsFromRunResult(
+            GeneratorDriverRunResult runResult)
+        {
+            var results = runResult.Results;
+            var outputMappings = new GeneratedSourceMappings();
+
+            foreach (var result in results)
+            {
+                foreach (var source in result.GeneratedSources)
+                {
+                    var fileName = source.HintName;
+                    var text = source.SourceText;
+
+                    outputMappings.Add(fileName, text);
+                }
+            }
+
+            return outputMappings;
+        }
+
+        private static string GenerateDriverInfoText(
+            AggregateGeneratorDriverResult driverResult)
+        {
+            var builder = new StringBuilder();
+
+            builder.AppendLine($"""
+            Total results: {driverResult.GeneratorResults.Count}
+            Total run time: {driverResult.TimingInfo.ElapsedTime}
+
+            ====
+
+            """);
+
+            var blockList = new StringBuilderSeparatableBlockList(builder);
+            foreach (var sub in driverResult.GeneratorResults)
+            {
+                using var blockScope = blockList.BeginBlockScope();
+
+                var generatorTypeName = sub.Generator.GetGeneratorType().FullName;
+
+                builder.AppendLine($"""
+                Generator type: {generatorTypeName}
+                Elapsed time: {sub.TimingInfo.ElapsedTime}
+                """);
+
+                if (sub.RunResult.Diagnostics is { Length: > 0 }
+                    and var diagnostics)
+                {
+                    builder.AppendLine();
+                    builder.AppendLine("Diagnostics:");
+
+                    foreach (var diagnostic in diagnostics)
+                    {
+                        builder.AppendLine($"""
+                          {diagnostic.Severity} - {diagnostic.Id}
+                          Message: {diagnostic.GetMessage()}
+                        """);
+                    }
+
+                    builder.AppendLine();
+                }
+
+                if (sub.RunResult.TrackedSteps is { Count: > 0 }
+                    and var trackedSteps)
+                {
+                    builder.AppendLine();
+                    builder.AppendLine("Tracked steps:");
+
+                    foreach (var trackedStepGroup in trackedSteps)
+                    {
+                        builder.AppendLine($"""
+                        - Step key: {trackedStepGroup.Key}
+                          Steps:
+                        """);
+
+                        foreach (var step in trackedStepGroup.Value)
+                        {
+                            builder.AppendLine($"""
+                              - Elapsed time: {step.ElapsedTime}
+                                Input count: {step.Inputs.Length}
+                                Output count: {step.Outputs.Length}
+                            """);
+                        }
+                    }
+
+                    builder.AppendLine();
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Creates a <seealso cref="Compilation"/> and for the provided collection of sources and initializes
+        /// instances around running the generator on the provided sources.
+        /// </summary>
+        /// <param name="sources">The collection of sources the generator will act upon.</param>
+        /// <param name="generator">The generator instance that was created.</param>
+        /// <param name="resultingGeneratorDriver">The resulting generator driver.</param>
+        /// <param name="initialCompilation">The initial compilation before the generator runs.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="GeneratorDriverCompilationExecutionStep"/> after the generator is run.</returns>
+        private async Task<GeneratorDriverCompilationExecutionStep> CreateCompilationRunGenerator(
+            IEnumerable<string> sources,
+            CancellationToken cancellationToken = default)
+        {
+            CreateDriverGenerator(out _, out var driver);
+
+            return await CreateCompilationRunGenerator(
+                sources,
+                driver,
+                cancellationToken);
+        }
+
+        private async Task<GeneratorDriverCompilationExecutionStep> CreateCompilationRunGenerator(
+            IEnumerable<string> sources,
+            GeneratorDriver driver,
+            CancellationToken cancellationToken = default)
+        {
+            var initialCompilation = await CreateCompilation(sources, cancellationToken);
+            return driver.RunExecutionStep(initialCompilation, cancellationToken);
+        }
     }
-    #endregion
 }
+

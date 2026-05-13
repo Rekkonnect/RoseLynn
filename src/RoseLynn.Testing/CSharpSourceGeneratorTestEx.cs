@@ -2,60 +2,59 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using RoseLynn;
 
-// TODO: Renamespace
-namespace RoseLynn.Generators.Testing;
+namespace RoseLynn.Testing;
 
-/// <summary>
-/// Provides additional abstractions over commonly-encountered boilerplate code from
-/// <seealso cref="CSharpSourceGeneratorTest{TSourceGenerator, TVerifier}"/>.
-/// </summary>
-/// <typeparam name="TSourceGenerator">The type of the source generator.</typeparam>
-/// <typeparam name="TVerifier">The type of the verifier.</typeparam>
-public abstract class CSharpSourceGeneratorTestEx<TSourceGenerator, TVerifier> : CSharpSourceGeneratorTest<TSourceGenerator, TVerifier>
-    where TSourceGenerator : ISourceGenerator, new()
-    where TVerifier : IVerifier, new()
+public abstract class CSharpSourceGeneratorTestEx<TSourceGenerator>
+    : CSharpSourceGeneratorTest<TSourceGenerator, DefaultVerifier>
+    where TSourceGenerator : IIncrementalGenerator, new()
 {
-    /// <summary>
-    /// Gets the default references that are to be added to the <see cref="AnalyzerTest{TVerifier}.TestState"/>.
-    /// </summary>
-    public virtual IEnumerable<MetadataReference> AdditionalReferences => Enumerable.Empty<MetadataReference>();
-
-    /// <summary>
-    /// Gets the language version to operate upon.
-    /// </summary>
-    public LanguageVersion LanguageVersion { get; set; } = LanguageVersion.LatestMajor;
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public abstract ReferenceAssemblies DefaultReferenceAssemblies { get; }
+    public abstract IEnumerable<MetadataReference> AdditionalReferences { get; }
 
     public CSharpSourceGeneratorTestEx()
     {
-        TestState.AdditionalReferences.AddRange(AdditionalReferences);
+        this.ApplyReferences(DefaultReferenceAssemblies, AdditionalReferences);
     }
 
-    protected override ParseOptions CreateParseOptions()
+    /// <summary>
+    /// Creates a new instance of the <typeparamref name="TSourceGenerator"/>
+    /// type and initializes a <seealso cref="GeneratorDriver"/> using that
+    /// generator.
+    /// </summary>
+    /// <param name="generator">The initialized generator instance.</param>
+    /// <param name="driver">The initialized <seealso cref="GeneratorDriver"/> instance.</param>
+    protected void CreateDriverGenerator(
+        out TSourceGenerator generator,
+        out GeneratorDriver driver)
     {
-        return ((CSharpParseOptions)base.CreateParseOptions())
-            .WithLanguageVersion(LanguageVersion);
+        generator = new();
+        var driverOptions = CreateDriverOptions();
+        driver = CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator()],
+            driverOptions: driverOptions);
     }
 
-    protected override CompilationOptions CreateCompilationOptions()
+    private static GeneratorDriverOptions CreateDriverOptions()
     {
-        var compilationOptions = base.CreateCompilationOptions();
-        return compilationOptions.WithSpecificDiagnosticOptions(
-             compilationOptions.SpecificDiagnosticOptions.SetItems(GetNullableWarningsFromCompiler()));
+        return new(trackIncrementalGeneratorSteps: true);
     }
 
-    private static ImmutableDictionary<string, ReportDiagnostic> GetNullableWarningsFromCompiler()
+    protected async Task<Compilation> CreateCompilation(
+        IEnumerable<string> sources,
+        CancellationToken cancellationToken
+    )
     {
-        string[] args = { "/warnaserror:nullable" };
-        var commandLineArguments = CSharpCommandLineParser.Default.Parse(args, baseDirectory: Environment.CurrentDirectory, sdkDirectory: Environment.CurrentDirectory);
-        var nullableWarnings = commandLineArguments.CompilationOptions.SpecificDiagnosticOptions;
-
-        return nullableWarnings;
+        return await CSharpCompilation.Create(
+            sources,
+            TestState.AdditionalReferences,
+            DefaultReferenceAssemblies,
+            CreateParseOptions() as CSharpParseOptions,
+            CreateCompilationOptions() as CSharpCompilationOptions,
+            cancellationToken);
     }
 }

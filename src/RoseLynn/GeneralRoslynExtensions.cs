@@ -7,6 +7,7 @@ using System.Threading;
 
 namespace RoseLynn;
 
+[NeedsDocs]
 public static class GeneralRoslynExtensions
 {
     public static Compilation? GetContainingCompilation(this ISymbol symbol)

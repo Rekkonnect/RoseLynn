@@ -13,6 +13,7 @@ public static class GeneratorInitializationContextExtensions
     {
         context.RegisterForSyntaxNotifications(static () => new TReceiver());
     }
+
     /// <summary>Registers a constructable type instance for syntax notifications, provided a <seealso cref="GeneratorInitializationContext"/>.</summary>
     /// <typeparam name="TReceiver">The constructable <seealso cref="ISyntaxReceiver"/> type.</typeparam>
     /// <param name="context">The <seealso cref="GeneratorInitializationContext"/> to register the constructed type instance for receiving syntax notifications.</param>
