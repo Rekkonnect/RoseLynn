@@ -5,7 +5,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Configurations>Debug;Release;Release Test</Configurations>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,12 +22,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
-    <DefineConstants>
-      $(DefineConstants);
-      TEST_PACKAGES;
-    </DefineConstants>
-  </PropertyGroup>
 
 </Project>

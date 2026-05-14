@@ -1,4 +1,4 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 
-[NeedsDocs]
+/// <summary>Provides a Roslyn analyzer test base that creates C# compilations with nullable diagnostics enabled.</summary>
 public abstract class BaseCSharpCompilationTest : AnalyzerTest<DefaultVerifier>
 {
     protected override string DefaultFileExt => "cs";

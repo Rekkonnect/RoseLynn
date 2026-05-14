@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 
-[NeedsDocs]
+/// <summary>Provides a base class for compilation-based efforts that expose specialized execution methods instead of the default test runner entry point.</summary>
 public abstract class BaseCSharpCompilationEffort : BaseCSharpCompilationTest
 {
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member

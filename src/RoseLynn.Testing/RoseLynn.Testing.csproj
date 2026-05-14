@@ -6,7 +6,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>Additional tools for testing Roslyn-based analyzers.</Description>
     <PackageTags>roslyn, analyzer, tools, unit test, extensions</PackageTags>
-    <Configurations>Debug;Release;Release Test</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <NoWarn>$(NoWarn);RS1042</NoWarn>
   </PropertyGroup>
 
@@ -37,10 +37,6 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

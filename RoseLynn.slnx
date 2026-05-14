@@ -5,6 +5,9 @@
     <BuildType Name="Release" />
     <BuildType Name="Release Test" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="RoseLynn.Writing/RoseLynn.Writing.csproj" Id="c811c605-7d75-47b6-b680-87d8c63c75d3">
       <BuildType Solution="Release Test|*" Project="Release" />

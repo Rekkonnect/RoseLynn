@@ -1,12 +1,9 @@
 ﻿#!/usr/bin/dotnet run --file
-// TODO: Change the Garyon dependency, but otherwise retain the exact same behavior
-#:project ../../Garyon/Garyon.csproj
 #:package CliWrap@*
 
 using CliWrap;
 using CliWrap.Buffered;
-using Garyon.Extensions;
-using Garyon.Functions;
+using System.Diagnostics;
 
 var openBrowser = args.Contains("-i");
 
@@ -15,51 +12,66 @@ var cancellationToken = tokenSource.Token;
 
 Console.WriteLine("Running tests with coverage");
 
-var solutionDirectory = WorkspaceHelpers.GetThisSolutionRoot()
+var solutionDirectory = FindSolutionRoot()
     ?? throw new InvalidOperationException("Could not locate the solution root.");
-const string resultSubdirectory = "artifacts/coverage/results/";
+var solutionFilePath = FindSolutionFile(solutionDirectory)
+    ?? throw new InvalidOperationException($"Could not locate a solution file under '{solutionDirectory.FullName}'.");
+var coverageArtifactsDirectory = new DirectoryInfo(Path.Combine(solutionDirectory.FullName, "artifacts", "coverage"));
+var artifactsOutputDirectory = new DirectoryInfo(Path.Combine(coverageArtifactsDirectory.FullName, "results"));
+
+RecreateDirectory(artifactsOutputDirectory);
+
+var dotnetTestRunnerDirectory = CreateDotnetTestRunnerDirectory(coverageArtifactsDirectory);
+var rawCoverageFilePath = Path.Combine(coverageArtifactsDirectory.FullName, "raw-coverage.cobertura.xml");
+const string mergedCoverageFileName = "solution-coverage.cobertura.xml";
 
 var testResult = await RunCommand(
-    fileName: "dotnet",
+    fileName: "dotnet-coverage",
     arguments:
     [
+        "collect",
+        "dotnet",
         "test",
-        "--solution", "./",
-        "--coverage",
-        "--results-directory", $"./{resultSubdirectory}",
+        solutionFilePath.FullName,
+        "--results-directory", artifactsOutputDirectory.FullName,
+        "-o", rawCoverageFilePath,
+        "-f", "cobertura",
     ],
-    workingDirectory: solutionDirectory,
-    timeout: TimeSpan.FromSeconds(20),
+    workingDirectory: dotnetTestRunnerDirectory,
+    timeout: TimeSpan.FromMinutes(5),
     cancellationToken: cancellationToken);
 
-if (!testResult.IsSuccess)
+if (!testResult.IsSuccess && !File.Exists(rawCoverageFilePath))
 {
     PrintProcessOutput(testResult);
     return testResult.ExitCode;
 }
 
+if (!testResult.IsSuccess)
+{
+    Console.Error.WriteLine($"Test execution completed with failures (exit code {testResult.ExitCode}), but coverage data was collected. Continuing to generate reports.");
+    PrintProcessOutput(testResult);
+}
+
 Console.WriteLine("Merging coverage files");
 
-var artifactsOutputDirectory = solutionDirectory.Subdirectory(resultSubdirectory);
 if (!artifactsOutputDirectory.Exists)
 {
     Console.Error.WriteLine($"Coverage results directory was not created: {artifactsOutputDirectory.FullName}");
     return -10925;
 }
 
-const string mergedCoverageFileName = "solution-coverage.cobertura.xml";
+if (!File.Exists(rawCoverageFilePath))
+{
+    Console.Error.WriteLine($"Coverage collection did not create the expected report: {rawCoverageFilePath}");
+    return -10926;
+}
 
 var mergeResult = await RunCommand(
     fileName: "dotnet-coverage",
     arguments:
-    [
-        "merge",
-        "*.coverage",
-        "--remove-input-files",
-        "-o", mergedCoverageFileName,
-        "-f", "cobertura",
-    ],
-    workingDirectory: solutionDirectory,
+        ["merge", rawCoverageFilePath, "--remove-input-files", "-o", mergedCoverageFileName, "-f", "cobertura"],
+    workingDirectory: artifactsOutputDirectory,
     timeout: null,
     cancellationToken: cancellationToken);
 
@@ -71,7 +83,7 @@ if (!mergeResult.IsSuccess)
 
 Console.WriteLine("Generating coverage reports");
 const string coverageReportSubdirectoryName = "coverage-report";
-var coverageReportDirectory = artifactsOutputDirectory.Subdirectory(coverageReportSubdirectoryName);
+var coverageReportDirectory = new DirectoryInfo(Path.Combine(artifactsOutputDirectory.FullName, coverageReportSubdirectoryName));
 
 var reportResult = await RunCommand(
     fileName: "reportgenerator",
@@ -87,7 +99,7 @@ var reportResult = await RunCommand(
         "-filefilters:-*.g.cs",
     ],
     workingDirectory: artifactsOutputDirectory,
-    timeout: TimeSpan.FromSeconds(10),
+    timeout: TimeSpan.FromMinutes(1),
     cancellationToken: cancellationToken);
 
 if (!reportResult.IsSuccess)
@@ -105,18 +117,71 @@ IReadOnlyList<string> syncedFileNames =
 ];
 
 const string githubImagesDirectoryName = ".github/images/";
-var githubImagesDirectory = solutionDirectory.Subdirectory(githubImagesDirectoryName);
+var githubImagesDirectory = new DirectoryInfo(Path.Combine(solutionDirectory.FullName, githubImagesDirectoryName));
 
 SyncFiles(syncedFileNames, coverageReportDirectory, githubImagesDirectory);
 
 if (openBrowser)
 {
     Console.WriteLine("Opening coverage report index in browser");
-    var indexFile = coverageReportDirectory.File("index.html");
-    ProcessUtilities.OpenUrl(indexFile.FullName);
+    var indexFile = new FileInfo(Path.Combine(coverageReportDirectory.FullName, "index.html"));
+    OpenPath(indexFile.FullName);
 }
 
-return 0;
+return testResult.IsSuccess ? 0 : testResult.ExitCode;
+
+static DirectoryInfo? FindSolutionRoot()
+{
+    var current = new DirectoryInfo(Directory.GetCurrentDirectory());
+    while (current is not null)
+    {
+        var hasSolution = current.EnumerateFiles("*.sln", SearchOption.TopDirectoryOnly).Any()
+            || current.EnumerateFiles("*.slnx", SearchOption.TopDirectoryOnly).Any();
+        if (hasSolution || File.Exists(Path.Combine(current.FullName, "Directory.Build.props")))
+            return current;
+
+        current = current.Parent;
+    }
+
+    return null;
+}
+
+static FileInfo? FindSolutionFile(DirectoryInfo solutionDirectory)
+{
+    var solutionPath = solutionDirectory
+        .EnumerateFiles("*.slnx", SearchOption.TopDirectoryOnly)
+        .Concat(solutionDirectory.EnumerateFiles("*.sln", SearchOption.TopDirectoryOnly))
+        .OrderBy(static f => f.Name, StringComparer.OrdinalIgnoreCase)
+        .FirstOrDefault();
+
+    return solutionPath;
+}
+
+static DirectoryInfo CreateDotnetTestRunnerDirectory(DirectoryInfo coverageArtifactsDirectory)
+{
+    var runnerDirectory = new DirectoryInfo(Path.Combine(coverageArtifactsDirectory.FullName, "mtp-runner"));
+    runnerDirectory.Create();
+
+    var globalJsonPath = Path.Combine(runnerDirectory.FullName, "global.json");
+    const string globalJsonContents = """
+        {
+          "test": {
+            "runner": "Microsoft.Testing.Platform"
+          }
+        }
+        """;
+
+    File.WriteAllText(globalJsonPath, globalJsonContents);
+    return runnerDirectory;
+}
+
+static void RecreateDirectory(DirectoryInfo directory)
+{
+    if (directory.Exists)
+        directory.Delete(true);
+
+    directory.Create();
+}
 
 static void SyncFiles(
     IReadOnlyList<string> fileNames,
@@ -129,7 +194,7 @@ static void SyncFiles(
         return;
     }
 
-    target.CreateSafe();
+    target.Create();
     foreach (var file in fileNames)
     {
         SyncFile(file, source, target);
@@ -141,15 +206,29 @@ static void SyncFile(
     DirectoryInfo source,
     DirectoryInfo target)
 {
-    var sourceFile = source.File(fileName);
-    var targetFile = target.File(fileName);
+    var sourceFile = new FileInfo(Path.Combine(source.FullName, fileName));
+    var targetFile = new FileInfo(Path.Combine(target.FullName, fileName));
     if (!sourceFile.Exists)
     {
         targetFile.Delete();
         return;
     }
 
-    sourceFile.CopyTo(targetFile, true);
+    sourceFile.CopyTo(targetFile.FullName, true);
+}
+
+static void OpenPath(string path)
+{
+    using var process = new Process
+    {
+        StartInfo = new ProcessStartInfo
+        {
+            FileName = path,
+            UseShellExecute = true,
+        },
+    };
+
+    process.Start();
 }
 
 static void PrintProcessOutput(RunResult runResult)
@@ -186,7 +265,8 @@ static async Task<RunResult> RunCommand(
     var command = Cli
         .Wrap(fileName)
         .WithWorkingDirectory(workingDirectory.FullName)
-        .WithArguments(arguments);
+        .WithArguments(arguments)
+        .WithValidation(CommandResultValidation.None);
 
     using var timeoutTokenSource = timeout is { } t ? new CancellationTokenSource(t) : null;
     using var linkedTokenSource = timeoutTokenSource is not null
