@@ -1,12 +1,16 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using RoseLynn;
 
 namespace RoseLynn.SignatureViews;
 
+/// <summary>Provides helper projections and transforms for symbol signature views.</summary>
 public static partial class SignatureViewExtensions
 {
+    /// <summary>Gets the identifiable symbol kind flags for a type signature view.</summary>
+    /// <param name="typeSymbol">The type signature view to inspect.</param>
+    /// <returns>The identifiable symbol kind flags for the type.</returns>
     public static IdentifiableSymbolKind GetIdentifiableSymbolKind(
         this ITypeSymbolSignatureView typeSymbol)
     {
@@ -19,6 +23,9 @@ public static partial class SignatureViewExtensions
         return identifiableSymbolKind;
     }
 
+    /// <summary>Gets the keyword form of a symbol when available, otherwise its fully qualified name.</summary>
+    /// <param name="view">The symbol signature view to format.</param>
+    /// <returns>A keyword or fully qualified identifier for the symbol.</returns>
     public static string KeywordOrFullyQualifiedName(
         this ISymbolSignatureView view
     )
@@ -31,6 +38,9 @@ public static partial class SignatureViewExtensions
         return view.FullyQualifiedName;
     }
 
+    /// <summary>Formats a nullable named type using shorthand nullable syntax when possible.</summary>
+    /// <param name="view">The symbol signature view to format.</param>
+    /// <returns>A nullable shorthand identifier, or <see langword="null"/> if not applicable.</returns>
     public static string? SimplerNullableIdentifier(
         this ISymbolSignatureView view
     )
@@ -45,6 +55,9 @@ public static partial class SignatureViewExtensions
         return null;
     }
 
+    /// <summary>Formats a tuple type using tuple syntax when possible.</summary>
+    /// <param name="view">The symbol signature view to format.</param>
+    /// <returns>A tuple identifier, or <see langword="null"/> if tuple syntax is not applicable.</returns>
     public static string? SimplerTupleIdentifier(
         this ISymbolSignatureView view
     )
@@ -88,6 +101,9 @@ public static partial class SignatureViewExtensions
         return null;
     }
 
+    /// <summary>Gets the simplest identifier form available for a symbol signature view.</summary>
+    /// <param name="view">The symbol signature view to format.</param>
+    /// <returns>A simplified identifier for the symbol.</returns>
     public static string SimplerIdentifier(
         this ISymbolSignatureView view
     )
@@ -98,6 +114,10 @@ public static partial class SignatureViewExtensions
             ;
     }
 
+    /// <summary>Constructs a named type signature view with a new set of type arguments.</summary>
+    /// <param name="view">The generic named type to construct.</param>
+    /// <param name="typeArguments">The type arguments to apply.</param>
+    /// <returns>A constructed named type signature view.</returns>
     public static NamedTypeSymbolSignatureView Construct(
         this INamedTypeSymbolSignatureView view,
         ImmutableArray<ITypeSymbolSignatureView> typeArguments
@@ -125,6 +145,9 @@ public static partial class SignatureViewExtensions
         return $"{identifier}<{typeArgumentList}>";
     }
 
+    /// <summary>Gets the nullable handler for a type signature view.</summary>
+    /// <param name="view">The type signature view to adapt.</param>
+    /// <returns>The nullable handler for the supplied view.</returns>
     public static BaseTypeSymbolSignatureViewNullableHandler NullableHandler(
         this ITypeSymbolSignatureView view
     )

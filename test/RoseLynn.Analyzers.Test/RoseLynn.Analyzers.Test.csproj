@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\RoseLynn.Analyzers\RoseLynn.Analyzers.csproj" />
+    <ProjectReference Include="..\..\src\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
 
   <ItemGroup>

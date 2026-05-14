@@ -1,4 +1,4 @@
-﻿using Garyon.DataStructures;
+using Garyon.DataStructures;
 using Microsoft.CodeAnalysis.CSharp;
 using RoseLynn.Utilities;
 
@@ -56,6 +56,7 @@ public static class AttributeListTargetExtensions
         return AttributeListTargetCache.SyntaxKindInterlinks.ValueOrDefault(syntaxKind);
     }
 
+    /// <summary>Caches the bidirectional mapping between attribute-list targets and their syntax keywords.</summary>
     internal static class AttributeListTargetCache
     {
         public static readonly InterlinkedDictionary<AttributeListTarget, SyntaxKind> SyntaxKindInterlinks = new();

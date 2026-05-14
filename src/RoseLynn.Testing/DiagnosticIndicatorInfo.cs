@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 namespace RoseLynn.Testing;
 
@@ -36,6 +36,7 @@ public abstract class DiagnosticIndicatorInfo
     /// <returns>The <seealso cref="DiagnosticIndicatorInfo"/> instance that contains the provided unbound and bound diagnostic indicators.</returns>
     public static DiagnosticIndicatorInfo AnyDiagnostic(string start, string end, string boundStart, string boundEnd) => new Constructed(start, end, boundStart, boundEnd);
 
+    /// <summary>Stores diagnostic indicator strings in a concrete immutable implementation.</summary>
     private sealed class Constructed : DiagnosticIndicatorInfo
     {
         public override string Start { get; }
@@ -43,6 +44,11 @@ public abstract class DiagnosticIndicatorInfo
         public override string? BoundStart { get; }
         public override string? BoundEnd { get; }
 
+        /// <summary>Initializes a concrete diagnostic-indicator description.</summary>
+        /// <param name="start">The unbound start indicator.</param>
+        /// <param name="end">The unbound end indicator.</param>
+        /// <param name="boundStart">The bound start indicator.</param>
+        /// <param name="boundEnd">The bound end indicator.</param>
         public Constructed(string start, string? end = null, string? boundStart = null, string? boundEnd = null)
         {
             Start = start;

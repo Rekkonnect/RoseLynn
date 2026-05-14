@@ -1,7 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
 namespace RoseLynn.SignatureViews;
 
+/// <summary>Handles nullable conversions for named type signature views.</summary>
+/// <param name="NamedSymbol">The named type signature view being adapted.</param>
 public sealed record NamedTypeSymbolSignatureViewNullableHandler(
     INamedTypeSymbolSignatureView NamedSymbol)
     : BaseTypeSymbolSignatureViewNullableHandler(NamedSymbol)
@@ -17,12 +19,15 @@ public sealed record NamedTypeSymbolSignatureViewNullableHandler(
         }
     }
 
+    /// <summary>Gets whether the symbol represents a constructed <see cref="System.Nullable{T}"/> type.</summary>
     public override bool IsNullableStruct
         => Symbol is INamedTypeSymbolSignatureView
         {
             ConstructedFromSpecialType: SpecialType.System_Nullable_T,
         };
 
+    /// <summary>Returns a non-nullable form of the named type.</summary>
+    /// <returns>The non-nullable named type signature view.</returns>
     public override ITypeSymbolSignatureView MakeNotNullable()
     {
         if (IsNullableStruct)
@@ -38,6 +43,8 @@ public sealed record NamedTypeSymbolSignatureViewNullableHandler(
         };
     }
 
+    /// <summary>Returns a nullable form of the named type.</summary>
+    /// <returns>The nullable named type signature view.</returns>
     public override ITypeSymbolSignatureView MakeNullable()
     {
         if (NamedSymbol.TypeKind is TypeKind.Struct)

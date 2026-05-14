@@ -1,10 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace RoseLynn.Analyzers.Test;
 
 using static MockedResources.MockStorage;
 
+/// <summary>Tests lookup behavior for stored diagnostic descriptors.</summary>
 public class DiagnosticDescriptorStorageTests
 {
     [Test]

@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
@@ -13,12 +13,17 @@ using System.Threading.Tasks;
 
 namespace RoseLynn;
 
+/// <summary>Represents a mapped view of an attribute's constructor and named arguments.</summary>
 public sealed class AttributeDataViewModel
 {
+    /// <summary>Gets the underlying Roslyn attribute data.</summary>
     public required AttributeData AttributeData { get; init; }
+    /// <summary>Gets the mapped constructor arguments.</summary>
     public required ImmutableArray<MappedAttributeArgument> ConstructorArguments { get; init; }
+    /// <summary>Gets the mapped named arguments.</summary>
     public required ImmutableArray<MappedAttributeArgument> NamedArguments { get; init; }
 
+    /// <summary>Gets all mapped arguments in declaration order, starting with constructor arguments.</summary>
     public ImmutableArray<MappedAttributeArgument> AllArguments
     {
         get
@@ -33,6 +38,10 @@ public sealed class AttributeDataViewModel
 
     private AttributeDataViewModel() { }
 
+    /// <summary>Creates a view model asynchronously from attribute data.</summary>
+    /// <param name="data">The attribute data to model.</param>
+    /// <param name="cancellationToken">The token used to cancel syntax retrieval.</param>
+    /// <returns>The created view model, or <see langword="null"/> if the syntax cannot be resolved.</returns>
     public static async Task<AttributeDataViewModel?> CreateAsync(
         AttributeData data,
         CancellationToken cancellationToken = default)
@@ -50,6 +59,10 @@ public sealed class AttributeDataViewModel
         return GetModelForSyntax(data, syntax);
     }
 
+    /// <summary>Creates a view model synchronously from attribute data.</summary>
+    /// <param name="data">The attribute data to model.</param>
+    /// <param name="cancellationToken">The token used to cancel syntax retrieval.</param>
+    /// <returns>The created view model, or <see langword="null"/> if the syntax cannot be resolved.</returns>
     public static AttributeDataViewModel? Create(
         AttributeData data,
         CancellationToken cancellationToken = default)
@@ -390,6 +403,7 @@ public sealed class AttributeDataViewModel
         }
     }
 
+    /// <summary>Describes how an attribute argument was matched back to constructor or named-member data.</summary>
     public enum AttributeArgumentMappingKind
     {
         /// <summary>

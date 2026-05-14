@@ -5,12 +5,18 @@ using System.Linq;
 
 namespace RoseLynn.Generators;
 
-[NeedsDocs]
+/// <summary>Aggregates driver-level execution results with per-generator timing information.</summary>
+/// <param name="RunResult">The raw run result returned by the generator driver.</param>
+/// <param name="TimingInfo">The timing information captured for the driver execution.</param>
+/// <param name="GeneratorResults">The per-generator aggregates matched across run results and timing data.</param>
 public sealed record AggregateGeneratorDriverResult(
     GeneratorDriverRunResult RunResult,
     GeneratorDriverTimingInfo TimingInfo,
     IReadOnlyList<AggregateGeneratorResult> GeneratorResults)
 {
+    /// <summary>Builds an aggregate view of a generator driver's latest run results and timings.</summary>
+    /// <param name="driver">The driver whose results will be aggregated.</param>
+    /// <returns>An aggregate containing the driver run result, timing info, and matched per-generator data.</returns>
     public static AggregateGeneratorDriverResult ResultsForDriver(
         GeneratorDriver driver)
     {

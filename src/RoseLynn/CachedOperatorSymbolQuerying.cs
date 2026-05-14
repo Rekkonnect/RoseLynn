@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using System.Linq;
 namespace RoseLynn;
 
 // Querying is abstracted over here to avoid bloating CachedOperatorSymbols with unnecessary semantics
+/// <summary>Provides query helpers for filtering cached operator symbol collections.</summary>
 public static class CachedOperatorSymbolQuerying
 {
     /// <summary>Gets the binary operators that receive arguments of the specified types. A <see langword="null"/> type is treated as a wildcard.</summary>
@@ -43,6 +44,10 @@ public static class CachedOperatorSymbolQuerying
         bool Matches(CachedUnaryOperatorSymbol symbol) => symbol.ParameterType.Equals(type, SymbolEqualityComparer.Default);
     }
 
+    /// <summary>Filters operators to unchecked variants.</summary>
+    /// <typeparam name="TOperatorSymbol">The operator symbol type.</typeparam>
+    /// <param name="operators">The operators to filter.</param>
+    /// <returns>The unchecked operators from the source sequence.</returns>
     public static IEnumerable<TOperatorSymbol> Unchecked<TOperatorSymbol>(this IEnumerable<TOperatorSymbol> operators)
         where TOperatorSymbol : CachedOperatorSymbol
     {
@@ -50,6 +55,10 @@ public static class CachedOperatorSymbolQuerying
 
         static bool Matches(CachedOperatorSymbol symbol) => symbol.CheckingMode is OperatorCheckingMode.Unchecked;
     }
+    /// <summary>Filters operators to checked variants.</summary>
+    /// <typeparam name="TOperatorSymbol">The operator symbol type.</typeparam>
+    /// <param name="operators">The operators to filter.</param>
+    /// <returns>The checked operators from the source sequence.</returns>
     public static IEnumerable<TOperatorSymbol> Checked<TOperatorSymbol>(this IEnumerable<TOperatorSymbol> operators)
         where TOperatorSymbol : CachedOperatorSymbol
     {

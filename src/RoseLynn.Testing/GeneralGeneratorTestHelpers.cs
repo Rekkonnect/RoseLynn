@@ -1,4 +1,4 @@
-﻿using Garyon.Objects.Strings;
+using Garyon.Objects.Strings;
 using Microsoft.CodeAnalysis.Text;
 using RoseLynn.Writing;
 using System.Diagnostics.CodeAnalysis;
@@ -6,6 +6,7 @@ using System.Text;
 
 namespace RoseLynn.Testing;
 
+[NeedsDocs]
 public static class GeneralGeneratorTestHelpers
 {
     public static SourceText Utf8CSharpSource(

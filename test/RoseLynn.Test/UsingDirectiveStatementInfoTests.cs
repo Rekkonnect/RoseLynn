@@ -1,4 +1,4 @@
-﻿using RoseLynn.CSharp.Syntax;
+using RoseLynn.CSharp.Syntax;
 using RoseLynn.Test.Resources;
 using System;
 using System.Runtime.CompilerServices;
@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.Test;
 
+/// <summary>Tests formatting and sorting behavior for <see cref="UsingDirectiveStatementInfo"/> values.</summary>
 public class UsingDirectiveStatementInfoTests
 {
     [Test]

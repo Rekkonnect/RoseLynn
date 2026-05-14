@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
@@ -10,6 +10,7 @@ namespace RoseLynn.Analyzers.Test.MockedResources;
 #pragma warning disable RS2008 // Enable analyzer release tracking
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
+/// <summary>Provides a test analyzer with a small catalog of mock diagnostic descriptors.</summary>
 public sealed class MockAnalyzer : CSharpDiagnosticAnalyzer
 {
     public static readonly DiagnosticDescriptor MOCK0001_Rule = new(
@@ -60,8 +61,11 @@ public sealed class MockAnalyzer : CSharpDiagnosticAnalyzer
         MOCK1002_Rule,
     ];
 
+    /// <summary>Gets the storage used to resolve the analyzer's diagnostic descriptors.</summary>
     protected override DiagnosticDescriptorStorageBase DiagnosticDescriptorStorage => MockStorage.Instance;
 
+    /// <summary>Initializes the analyzer context.</summary>
+    /// <param name="context">The analysis context.</param>
     public override void Initialize(AnalysisContext context)
     {
         context.EnableConcurrentExecution();

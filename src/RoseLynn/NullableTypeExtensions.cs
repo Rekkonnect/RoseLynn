@@ -6,11 +6,13 @@ using System.Linq;
 
 namespace RoseLynn;
 
-[NeedsDocs]
+/// <summary>Provides helpers for reasoning about Roslyn nullable type metadata.</summary>
 public static class NullableTypeExtensions
 {
     extension(ITypeSymbol type)
     {
+        /// <summary>Determines whether the type is a constructed <see cref="System.Nullable{T}"/> value type.</summary>
+        /// <returns><see langword="true"/> if the type is nullable value type syntax; otherwise, <see langword="false"/>.</returns>
         public bool IsNullableStruct()
         {
             return type.SpecialType is SpecialType.System_Nullable_T
@@ -20,6 +22,9 @@ public static class NullableTypeExtensions
                 };
         }
 
+        /// <summary>Determines whether the type is nullable value type syntax and returns its underlying type.</summary>
+        /// <param name="underlying">Receives the underlying non-nullable type when the type is nullable.</param>
+        /// <returns><see langword="true"/> if the type is <see cref="System.Nullable{T}"/>; otherwise, <see langword="false"/>.</returns>
         public bool IsNullableStruct(
             [NotNullWhen(true)]
             out ITypeSymbol? underlying)
@@ -33,6 +38,8 @@ public static class NullableTypeExtensions
             return isNullable;
         }
 
+        /// <summary>Determines whether the type can accept a <see langword="null"/> value.</summary>
+        /// <returns><see langword="true"/> if the type can represent <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
         public bool AcceptsNull()
         {
             return type.IsNullableStruct()
@@ -45,6 +52,9 @@ public static class NullableTypeExtensions
                 ;
         }
 
+        /// <summary>Returns a nullable form of the type when the type system supports one.</summary>
+        /// <param name="compilation">The compilation used to resolve <see cref="System.Nullable{T}"/>.</param>
+        /// <returns>A nullable form of the type, or the original type when nullable conversion does not apply.</returns>
         public ITypeSymbol MakeNullable(Compilation compilation)
         {
             if (type.IsPointerType)
@@ -62,6 +72,8 @@ public static class NullableTypeExtensions
             return type.WithNullableAnnotation(NullableAnnotation.Annotated);
         }
 
+        /// <summary>Returns a non-nullable form of the type when the type system supports one.</summary>
+        /// <returns>A non-nullable form of the type, or the original type when no change is needed.</returns>
         public ITypeSymbol MakeNotNullable()
         {
             if (type.IsPointerType)
@@ -78,11 +90,14 @@ public static class NullableTypeExtensions
             return type.WithNullableAnnotation(NullableAnnotation.NotAnnotated);
         }
 
+        /// <summary>Gets whether the type is any Roslyn pointer type representation.</summary>
         public bool IsPointerType => type is IPointerTypeSymbol or IFunctionPointerTypeSymbol;
     }
 
     extension(ITypeParameterSymbol typeParameter)
     {
+        /// <summary>Determines whether a type parameter may be substituted with a nullable type.</summary>
+        /// <returns><see langword="true"/> if the type parameter can accept <see langword="null"/>; otherwise, <see langword="false"/>.</returns>
         public bool AcceptsNull()
         {
             if (typeParameter.HasNotNullConstraint)

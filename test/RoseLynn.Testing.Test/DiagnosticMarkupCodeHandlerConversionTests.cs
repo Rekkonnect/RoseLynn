@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace RoseLynn.Testing.Test;
 
+/// <summary>Placeholder tests for diagnostic markup conversion scenarios.</summary>
 public class DiagnosticMarkupCodeHandlerConversionTests
 {
     [Test]

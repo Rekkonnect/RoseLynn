@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Microsoft.CodeAnalysis;
 using System.ComponentModel;
@@ -25,8 +25,12 @@ public enum OperatorMethodKind
     Conversion,
 }
 
+/// <summary>Provides conversions between Roslyn <see cref="MethodKind"/> values and <see cref="OperatorMethodKind"/>.</summary>
 public static class OperatorMethodKindExtensions
 {
+    /// <summary>Maps a Roslyn method kind to the corresponding operator method kind.</summary>
+    /// <param name="methodKind">The Roslyn method kind to map.</param>
+    /// <returns>The corresponding operator method kind.</returns>
     public static OperatorMethodKind GetOperatorMethodKind(this MethodKind methodKind) => methodKind switch
     {
         MethodKind.UserDefinedOperator => OperatorMethodKind.UserDefined,
@@ -35,6 +39,9 @@ public static class OperatorMethodKindExtensions
 
         _ => throw new InvalidEnumArgumentException("The given MethodKind does not reflect an operator method kind.")
     };
+    /// <summary>Maps an <see cref="OperatorMethodKind"/> to the corresponding Roslyn method kind.</summary>
+    /// <param name="operatorMethodKind">The operator method kind to map.</param>
+    /// <returns>The corresponding Roslyn method kind.</returns>
     public static MethodKind GetMethodKind(this OperatorMethodKind operatorMethodKind) => operatorMethodKind switch
     {
         OperatorMethodKind.UserDefined => MethodKind.UserDefinedOperator,

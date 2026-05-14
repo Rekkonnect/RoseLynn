@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Garyon.DataStructures;
 using Microsoft.CodeAnalysis;
@@ -61,6 +61,7 @@ public class CachedOperatorSymbols
     }
     #endregion
 
+    /// <summary>Indexes parsed operator symbols by composite kind, operator kind, and checking mode.</summary>
     private sealed class OperatorSymbolDictionary
     {
         // Eminem would be proud
@@ -69,8 +70,11 @@ public class CachedOperatorSymbols
         private readonly FlexInitDictionary<OperatorKind, List<CachedOperatorSymbol>> operatorKindMapped = new();
         private readonly FlexInitDictionary<OperatorCheckingMode, List<CachedOperatorSymbol>> checkingModeMapped = new();
 
+        /// <summary>Gets all cached operator symbols in insertion order.</summary>
         public IEnumerable<CachedOperatorSymbol> All => operatorList;
 
+        /// <summary>Adds an operator symbol parsed from a Roslyn method symbol.</summary>
+        /// <param name="symbol">The method symbol to parse and add.</param>
         public void Add(IMethodSymbol symbol)
         {
             var parsed = CachedOperatorSymbol.Parse(symbol);
@@ -79,6 +83,8 @@ public class CachedOperatorSymbols
 
             Add(parsed);
         }
+        /// <summary>Adds a cached operator symbol to all index structures.</summary>
+        /// <param name="symbol">The cached operator symbol to add.</param>
         public void Add(CachedOperatorSymbol symbol)
         {
             operatorList.Add(symbol);
@@ -87,12 +93,15 @@ public class CachedOperatorSymbols
             checkingModeMapped[symbol.CheckingMode].Add(symbol);
         }
 
+        /// <summary>Gets cached operators by composite operator kind.</summary>
         public IEnumerable<CachedOperatorSymbol> this[CompositeOperatorKind kind]
             => compositelyMapped[kind];
 
+        /// <summary>Gets cached operators by operator kind.</summary>
         public IEnumerable<CachedOperatorSymbol> this[OperatorKind kind]
             => operatorKindMapped[kind];
 
+        /// <summary>Gets cached operators by checking mode.</summary>
         public IEnumerable<CachedOperatorSymbol> this[OperatorCheckingMode mode]
             => checkingModeMapped[mode];
     }

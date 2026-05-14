@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Polyfills;
 using RoseLynn.Generators;
@@ -6,6 +6,7 @@ using RoseLynn.Writing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,6 +30,7 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
         return GeneralGeneratorTestHelpers.Utf8CSharpSource(source);
     }
 
+    /// <summary>Provides a source-generator test implementation with nullable context enabled and failure-artifact support.</summary>
     public abstract class SimpleGeneratorTest
         : CSharpSourceGeneratorTestEx<TSourceGenerator>
     {
@@ -51,29 +53,45 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
             }
         }
 
-        // TODO: Abstract the test context provider/adapter so that we can be agnostic to
-        // TUnit and instead change this into a workflow-based model that 
         private async Task HandleGeneratorAssertionFailure(
             CancellationToken cancellationToken)
         {
-            var context = TestContext.Current;
-            if (context is null)
-            {
-                throw new InvalidCastException(
-                    "Cannot retrieve the current test context");
-            }
-
-            var testName = $"{context.ClassContext.ClassType.Name}.{context.Metadata.TestName}";
-            var artifacts = await RunTestWriteHelpArtifacts(
-                testName, cancellationToken);
-
-            foreach (var artifact in artifacts)
-            {
-                context.Output.AttachArtifact(artifact);
-            }
+            await PublishGeneratorAssertionFailureArtifacts(cancellationToken);
         }
 
-        private async Task<IReadOnlyList<Artifact>> RunTestWriteHelpArtifacts(
+        /// <summary>
+        /// Publishes debug artifacts that help inspect generator output after an assertion failure.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        protected virtual async Task PublishGeneratorAssertionFailureArtifacts(
+            CancellationToken cancellationToken)
+        {
+            var testName = GetGeneratorAssertionFailureTestName();
+            var artifacts = await CreateGeneratorAssertionFailureArtifacts(
+                testName,
+                cancellationToken);
+
+            await OnGeneratorAssertionFailureArtifactsCreated(
+                artifacts,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the display name used as the base file name for generator assertion failure artifacts.
+        /// </summary>
+        /// <returns>The test name used when generating artifact file names.</returns>
+        protected virtual string GetGeneratorAssertionFailureTestName()
+        {
+            return $"{GetType().Name}.{typeof(TSourceGenerator).Name}";
+        }
+
+        /// <summary>
+        /// Creates the generator assertion failure artifacts for the provided test name.
+        /// </summary>
+        /// <param name="testName">The test name used as the base file name for the generated artifacts.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The generated artifacts to publish for the failure.</returns>
+        protected virtual async Task<IReadOnlyList<GeneratorAssertionFailureArtifact>> CreateGeneratorAssertionFailureArtifacts(
             string testName,
             CancellationToken cancellationToken = default)
         {
@@ -81,13 +99,32 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
                 TestState.Sources.Select(s => s.content.ToString()),
                 cancellationToken);
 
-            return await WriteTestGeneratorOutput(
+            return await WriteGeneratorAssertionFailureArtifacts(
                 testName,
                 result.ResultingDriver,
                 cancellationToken);
         }
 
-        private static async Task<IReadOnlyList<Artifact>> WriteTestGeneratorOutput(
+        /// <summary>
+        /// Observes the generated artifacts created after a generator assertion failure.
+        /// </summary>
+        /// <param name="artifacts">The generated artifacts.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        protected virtual Task OnGeneratorAssertionFailureArtifactsCreated(
+            IReadOnlyList<GeneratorAssertionFailureArtifact> artifacts,
+            CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Writes generator assertion failure artifacts for the provided generator driver run.
+        /// </summary>
+        /// <param name="testName">The test name used as the base file name for the generated artifacts.</param>
+        /// <param name="resultingGeneratorDriver">The generator driver containing the run result to serialize.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The artifacts written for the generator assertion failure.</returns>
+        protected static async Task<IReadOnlyList<GeneratorAssertionFailureArtifact>> WriteGeneratorAssertionFailureArtifacts(
             string testName,
             GeneratorDriver resultingGeneratorDriver,
             CancellationToken cancellationToken = default)
@@ -96,39 +133,60 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
             var fileNameBase = $"{testName}_{now:yyyyMMdd_HHmmss}";
             const string directoryBase = "generator_outputs";
 
-            var fileSystem = new FileSystem();
-            var targetDirectory = fileSystem.DirectoryInfo.New(directoryBase);
-            targetDirectory.CreateSafe();
+            Directory.CreateDirectory(directoryBase);
 
             var runResult = resultingGeneratorDriver.GetRunResult();
 
-            var generatorOutputFile = targetDirectory.File($"{fileNameBase}.cs");
+            var generatorOutputFile = Path.Combine(directoryBase, $"{fileNameBase}.cs");
             var outputMappings = GenerateMappingsFromRunResult(runResult);
-            var code = GeneratorOutputWriter.GenerateSourceMappingsCode(outputMappings);
-            await generatorOutputFile.WriteAllTextAsync(code, cancellationToken);
+            var code = GenerateSourceMappingsCode(outputMappings);
+            await File.WriteAllTextAsync(generatorOutputFile, code, cancellationToken);
 
-            var generatorDriverInfoFile = targetDirectory
-                .File($"{fileNameBase}_driverinfo.txt");
+            var generatorDriverInfoFile = Path.Combine(
+                directoryBase,
+                $"{fileNameBase}_driverinfo.txt");
             var aggregateDriverResult = AggregateGeneratorDriverResult
                 .ResultsForDriver(resultingGeneratorDriver);
             var driverInfoText = GenerateDriverInfoText(aggregateDriverResult);
-            await generatorDriverInfoFile.WriteAllTextAsync(
+            await File.WriteAllTextAsync(
+                generatorDriverInfoFile,
                 driverInfoText, cancellationToken);
 
             return [
                 new()
                 {
-                    File = generatorOutputFile.Concrete,
+                    FilePath = generatorOutputFile,
                     DisplayName = "Expected generator sources output",
                     Description = "A RoseLynn-friendly representation of the actual outputs to be copied as expected",
                 },
                 new()
                 {
-                    File = generatorDriverInfoFile.Concrete,
+                    FilePath = generatorDriverInfoFile,
                     DisplayName = "Generator driver run result information",
                     Description = "Extra information aggregated from the driver's run result, helping with debug",
                 },
             ];
+        }
+
+        /// <summary>
+        /// Represents a generated file emitted to help inspect a failed generator assertion.
+        /// </summary>
+        protected sealed class GeneratorAssertionFailureArtifact
+        {
+            /// <summary>
+            /// Gets or sets the full path of the generated artifact file.
+            /// </summary>
+            public required string FilePath { get; init; }
+
+            /// <summary>
+            /// Gets or sets the user-facing name of the artifact.
+            /// </summary>
+            public required string DisplayName { get; init; }
+
+            /// <summary>
+            /// Gets or sets a short description of the artifact contents.
+            /// </summary>
+            public required string Description { get; init; }
         }
 
         private static GeneratedSourceMappings GenerateMappingsFromRunResult(
@@ -149,6 +207,39 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
             }
 
             return outputMappings;
+        }
+
+        private static string GenerateSourceMappingsCode(
+            GeneratedSourceMappings outputMappings)
+        {
+            var builder = new StringBuilder();
+
+            builder.AppendLine("var generatedSources = new GeneratedSourceMappings()");
+            builder.AppendLine("{");
+
+            foreach (var mapping in outputMappings)
+            {
+                var hintName = EscapeVerbatimStringLiteral(mapping.Key);
+                var source = EscapeRawStringLiteral(mapping.Value.ToString());
+
+                builder.AppendLine($"    [@\"{hintName}\"] = Utf8CSharpSource(\"\"\"");
+                builder.AppendLine(source);
+                builder.AppendLine("    \"\"\"),");
+            }
+
+            builder.AppendLine("};");
+
+            return builder.ToString();
+        }
+
+        private static string EscapeVerbatimStringLiteral(string value)
+        {
+            return value.Replace("\"", "\"\"");
+        }
+
+        private static string EscapeRawStringLiteral(string value)
+        {
+            return value.Replace("\"\"\"", "\"\"\"\"");
         }
 
         private static string GenerateDriverInfoText(

@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 
 namespace RoseLynn;
@@ -74,19 +74,29 @@ public static class LanguageFacts
         return GetSourceFileExtension(MapToNETLanguage(languageName));
     }
 
+    /// <summary>Stores case-insensitive mappings from language names to <see cref="NetLanguage"/> values.</summary>
     private sealed class NETLanguageNameDictionary : Dictionary<string, NetLanguage>
     {
+        /// <summary>Maps a language name to a <see cref="NetLanguage"/> value.</summary>
+        /// <param name="name">The language name to map.</param>
+        /// <param name="language">The mapped language value.</param>
         public void Map(string name, NetLanguage language)
         {
             Add(name.ToLower(), language);
         }
         
+        /// <summary>Maps multiple language names to the same <see cref="NetLanguage"/> value.</summary>
+        /// <param name="language">The mapped language value.</param>
+        /// <param name="names">The names to associate with the language.</param>
         public void MapRange(NetLanguage language, params string[] names)
         {
             foreach (var name in names)
                 Map(name, language);
         }
 
+        /// <summary>Maps a language name to a <see cref="NetLanguage"/>, falling back to <see cref="NetLanguage.Unknown"/>.</summary>
+        /// <param name="name">The language name to map.</param>
+        /// <returns>The mapped language value.</returns>
         public NetLanguage MapToNETLanguage(string name)
         {
             if (TryGetValue(name.ToLower(), out var language))

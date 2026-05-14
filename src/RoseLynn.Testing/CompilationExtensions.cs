@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 
+[NeedsDocs]
 public static class CompilationExtensions
 {
     extension<TCompilation>(TCompilation compilation)

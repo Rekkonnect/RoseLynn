@@ -3,8 +3,12 @@ using Garyon.Functions;
 
 namespace RoseLynn.PackageDeployment;
 
+/// <summary>Builds deployment configuration from environment variables and solution defaults.</summary>
 internal static class PublicationConfigLoader
 {
+    /// <summary>Loads the deployment configuration for the current environment.</summary>
+    /// <param name="explicitName">An optional explicit environment name override.</param>
+    /// <returns>The resolved deployment configuration.</returns>
     public static DeploymentEnvironmentConfig Load(string? explicitName = null)
     {
         var solutionRootDirectory = WorkspaceHelpers.GetThisSolutionRoot()

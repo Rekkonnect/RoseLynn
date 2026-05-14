@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace RoseLynn.Generators;
 
-[NeedsDocs]
+/// <summary>Provides helper extensions for source-generator pipelines and driver execution.</summary>
 public static class GeneratorExtensions
 {
     /// <summary>
@@ -21,6 +21,10 @@ public static class GeneratorExtensions
     /// This comes in handy especially since it's recommended to avoid filtering
     /// the provider, and instead only rely on the transformation.
     /// </summary>
+    /// <param name="context">The syntax value provider used to register the query.</param>
+    /// <param name="fullyQualifiedMetadataName">The fully qualified metadata name of the target attribute.</param>
+    /// <param name="transform">Transforms each matching attribute context into the desired result.</param>
+    /// <returns>An incremental values provider that yields transformed matches for the attribute.</returns>
     public static IncrementalValuesProvider<T> ForAttributeWithMetadataName<T>(
         this SyntaxValueProvider context,
         string fullyQualifiedMetadataName,
@@ -63,6 +67,13 @@ public static class GeneratorExtensions
     /// <br/>
     /// After all, this utility might not be so useful.
     /// </remarks>
+    /// <typeparam name="TGroupKey">The key used to group discovered attribute contexts.</typeparam>
+    /// <typeparam name="TGroup">The grouped value produced for each key.</typeparam>
+    /// <param name="context">The generator initialization context that owns the syntax provider.</param>
+    /// <param name="attributeTypeName">The metadata name of the attribute type to discover.</param>
+    /// <param name="getGroupKey">Builds a grouping key from each matching attribute context.</param>
+    /// <param name="constructGroup">Builds the final grouped value from a grouping key.</param>
+    /// <returns>An incremental provider that yields the collected grouped values.</returns>
     public static IncrementalValueProvider<ImmutableArray<TGroup>> ForGroupedValuesFromAttribute<TGroupKey, TGroup>(
         this IncrementalGeneratorInitializationContext context,
         string attributeTypeName,
@@ -83,6 +94,10 @@ public static class GeneratorExtensions
     /// array value. The performed action will be run against the distinct
     /// values of the array.
     /// </summary>
+    /// <typeparam name="T">The element type produced by the provider.</typeparam>
+    /// <param name="context">The generator initialization context that will receive the source output.</param>
+    /// <param name="provider">The provider whose collected values will be deduplicated.</param>
+    /// <param name="action">The action invoked once for each distinct value.</param>
     public static void RegisterDistinctSourceOutput<T>(
         this IncrementalGeneratorInitializationContext context,
         IncrementalValueProvider<ImmutableArray<T>> provider,
@@ -104,12 +119,22 @@ public static class GeneratorExtensions
         }
     }
 
+    /// <summary>Filters out <see langword="null"/> values from an incremental values provider.</summary>
+    /// <typeparam name="T">The non-null element type.</typeparam>
+    /// <param name="provider">The provider whose nullable values will be filtered.</param>
+    /// <returns>A provider that yields only non-null values.</returns>
     public static IncrementalValuesProvider<T> WhereNotNull<T>(
         this IncrementalValuesProvider<T?> provider)
     {
         return provider.Where(Predicates.NotNull)!;
     }
 
+    /// <summary>Projects an incremental value provider with a selector that does not require a cancellation token.</summary>
+    /// <typeparam name="TSource">The source value type.</typeparam>
+    /// <typeparam name="TResult">The projected value type.</typeparam>
+    /// <param name="provider">The provider whose value will be projected.</param>
+    /// <param name="selector">The projection applied to each source value.</param>
+    /// <returns>An incremental provider that yields the projected values.</returns>
     public static IncrementalValueProvider<TResult> Select<TSource, TResult>(
         this IncrementalValueProvider<TSource> provider,
         Func<TSource, TResult> selector)
@@ -117,6 +142,11 @@ public static class GeneratorExtensions
         return provider.Select((item, _) => selector(item));
     }
 
+    /// <summary>Runs a generator driver and captures the before-and-after state for a single execution step.</summary>
+    /// <param name="driver">The driver to execute.</param>
+    /// <param name="initialCompilation">The compilation supplied to the driver.</param>
+    /// <param name="cancellationToken">The token used to cancel execution.</param>
+    /// <returns>A snapshot describing the original and resulting driver and compilation.</returns>
     public static GeneratorDriverCompilationExecutionStep RunExecutionStep(
         this GeneratorDriver driver,
         Compilation initialCompilation,
@@ -131,6 +161,11 @@ public static class GeneratorExtensions
             ResultingCompilation: resultCompilation);
     }
 
+    /// <summary>Warms up a generator driver by running it repeatedly against the same compilation.</summary>
+    /// <param name="driver">The driver to execute.</param>
+    /// <param name="initialCompilation">The compilation supplied to each run.</param>
+    /// <param name="iterations">The number of warm-up runs to perform.</param>
+    /// <param name="cancellationToken">The token used to cancel execution.</param>
     public static void ColdStart(
         this GeneratorDriver driver,
         Compilation initialCompilation,

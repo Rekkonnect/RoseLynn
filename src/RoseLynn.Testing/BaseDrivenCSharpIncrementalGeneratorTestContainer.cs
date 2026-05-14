@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 
+/// <summary>Provides generator-verifier helpers backed by a configurable C# source-generator test type.</summary>
+/// <typeparam name="TSourceGenerator">The incremental generator under test.</typeparam>
+/// <typeparam name="TTest">The concrete verifier test type.</typeparam>
 public abstract class BaseDrivenCSharpIncrementalGeneratorTestContainer<TSourceGenerator, TTest>
     : CSharpSourceGeneratorVerifier<TSourceGenerator, DefaultVerifier>
     where TSourceGenerator : IIncrementalGenerator, new()

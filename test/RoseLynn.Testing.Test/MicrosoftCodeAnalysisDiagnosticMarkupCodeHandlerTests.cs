@@ -1,8 +1,9 @@
-﻿using RoseLynn.Utilities;
+using RoseLynn.Utilities;
 using System.Threading.Tasks;
 
 namespace RoseLynn.Testing.Test;
 
+/// <summary>Tests the Microsoft.CodeAnalysis-style diagnostic markup handler.</summary>
 public class MicrosoftCodeAnalysisDiagnosticMarkupCodeHandlerTests : DiagnosticMarkupCodeHandlerTestsBase
 {
     [Test]

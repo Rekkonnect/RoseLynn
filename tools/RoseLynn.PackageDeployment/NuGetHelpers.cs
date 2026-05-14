@@ -1,4 +1,4 @@
-﻿using NuGet.Common;
+using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Protocol.Core.Types;
 
@@ -11,8 +11,13 @@ namespace RoseLynn.PackageDeployment;
 // Due to lack of documentation, as long as this get the job done, avoid touching
 // Once Microsoft become good boys, and we get even *some* documentation,
 // this code might be very subject to change
+/// <summary>Provides thin wrappers around NuGet client APIs used for publishing packages.</summary>
 internal static class NuGetHelpers
 {
+    /// <summary>Uploads multiple package files to a NuGet feed.</summary>
+    /// <param name="nugetRepositoryUrl">The destination NuGet feed URL.</param>
+    /// <param name="packagePaths">The package file paths to upload.</param>
+    /// <param name="apiKey">The API key used for authentication.</param>
     public async static Task UploadPackages(string nugetRepositoryUrl, IList<string> packagePaths, string apiKey)
     {
         var providers = Repository.Provider.GetCoreV3();
@@ -25,6 +30,10 @@ internal static class NuGetHelpers
         var uploadResource = await sourceRepository.GetResourceAsync<PackageUpdateResource>();
         await uploadResource.Push(packagePaths, null, 480, false, _ => apiKey, null, false, false, null, NullLogger.Instance);
     }
+    /// <summary>Uploads a single package file to a NuGet feed.</summary>
+    /// <param name="nugetRepositoryUrl">The destination NuGet feed URL.</param>
+    /// <param name="packagePath">The package file path to upload.</param>
+    /// <param name="apiKey">The API key used for authentication.</param>
     public async static Task UploadPackage(string nugetRepositoryUrl, string packagePath, string apiKey)
     {
         var packagePaths = new[] { packagePath };

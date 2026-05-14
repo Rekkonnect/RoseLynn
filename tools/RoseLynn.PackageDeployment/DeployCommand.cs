@@ -6,6 +6,7 @@ using Spectre.Console.Cli;
 
 namespace RoseLynn.PackageDeployment;
 
+/// <summary>Defines command-line options for the package deployment command.</summary>
 internal sealed class DeploySettings : CommandSettings
 {
     [CommandOption("-e|--env <NAME>")]
@@ -29,8 +30,13 @@ internal sealed class DeploySettings : CommandSettings
     public bool NoOverrideExistingEnvVars { get; init; }
 }
 
+/// <summary>Loads deployment configuration, packs projects, and optionally publishes the resulting packages.</summary>
 internal sealed class DeployCommand : AsyncCommand<DeploySettings>
 {
+    /// <summary>Executes the deployment command for the provided settings.</summary>
+    /// <param name="context">The command execution context.</param>
+    /// <param name="settings">The parsed deployment settings.</param>
+    /// <returns>An exit code representing success or failure.</returns>
     public override async Task<int> ExecuteAsync(CommandContext context, DeploySettings settings)
     {
         try

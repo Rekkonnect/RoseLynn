@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 
+[NeedsDocs]
 public abstract class BaseCSharpCompilationEffort : BaseCSharpCompilationTest
 {
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member

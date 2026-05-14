@@ -2,15 +2,20 @@ using Spectre.Console;
 
 namespace RoseLynn.PackageDeployment;
 
+/// <summary>Coordinates project discovery, package creation, and optional publishing for a deployment environment.</summary>
 internal sealed class PackageDeployment
 {
     private readonly DeploymentEnvironmentConfig _config;
 
+    /// <summary>Initializes a deployment runner for a resolved environment configuration.</summary>
+    /// <param name="config">The deployment configuration to execute.</param>
     public PackageDeployment(DeploymentEnvironmentConfig config)
     {
         _config = config;
     }
 
+    /// <summary>Runs the packaging workflow and optionally publishes the resulting packages.</summary>
+    /// <param name="dryRun">Whether publishing should be skipped after packing.</param>
     public async Task RunAsync(bool dryRun)
     {
         var solutionDirectory = Path.GetDirectoryName(_config.SolutionFilePath)!;

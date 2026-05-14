@@ -1,16 +1,22 @@
-﻿using Polyfills;
+using Polyfills;
 using System.Text;
 
 namespace RoseLynn.Writing;
 
+/// <summary>Builds text while automatically applying indentation at the start of each line.</summary>
 public class IndentedStringBuilder
 {
     private readonly StringBuilder _builder = new();
     private bool _startedLine;
 
+    /// <summary>Gets or sets the current indentation nesting level.</summary>
     public int NestingLevel { get; set; }
+    /// <summary>Gets the indentation settings applied for each nesting level.</summary>
     public Indentation NestingIndentation { get; init; }
 
+    /// <summary>Initializes a builder with the specified indentation settings.</summary>
+    /// <param name="indentationCharacter">The character used for indentation.</param>
+    /// <param name="indentationSize">The number of indentation characters per nesting level.</param>
     public IndentedStringBuilder(char indentationCharacter, int indentationSize)
     {
         NestingIndentation = new(indentationCharacter, indentationSize);
@@ -49,11 +55,15 @@ public class IndentedStringBuilder
         }
     }
 
+    /// <summary>Increments the nesting level for the lifetime of a disposable scope.</summary>
+    /// <returns>A scope that restores the previous nesting level on disposal.</returns>
     public NestingLevelNode IncrementNestingLevel()
     {
         return new(this);
     }
 
+    /// <summary>Appends a character, treating newline characters as line breaks.</summary>
+    /// <param name="text">The character to append.</param>
     public void Append(char text)
     {
         if (text is '\n')
@@ -66,10 +76,14 @@ public class IndentedStringBuilder
         }
     }
 
+    /// <summary>Appends text while applying indentation to each logical line.</summary>
+    /// <param name="text">The text to append.</param>
     public void Append(string text)
     {
         Append(text.AsSpan());
     }
+    /// <summary>Appends text while applying indentation to each logical line.</summary>
+    /// <param name="text">The text to append.</param>
     public void Append(ReadOnlySpan<char> text)
     {
         bool addedLine = false;
@@ -83,10 +97,14 @@ public class IndentedStringBuilder
         }
     }
 
+    /// <summary>Appends text followed by a line break.</summary>
+    /// <param name="text">The text to append before the line break.</param>
     public void AppendLine(string text)
     {
         AppendLine(text.AsSpan());
     }
+    /// <summary>Appends text followed by a line break.</summary>
+    /// <param name="text">The text to append before the line break.</param>
     public void AppendLine(ReadOnlySpan<char> text)
     {
         foreach (var line in text.EnumerateLines())
@@ -96,12 +114,15 @@ public class IndentedStringBuilder
         }
     }
 
+    /// <summary>Appends a character followed by a line break.</summary>
+    /// <param name="c">The character to append before the line break.</param>
     public void AppendLine(char c)
     {
         Append(c);
         AppendLine();
     }
 
+    /// <summary>Appends a line break and resets the line-start indentation state.</summary>
     public void AppendLine()
     {
         _builder.AppendLine();
@@ -114,11 +135,14 @@ public class IndentedStringBuilder
         _builder.Append(NestingIndentation.Character, count);
     }
 
+    /// <summary>Returns the accumulated text.</summary>
+    /// <returns>The current contents of the builder.</returns>
     public override string ToString()
     {
         return _builder.ToString();
     }
 
+    /// <summary>Represents a disposable scope that temporarily increases the nesting level.</summary>
     public readonly struct NestingLevelNode
         : IDisposable
     {
@@ -129,12 +153,15 @@ public class IndentedStringBuilder
         public NestingLevelNode() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
+        /// <summary>Initializes the scope and increments the builder's nesting level.</summary>
+        /// <param name="builder">The builder whose nesting level will be incremented.</param>
         public NestingLevelNode(IndentedStringBuilder builder)
         {
             _builder = builder;
             _builder.NestingLevel++;
         }
 
+        /// <summary>Restores the previous nesting level.</summary>
         public void Dispose()
         {
             _builder.NestingLevel--;

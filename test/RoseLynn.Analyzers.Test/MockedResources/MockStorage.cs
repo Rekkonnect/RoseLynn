@@ -1,12 +1,16 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
 namespace RoseLynn.Analyzers.Test.MockedResources;
 
+/// <summary>Provides a singleton diagnostic-descriptor storage used by analyzer tests.</summary>
 public sealed class MockStorage : DiagnosticDescriptorStorageBase
 {
+    /// <summary>Gets the singleton storage instance.</summary>
     public static readonly MockStorage Instance = new();
 
+    /// <summary>Gets the base diagnostic category used by the mock descriptors.</summary>
     public const string MockCategory = "Mock";
+    /// <summary>Gets the alternate diagnostic category used by the mock descriptors.</summary>
     public const string MappedCategory = "Mapped";
 
     public readonly DiagnosticDescriptor

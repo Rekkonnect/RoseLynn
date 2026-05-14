@@ -9,4 +9,8 @@
     <PackageReference Include="Garyon" Version="0.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\src\RoseLynn\RoseLynn.csproj" />
+  </ItemGroup>
+
 </Project>

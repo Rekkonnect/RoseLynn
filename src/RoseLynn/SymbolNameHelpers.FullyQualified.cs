@@ -1,4 +1,4 @@
-﻿using Garyon.Extensions;
+using Garyon.Extensions;
 using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using Polyfills;
@@ -92,6 +92,7 @@ public static partial class SymbolNameHelpers
             is ITypeSymbol { NullableAnnotation: NullableAnnotation.Annotated };
     }
 
+    /// <summary>Builds fully qualified symbol names, including extern alias tracking when needed.</summary>
     private sealed class FullyQualifiedNameBuilder(Compilation? compilation)
         : SymbolVisitor
     {
@@ -279,13 +280,20 @@ public static partial class SymbolNameHelpers
         }
     }
 
+    /// <summary>Wraps a symbol's fully qualified name together with any referenced extern aliases.</summary>
+    /// <param name="Name">The fully qualified symbol name.</param>
+    /// <param name="ExternAliases">The extern aliases used while constructing the name.</param>
     public sealed record FullyQualifiedName(
         string Name,
         ImmutableArray<string> ExternAliases)
     {
+        /// <summary>Initializes a fully qualified name with no extern aliases.</summary>
+        /// <param name="name">The fully qualified symbol name.</param>
         public FullyQualifiedName(string name)
             : this(name, []) { }
 
+        /// <summary>Converts a string to a <see cref="FullyQualifiedName"/> with no extern aliases.</summary>
+        /// <param name="name">The fully qualified symbol name.</param>
         public static implicit operator FullyQualifiedName(string name) => new(name);
     }
 }

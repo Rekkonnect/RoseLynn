@@ -1,8 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
 namespace RoseLynn.Testing;
 
 // dotnet/roslyn:/src/Workspaces/SharedUtilitiesAndExtensions/Compiler/Core/EmbeddedLanguages/PredefinedEmbeddedLanguageClassifierNames.cs
+[NeedsDocs]
 public static class PredefinedEmbeddedLanguageNames
 {
     public const string Regex = nameof(Regex);

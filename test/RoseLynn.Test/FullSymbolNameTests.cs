@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 namespace RoseLynn.Test;
 
+/// <summary>Tests creation and matching behavior for <see cref="FullSymbolName"/> values.</summary>
 public class FullSymbolNameTests
 {
     [Test]
@@ -89,6 +90,7 @@ public class FullSymbolNameTests
         await Assert.That(name.Matches(targetFullName, SymbolNameMatchingLevel.Namespace)).IsTrue();
     }
 
+    /// <summary>Provides a nested test type used for symbol-name reflection scenarios.</summary>
     private abstract class TestType
     {
         public abstract void Method<T>();

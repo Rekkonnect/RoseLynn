@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Garyon.Extensions;
 using Garyon.Functions;
@@ -283,11 +283,13 @@ public static partial class SignatureViewExtensions
             ?? throw new InvalidOperationException("Unexpected signature view type");
     }
 
+    /// <summary>Builds concrete signature-view instances by visiting Roslyn symbols.</summary>
     private sealed class SignatureViewConstructor(Compilation? compilation)
         : SymbolVisitor
     {
         private SymbolSignatureView? _view;
 
+        /// <summary>Gets the signature view produced by the last visited symbol.</summary>
         public ISymbolSignatureView? Constructed => _view;
 
         // Types

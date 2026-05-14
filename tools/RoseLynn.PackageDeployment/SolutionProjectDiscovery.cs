@@ -2,8 +2,12 @@ using System.Xml.Linq;
 
 namespace RoseLynn.PackageDeployment;
 
+/// <summary>Discovers project paths from solution files used during package deployment.</summary>
 internal static class SolutionProjectDiscovery
 {
+    /// <summary>Gets the project paths referenced by a solution file.</summary>
+    /// <param name="solutionFilePath">The solution file to inspect.</param>
+    /// <returns>The referenced project paths.</returns>
     public static async Task<IReadOnlyList<string>> GetProjectPathsAsync(string solutionFilePath)
     {
         if (!File.Exists(solutionFilePath))

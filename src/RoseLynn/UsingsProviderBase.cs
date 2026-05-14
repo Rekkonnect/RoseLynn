@@ -1,4 +1,4 @@
-﻿using RoseLynn.CSharp.Syntax;
+using RoseLynn.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -72,6 +72,7 @@ public abstract class UsingsProviderBase
         return new VariableUsingsProvider(usingDirectiveList.ToString());
     }
 
+    /// <summary>Represents a usings provider that contributes no default using directives.</summary>
     private sealed class DefaultUsingsProvider : UsingsProviderBase
     {
         public override string DefaultNecessaryUsings => "";

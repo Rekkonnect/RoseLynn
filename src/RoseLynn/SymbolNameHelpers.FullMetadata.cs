@@ -1,12 +1,17 @@
-﻿using Garyon.Functions;
+using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using RoseLynn.CSharp;
 using System.Text;
 
 namespace RoseLynn;
 
+/// <summary>Provides helpers for building full metadata names for Roslyn symbols.</summary>
 public static partial class SymbolNameHelpers
 {
+    /// <summary>Gets the full metadata name string for a symbol.</summary>
+    /// <param name="symbol">The symbol to format.</param>
+    /// <param name="compilation">An optional compilation used when formatting context-sensitive details.</param>
+    /// <returns>The full metadata name.</returns>
     public static string FullMetadataString(
         ISymbol symbol,
         Compilation? compilation = null)
@@ -14,6 +19,10 @@ public static partial class SymbolNameHelpers
         return FullMetadata(symbol, compilation).Name;
     }
 
+    /// <summary>Gets the full metadata name for a symbol.</summary>
+    /// <param name="symbol">The symbol to format.</param>
+    /// <param name="compilation">An optional compilation used when formatting context-sensitive details.</param>
+    /// <returns>The full metadata name wrapper.</returns>
     public static FullMetadataName FullMetadata(
         ISymbol symbol,
         Compilation? compilation = null)
@@ -22,6 +31,10 @@ public static partial class SymbolNameHelpers
             .Build(symbol);
     }
 
+    /// <summary>Gets the full metadata name for a symbol, using predefined-type keywords when available.</summary>
+    /// <param name="symbol">The symbol to format.</param>
+    /// <param name="compilation">An optional compilation used when formatting context-sensitive details.</param>
+    /// <returns>The metadata-or-keyword name wrapper.</returns>
     public static FullMetadataName FullMetadataOrKeyword(
         ISymbol symbol,
         Compilation? compilation = null)
@@ -33,6 +46,10 @@ public static partial class SymbolNameHelpers
         return FullMetadata(symbol, compilation);
     }
 
+    /// <summary>Gets the full metadata name for a type, using predefined-type keywords when available.</summary>
+    /// <param name="type">The type to format.</param>
+    /// <param name="compilation">An optional compilation used when formatting context-sensitive details.</param>
+    /// <returns>The metadata-or-keyword name wrapper.</returns>
     public static FullMetadataName FullMetadataOrKeyword(
         ITypeSymbol type,
         Compilation? compilation = null)
@@ -41,6 +58,7 @@ public static partial class SymbolNameHelpers
             ?? FullMetadata(type, compilation);
     }
 
+    /// <summary>Builds metadata names by visiting Roslyn symbols recursively.</summary>
     private sealed class FullMetadataNameBuilder(Compilation? compilation)
         : SymbolVisitor
     {
@@ -174,8 +192,12 @@ public static partial class SymbolNameHelpers
         }
     }
 
+    /// <summary>Wraps a symbol's full metadata name.</summary>
+    /// <param name="Name">The metadata name string.</param>
     public sealed record FullMetadataName(string Name)
     {
+        /// <summary>Converts a string to a <see cref="FullMetadataName"/>.</summary>
+        /// <param name="name">The metadata name string.</param>
         public static implicit operator FullMetadataName(string name) => new(name);
     }
 }

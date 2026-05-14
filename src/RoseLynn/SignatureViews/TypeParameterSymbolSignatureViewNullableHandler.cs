@@ -1,12 +1,15 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
 namespace RoseLynn.SignatureViews;
 
+/// <summary>Handles nullable transformations for type-parameter signature views.</summary>
+/// <param name="TypeParameterSymbol">The type-parameter signature view being adapted.</param>
 public record TypeParameterSymbolSignatureViewNullableHandler(
     ITypeParameterSymbolSignatureView TypeParameterSymbol)
     : BaseTypeSymbolSignatureViewNullableHandler(TypeParameterSymbol)
 {
+    /// <summary>Gets whether the handled symbol is a nullable value type.</summary>
     public override bool IsNullableStruct => false;
 
     protected override bool AcceptsNullExtra
@@ -26,6 +29,8 @@ public record TypeParameterSymbolSignatureViewNullableHandler(
         }
     }
 
+    /// <summary>Returns a non-nullable form of the type parameter.</summary>
+    /// <returns>The non-nullable type-parameter signature view.</returns>
     public override ITypeSymbolSignatureView MakeNotNullable()
     {
         return TypeParameterSymbol.CloneIntoConcrete() with
@@ -40,6 +45,8 @@ public record TypeParameterSymbolSignatureViewNullableHandler(
         };
     }
 
+    /// <summary>Returns a nullable form of the type parameter.</summary>
+    /// <returns>The nullable type-parameter signature view.</returns>
     public override ITypeSymbolSignatureView MakeNullable()
     {
         if (TypeParameterSymbol.HasValueTypeConstraint

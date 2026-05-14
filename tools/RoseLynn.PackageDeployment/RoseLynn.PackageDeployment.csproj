@@ -19,6 +19,10 @@
     <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RoseLynn\RoseLynn.csproj" />
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
     <DefineConstants>
       $(DefineConstants);

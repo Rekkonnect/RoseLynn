@@ -8,11 +8,16 @@ using System.Threading.Tasks;
 
 namespace RoseLynn.Testing.Benchmarks;
 
-[NeedsDocs]
+/// <summary>Provides a benchmark harness for measuring incremental source generator runs.</summary>
+/// <typeparam name="TSourceGenerator">The incremental generator under test.</typeparam>
 public abstract class BaseGeneratorBenchmarkTest<TSourceGenerator>
     : CSharpSourceGeneratorTestEx<TSourceGenerator>, IGeneratorBenchmarkTest
     where TSourceGenerator : IIncrementalGenerator, new()
 {
+    /// <summary>Runs the configured benchmark and returns the collected iteration results.</summary>
+    /// <param name="parameters">The limits and options that control the benchmark run.</param>
+    /// <param name="cancellationToken">The token used to cancel the benchmark.</param>
+    /// <returns>A task that produces the benchmark run results.</returns>
     public async Task<GeneratorBenchmarkRunResults> RunBenchmark(
         GeneratorBenchmarkParameters parameters,
         CancellationToken cancellationToken)
@@ -104,5 +109,7 @@ public abstract class BaseGeneratorBenchmarkTest<TSourceGenerator>
         return iterations.ToImmutable();
     }
 
+    /// <summary>Creates the compilation provider that initializes and mutates compilations between iterations.</summary>
+    /// <returns>The compilation provider for the benchmark run.</returns>
     protected abstract BaseGeneratorBenchmarkCompilationProvider CreateCompilationProvider();
 }

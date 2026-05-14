@@ -1,10 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
 
 namespace RoseLynn.Testing;
 
+[NeedsDocs]
 public abstract class CSharpSourceGeneratorTestEx<TSourceGenerator>
     : CSharpSourceGeneratorTest<TSourceGenerator, DefaultVerifier>
     where TSourceGenerator : IIncrementalGenerator, new()

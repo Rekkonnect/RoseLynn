@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -256,6 +256,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         }
 
         // I wish declaring a pattern like this would be simpler
+        /// <summary>Orders global using directives before local ones.</summary>
         public sealed class GlobalOverLocal : IComparer<UsingDirectiveStatementInfo>
         {
             public static GlobalOverLocal Instance = new();
@@ -266,6 +267,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
                 return y.IsGlobal.CompareTo(x.IsGlobal);
             }
         }
+        /// <summary>Orders local using directives before global ones.</summary>
         public sealed class LocalOverGlobal : IComparer<UsingDirectiveStatementInfo>
         {
             public static LocalOverGlobal Instance = new();
@@ -276,6 +278,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
                 return x.IsGlobal.CompareTo(y.IsGlobal);
             }
         }
+        /// <summary>Orders using directives by ascending directive kind.</summary>
         public sealed class AscendingDirectiveKind : IComparer<UsingDirectiveStatementInfo>
         {
             public static AscendingDirectiveKind Instance = new();
@@ -286,6 +289,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
                 return x.DirectiveKind.CompareTo(y.DirectiveKind);
             }
         }
+        /// <summary>Orders using directives by descending directive kind.</summary>
         public sealed class DescendingDirectiveKind : IComparer<UsingDirectiveStatementInfo>
         {
             public static DescendingDirectiveKind Instance = new();
@@ -296,6 +300,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
                 return y.DirectiveKind.CompareTo(x.DirectiveKind);
             }
         }
+        /// <summary>Orders static using directives before non-static ones.</summary>
         public sealed class StaticOverNonStatic : IComparer<UsingDirectiveStatementInfo>
         {
             public static StaticOverNonStatic Instance = new();
@@ -306,6 +311,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
                 return y.IsStatic.CompareTo(x.IsStatic);
             }
         }
+        /// <summary>Orders non-static using directives before static ones.</summary>
         public sealed class NonStaticOverStatic : IComparer<UsingDirectiveStatementInfo>
         {
             public static NonStaticOverStatic Instance = new();
@@ -316,6 +322,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
                 return x.IsStatic.CompareTo(y.IsStatic);
             }
         }
+        /// <summary>Orders using directives by ascending identifier sort key.</summary>
         public sealed class AscendingIdentifierSortKey : IComparer<UsingDirectiveStatementInfo>
         {
             public static AscendingIdentifierSortKey Instance = new();
@@ -326,6 +333,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
                 return x.IdentifierSortKey.CompareTo(y.IdentifierSortKey);
             }
         }
+        /// <summary>Orders using directives by descending identifier sort key.</summary>
         public sealed class DescendingIdentifierSortKey : IComparer<UsingDirectiveStatementInfo>
         {
             public static DescendingIdentifierSortKey Instance = new();
