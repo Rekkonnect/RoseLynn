@@ -1,0 +1,34 @@
+﻿<Project>
+  <PropertyGroup>
+    <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageVersion Include="Garyon" Version="0.5.0" />
+    <PackageVersion Include="CliWrap" Version="3.9.0" />
+    <PackageVersion Include="DotNetEnv" Version="3.2.0" />
+    <PackageVersion Include="NuGet.PackageManagement" Version="7.3.1" />
+    <PackageVersion Include="NuGet.Packaging" Version="7.3.1" />
+    <PackageVersion Include="NuGet.Protocol" Version="7.3.1" />
+    <PackageVersion Include="Spectre.Console" Version="0.49.1" />
+    <PackageVersion Include="Spectre.Console.Cli" Version="0.49.1" />
+
+    <PackageVersion Include="RoseLynn" Version="0.6.4.1" />
+    <PackageVersion Include="RoseLynn.Analyzers" Version="0.6.4.1" />
+    <PackageVersion Include="RoseLynn.Generators" Version="0.6.4.1" />
+
+    <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.3" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" Version="1.1.3" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzer.Testing" Version="1.1.3" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.3.0" />
+
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
+    <PackageVersion Include="TUnit" Version="1.44.0" />
+  </ItemGroup>
+</Project>

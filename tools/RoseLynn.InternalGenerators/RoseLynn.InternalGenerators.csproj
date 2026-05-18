@@ -11,21 +11,18 @@
   <Import Project="../build/InferTransitiveDependencies.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="$(MicrosoftCodeAnalysisVersion)">
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="$(MicrosoftCodeAnalysisVersion)" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis" PrivateAssets="all" />
 
     <!-- The meta is too strong in this one-->
-    <PackageReference Include="Garyon" Version="0.5.0" PrivateAssets="all" />
-    <PackageReference Include="RoseLynn" Version="$(RoseLynnLegacyVersion)" PrivateAssets="all" />
-    <PackageReference Include="RoseLynn.VS2019" Version="$(RoseLynnLegacyVersion)" PrivateAssets="all" />
-    <PackageReference Include="RoseLynn.Analyzers" Version="$(RoseLynnLegacyVersion)" PrivateAssets="all" />
-    <PackageReference Include="RoseLynn.Analyzers.VS2019" Version="$(RoseLynnLegacyVersion)" PrivateAssets="all" />
-    <PackageReference Include="RoseLynn.Generators" Version="$(RoseLynnLegacyVersion)" PrivateAssets="all" />
-    <PackageReference Include="RoseLynn.Generators.VS2019" Version="$(RoseLynnLegacyVersion)" PrivateAssets="all" />
+    <PackageReference Include="Garyon" PrivateAssets="all" />
+    <PackageReference Include="RoseLynn" PrivateAssets="all" />
+    <PackageReference Include="RoseLynn.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="RoseLynn.Generators" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>
