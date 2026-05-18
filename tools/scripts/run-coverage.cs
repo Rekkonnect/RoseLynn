@@ -1,8 +1,10 @@
 ﻿#!/usr/bin/dotnet run --file
 #:package CliWrap@*
+#:package Garyon@*
 
 using CliWrap;
 using CliWrap.Buffered;
+using Garyon.Functions;
 using System.Diagnostics;
 
 var openBrowser = args.Contains("-i");
@@ -12,7 +14,7 @@ var cancellationToken = tokenSource.Token;
 
 Console.WriteLine("Running tests with coverage");
 
-var solutionDirectory = FindSolutionRoot()
+var solutionDirectory = WorkspaceHelpers.GetThisSolutionRoot()
     ?? throw new InvalidOperationException("Could not locate the solution root.");
 var solutionFilePath = FindSolutionFile(solutionDirectory)
     ?? throw new InvalidOperationException($"Could not locate a solution file under '{solutionDirectory.FullName}'.");
@@ -92,6 +94,7 @@ var reportResult = await RunCommand(
         $"-reports:{mergedCoverageFileName}",
         $"-targetdir:{coverageReportSubdirectoryName}",
         "-reporttypes:Html_Dark,Badges",
+        "-assemblyfilters:-Garyon*;-*.Test", 
         // For now we exclude generated files because they are not present in
         // the disk, which pollutes the output with tons of errors.
         // The generated files themselves might contain uncovered code that does
@@ -129,22 +132,6 @@ if (openBrowser)
 }
 
 return testResult.IsSuccess ? 0 : testResult.ExitCode;
-
-static DirectoryInfo? FindSolutionRoot()
-{
-    var current = new DirectoryInfo(Directory.GetCurrentDirectory());
-    while (current is not null)
-    {
-        var hasSolution = current.EnumerateFiles("*.sln", SearchOption.TopDirectoryOnly).Any()
-            || current.EnumerateFiles("*.slnx", SearchOption.TopDirectoryOnly).Any();
-        if (hasSolution || File.Exists(Path.Combine(current.FullName, "Directory.Build.props")))
-            return current;
-
-        current = current.Parent;
-    }
-
-    return null;
-}
 
 static FileInfo? FindSolutionFile(DirectoryInfo solutionDirectory)
 {

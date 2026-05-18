@@ -32,6 +32,7 @@
   </Folder>
   <Folder Name="/tools/scripts/">
     <File Path="tools/scripts/run-coverage.cs" />
+    <File Path="tools/scripts/special-type-signature-view-generator.cs" />
   </Folder>
 </Solution>
 
