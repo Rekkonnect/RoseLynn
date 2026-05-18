@@ -19,6 +19,9 @@
     <Project Path="src/RoseLynn/RoseLynn.csproj" />
   </Folder>
   <Folder Name="/test/">
+    <Project Path="RoseLynn.Generators.UnitTests/RoseLynn.Generators.UnitTests.csproj" Id="e171afd2-74e9-4cfd-88a5-5a1afa1a9099">
+      <BuildType Solution="Release Test|*" Project="Release" />
+    </Project>
     <Project Path="RoseLynn.Writing.Test/RoseLynn.Writing.Test.csproj" Id="1e85268b-a957-47be-afff-f262ddbaf17e">
       <BuildType Solution="Release Test|*" Project="Release" />
     </Project>

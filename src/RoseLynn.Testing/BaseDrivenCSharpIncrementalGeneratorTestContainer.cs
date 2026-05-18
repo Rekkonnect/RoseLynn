@@ -1,5 +1,6 @@
-#nullable enable
+﻿#nullable enable
 
+using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
@@ -95,3 +96,4 @@ public abstract class BaseDrivenCSharpIncrementalGeneratorTestContainer<TSourceG
         await VerifyAsync([source], mappings, test, cancellationToken);
     }
 }
+

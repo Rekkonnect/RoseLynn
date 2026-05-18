@@ -3,9 +3,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Model;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 

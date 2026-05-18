@@ -1,16 +1,10 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Polyfills;
 using RoseLynn.Generators;
 using RoseLynn.Writing;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 
@@ -21,7 +15,7 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
         TSourceGenerator,
         TTest>
     where TSourceGenerator : IIncrementalGenerator, new()
-    where TTest : BaseGeneratorTestContainer<TSourceGenerator, TTest>.SimpleGeneratorTest, new()
+    where TTest : CSharpSourceGeneratorTestEx<TSourceGenerator>, new()
 {
     public static SourceText Utf8CSharpSource(
         [StringSyntax(PredefinedEmbeddedLanguageNames.CSharpTest)]
@@ -91,7 +85,7 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
         /// <param name="testName">The test name used as the base file name for the generated artifacts.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The generated artifacts to publish for the failure.</returns>
-        protected virtual async Task<IReadOnlyList<GeneratorAssertionFailureArtifact>> CreateGeneratorAssertionFailureArtifacts(
+        protected virtual async Task<IReadOnlyList<TestOutputArtifact>> CreateGeneratorAssertionFailureArtifacts(
             string testName,
             CancellationToken cancellationToken = default)
         {
@@ -111,7 +105,7 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
         /// <param name="artifacts">The generated artifacts.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         protected virtual Task OnGeneratorAssertionFailureArtifactsCreated(
-            IReadOnlyList<GeneratorAssertionFailureArtifact> artifacts,
+            IReadOnlyList<TestOutputArtifact> artifacts,
             CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
@@ -124,7 +118,7 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
         /// <param name="resultingGeneratorDriver">The generator driver containing the run result to serialize.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The artifacts written for the generator assertion failure.</returns>
-        protected static async Task<IReadOnlyList<GeneratorAssertionFailureArtifact>> WriteGeneratorAssertionFailureArtifacts(
+        protected static async Task<IReadOnlyList<TestOutputArtifact>> WriteGeneratorAssertionFailureArtifacts(
             string testName,
             GeneratorDriver resultingGeneratorDriver,
             CancellationToken cancellationToken = default)
@@ -166,27 +160,6 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
                     Description = "Extra information aggregated from the driver's run result, helping with debug",
                 },
             ];
-        }
-
-        /// <summary>
-        /// Represents a generated file emitted to help inspect a failed generator assertion.
-        /// </summary>
-        protected sealed class GeneratorAssertionFailureArtifact
-        {
-            /// <summary>
-            /// Gets or sets the full path of the generated artifact file.
-            /// </summary>
-            public required string FilePath { get; init; }
-
-            /// <summary>
-            /// Gets or sets the user-facing name of the artifact.
-            /// </summary>
-            public required string DisplayName { get; init; }
-
-            /// <summary>
-            /// Gets or sets a short description of the artifact contents.
-            /// </summary>
-            public required string Description { get; init; }
         }
 
         private static GeneratedSourceMappings GenerateMappingsFromRunResult(
