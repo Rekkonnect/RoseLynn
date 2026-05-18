@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis.Text;
-using System.Collections.Generic;
 using System.Text;
 
 namespace RoseLynn.Generators;

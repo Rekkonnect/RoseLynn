@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
-
-namespace RoseLynn.Testing.Test;
+﻿namespace RoseLynn.Testing.Test;
 
 /// <summary>Provides the base contract for diagnostic markup code-handler tests.</summary>
 public abstract class DiagnosticMarkupCodeHandlerTestsBase

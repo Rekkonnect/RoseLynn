@@ -1,5 +1,4 @@
-using Garyon.Extensions;
-using Garyon.Functions;
+﻿using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using Polyfills;
 using RoseLynn.CSharp;

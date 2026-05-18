@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoseLynn.Testing.Benchmarks;
+﻿namespace RoseLynn.Testing.Benchmarks;
 
 /// <summary>Defines the stopping conditions and collection options for a generator benchmark run.</summary>
 public record GeneratorBenchmarkParameters

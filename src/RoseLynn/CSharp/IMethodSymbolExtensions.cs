@@ -1,12 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoseLynn.CSharp.Syntax;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace RoseLynn.CSharp;
-
-#nullable enable
 
 /// <summary>
 /// Provides extensions for the <seealso cref="IMethodSymbol"/> class specifically applying for C#.

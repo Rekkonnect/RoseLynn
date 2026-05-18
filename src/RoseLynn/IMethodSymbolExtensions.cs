@@ -1,10 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace RoseLynn;
-
-#nullable enable
 
 /// <summary>Contains extensions for the <see cref="IMethodSymbol"/> interface.</summary>
 public static class IMethodSymbolExtensions

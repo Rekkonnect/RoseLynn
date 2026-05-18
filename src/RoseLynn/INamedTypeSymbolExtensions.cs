@@ -1,9 +1,6 @@
-﻿#nullable enable
-
+﻿
 using Microsoft.CodeAnalysis;
-using System;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace RoseLynn;
 

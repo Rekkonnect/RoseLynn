@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoseLynn;
+﻿namespace RoseLynn;
 
 /// <summary>
 /// This attribute denotes that the annotated member needs docs, possibly

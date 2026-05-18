@@ -1,15 +1,9 @@
-#nullable enable
-
+﻿
 using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using RoseLynn.CSharp;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RoseLynn;
 

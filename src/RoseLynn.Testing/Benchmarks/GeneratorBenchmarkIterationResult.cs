@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoseLynn.Testing.Benchmarks;
+﻿namespace RoseLynn.Testing.Benchmarks;
 
 /// <summary>Represents the timing and memory measurements captured for a single benchmark iteration.</summary>
 /// <param name="Index">The zero-based iteration index.</param>

@@ -1,5 +1,4 @@
-#nullable enable
-
+﻿
 namespace RoseLynn.Testing;
 
 /// <summary>Contains information about the diagnostic indicators of a diagnostic markup style.</summary>

@@ -1,10 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 
 namespace RoseLynn.CSharp.Syntax;
-
-#nullable enable
 
 /// <summary>Contains extension methods for the <seealso cref="NameSyntax"/> class.</summary>
 public static class NameSyntaxExtensions

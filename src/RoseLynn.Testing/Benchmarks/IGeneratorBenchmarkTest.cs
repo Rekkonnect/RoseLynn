@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace RoseLynn.Testing.Benchmarks;
+﻿namespace RoseLynn.Testing.Benchmarks;
 
 /// <summary>Defines the contract for running a source generator benchmark.</summary>
 public interface IGeneratorBenchmarkTest

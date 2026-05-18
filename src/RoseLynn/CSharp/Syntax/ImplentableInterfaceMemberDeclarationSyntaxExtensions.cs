@@ -2,8 +2,6 @@
 
 namespace RoseLynn.CSharp.Syntax;
 
-#nullable enable
-
 /// <summary>
 /// Provides extensions for <seealso cref="MemberDeclarationSyntax"/> nodes representing
 /// implementable members that can be declared in an interface, including:

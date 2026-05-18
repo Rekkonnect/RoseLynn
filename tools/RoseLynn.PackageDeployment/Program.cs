@@ -1,6 +1,4 @@
-using Garyon.Functions;
-using Spectre.Console;
-using Spectre.Console.Cli;
+﻿using Spectre.Console.Cli;
 
 namespace RoseLynn.PackageDeployment;
 

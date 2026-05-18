@@ -1,6 +1,5 @@
-using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis.CSharp;
 using RoseLynn.CSharp.Syntax;
-using System.Threading.Tasks;
 
 namespace RoseLynn.Test;
 

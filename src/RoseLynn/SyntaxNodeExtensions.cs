@@ -2,8 +2,6 @@
 
 namespace RoseLynn;
 
-#nullable enable
-
 /// <summary>Provides useful extensions for the <seealso cref="SyntaxNode"/> type.</summary>
 public static class SyntaxNodeExtensions
 {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 
-#nullable enable
-
 namespace RoseLynn;
 
 /// <summary>Provides extensions for the <seealso cref="IAssemblySymbol"/> and <seealso cref="IModuleSymbol"/> types.</summary>

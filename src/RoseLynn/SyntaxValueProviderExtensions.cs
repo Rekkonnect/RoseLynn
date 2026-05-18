@@ -1,12 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
-using System.Threading;
-using System;
 
 namespace RoseLynn;
 
 using SyntaxPredicate = Func<SyntaxNode, CancellationToken, bool>;
-
-#nullable enable
 
 /// <summary>
 /// Provides useful extensions for <seealso cref="SyntaxValueProvider"/>.

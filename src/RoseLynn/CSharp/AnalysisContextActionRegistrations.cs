@@ -1,11 +1,8 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System;
 
 namespace RoseLynn.CSharp;
-
-#nullable enable
 
 /// <summary>Provides registration extensions for <seealso cref="AnalysisContext"/> instances.</summary>
 public static class AnalysisContextActionRegistrations

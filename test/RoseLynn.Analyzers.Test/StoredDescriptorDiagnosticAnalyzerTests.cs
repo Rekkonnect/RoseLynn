@@ -1,5 +1,4 @@
-using RoseLynn.Analyzers.Test.MockedResources;
-using System.Threading.Tasks;
+﻿using RoseLynn.Analyzers.Test.MockedResources;
 
 namespace RoseLynn.Analyzers.Test;
 

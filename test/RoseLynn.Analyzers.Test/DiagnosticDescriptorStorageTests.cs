@@ -1,5 +1,4 @@
-using Microsoft.CodeAnalysis;
-using System.Threading.Tasks;
+﻿using Microsoft.CodeAnalysis;
 
 namespace RoseLynn.Analyzers.Test;
 

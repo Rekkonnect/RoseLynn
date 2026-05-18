@@ -8,7 +8,7 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
-  <Import Project="InferTransitiveDependencies.props" />
+  <Import Project="../build/InferTransitiveDependencies.props" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="$(MicrosoftCodeAnalysisVersion)">

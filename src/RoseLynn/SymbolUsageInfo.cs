@@ -2,10 +2,6 @@
 using Microsoft.CodeAnalysis;
 using RoseLynn.CSharp;
 using RoseLynn.Utilities;
-using System.Collections.Generic;
-using System.Linq;
-
-#nullable enable annotations
 
 namespace RoseLynn;
 

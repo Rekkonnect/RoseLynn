@@ -1,7 +1,4 @@
-using Microsoft.CodeAnalysis;
-using System;
-
-namespace RoseLynn.Writing;
+﻿namespace RoseLynn.Writing;
 
 /// <summary>Enumerates a string span as alternating text and newline tokens.</summary>
 /// <param name="source">The source text to enumerate.</param>

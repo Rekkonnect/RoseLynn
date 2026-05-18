@@ -1,5 +1,4 @@
-﻿#nullable enable
-
+﻿
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RoseLynn.Testing;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.Diagnostics;
 using RoseLynn.CodeFixes;
-using System.Threading.Tasks;
 
 namespace RoseLynn.Testing;
 

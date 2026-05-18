@@ -2,8 +2,6 @@
 
 namespace RoseLynn.CSharp;
 
-#nullable enable
-
 /// <summary>Contains helper methods for keyword identifiers.</summary>
 public static class KeywordIdentifierExtensions
 {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using RoseLynn.Analyzers;
-using System;
-using System.Linq;
 
 namespace RoseLynn.Testing;
 

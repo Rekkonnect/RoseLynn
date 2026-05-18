@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace RoseLynn.Test;
+﻿namespace RoseLynn.Test;
 
 /// <summary>Tests creation and matching behavior for <see cref="FullSymbolName"/> values.</summary>
 public class FullSymbolNameTests

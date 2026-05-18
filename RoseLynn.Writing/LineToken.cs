@@ -1,6 +1,4 @@
-using System;
-
-namespace RoseLynn.Writing;
+﻿namespace RoseLynn.Writing;
 
 /// <summary>Represents a tokenized segment of text returned while enumerating lines.</summary>
 /// <param name="span">The span covered by the token.</param>

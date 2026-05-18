@@ -1,13 +1,8 @@
 ﻿using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace RoseLynn;
-
-#nullable enable annotations
 
 /// <summary>Contains extensions for the <seealso cref="Compilation"/> class.</summary>
 public static class CompilationExtensions

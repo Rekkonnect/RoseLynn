@@ -1,12 +1,7 @@
 ﻿using Garyon.Objects.Enumerators;
 using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace RoseLynn;
-
-#nullable enable annotations
 
 /// <summary>Contains extensions for the <seealso cref="INamespaceSymbol"/> interface.</summary>
 public static class INamespaceSymbolExtensions

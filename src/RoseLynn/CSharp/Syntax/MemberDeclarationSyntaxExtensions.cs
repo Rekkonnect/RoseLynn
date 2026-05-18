@@ -3,8 +3,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace RoseLynn.CSharp.Syntax;
 
-#nullable enable
-
 /// <summary>Contains extensions for the <seealso cref="MemberDeclarationSyntax"/> class.</summary>
 public static class MemberDeclarationSyntaxExtensions
 {

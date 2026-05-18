@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoseLynn.Testing.Benchmarks;
+﻿namespace RoseLynn.Testing.Benchmarks;
 
 /// <summary>Captures memory measurements before and after an optional forced garbage collection.</summary>
 /// <param name="UnforcedCollectionMemory">The total managed memory reported without forcing a collection.</param>

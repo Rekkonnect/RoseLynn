@@ -2,8 +2,6 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-#nullable enable
-
 namespace RoseLynn.CSharp.Syntax;
 
 /// <summary>Provides useful extensions for the <seealso cref="CSharpSyntaxNode"/> type.</summary>

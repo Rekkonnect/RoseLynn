@@ -1,9 +1,7 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using RoseLynn.SignatureViews;
 using RoseLynn.Utilities;
 using RoseLynn.Writing;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace RoseLynn.Generators;

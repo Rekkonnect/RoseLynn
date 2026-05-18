@@ -7,6 +7,7 @@
   </Configurations>
   <Folder Name="/Solution Items/">
     <File Path="Directory.Build.props" />
+    <File Path="tools/build/InferTransitiveDependencies.props" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="RoseLynn.Writing/RoseLynn.Writing.csproj" Id="c811c605-7d75-47b6-b680-87d8c63c75d3">

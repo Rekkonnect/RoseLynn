@@ -1,10 +1,4 @@
-﻿#nullable enable
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace RoseLynn;
+﻿namespace RoseLynn;
 
 /// <summary>Represents a symbol's identifier and arity.</summary>
 /// <param name="Name">The identifier of the symbol.</param>

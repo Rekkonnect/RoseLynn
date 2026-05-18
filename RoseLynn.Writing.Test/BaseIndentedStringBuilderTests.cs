@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace RoseLynn.Writing.Test;
+﻿namespace RoseLynn.Writing.Test;
 
 public abstract class BaseIndentedStringBuilderTests
 {

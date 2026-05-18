@@ -1,8 +1,4 @@
-#nullable enable
-
-using System;
-
-namespace RoseLynn;
+﻿namespace RoseLynn;
 
 /// <summary>Provides facts and name parsing helpers for <see cref="OperatorKind"/> values.</summary>
 public static partial class OperatorKindFacts

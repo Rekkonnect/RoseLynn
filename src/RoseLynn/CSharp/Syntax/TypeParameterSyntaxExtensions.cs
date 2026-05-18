@@ -1,8 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Linq;
 
 namespace RoseLynn.CSharp.Syntax;
-#nullable enable annotations
 
 /// <summary>Provides useful extensions for the <seealso cref="TypeParameterSyntax"/> type.</summary>
 public static class TypeParameterSyntaxExtensions

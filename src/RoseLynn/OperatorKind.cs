@@ -1,8 +1,4 @@
-﻿#nullable enable
-
-using System;
-
-namespace RoseLynn;
+﻿namespace RoseLynn;
 
 /// <summary>
 /// Represents an operator function's kind.

@@ -1,12 +1,8 @@
-﻿#nullable enable
-
+﻿
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System;
 using System.Collections.Frozen;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace RoseLynn.Analyzers;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoseLynn;
+﻿namespace RoseLynn;
 
 /// <summary>Represents the kind of a symbol that can have an identifier.</summary>
 [Flags]

@@ -2,13 +2,8 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoseLynn.CSharp.Syntax;
 using RoseLynn.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace RoseLynn;
-
-#nullable enable
 
 /// <summary>Provides mutation-oriented extensions for <see cref="SyntaxNode"/> and related syntax nodes.</summary>
 public static class SyntaxNodeMutationExtensions

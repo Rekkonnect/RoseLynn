@@ -4,8 +4,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace RoseLynn;
 
-#nullable enable
-
 /// <summary>Contains information about a type declaration, linking its declaration syntax node with the declared type symbol.</summary>
 public class TypeDeclarationInfo
 {

@@ -1,9 +1,6 @@
-#nullable enable
-
+﻿
 using Garyon.DataStructures;
 using Microsoft.CodeAnalysis;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace RoseLynn;
 

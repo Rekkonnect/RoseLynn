@@ -2,8 +2,6 @@
 
 namespace RoseLynn.Utilities;
 
-#nullable enable annotations
-
 /// <summary>Provides useful extensions for the <seealso cref="string"/> type.</summary>
 public static class StringExtensions
 {

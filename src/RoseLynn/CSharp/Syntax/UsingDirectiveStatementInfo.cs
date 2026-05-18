@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace RoseLynn.CSharp.Syntax;
+﻿namespace RoseLynn.CSharp.Syntax;
 
 /// <summary>Contains fundamental information about the using directive.</summary>
 /// <param name="Kind">The using kind of the using directive.</param>

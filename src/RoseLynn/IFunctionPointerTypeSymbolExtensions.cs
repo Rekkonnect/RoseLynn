@@ -3,8 +3,6 @@ using System.Collections.Immutable;
 
 namespace RoseLynn;
 
-#nullable enable
-
 /// <summary>Contains extensions for the <see cref="IFunctionPointerTypeSymbol"/> interface.</summary>
 public static class IFunctionPointerTypeSymbolExtensions
 {

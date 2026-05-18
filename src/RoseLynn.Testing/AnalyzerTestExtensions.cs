@@ -1,6 +1,5 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
-using System.Collections.Generic;
 
 namespace RoseLynn.Testing;
 

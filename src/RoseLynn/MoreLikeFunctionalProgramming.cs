@@ -1,8 +1,4 @@
-﻿#nullable enable
-
-using System;
-
-namespace RoseLynn;
+﻿namespace RoseLynn;
 
 /// <summary>
 /// Code style extensions that you may or may not want to use -- convenience involves investment.

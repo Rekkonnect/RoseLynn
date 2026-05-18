@@ -2,7 +2,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 using RoseLynn.CSharp.Syntax;
-using System.Collections.Generic;
 
 namespace RoseLynn.CSharp.Syntax;
 

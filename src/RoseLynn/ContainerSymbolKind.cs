@@ -1,7 +1,5 @@
-﻿#nullable enable
-
+﻿
 using Microsoft.CodeAnalysis;
-using System;
 
 namespace RoseLynn;
 

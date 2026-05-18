@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
-
-namespace RoseLynn.Test;
+﻿namespace RoseLynn.Test;
 
 /// <summary>Tests usings-provider output generation.</summary>
 public class UsingsProviderTests

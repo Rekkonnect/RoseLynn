@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace RoseLynn.Utilities;
+﻿namespace RoseLynn.Utilities;
 
 /// <summary>Provides helper functions for enums.</summary>
 public static class EnumHelpers
