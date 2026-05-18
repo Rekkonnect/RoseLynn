@@ -20,14 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\RoseLynn.Testing\RoseLynn.Testing.csproj" />
     <ProjectReference Include="..\src\RoseLynn.Generators\RoseLynn.Generators.csproj" />
   </ItemGroup>
-
-  <Target Name="CopyResourceFiles" AfterTargets="Build">
-    <ItemGroup>
-      <ResourceFiles Include="Resources/**/*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(ResourceFiles)" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
-  </Target>
 
 </Project>

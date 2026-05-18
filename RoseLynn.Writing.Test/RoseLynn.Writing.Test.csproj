@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RoseLynn.Writing\RoseLynn.Writing.csproj" />
+    <ProjectReference Include="..\src\RoseLynn.Testing\RoseLynn.Testing.csproj" />
   </ItemGroup>
 
 </Project>

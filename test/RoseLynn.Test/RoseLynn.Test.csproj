@@ -6,10 +6,23 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Resources\ultimate-symbol-test.cs" />
+    <None Include="Resources\ultimate-symbol-test.cs" />
+  </ItemGroup>
+
+  <Target Name="CopyResourceFiles" AfterTargets="Build">
+    <ItemGroup>
+      <ResourceFiles Include="Resources/**/*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ResourceFiles)" DestinationFolder="$(TargetDir)/Resources/%(RecursiveDir)" />
+  </Target>
+
   <ItemGroup Label="Microsoft.CodeAnalysis">
     <PackageReference Include="Garyon" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzer.Testing" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" />
   </ItemGroup>
 

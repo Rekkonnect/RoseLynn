@@ -1,4 +1,4 @@
-namespace RoseLynn.Writing;
+﻿namespace RoseLynn.Writing;
 
 /// <summary>Provides shared state for block lists that insert separators between committed blocks.</summary>
 public abstract partial class BaseSeparatableBlockList

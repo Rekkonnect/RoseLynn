@@ -1,6 +1,6 @@
 ﻿#!/usr/bin/dotnet run --file
-#:package CliWrap@*
-#:package Garyon@*
+#:package CliWrap
+#:package Garyon
 
 using CliWrap;
 using CliWrap.Buffered;
@@ -94,7 +94,7 @@ var reportResult = await RunCommand(
         $"-reports:{mergedCoverageFileName}",
         $"-targetdir:{coverageReportSubdirectoryName}",
         "-reporttypes:Html_Dark,Badges",
-        "-assemblyfilters:-Garyon*;-*.Test", 
+        "-assemblyfilters:-Garyon*;-Microsoft*;-*.Test", 
         // For now we exclude generated files because they are not present in
         // the disk, which pollutes the output with tons of errors.
         // The generated files themselves might contain uncovered code that does

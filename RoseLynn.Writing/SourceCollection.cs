@@ -1,21 +1,26 @@
 ﻿using Microsoft.CodeAnalysis.Text;
 using System.Text;
 
-namespace RoseLynn.Generators;
+namespace RoseLynn.Writing;
 
 /// <summary>
-/// Provides a simple mechanism for mapping generated sources to their file hint names,
-/// disregarding the order in which they were generated.
+/// Provides a simple mechanism for mapping sources to their file hint names,
+/// disregarding the order in which they were added.
 /// </summary>
-public sealed class GeneratedSourceMappings : SortedDictionary<string, SourceText>
+/// <remarks>
+/// This is especially useful for testing purposes for generators, where the order
+/// of the generated files can be non-deterministic, and the test intends to capture
+/// independently-generated files.
+/// </remarks>
+public sealed class SourceCollection : SortedDictionary<string, SourceText>
 {
     /// <summary>
     /// Gets or sets the default encoding to use when adding new sources using the <see langword="string"/> overloads.
     /// </summary>
     public Encoding DefaultEncoding { get; set; } = Encoding.UTF8;
 
-    public GeneratedSourceMappings() { }
-    public GeneratedSourceMappings(IComparer<string> hintNameComparer)
+    public SourceCollection() { }
+    public SourceCollection(IComparer<string> hintNameComparer)
         : base(hintNameComparer) { }
 
     /// <summary>

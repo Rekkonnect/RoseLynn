@@ -13,4 +13,8 @@
     <ProjectReference Include="..\src\RoseLynn\RoseLynn.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+  </ItemGroup>
+
 </Project>

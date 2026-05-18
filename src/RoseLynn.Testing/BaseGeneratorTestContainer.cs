@@ -162,11 +162,11 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
             ];
         }
 
-        private static GeneratedSourceMappings GenerateMappingsFromRunResult(
+        private static SourceCollection GenerateMappingsFromRunResult(
             GeneratorDriverRunResult runResult)
         {
             var results = runResult.Results;
-            var outputMappings = new GeneratedSourceMappings();
+            var outputMappings = new SourceCollection();
 
             foreach (var result in results)
             {
@@ -183,7 +183,7 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
         }
 
         private static string GenerateSourceMappingsCode(
-            GeneratedSourceMappings outputMappings)
+            SourceCollection outputMappings)
         {
             var builder = new StringBuilder();
 

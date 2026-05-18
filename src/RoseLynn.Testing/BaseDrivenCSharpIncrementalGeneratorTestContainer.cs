@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using RoseLynn.Generators;
+using RoseLynn.Writing;
 
 namespace RoseLynn.Testing;
 
@@ -18,16 +18,16 @@ public abstract class BaseDrivenCSharpIncrementalGeneratorTestContainer<TSourceG
     /// to produce sources matching the given mappings.
     /// </summary>
     /// <param name="sources">The original collection of sources that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
+    /// <param name="generatedSources">The expected generated sources.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     protected async Task VerifyAsync(
         IEnumerable<string> sources,
-        GeneratedSourceMappings mappings,
+        SourceCollection generatedSources,
         CancellationToken cancellationToken = default)
     {
         await VerifyAsync(
             sources,
-            mappings,
+            generatedSources,
             new TTest(),
             cancellationToken);
     }
@@ -38,7 +38,7 @@ public abstract class BaseDrivenCSharpIncrementalGeneratorTestContainer<TSourceG
     /// <typeparamref name="TTest"/> instance.
     /// </summary>
     /// <param name="sources">The original collection of sources that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
+    /// <param name="generatedSources">The expected generated sources.</param>
     /// <param name="test">
     /// The custom
     /// <typeparamref name="TTest"/> instance.
@@ -46,14 +46,14 @@ public abstract class BaseDrivenCSharpIncrementalGeneratorTestContainer<TSourceG
     /// <param name="cancellationToken">The cancellation token.</param>
     protected async Task VerifyAsync(
         IEnumerable<string> sources,
-        GeneratedSourceMappings mappings,
+        SourceCollection generatedSources,
         TTest test,
         CancellationToken cancellationToken = default)
     {
         test.TestState.Sources.AddRange(sources);
-        foreach (var mapping in mappings)
+        foreach (var generatedSource in generatedSources)
         {
-            test.TestState.GeneratedSources.Add((typeof(TSourceGenerator), mapping.Key, mapping.Value));
+            test.TestState.GeneratedSources.Add((typeof(TSourceGenerator), generatedSource.Key, generatedSource.Value));
         }
 
         await test.RunAsync(cancellationToken);
@@ -63,14 +63,14 @@ public abstract class BaseDrivenCSharpIncrementalGeneratorTestContainer<TSourceG
     /// Verifies that the provided source causes the generator to produce sources matching the given mappings.
     /// </summary>
     /// <param name="source">The original source that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
+    /// <param name="sources">The expected generated sources.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     protected async Task VerifyAsync(
         string source,
-        GeneratedSourceMappings mappings,
+        SourceCollection sources,
         CancellationToken cancellationToken = default)
     {
-        await VerifyAsync([source], mappings, cancellationToken);
+        await VerifyAsync([source], sources, cancellationToken);
     }
 
     /// <summary>
@@ -78,16 +78,16 @@ public abstract class BaseDrivenCSharpIncrementalGeneratorTestContainer<TSourceG
     /// acting on a pre-initialized <typeparamref name="TTest"/> instance.
     /// </summary>
     /// <param name="source">The original source that the source generator will act upon.</param>
-    /// <param name="mappings">The expected generated source mappings.</param>
+    /// <param name="sources">The expected generated sources.</param>
     /// <param name="test">The custom <typeparamref name="TTest"/> instance.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     protected async Task VerifyAsync(
         string source,
-        GeneratedSourceMappings mappings,
+        SourceCollection sources,
         TTest test,
         CancellationToken cancellationToken = default)
     {
-        await VerifyAsync([source], mappings, test, cancellationToken);
+        await VerifyAsync([source], sources, test, cancellationToken);
     }
 }
 
