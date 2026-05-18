@@ -6,7 +6,6 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>Additional tools for Roslyn-based applications.</Description>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
-    <Configurations>Debug;Release;Release Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">
@@ -27,6 +26,12 @@
     <ProjectReference Include="..\..\tools\RoseLynn.InternalGenerators\RoseLynn.InternalGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="../../tools/build/InferTransitiveDependencies.props"
+          Pack="true"
+          PackagePath="build/InferTransitiveDependencies.props" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Folder Include="SignatureViews\" />
   </ItemGroup>

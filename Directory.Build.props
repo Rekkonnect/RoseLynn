@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <Version>0.8.0</Version>
     <PackageVersion>$(Version)</PackageVersion>
+    <NoWarn>$(NoWarn);NU5129;RS1042;RS1038</NoWarn>
   </PropertyGroup>
 
   <!-- Those should be only applied to packable projects, not all -->

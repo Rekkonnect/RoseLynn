@@ -7,7 +7,6 @@
     <Description>Additional tools for testing Roslyn-based analyzers.</Description>
     <PackageTags>roslyn, analyzer, tools, unit test, extensions</PackageTags>
     <Configurations>Debug;Release</Configurations>
-    <NoWarn>$(NoWarn);RS1042</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">

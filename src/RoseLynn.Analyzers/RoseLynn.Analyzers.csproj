@@ -6,7 +6,6 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>Additional tools for Roslyn-based analyzers.</Description>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
-    <Configurations>Debug;Release;Release Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">
@@ -25,10 +24,6 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Test|AnyCPU'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
