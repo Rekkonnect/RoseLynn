@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Reflection.Metadata.Ecma335;
 
 namespace RoseLynn.CSharp.Syntax;
 
@@ -41,7 +42,8 @@ public static class ExtendedSyntaxFactory
     /// <returns>The resulting <seealso cref="AttributeSyntax"/>.</returns>
     public static AttributeSyntax Attribute(Type attributeType, AttributeArgumentListSyntax? attributeArgumentList, bool assumeImported = true)
     {
-        var attributeName = SimplifyAttributeNameUsage(assumeImported ? attributeType.Name : attributeType.FullName);
+        var attributeName = assumeImported ? attributeType.Name : attributeType.FullName ?? attributeType.Name; 
+        attributeName = SimplifyAttributeNameUsage(attributeName);
         return SyntaxFactory.Attribute(SyntaxFactory.ParseName(attributeName), attributeArgumentList);
     }
 
@@ -74,11 +76,7 @@ public static class ExtendedSyntaxFactory
     {
         // System.Attribute is preferred from the collision since it's a fully fixed name
         const string attributeSuffix = nameof(System.Attribute);
-
-        if (attributeTypeName.EndsWith(attributeSuffix))
-            return attributeTypeName.Remove(attributeTypeName.Length - attributeSuffix.Length);
-
-        return attributeTypeName;
+        return attributeTypeName.TrimEnd(attributeSuffix).ToString();
     }
 
     /// <summary>Creates a new <seealso cref="TypeArgumentListSyntax"/>.</summary>

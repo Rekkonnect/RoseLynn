@@ -40,7 +40,9 @@ public static class SyntaxValueProviderExtensions
         SyntaxPredicate? predicate = null)
 #pragma warning restore CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
     {
-        return provider.ForAttributeWithMetadataName(type.FullName, predicate);
+        var metadataName = type.FullName
+            ?? throw new InvalidOperationException("The type has no fully qualified name.");
+        return provider.ForAttributeWithMetadataName(metadataName, predicate);
     }
 
     /// <summary>

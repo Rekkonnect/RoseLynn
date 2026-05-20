@@ -26,10 +26,11 @@ public abstract class BaseAnalyzerTestFixture
                 .SelectMany(static diagnostics => diagnostics)
                 .Select(static descriptor => descriptor.Id)
                 .OrderByDescending(static id => id.Length)
-                .FirstOrDefault(id => GetType().Name.StartsWith(id, StringComparison.Ordinal));
+                .FirstOrDefault(id => GetType().Name.StartsWith(id, StringComparison.Ordinal))
+                ?? throw new InvalidOperationException("Could not infer the tested diagnostic rule from the test type name.");
 
             return testedDiagnosticRule = DiagnosticDescriptorStorage.GetDiagnosticDescriptor(ruleID)
-                ?? throw new InvalidOperationException("Could not infer the tested diagnostic rule from the test type name.");
+                ?? throw new InvalidOperationException("Could not find the diagnostic ID in the storage.");
         }
     }
 

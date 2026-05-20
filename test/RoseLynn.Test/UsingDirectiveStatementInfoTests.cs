@@ -130,4 +130,25 @@ public class UsingDirectiveStatementInfoTests
             return UsingDirectiveStatementInfo.UsingForType<ExampleClass>(kind);
         }
     }
+
+    [Test]
+    public async Task SortingComparer_HandlesNulls()
+    {
+        var comparer = UsingDirectiveStatementInfo.SortingComparer.Instance;
+        var usingDirective = new UsingDirectiveStatementInfo(UsingDirectiveKind.Using, "System");
+
+        await Assert.That(comparer.Compare(null, null)).IsEqualTo(0);
+        await Assert.That(comparer.Compare(null, usingDirective)).IsEqualTo(-1);
+        await Assert.That(comparer.Compare(usingDirective, null)).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task IdentifierSortKeyComparer_UsesOrdinalComparison()
+    {
+        var comparer = UsingDirectiveStatementInfo.SortingComparer.AscendingIdentifierSortKey.Instance;
+        var lowerCase = new UsingDirectiveStatementInfo(UsingDirectiveKind.Using, "a");
+        var upperCase = new UsingDirectiveStatementInfo(UsingDirectiveKind.Using, "A");
+
+        await Assert.That(comparer.Compare(lowerCase, upperCase)).IsGreaterThan(0);
+    }
 }

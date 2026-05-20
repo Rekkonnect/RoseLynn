@@ -30,5 +30,7 @@
 
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
     <PackageVersion Include="TUnit" Version="1.44.0" />
+    <PackageVersion Include="Polyfill" Version="10.6.0" />
+    <PackageVersion Include="PolyfillLib" Version="10.6.0" />
   </ItemGroup>
 </Project>

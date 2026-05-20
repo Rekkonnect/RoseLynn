@@ -4,11 +4,8 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Polyfills;
 using RoseLynn.Analyzers;
 using System.Collections.Immutable;
-using System.Resources;
 
 namespace RoseLynn.CodeFixes;
-
-// Soon to be replaced with an implementation less invasive to resources
 
 /// <summary>Provides mechanisms to better organize registering code fixes to the environment.</summary>
 public abstract class MultipleDiagnosticCodeFixProvider : CodeFixProvider
@@ -21,13 +18,8 @@ public abstract class MultipleDiagnosticCodeFixProvider : CodeFixProvider
     /// <inheritdoc/>
     public sealed override ImmutableArray<string> FixableDiagnosticIds => fixableDiagnosticIds;
 
-    private string? codeFixTitle;
-
-    /// <summary>The title of the code fix. By default, it looks up for a resource string named "{TypeName}_Title" with TypeName being the name of the type.</summary>
-    public virtual string CodeFixTitle => codeFixTitle ??= ResourceManager.GetString($"{GetType().Name}_Title");
-
-    /// <summary>Gets the <seealso cref="DiagnosticDescriptorStorageBase"/> that contains this code fix's title.</summary>
-    protected abstract ResourceManager ResourceManager { get; }
+    /// <summary>The title of the code fix.</summary>
+    public abstract string CodeFixTitle { get; }
 
     /// <summary>Initializes a new <seealso cref="MultipleDiagnosticCodeFixProvider"/> instance, discovering its <seealso cref="FixableDiagnosticIds"/>.</summary>
     protected MultipleDiagnosticCodeFixProvider()

@@ -189,7 +189,7 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
             throw new ArgumentException("An alias must be specified to use a using alias statement.");
         }
 
-        var qualifiedName = type.Namespace;
+        var qualifiedName = type.Namespace ?? string.Empty;
         if (kind.IsStatic())
         {
             qualifiedName += $".{type.Name}";
@@ -208,8 +208,14 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
             throw new ArgumentException("The using directive kind must be a using alias.");
         }
 
-        var qualifiedName = type.FullName;
+        var qualifiedName = GetQualifiedNameForType(type);
         return new(kind, alias, qualifiedName);
+    }
+
+    private static string GetQualifiedNameForType(Type type)
+    {
+        // For now just handle the null full name with an empty string, in the future we should be able to type it better
+        return type.FullName ?? string.Empty;
     }
 
     /// <summary>Provides a comparer that defines the order of two <see cref="UsingDirectiveStatementInfo"/> instances, based on how the IDE behaves.</summary>
@@ -227,20 +233,20 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         public static SortingComparer Instance = new();
 
         /// <summary>Gets the comparers to apply to each comparison in the order they are applied.</summary>
-        public virtual IComparer<UsingDirectiveStatementInfo>[] ComparerOrder
+        public virtual BaseComparer[] ComparerOrder
         {
-            get => new IComparer<UsingDirectiveStatementInfo>[]
-            {
+            get =>
+            [
                 GlobalOverLocal.Instance,
                 AscendingDirectiveKind.Instance,
                 NonStaticOverStatic.Instance,
                 AscendingIdentifierSortKey.Instance,
-            };
+            ];
         }
 
         protected SortingComparer() { }
 
-        public virtual int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+        public virtual int Compare(UsingDirectiveStatementInfo? x, UsingDirectiveStatementInfo? y)
         {
             foreach (var comparer in ComparerOrder)
             {
@@ -251,93 +257,114 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
             return 0;
         }
 
+        /// <summary>Provides common null-aware comparison behavior for <see cref="UsingDirectiveStatementInfo"/> comparers.</summary>
+        public abstract class BaseComparer : IComparer<UsingDirectiveStatementInfo>
+        {
+            public int Compare(UsingDirectiveStatementInfo? x, UsingDirectiveStatementInfo? y)
+            {
+                if (ReferenceEquals(x, y))
+                    return 0;
+
+                if (x is null)
+                    return -1;
+
+                if (y is null)
+                    return 1;
+
+                return CompareNonNull(x, y);
+            }
+
+            /// <summary>Compares two non-<see langword="null"/> using directive statements.</summary>
+            protected abstract int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y);
+        }
+
         // I wish declaring a pattern like this would be simpler
         /// <summary>Orders global using directives before local ones.</summary>
-        public sealed class GlobalOverLocal : IComparer<UsingDirectiveStatementInfo>
+        public sealed class GlobalOverLocal : BaseComparer
         {
             public static GlobalOverLocal Instance = new();
             private GlobalOverLocal() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return y.IsGlobal.CompareTo(x.IsGlobal);
             }
         }
         /// <summary>Orders local using directives before global ones.</summary>
-        public sealed class LocalOverGlobal : IComparer<UsingDirectiveStatementInfo>
+        public sealed class LocalOverGlobal : BaseComparer
         {
             public static LocalOverGlobal Instance = new();
             private LocalOverGlobal() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return x.IsGlobal.CompareTo(y.IsGlobal);
             }
         }
         /// <summary>Orders using directives by ascending directive kind.</summary>
-        public sealed class AscendingDirectiveKind : IComparer<UsingDirectiveStatementInfo>
+        public sealed class AscendingDirectiveKind : BaseComparer
         {
             public static AscendingDirectiveKind Instance = new();
             private AscendingDirectiveKind() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return x.DirectiveKind.CompareTo(y.DirectiveKind);
             }
         }
         /// <summary>Orders using directives by descending directive kind.</summary>
-        public sealed class DescendingDirectiveKind : IComparer<UsingDirectiveStatementInfo>
+        public sealed class DescendingDirectiveKind : BaseComparer
         {
             public static DescendingDirectiveKind Instance = new();
             private DescendingDirectiveKind() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return y.DirectiveKind.CompareTo(x.DirectiveKind);
             }
         }
         /// <summary>Orders static using directives before non-static ones.</summary>
-        public sealed class StaticOverNonStatic : IComparer<UsingDirectiveStatementInfo>
+        public sealed class StaticOverNonStatic : BaseComparer
         {
             public static StaticOverNonStatic Instance = new();
             private StaticOverNonStatic() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return y.IsStatic.CompareTo(x.IsStatic);
             }
         }
         /// <summary>Orders non-static using directives before static ones.</summary>
-        public sealed class NonStaticOverStatic : IComparer<UsingDirectiveStatementInfo>
+        public sealed class NonStaticOverStatic : BaseComparer
         {
             public static NonStaticOverStatic Instance = new();
             private NonStaticOverStatic() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return x.IsStatic.CompareTo(y.IsStatic);
             }
         }
         /// <summary>Orders using directives by ascending identifier sort key.</summary>
-        public sealed class AscendingIdentifierSortKey : IComparer<UsingDirectiveStatementInfo>
+        public sealed class AscendingIdentifierSortKey : BaseComparer
         {
             public static AscendingIdentifierSortKey Instance = new();
             private AscendingIdentifierSortKey() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
-                return x.IdentifierSortKey.CompareTo(y.IdentifierSortKey);
+                return string.Compare(x.IdentifierSortKey, y.IdentifierSortKey, StringComparison.Ordinal);
             }
         }
         /// <summary>Orders using directives by descending identifier sort key.</summary>
-        public sealed class DescendingIdentifierSortKey : IComparer<UsingDirectiveStatementInfo>
+        public sealed class DescendingIdentifierSortKey : BaseComparer
         {
             public static DescendingIdentifierSortKey Instance = new();
             private DescendingIdentifierSortKey() { }
 
-            public int Compare(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
+            protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
-                return y.IdentifierSortKey.CompareTo(x.IdentifierSortKey);
+                return string.Compare(y.IdentifierSortKey, x.IdentifierSortKey, StringComparison.Ordinal);
             }
         }
     }

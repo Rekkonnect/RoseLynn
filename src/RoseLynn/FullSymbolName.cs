@@ -325,7 +325,9 @@ public sealed class FullSymbolName
         var declaringMethod = type.GetDeclaringMethodSafe();
         if (declaringMethod is not null)
         {
-            var directDeclaringType = declaringMethod.DeclaringType;
+            // Suppressing the null here since this API is planned to be removed
+            // Extra effort must be spent to maintain it without significant value being gained
+            var directDeclaringType = declaringMethod.DeclaringType!;
             var fullName = ForType(directDeclaringType);
             fullName.ContainerMethods.Add(declaringMethod.Name);
             fullName.ContainerTypes.Add(directDeclaringType.Name);
@@ -334,7 +336,7 @@ public sealed class FullSymbolName
         }
 
         var declaringTypes = new List<string>();
-        var namespaces = type.Namespace.Split('.');
+        var namespaces = type.Namespace?.Split('.') ?? [];
 
         var declaringType = type.DeclaringType;
         while (declaringType is not null)
