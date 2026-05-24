@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.CodeAnalysis;
+using System.Collections.Immutable;
 
 namespace RoseLynn;
 
@@ -27,6 +28,65 @@ public static class TypedConstantExtensions
             if (value.ConstantValue!.Equals(constant.Value))
                 return true;
         }
+        return false;
+    }
+
+    public static T? ValueOrDefault<T>(
+        this ImmutableArray<TypedConstant> array,
+        int index,
+        T? @default = default)
+    {
+        var constant = array.ElementAtOrDefault(index);
+        if (constant.Kind is TypedConstantKind.Array)
+        {
+            return @default;
+        }
+
+        var value = constant.Value;
+        if (value is T t)
+        {
+            return t;
+        }
+
+        return @default;
+    }
+
+    public static bool TryGetValue<T>(
+        this ImmutableArray<TypedConstant> array,
+        int index,
+        out T? value)
+    {
+        var constant = array.ElementAtOrDefault(index);
+        if (constant.Kind is TypedConstantKind.Array)
+        {
+            value = default;
+            return false;
+        }
+
+        var constantValue = constant.Value;
+        if (constantValue is T t)
+        {
+            value = t;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    public static bool TryGetValues(
+        this ImmutableArray<TypedConstant> array,
+        int index,
+        out ImmutableArray<TypedConstant> values)
+    {
+        var constant = array.ElementAtOrDefault(index);
+        if (constant.Kind is TypedConstantKind.Array)
+        {
+            values = constant.Values;
+            return true;
+        }
+
+        values = [];
         return false;
     }
 }

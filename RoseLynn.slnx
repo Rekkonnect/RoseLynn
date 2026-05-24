@@ -11,6 +11,9 @@
     <File Path="tools/build/InferTransitiveDependencies.props" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="RoseLynn.Workspaces/RoseLynn.Workspaces.csproj" Id="6e2d1b08-b893-4098-af8b-94ff8b0a7179">
+      <BuildType Solution="Release Test|*" Project="Release" />
+    </Project>
     <Project Path="RoseLynn.Writing/RoseLynn.Writing.csproj" Id="c811c605-7d75-47b6-b680-87d8c63c75d3">
       <BuildType Solution="Release Test|*" Project="Release" />
     </Project>

@@ -6,6 +6,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>Additional tools for Roslyn-based applications.</Description>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">
@@ -27,9 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../../tools/build/InferTransitiveDependencies.props"
-          Pack="true"
-          PackagePath="build/InferTransitiveDependencies.props" />
+    <None Include="../../tools/build/InferTransitiveDependencies.props" Pack="true" PackagePath="build/InferTransitiveDependencies.props" />
   </ItemGroup>
   
   <ItemGroup>

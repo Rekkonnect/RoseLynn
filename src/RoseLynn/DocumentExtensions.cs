@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Garyon.Extensions;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Polyfills;
 using System.Text;
@@ -79,5 +80,135 @@ public static class DocumentExtensions
             text?.Encoding ?? Encoding.UTF8,
             text?.ChecksumAlgorithm ?? SourceHashAlgorithm.Sha256);
         return document.WithText(resultText);
+    }
+
+    extension(Document document)
+    {
+        public Solution Solution => document.Project.Solution;
+
+        /// <summary>
+        /// Finds a node in the expected position after the replacement of a node
+        /// with another one. The expected position is calculated by the old node's
+        /// position in the original tree and the new node's length.
+        /// </summary>
+        /// <param name="document">
+        /// The new document that contains the replaced node.
+        /// </param>
+        /// <param name="oldNode">
+        /// The old node that was replaced. The new document should not contain this
+        /// node.
+        /// <br/>
+        /// The old node must belong to a syntax tree in order to calculate the
+        /// replacement's position in the new syntax tree.
+        /// </param>
+        /// <param name="newNode">
+        /// The new node that replaced the old node. It is expected that this method
+        /// is invoked only because <paramref name="newNode"/> is not present in the
+        /// provided document instance.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token to cancel the querying operation.
+        /// </param>
+        /// <remarks>
+        /// Using this method is necessary after replacement if we want to track a
+        /// node without traversing the entire tree to discover it via annotations.
+        /// <br/>
+        /// This method forces building the syntax tree of the entire document and
+        /// can therefore be somewhat costly.
+        /// </remarks>
+        public async Task<SyntaxNode> FindReplacedNode(
+            SyntaxNode oldNode,
+            SyntaxNode newNode,
+            CancellationToken cancellationToken)
+        {
+            if (oldNode.SyntaxTree is null)
+            {
+                throw new InvalidOperationException(
+                    """
+                    The old node must belong to a syntax tree in order to calculate
+                    the replacement's position in the new syntax tree.
+                    """);
+            }
+
+            var start = oldNode.FullSpan.Start;
+            var length = newNode.FullSpan.Length;
+            var span = new TextSpan(start, length);
+            var root = await document.GetSyntaxRootAsync(cancellationToken);
+            return root!.FindNode(span);
+        }
+
+        /// <summary>
+        /// Finds a node in the expected position after a mutation in the previous
+        /// tree that held the requested node. If the code before the node's span
+        /// has not been textually resized, this method will correctly find the node
+        /// within the new tree, by querying the span in which it belonged in the
+        /// previous tree.
+        /// </summary>
+        /// <param name="document">
+        /// The new document that contains the replaced node.
+        /// </param>
+        /// <param name="previousTreeNode">
+        /// The node in the previous tree to find in the new document. The previous
+        /// tree node must have a non-null <see cref="SyntaxNode.SyntaxTree"/> to
+        /// ensure that the node comes from a previous version of the syntax tree.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token to cancel the querying operation.
+        /// </param>
+        /// <remarks>
+        /// This method forces building the syntax tree of the entire document and
+        /// can therefore be somewhat costly.
+        /// </remarks>
+        public async Task<SyntaxNode> FindNode(
+            SyntaxNode previousTreeNode,
+            CancellationToken cancellationToken)
+        {
+            if (previousTreeNode.SyntaxTree is null)
+            {
+                throw new InvalidOperationException(
+                    """
+                    The previous tree node must belong to a syntax tree to properly
+                    evaluate the new node's position in the new tree.
+                    """);
+            }
+
+            var root = await document.GetSyntaxRootAsync(cancellationToken);
+            return root!.FindNode(previousTreeNode.Span);
+        }
+
+        public async Task<Document> ReplaceRequiredNodeAsync(
+            SyntaxNode? old,
+            SyntaxNode @new,
+            CancellationToken cancellationToken)
+        {
+            var tree = await document.GetSyntaxTreeAsync(cancellationToken);
+            if (old?.SyntaxTree != tree)
+            {
+                throw new InvalidOperationException(
+                    "The syntax tree does not contain the old node");
+            }
+
+            return await document.ReplaceRequiredNodeAsync(old, @new, cancellationToken);
+        }
+    }
+
+    public static async Task<IEnumerable<SyntaxNode>> EnumerateNotNullNodes(
+        this IEnumerable<Document> documents,
+        CancellationToken cancellationToken)
+    {
+        var tasks = documents
+            .Select(async document => await document.GetSyntaxRootAsync(cancellationToken))
+            ;
+        await Task.WhenAll(tasks);
+        var nodes = tasks.Select(task => task.Result).ToList();
+        return nodes.WhereNotNull();
+    }
+
+    public static async Task<IReadOnlyCollection<SyntaxNode>> GetAllNotNullNodes(
+        this IEnumerable<Document> documents,
+        CancellationToken cancellationToken)
+    {
+        var nodes = await EnumerateNotNullNodes(documents, cancellationToken);
+        return nodes.ToList();
     }
 }

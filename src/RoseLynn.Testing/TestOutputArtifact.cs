@@ -1,4 +1,4 @@
-namespace RoseLynn.Testing;
+﻿namespace RoseLynn.Testing;
 
 /// <summary>
 /// Represents a test output artifact. It should be adaptable to any testing

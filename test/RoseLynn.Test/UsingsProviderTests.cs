@@ -1,4 +1,6 @@
-﻿namespace RoseLynn.Test;
+﻿using System.Runtime.Loader;
+
+namespace RoseLynn.Test;
 
 /// <summary>Tests usings-provider output generation.</summary>
 public class UsingsProviderTests

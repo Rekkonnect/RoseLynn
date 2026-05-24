@@ -1,4 +1,4 @@
-namespace RoseLynn.Utilities;
+﻿namespace RoseLynn.Utilities;
 
 /// <summary>Provides small fluent helpers for null handling and inline transformations.</summary>
 public static class FluentExtensions
@@ -71,5 +71,25 @@ public static class FluentExtensions
             sourceAction(item);
             first = false;
         }
+    }
+
+    public static bool IsSingle<T>(this IEnumerable<T> source, out T? single)
+    {
+        single = default;
+        using var enumerator = source.GetEnumerator();
+        if (!enumerator.MoveNext())
+        {
+            return false;
+        }
+
+        var current = enumerator.Current;
+
+        if (enumerator.MoveNext())
+        {
+            return false;
+        }
+
+        single = current;
+        return true;
     }
 }

@@ -6,6 +6,12 @@ namespace RoseLynn;
 /// <summary>Provides useful extensions for the <seealso cref="ITypeSymbol"/> type.</summary>
 public static class ITypeSymbolExtensions
 {
+    extension(ITypeSymbol type)
+    {
+        public int Arity => type is INamedTypeSymbol named
+            ? named.Arity : 0;
+    }
+
     /// <summary>Determines whether a <seealso cref="ITypeSymbol"/> equals a <see cref="Type"/>, by comparing their identifiers and their assemblies.</summary>
     /// <param name="symbol">The <seealso cref="ITypeSymbol"/> of the type.</param>
     /// <param name="type">The <see cref="Type"/> instance of the type.</param>

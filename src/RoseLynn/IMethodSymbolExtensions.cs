@@ -1,4 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 using System.Collections.Immutable;
 
 namespace RoseLynn;
@@ -35,9 +37,10 @@ public static class IMethodSymbolExtensions
     /// <returns>An immutable array with the types of the parameters of the method.</returns>
     public static ImmutableArray<ITypeSymbol> GetParameterTypes(this IMethodSymbol method)
     {
-        return method.Parameters
-                     .Select(p => p.Type)
-                     .ToImmutableArray();
+        return method
+            .Parameters
+            .Select(p => p.Type)
+            .ToImmutableArray();
     }
 
     /// <summary>Gets all the used type symbols for the specified method symbol's signature.</summary>
@@ -82,5 +85,102 @@ public static class IMethodSymbolExtensions
             result.AddRange(methodSymbol.TypeArguments);
         }
         return result;
+    }
+
+    extension(IMethodSymbol method)
+    {
+        public bool IsPrimaryConstructor(
+            CancellationToken cancellationToken)
+        {
+            if (method.DeclaringSyntaxReferences is [var firstReference, ..])
+            {
+                var syntax = firstReference.GetSyntax(cancellationToken);
+                if (syntax is BaseTypeDeclarationSyntax)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> IsPrimaryConstructorAsync(
+            CancellationToken cancellationToken)
+        {
+            if (method.DeclaringSyntaxReferences is [var firstReference, ..])
+            {
+                var syntax = await firstReference.GetSyntaxAsync(cancellationToken);
+                if (syntax is BaseTypeDeclarationSyntax)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public IParameterSymbol? GetExtensionMethodParameter()
+        {
+            if (method.MethodKind is MethodKind.ReducedExtension)
+            {
+                return GetExtensionMethodParameter(method.OriginalDefinition);
+            }
+
+            if (method.IsExtensionMethod)
+            {
+                return method.Parameters.FirstOrDefault();
+            }
+
+            return null;
+        }
+
+        public ITypeSymbol? GetActualReceiverType()
+        {
+            var extensionParameter = method.GetExtensionMethodParameter();
+            if (extensionParameter is not null)
+            {
+                return extensionParameter.Type;
+            }
+
+            if (method.IsStatic)
+            {
+                return null;
+            }
+
+            return method.ReceiverType;
+        }
+
+        public bool ImplementsInterface(
+            INamedTypeSymbol? @interface)
+        {
+            if (method.ExplicitInterfaceImplementations
+                .Any(s => s.ContainingType.Equals(@interface, SymbolEqualityComparer.Default)))
+            {
+                return true;
+            }
+
+            foreach (var interfaceMethod in @interface?.GetMembers().OfType<IMethodSymbol>() ?? [])
+            {
+                if (method.Equals(
+                        method.ContainingType.FindImplementationForInterfaceMember(interfaceMethod),
+                        SymbolEqualityComparer.Default))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsParameterless()
+        {
+            return method.Parameters.Length is 0;
+        }
+
+        public bool IsParameterlessAndNonGeneric()
+        {
+            return method.IsParameterless()
+                && !method.IsGenericMethod;
+        }
     }
 }

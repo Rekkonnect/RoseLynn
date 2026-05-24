@@ -133,7 +133,7 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
 
             var generatorOutputFile = Path.Combine(directoryBase, $"{fileNameBase}.cs");
             var outputMappings = GenerateMappingsFromRunResult(runResult);
-            var code = GenerateSourceMappingsCode(outputMappings);
+            var code = GenerateSources(outputMappings);
             await File.WriteAllTextAsync(generatorOutputFile, code, cancellationToken);
 
             var generatorDriverInfoFile = Path.Combine(
@@ -182,15 +182,15 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
             return outputMappings;
         }
 
-        private static string GenerateSourceMappingsCode(
-            SourceCollection outputMappings)
+        private static string GenerateSources(
+            SourceCollection outputSources)
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine("var generatedSources = new GeneratedSourceMappings()");
+            builder.AppendLine("var generatedSources = new SourceCollection");
             builder.AppendLine("{");
 
-            foreach (var mapping in outputMappings)
+            foreach (var mapping in outputSources)
             {
                 var hintName = EscapeVerbatimStringLiteral(mapping.Key);
                 var source = EscapeRawStringLiteral(mapping.Value.ToString());

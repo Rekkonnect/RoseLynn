@@ -18,4 +18,16 @@ public static class LocationExtensions
         // the type of location to create
         return Location.Create(location.SourceTree!, offsetSpan);
     }
+
+    public static async Task<SyntaxNode?> GetNodeAsync(
+        this Location location, CancellationToken cancellationToken)
+    {
+        var tree = location.SourceTree;
+        if (tree is null)
+        {
+            return null;
+        }
+        var root = await tree.GetRootAsync(cancellationToken);
+        return root?.FindNode(location.SourceSpan);
+    }
 }
