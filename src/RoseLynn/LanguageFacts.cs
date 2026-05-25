@@ -1,4 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
+using System.Diagnostics;
 
 namespace RoseLynn;
 
@@ -34,7 +36,7 @@ public static class LanguageFacts
     /// <summary>Determines whether the given <seealso cref="NetLanguage"/> value reflects a .NET language supported by Roslyn.</summary>
     /// <param name="language">The .NET language to determine whether it's supported by Roslyn.</param>
     /// <returns><see langword="true"/> if the given language is supported by Roslyn, otherwise <see langword="false"/>.</returns>
-    public static bool IsRoslynNETLanguage(this NetLanguage language)
+    public static bool IsRoslynNetLanguage(this NetLanguage language)
     {
         return language is NetLanguage.CSharp
                         or NetLanguage.VisualBasic;

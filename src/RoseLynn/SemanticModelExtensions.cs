@@ -98,4 +98,13 @@ public static class SemanticModelExtensions
 
         return null;
     }
+
+    public static ISymbol? GetEnclosingSymbol(
+        this SemanticModel model,
+        SyntaxNode node,
+        CancellationToken cancellationToken = default)
+    {
+        var position = node.SpanStart;
+        return model.GetEnclosingSymbol(position, cancellationToken);
+    }
 }
