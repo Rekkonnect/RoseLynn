@@ -1,6 +1,6 @@
 # Signature Views
 
-The `RoseLynn.SignatureViews` namespace projects Roslyn symbols and compilations into immutable signature models. These models are useful when you want to compare, persist, serialize, or emit symbol information without holding on to the original Roslyn object graph.
+The `RoseLynn.CSharp.SignatureViews` namespace projects Roslyn symbols and compilations into immutable signature models. These models are useful when you want to compare, persist, serialize, or emit symbol information without holding on to the original Roslyn object graph.
 
 ## Main entry points
 

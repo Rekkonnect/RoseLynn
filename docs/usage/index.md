@@ -6,7 +6,10 @@ The current pages focus on the APIs that are most useful when building Roslyn an
 
 ## Package Guides
 
-- [RoseLynn](RoseLynn/index.md)
+- [RoseLynn.Core](RoseLynn.Core/index.md)
+- [RoseLynn.CSharp](RoseLynn.CSharp/index.md)
+- [RoseLynn.VisualBasic](RoseLynn.VisualBasic/index.md)
+- [RoseLynn.CrossLanguage](RoseLynn.CrossLanguage/index.md)
 - [RoseLynn.Analyzers](RoseLynn.Analyzers/index.md)
 - [RoseLynn.CodeFixes](RoseLynn.CodeFixes/index.md)
 - [RoseLynn.Generators](RoseLynn.Generators/index.md)
@@ -14,6 +17,5 @@ The current pages focus on the APIs that are most useful when building Roslyn an
 
 ## Notes
 
-- The core package still primarily targets C# analysis workflows.
 - Some analyzer-facing abstractions already have distinct C# and Visual Basic entry points where Roslyn expects them.
 - When behavior is subtle, prefer the XML docs in the shipped APIs as the source of truth.

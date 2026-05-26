@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>Bundle package providing both C# and Visual Basic extensions for Roslyn-based applications.</Description>
+    <PackageTags>roslyn, csharp, visualbasic, vb, analyzer, tools, extensions</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Label="README reference">
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RoseLynn.CSharp\RoseLynn.CSharp.csproj" />
+    <ProjectReference Include="..\RoseLynn.VisualBasic\RoseLynn.VisualBasic.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

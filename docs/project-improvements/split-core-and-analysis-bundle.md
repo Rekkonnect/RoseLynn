@@ -2,7 +2,7 @@
 
 ## Status
 
-Deferred. Do not implement yet.
+Partially implemented. The base `RoseLynn` package has been renamed to `RoseLynn.Core` and stripped of all C#-specific code. C#-specific helpers moved to `RoseLynn.CSharp`. The analysis bundle (`RoseLynn.Bundle.Analysis`) is still not introduced.
 
 ## Current trouble
 

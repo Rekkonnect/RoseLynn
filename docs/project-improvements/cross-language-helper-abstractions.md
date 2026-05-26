@@ -2,7 +2,7 @@
 
 ## Status
 
-Deferred architectural direction.
+Implemented. `RoseLynn.Core` is now the language-neutral shared base. `RoseLynn.CSharp` and `RoseLynn.VisualBasic` are dedicated language-specific packages. `RoseLynn.CrossLanguage` is the unifying bundle package.
 
 ## Current trouble
 

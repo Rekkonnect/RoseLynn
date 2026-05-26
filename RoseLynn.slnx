@@ -23,6 +23,8 @@
     <Project Path="src/RoseLynn.Testing/RoseLynn.Testing.csproj" />
     <Project Path="src/RoseLynn/RoseLynn.Core.csproj" />
     <Project Path="src/RoseLynn.CSharp/RoseLynn.CSharp.csproj" />
+    <Project Path="src/RoseLynn.CrossLanguage/RoseLynn.CrossLanguage.csproj" />
+    <Project Path="src/RoseLynn.VisualBasic/RoseLynn.VisualBasic.csproj" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="RoseLynn.Generators.UnitTests/RoseLynn.Generators.UnitTests.csproj" Id="e171afd2-74e9-4cfd-88a5-5a1afa1a9099">
