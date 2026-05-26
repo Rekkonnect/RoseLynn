@@ -27,6 +27,9 @@
     <Project Path="RoseLynn.Generators.UnitTests/RoseLynn.Generators.UnitTests.csproj" Id="e171afd2-74e9-4cfd-88a5-5a1afa1a9099">
       <BuildType Solution="Release Test|*" Project="Release" />
     </Project>
+    <Project Path="RoseLynn.PoC.UnitTests/RoseLynn.PoC.UnitTests.csproj" Id="963d904b-9a57-4b38-836f-eb5eb5c2fbea">
+      <BuildType Solution="Release Test|*" Project="Release" />
+    </Project>
     <Project Path="RoseLynn.Writing.Test/RoseLynn.Writing.Test.csproj" Id="1e85268b-a957-47be-afff-f262ddbaf17e">
       <BuildType Solution="Release Test|*" Project="Release" />
     </Project>

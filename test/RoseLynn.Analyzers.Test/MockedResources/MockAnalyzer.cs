@@ -1,4 +1,4 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
@@ -9,8 +9,8 @@ namespace RoseLynn.Analyzers.Test.MockedResources;
 #pragma warning disable RS1036 // Specify analyzer banned API enforcement setting
 #pragma warning disable RS2008 // Enable analyzer release tracking
 
-[DiagnosticAnalyzer(LanguageNames.CSharp)]
 /// <summary>Provides a test analyzer with a small catalog of mock diagnostic descriptors.</summary>
+[DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class MockAnalyzer : CSharpDiagnosticAnalyzer
 {
     public static readonly DiagnosticDescriptor MOCK0001_Rule = new(
