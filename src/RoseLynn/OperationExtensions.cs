@@ -1,6 +1,5 @@
 ﻿using Garyon.Functions;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 
 namespace RoseLynn;
@@ -30,28 +29,6 @@ public static class OperationExtensions
                 ?? false);
 
         return argument?.Value;
-    }
-
-    public static SyntaxNode GetPropertySyntaxNode(this IPropertyReferenceOperation operation)
-    {
-        switch (operation.Syntax)
-        {
-            case MemberBindingExpressionSyntax memberBindingExpression:
-                return memberBindingExpression.Name;
-
-            case MemberAccessExpressionSyntax access:
-                return access.Name;
-
-            case IdentifierNameSyntax identifier:
-                return identifier;
-
-            case ElementAccessExpressionSyntax access:
-                return access;
-
-            // This is the most abusable syntax
-            case var syntax:
-                return syntax;
-        }
     }
 
     public static IEnumerable<IOperation> Ancestors(this IOperation operation)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Testing;
-using RoseLynn.SignatureViews;
+using RoseLynn.CSharp.SignatureViews;
 using RoseLynn.Testing;
 using System.Diagnostics.CodeAnalysis;
 

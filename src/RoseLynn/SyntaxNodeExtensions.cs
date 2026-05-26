@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace RoseLynn;
 
@@ -47,16 +46,6 @@ public static class SyntaxNodeExtensions
 
     extension<TNode>(TNode node) where TNode : SyntaxNode
     {
-        public TNode WithElasticLeadingTrivia()
-        {
-            return node.WithLeadingTrivia(SyntaxFactory.ElasticSpace);
-        }
-
-        public TNode WithElasticTrailingTrivia()
-        {
-            return node.WithTrailingTrivia(SyntaxFactory.ElasticSpace);
-        }
-
         public TNode ReplaceNodes(
             IEnumerable<TNode> nodes,
             Func<TNode, SyntaxNode> computeReplacementNode)

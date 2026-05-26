@@ -2,6 +2,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoseLynn;
+using RoseLynn.CSharp;
+using RoseLynn.CSharp.Semantic;
 using RoseLynn.Semantic;
 using System.Collections.Immutable;
 

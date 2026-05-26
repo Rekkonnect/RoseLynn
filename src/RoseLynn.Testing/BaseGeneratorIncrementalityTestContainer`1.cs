@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using RoseLynn.CSharp;
 using RoseLynn.Generators;
 
 namespace RoseLynn.Testing;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using RoseLynn.CSharp;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

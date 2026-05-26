@@ -1,5 +1,6 @@
-﻿
+
 using Microsoft.CodeAnalysis.Diagnostics;
+using RoseLynn.CSharp;
 
 namespace RoseLynn.Testing;
 
@@ -47,42 +48,42 @@ public abstract class BaseDiagnosticTests : BaseAnalyzerTestFixture
     /// <summary>Validates that the given test code does not emit any diagnostics.</summary>
     /// <param name="testCode">The test code to validate.</param>
     /// <remarks>This function should call a related code validation function for the relevant code analysis testing framework.</remarks>
-    protected abstract void ValidateCode(string testCode);
+    protected abstract ValueTask ValidateCode(string testCode);
     /// <summary>Validates that the given test code, including the default provided usings, does not emit any diagnostics.</summary>
     /// <param name="testCode">The test code to validate.</param>
     /// <remarks>This function should call a related code validation function for the relevant code analysis testing framework.</remarks>
-    protected void ValidateCodeWithUsings(string testCode)
+    protected async ValueTask ValidateCodeWithUsings(string testCode)
     {
-        ValidateCode(UsingsProvider.WithUsings(testCode));
+        await ValidateCode(UsingsProvider.WithUsings(testCode));
     }
 
     /// <summary>Asserts that the given test code emits diagnostics.</summary>
     /// <param name="testCode">The test code to assert diagnostics for. The code should be marked up with diagnostic indicators using the appropriate markup style for the forwarded testing framework.</param>
     /// <remarks>This function should call a related diagnostics assertion function for the relevant code analysis testing framework.</remarks>
-    protected abstract void AssertDiagnostics(string testCode);
+    protected abstract ValueTask AssertDiagnostics(string testCode);
     /// <summary>Asserts that the given test code, including the default provided usings, emits diagnostics.</summary>
     /// <param name="testCode">The test code to assert diagnostics for. The code should be marked up with diagnostic indicators using the appropriate markup style for the forwarded testing framework.</param>
     /// <remarks>This function should call a related diagnostics assertion function for the relevant code analysis testing framework.</remarks>
-    protected void AssertDiagnosticsWithUsings(string testCode)
+    protected async ValueTask AssertDiagnosticsWithUsings(string testCode)
     {
-        AssertDiagnostics(UsingsProvider.WithUsings(testCode));
+        await AssertDiagnostics(UsingsProvider.WithUsings(testCode));
     }
 
     /// <summary>Asserts diagnostics or validates the given test code.</summary>
     /// <param name="testCode">The marked up test code to evaluate. Marked up diagnostics will be ignored if in validation mode.</param>
     /// <param name="assert">If <see langword="true"/>, diagnostics with the specific markup will be asserted, otherwise the code will be validated.</param>
-    protected void AssertOrValidate(string testCode, bool assert)
+    protected async ValueTask AssertOrValidate(string testCode, bool assert)
     {
         if (assert)
-            AssertDiagnostics(testCode);
+            await AssertDiagnostics(testCode);
         else
-            ValidateCode(testCode.Replace("↓", ""));
+            await ValidateCode(testCode.Replace("↓", ""));
     }
     /// <summary>Asserts diagnostics or validates the given test code, including the usings from <seealso cref="UsingsProvider"/>.</summary>
     /// <param name="testCode">The marked up test code to evaluate. Marked up diagnostics will be ignored if in validation mode.</param>
     /// <param name="assert">If <see langword="true"/>, diagnostics with the specific markup will be asserted, otherwise the code will be validated.</param>
-    protected void AssertOrValidateWithUsings(string testCode, bool assert)
+    protected async ValueTask AssertOrValidateWithUsings(string testCode, bool assert)
     {
-        AssertOrValidate(UsingsProvider.WithUsings(testCode), assert);
+        await AssertOrValidate(UsingsProvider.WithUsings(testCode), assert);
     }
 }

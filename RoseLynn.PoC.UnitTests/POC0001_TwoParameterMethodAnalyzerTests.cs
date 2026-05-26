@@ -4,9 +4,9 @@ public sealed class POC0001_TwoParameterMethodAnalyzerTests
     : PoCDiagnosticTestsBase<TwoParameterMethodAnalyzer>
 {
     [Test]
-    public void ReportsADiagnosticForEachMethodWithExactlyTwoParameters()
+    public async Task ReportsADiagnosticForEachMethodWithExactlyTwoParameters()
     {
-        AssertDiagnostics(
+        await AssertDiagnostics(
             """
 namespace Demo;
 
@@ -22,9 +22,9 @@ public class Sample
     }
 
     [Test]
-    public void IgnoresMethodsWithOtherParameterCountsAndNonMethodDeclarations()
+    public async Task IgnoresMethodsWithOtherParameterCountsAndNonMethodDeclarations()
     {
-        ValidateCode(
+        await ValidateCode(
             """
 namespace Demo;
 

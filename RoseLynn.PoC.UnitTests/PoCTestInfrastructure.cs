@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using RoseLynn.Analyzers;
 using RoseLynn.CodeFixes;
+using RoseLynn.CSharp;
 using RoseLynn.Testing;
 
 namespace RoseLynn.PoC.UnitTests;
@@ -27,23 +28,23 @@ public abstract class PoCDiagnosticTestsBase<TAnalyzer> : BaseDiagnosticTests<TA
 
     protected override UsingsProviderBase? GetNewUsingsProviderInstance() => null;
 
-    protected override void ValidateCode(string testCode)
+    protected override async ValueTask ValidateCode(string testCode)
     {
-        ValidateCodeAsync(testCode).GetAwaiter().GetResult();
+        await RunValidationTest(testCode);
     }
 
-    protected override void AssertDiagnostics(string testCode)
+    protected override async ValueTask AssertDiagnostics(string testCode)
     {
-        AssertDiagnosticsAsync(testCode).GetAwaiter().GetResult();
+        await RunDiagnosticsAssertionTest(testCode);
     }
 
-    private static Task ValidateCodeAsync(string testCode)
+    private static Task RunValidationTest(string testCode)
     {
         var test = CreateAnalyzerTest(testCode);
         return test.RunAsync();
     }
 
-    private static Task AssertDiagnosticsAsync(string testCode)
+    private static Task RunDiagnosticsAssertionTest(string testCode)
     {
         var test = CreateAnalyzerTest(testCode);
         return test.RunAsync();

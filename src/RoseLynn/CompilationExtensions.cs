@@ -1,6 +1,5 @@
 ﻿using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace RoseLynn;
 
@@ -78,20 +77,6 @@ public static class CompilationExtensions
         return LanguageFacts.MapToNETLanguage(compilation.Language);
     }
 
-    extension(CompilationOptions compilationOptions)
-    {
-        public CompilationOptions WithNullableContextOptions(
-            NullableContextOptions nullableContextOptions)
-        {
-            if (compilationOptions is CSharpCompilationOptions csharpCompilationOptions)
-            {
-                return csharpCompilationOptions.WithNullableContextOptions(nullableContextOptions);
-            }
-
-            return compilationOptions;
-        }
-    }
-
     extension<TCompilation>(TCompilation compilation)
         where TCompilation : Compilation
     {
@@ -101,14 +86,6 @@ public static class CompilationExtensions
         {
             var newTree = tree.WithChangedText(text);
             return compilation.ReplaceSyntaxTree(tree, newTree);
-        }
-
-        public TCompilation WithNullableContextOptions(
-            NullableContextOptions nullableContextOptions)
-        {
-            return (TCompilation)compilation.WithOptions(
-                compilation.Options
-                    .WithNullableContextOptions(nullableContextOptions));
         }
 
         public Compilation RemoveGeneratedTrees(

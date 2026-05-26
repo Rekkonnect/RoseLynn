@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
@@ -15,13 +15,4 @@ public abstract class StoredDescriptorDiagnosticAnalyzer : DiagnosticAnalyzer
 
     /// <summary>Gets the supported diagnostics of the analyzer.</summary>
     public sealed override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => DeclaredDiagnostics;
-}
-
-/// <summary>Represents a C# <seealso cref="DiagnosticAnalyzer"/> that reflects its own stored supported diagnostics.</summary>
-public abstract class CSharpDiagnosticAnalyzer : StoredDescriptorDiagnosticAnalyzer
-{
-}
-/// <summary>Represents a Visual Basic <seealso cref="DiagnosticAnalyzer"/> that reflects its own stored supported diagnostics.</summary>
-public abstract class VisualBasicDiagnosticAnalyzer : StoredDescriptorDiagnosticAnalyzer
-{
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Polyfills;
+using RoseLynn.CSharp;
 using RoseLynn.Generators;
 using RoseLynn.Writing;
 using System.Diagnostics.CodeAnalysis;

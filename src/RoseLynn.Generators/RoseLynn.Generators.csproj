@@ -21,7 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\RoseLynn.Writing\RoseLynn.Writing.csproj" />
-    <ProjectReference Include="..\RoseLynn\RoseLynn.csproj" />
+    <ProjectReference Include="..\RoseLynn\RoseLynn.Core.csproj" />
+    <ProjectReference Include="..\RoseLynn.CSharp\RoseLynn.CSharp.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

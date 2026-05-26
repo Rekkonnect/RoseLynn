@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
 namespace RoseLynn;
@@ -132,70 +131,5 @@ public static class GeneralRoslynExtensions
     public static SyntaxTree WithChangedText(this SyntaxTree tree, string text)
     {
         return tree.WithChangedText(SourceText.From(text, tree.Encoding));
-    }
-
-    /// <summary>
-    /// Constructs a new syntax token, preserving the kind and trivia of the
-    /// given token, and adjusting the text to the target value. The value
-    /// text is also set to that new text.
-    /// </summary>
-    /// <param name="token">The token whose text will be replaced.</param>
-    /// <param name="text">The new token text and value text.</param>
-    /// <returns>A token with the same kind and trivia as <paramref name="token"/>, but with updated text.</returns>
-    public static SyntaxToken WithText(this SyntaxToken token, string text)
-    {
-        if (token.Kind() is SyntaxKind.IdentifierToken)
-        {
-            return SyntaxFactory.Identifier(
-                leading: token.LeadingTrivia,
-                contextualKind: SyntaxKind.None,
-                text: text,
-                valueText: text,
-                trailing: token.TrailingTrivia);
-        }
-
-        return SyntaxFactory.Token(
-            leading: token.LeadingTrivia,
-            kind: token.Kind(),
-            text: text,
-            valueText: text,
-            trailing: token.TrailingTrivia);
-    }
-
-    /// <summary>
-    /// Replaces all descendant tokens, including trivia-descended tokens, that
-    /// match the given old text (after trimming), with tokens containing the
-    /// new text.
-    /// </summary>
-    /// <param name="node">
-    /// The node whose descendant tokens, including trivia-descended tokens,
-    /// will be replaced if they match the old text.
-    /// </param>
-    /// <param name="oldText">
-    /// Determines the tokens to be replaced; all descendant tokens that have
-    /// text that equals this old text property when trimmed, will be replaced
-    /// with tokens that have their text changed with the new text.
-    /// </param>
-    /// <param name="newText">
-    /// The new text to include in the replaced tokens.
-    /// </param>
-    /// <returns>
-    /// The node containing the replaced tokens.
-    /// </returns>
-    public static SyntaxNode WithReplacedTextTokens(
-        this SyntaxNode node,
-        string oldText,
-        string newText)
-    {
-        oldText = oldText.Trim();
-        var replacedTokens = node
-            .DescendantTokens(descendIntoTrivia: true)
-            .Where(s => s.Text.AsSpan().Trim().SequenceEqual(oldText));
-        return node.ReplaceTokens(replacedTokens, ReplaceToken);
-
-        SyntaxToken ReplaceToken(SyntaxToken oldToken, SyntaxToken newerToken)
-        {
-            return newerToken.WithText(newText);
-        }
     }
 }

@@ -54,7 +54,8 @@ public static partial class OperatorKindFacts
             or OperatorKind.Division
             or OperatorKind.UnaryNegation
             or OperatorKind.Decrement
-            or OperatorKind.Increment;
+            or OperatorKind.Increment
+            or OperatorKind.Explicit;
     }
 
     /// <summary>Determines whether an operator kind is unary.</summary>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
 using System.Collections.Immutable;
 
@@ -89,36 +88,6 @@ public static class IMethodSymbolExtensions
 
     extension(IMethodSymbol method)
     {
-        public bool IsPrimaryConstructor(
-            CancellationToken cancellationToken)
-        {
-            if (method.DeclaringSyntaxReferences is [var firstReference, ..])
-            {
-                var syntax = firstReference.GetSyntax(cancellationToken);
-                if (syntax is BaseTypeDeclarationSyntax)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public async Task<bool> IsPrimaryConstructorAsync(
-            CancellationToken cancellationToken)
-        {
-            if (method.DeclaringSyntaxReferences is [var firstReference, ..])
-            {
-                var syntax = await firstReference.GetSyntaxAsync(cancellationToken);
-                if (syntax is BaseTypeDeclarationSyntax)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public IParameterSymbol? GetExtensionMethodParameter()
         {
             if (method.MethodKind is MethodKind.ReducedExtension)

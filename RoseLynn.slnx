@@ -21,7 +21,8 @@
     <Project Path="src/RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj" />
     <Project Path="src/RoseLynn.Generators/RoseLynn.Generators.csproj" />
     <Project Path="src/RoseLynn.Testing/RoseLynn.Testing.csproj" />
-    <Project Path="src/RoseLynn/RoseLynn.csproj" />
+    <Project Path="src/RoseLynn/RoseLynn.Core.csproj" />
+    <Project Path="src/RoseLynn.CSharp/RoseLynn.CSharp.csproj" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="RoseLynn.Generators.UnitTests/RoseLynn.Generators.UnitTests.csproj" Id="e171afd2-74e9-4cfd-88a5-5a1afa1a9099">

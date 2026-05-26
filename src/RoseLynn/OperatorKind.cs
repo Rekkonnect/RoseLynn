@@ -178,6 +178,7 @@ public enum OperatorKind
     /// <summary>
     /// An <see langword="explicit"/> conversion operator.
     /// </summary>
+    [CanBeCheckedOperator]
     [UnaryOperator]
     Explicit,
 }

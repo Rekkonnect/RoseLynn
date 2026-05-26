@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace RoseLynn;
 
@@ -23,18 +22,6 @@ public static class SyntaxTokenExtensions
         }
 
         return list.Last().SpanStart == token.SpanStart;
-    }
-
-    public static bool HasKind(this SyntaxTokenList list, SyntaxKind kind)
-    {
-        foreach (var token in list)
-        {
-            if (token.IsKind(kind))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static SyntaxToken WithLeadingTriviaOrSame(

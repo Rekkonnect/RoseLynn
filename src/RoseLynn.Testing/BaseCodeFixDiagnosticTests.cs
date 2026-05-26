@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Diagnostics;
 using RoseLynn.CodeFixes;
 
 namespace RoseLynn.Testing;
@@ -14,9 +14,9 @@ public abstract class BaseCodeFixDiagnosticTests<TAnalyzer, TCodeFix> : BaseAnal
     /// <param name="markupCode">The initial source code with markup.</param>
     /// <param name="expected">The expected result source code after the code fix.</param>
     /// <param name="codeActionIndex">The index of the code action to perform.</param>
-    public void TestCodeFix(string markupCode, string expected, int codeActionIndex = 0)
+    public async ValueTask TestCodeFix(string markupCode, string expected, int codeActionIndex = 0)
     {
-        TestCodeFixAsync(markupCode, expected, codeActionIndex).Wait();
+        await TestCodeFixAsync(markupCode, expected, codeActionIndex);
     }
     /// <summary>Verifies that the code fix works as intended, provided the initial source code with markup, and the expected result.</summary>
     /// <param name="markupCode">The initial source code with markup.</param>
