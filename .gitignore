@@ -377,3 +377,8 @@ FodyWeavers.xsd
 **/RoseLynn.PackageDeployment/Secrets/apikey.txt
 **/RoseLynn.PackageDeployment/Secrets/testapikey.txt
 **/RoseLynn.PackageDeployment/HardProjectInfo.cs
+
+# DocFX
+_site/
+api/*.yml
+api/**/*.yml

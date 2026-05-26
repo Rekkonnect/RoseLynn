@@ -1,0 +1,63 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "src/RoseLynn/RoseLynn.csproj",
+            "src/RoseLynn.Analyzers/RoseLynn.Analyzers.csproj",
+            "src/RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj",
+            "src/RoseLynn.Generators/RoseLynn.Generators.csproj",
+            "src/RoseLynn.Testing/RoseLynn.Testing.csproj"
+          ]
+        }
+      ],
+      "dest": "api",
+      "properties": {
+        "Configuration": "Release",
+        "TargetFramework": "net10.0"
+      },
+      "includePrivateMembers": false,
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false,
+      "namespaceLayout": "nested",
+      "memberLayout": "SamePage",
+      "allowCompilationErrors": false
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": ["**/*.{md,yml}"],
+        "src": "api",
+        "dest": "api"
+      },
+      {
+        "files": ["**/*.{md,yml}"],
+        "src": "docs",
+        "dest": "articles"
+      },
+      {
+        "files": ["toc.yml", "index.md"]
+      }
+    ],
+    "resource": [
+      {
+        "files": [".github/images/**"]
+      }
+    ],
+    "dest": "_site",
+    "template": ["default", "modern"],
+    "globalMetadata": {
+      "_appName": "RoseLynn",
+      "_appTitle": "RoseLynn",
+      "_enableSearch": true,
+      "_appFooter": "RoseLynn — Additional tools for Roslyn-based applications",
+      "_gitContribute": {
+        "repo": "https://github.com/Rekkonnect/RoseLynn",
+        "branch": "main",
+        "apiSpecFolder": "src"
+      }
+    }
+  }
+}
