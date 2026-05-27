@@ -2,8 +2,13 @@
 
 namespace RoseLynn.Semantic;
 
+/// <summary>Provides semantic model query helpers beyond those available on <see cref="SemanticModel"/> itself.</summary>
 public static class SemanticModelExtensions
 {
+    /// <summary>Returns the <see cref="SemanticModel"/> from <paramref name="model"/>'s compilation that covers <paramref name="node"/>'s syntax tree.</summary>
+    /// <param name="model">The semantic model whose compilation to query.</param>
+    /// <param name="node">The node whose syntax tree to look up.</param>
+    /// <returns>The semantic model for <paramref name="node"/>'s tree, or <see langword="null"/> if not found.</returns>
     public static SemanticModel? GetSemanticModelForNode(
         this SemanticModel model,
         SyntaxNode node)
@@ -11,6 +16,11 @@ public static class SemanticModelExtensions
         return model.Compilation.GetSemanticModel(node.SyntaxTree);
     }
 
+    /// <summary>Returns the declared symbol for <paramref name="node"/> if available, otherwise the resolved symbol from <see cref="SemanticModel.GetSymbolInfo"/>.</summary>
+    /// <param name="model">The semantic model to query.</param>
+    /// <param name="node">The syntax node to resolve.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The symbol for <paramref name="node"/>, or <see langword="null"/> if neither lookup succeeds.</returns>
     public static ISymbol? GetDeclaredOrNotSymbol(
         this SemanticModel model,
         SyntaxNode node,

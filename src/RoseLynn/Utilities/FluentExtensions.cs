@@ -73,6 +73,11 @@ public static class FluentExtensions
         }
     }
 
+    /// <summary>Returns <see langword="true"/> when <paramref name="source"/> contains exactly one element, outputting it in <paramref name="single"/>.</summary>
+    /// <typeparam name="T">The element type.</typeparam>
+    /// <param name="source">The sequence to test.</param>
+    /// <param name="single">Set to the single element when the method returns <see langword="true"/>; otherwise <see langword="default"/>.</param>
+    /// <returns><see langword="true"/> if <paramref name="source"/> has exactly one element; otherwise <see langword="false"/>.</returns>
     public static bool IsSingle<T>(this IEnumerable<T> source, out T? single)
     {
         single = default;

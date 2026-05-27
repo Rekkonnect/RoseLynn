@@ -32,12 +32,14 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
     public abstract class SimpleGeneratorTest
         : CSharpSourceGeneratorTestEx<TSourceGenerator>
     {
+        /// <inheritdoc/>
         protected override CompilationOptions CreateCompilationOptions()
         {
             return base.CreateCompilationOptions()
                 .WithNullableContextOptions(NullableContextOptions.Enable);
         }
 
+        /// <inheritdoc/>
         protected override async Task RunImplAsync(CancellationToken cancellationToken)
         {
             try
