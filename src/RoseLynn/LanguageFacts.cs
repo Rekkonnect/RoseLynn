@@ -1,6 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
-using System.Diagnostics;
 
 namespace RoseLynn;
 
@@ -22,20 +20,6 @@ public static class LanguageFacts
     /// <summary>The source file extension for Visual Basic, equal to <c>"vb"</c>.</summary>
     public const string VisualBasicExtension = "vb";
     #endregion
-
-    private static readonly NETLanguageNameDictionary languageNameMappings = new();
-
-    static LanguageFacts()
-    {
-        languageNameMappings.MapRange(NetLanguage.CSharp, 
-            LanguageNames.CSharp, CodeFriendlyCSharp, CSharpExtension);
-
-        languageNameMappings.MapRange(NetLanguage.FSharp,
-            LanguageNames.FSharp, CodeFriendlyFSharp, FSharpExtension);
-
-        languageNameMappings.MapRange(NetLanguage.VisualBasic,
-            LanguageNames.VisualBasic, CodeFriendlyVisualBasic, VisualBasicExtension);
-    }
 
     /// <summary>Determines whether the given <seealso cref="NetLanguage"/> value reflects a .NET language supported by Roslyn.</summary>
     /// <param name="language">The .NET language to determine whether it's supported by Roslyn.</param>
@@ -69,45 +53,48 @@ public static class LanguageFacts
     /// A <seealso cref="NetLanguage"/> value representing the .NET language represented by the
     /// provided language name if available, otherwise <seealso cref="NetLanguage.Unknown"/>.
     /// </returns>
-    public static NetLanguage MapToNETLanguage(string languageName) => languageNameMappings.MapToNETLanguage(languageName);
+    public static NetLanguage MapToNetLanguage(string languageName) => languageName switch
+    {
+        var name when EqualsAnyOf(name, LanguageNames.CSharp, CodeFriendlyCSharp, CSharpExtension)
+            => NetLanguage.CSharp,
+
+        var name when EqualsAnyOf(name, LanguageNames.FSharp, CodeFriendlyFSharp, FSharpExtension)
+            => NetLanguage.FSharp,
+
+        var name when EqualsAnyOf(name, LanguageNames.VisualBasic, CodeFriendlyVisualBasic, VisualBasicExtension)
+            => NetLanguage.VisualBasic,
+
+        _ => NetLanguage.Unknown,
+    };
+
+    private static bool EqualsIgnoreCase(string? left, string? right)
+    {
+        return string.Equals(left, right, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool EqualsAnyOf(string? source, string target1, string target2)
+    {
+        return EqualsIgnoreCase(source, target1)
+            || EqualsIgnoreCase(source, target2);
+    }
+
+    private static bool EqualsAnyOf(string? source, string target1, string target2, string target3)
+    {
+        return EqualsAnyOf(source, target1, target2)
+            || EqualsIgnoreCase(source, target3);
+    }
+
+    private static bool EqualsAnyOf(string? source, string target1, string target2, string target3, string target4)
+    {
+        return EqualsAnyOf(source, target1, target2, target3)
+            || EqualsIgnoreCase(source, target4);
+    }
 
     /// <summary>Gets the source file extension for the specified language.</summary>
     /// <param name="languageName">The name of the language for which the file extension to get.</param>
     /// <returns>The file extension, excluding the period.</returns>
     public static string GetSourceFileExtensionForLanguage(string languageName)
     {
-        return GetSourceFileExtension(MapToNETLanguage(languageName));
-    }
-
-    /// <summary>Stores case-insensitive mappings from language names to <see cref="NetLanguage"/> values.</summary>
-    private sealed class NETLanguageNameDictionary : Dictionary<string, NetLanguage>
-    {
-        /// <summary>Maps a language name to a <see cref="NetLanguage"/> value.</summary>
-        /// <param name="name">The language name to map.</param>
-        /// <param name="language">The mapped language value.</param>
-        public void Map(string name, NetLanguage language)
-        {
-            Add(name.ToLower(), language);
-        }
-        
-        /// <summary>Maps multiple language names to the same <see cref="NetLanguage"/> value.</summary>
-        /// <param name="language">The mapped language value.</param>
-        /// <param name="names">The names to associate with the language.</param>
-        public void MapRange(NetLanguage language, params string[] names)
-        {
-            foreach (var name in names)
-                Map(name, language);
-        }
-
-        /// <summary>Maps a language name to a <see cref="NetLanguage"/>, falling back to <see cref="NetLanguage.Unknown"/>.</summary>
-        /// <param name="name">The language name to map.</param>
-        /// <returns>The mapped language value.</returns>
-        public NetLanguage MapToNETLanguage(string name)
-        {
-            if (TryGetValue(name.ToLower(), out var language))
-                return language;
-            
-            return NetLanguage.Unknown;
-        }
+        return GetSourceFileExtension(MapToNetLanguage(languageName));
     }
 }

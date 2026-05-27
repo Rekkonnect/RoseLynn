@@ -74,7 +74,7 @@ public static class CompilationExtensions
     /// <returns>The <seealso cref="NetLanguage"/> of the compilation.</returns>
     public static NetLanguage GetNetLanguage(this Compilation compilation)
     {
-        return LanguageFacts.MapToNETLanguage(compilation.Language);
+        return LanguageFacts.MapToNetLanguage(compilation.Language);
     }
 
     extension<TCompilation>(TCompilation compilation)
