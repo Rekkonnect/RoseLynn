@@ -224,12 +224,32 @@ public static partial class SymbolNameHelpers
 
         private void AppendNamedTypeIdentifier(INamedTypeSymbol symbol)
         {
+            if (symbol.IsExtension)
+            {
+                AppendExtensionBlockIdentifier(symbol);
+                return;
+            }
+
             _builder.Append(symbol.Name);
 
             if (symbol.IsGenericType)
             {
                 AppendGenericArguments(symbol.TypeArguments);
             }
+        }
+
+        private void AppendExtensionBlockIdentifier(INamedTypeSymbol symbol)
+        {
+            _builder.Append("extension");
+
+            if (symbol.IsGenericType)
+            {
+                AppendGenericArguments(symbol.TypeArguments);
+            }
+
+            _builder.Append('(');
+            Visit(symbol.ExtensionParameter?.Type);
+            _builder.Append(')');
         }
 
         private void AppendGenericArguments(ImmutableArray<ITypeSymbol> typeArguments)

@@ -37,6 +37,35 @@ public sealed class SymbolNameHelpersTests
     }
 
     [Test]
+    public async Task ExtensionBlockType(CancellationToken cancellationToken)
+    {
+        const string source =
+            """
+            namespace SomeNamespace;
+
+            public static class Outer
+            {
+                extension(Garyon.Objects.AppVersionInfo) { }
+            }
+            """;
+
+        var compilation = CreateGaryonAliasedCompilation(
+            source, [], out var tree, cancellationToken);
+
+        var extensionBlockSyntax = tree.FindNodeContaining(
+            "extension", cancellationToken: cancellationToken)
+            as ExtensionBlockDeclarationSyntax;
+        await Assert.That(extensionBlockSyntax).IsNotNull();
+
+        var semanticModel = compilation.GetSemanticModel(tree);
+        var declaration = semanticModel.GetDeclaredSymbol(extensionBlockSyntax, cancellationToken);
+        var extensionSymbol = await Assert.That(declaration).IsNotNull();
+
+        var qualifiedString = SymbolNameHelpers.FullyQualifiedString(extensionSymbol, compilation);
+        await Assert.That(qualifiedString).EqualTo("global::SomeNamespace.Outer.extension(global::Garyon.Objects.AppVersionInfo)");
+    }
+
+    [Test]
     public async Task StringTypeWithAvailableIrrelevantAliases(CancellationToken cancellationToken)
     {
         const string source =

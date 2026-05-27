@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/dotnet run
-#:project ../../src/RoseLynn/RoseLynn.csproj
+#:project ../../src/RoseLynn/RoseLynn.Core.csproj
 #:project ../../src/RoseLynn.Testing/RoseLynn.Testing.csproj
 #:package Garyon
 #:package Microsoft.CodeAnalysis
