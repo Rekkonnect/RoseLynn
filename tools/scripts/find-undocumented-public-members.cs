@@ -223,7 +223,7 @@ sealed class UndocumentedDeclarationWalker(SemanticModel semanticModel, Compilat
         foreach (var declarator in node.Declaration.Variables)
         {
             var symbol = semanticModel.GetDeclaredSymbol(declarator);
-            if (symbol is IFieldSymbol field && IsVisible(field))
+            if (symbol is IFieldSymbol field && IsVisible(field) && IsInAccessibleContainer(field))
                 CheckAndRecord(field);
         }
         base.VisitFieldDeclaration(node);
@@ -234,7 +234,7 @@ sealed class UndocumentedDeclarationWalker(SemanticModel semanticModel, Compilat
         foreach (var declarator in node.Declaration.Variables)
         {
             var symbol = semanticModel.GetDeclaredSymbol(declarator);
-            if (symbol is IEventSymbol evt && IsVisible(evt))
+            if (symbol is IEventSymbol evt && IsVisible(evt) && IsInAccessibleContainer(evt))
                 CheckAndRecord(evt);
         }
         base.VisitEventFieldDeclaration(node);
@@ -245,14 +245,14 @@ sealed class UndocumentedDeclarationWalker(SemanticModel semanticModel, Compilat
     private void CheckTypeMember(MemberDeclarationSyntax node)
     {
         var symbol = semanticModel.GetDeclaredSymbol(node) as INamedTypeSymbol;
-        if (symbol is not null && IsVisible(symbol) && !IsExtensionBlockType(symbol))
+        if (symbol is not null && IsVisible(symbol) && !IsExtensionBlockType(symbol) && IsInAccessibleContainer(symbol))
             CheckAndRecord(symbol);
     }
 
     private void CheckSymbolMember(MemberDeclarationSyntax node)
     {
         var symbol = semanticModel.GetDeclaredSymbol(node);
-        if (symbol is not null && IsVisible(symbol))
+        if (symbol is not null && IsVisible(symbol) && IsInAccessibleContainer(symbol))
             CheckAndRecord(symbol);
     }
 
@@ -261,6 +261,18 @@ sealed class UndocumentedDeclarationWalker(SemanticModel semanticModel, Compilat
             is Accessibility.Public
             or Accessibility.Protected
             or Accessibility.ProtectedOrInternal;
+
+    private static bool IsInAccessibleContainer(ISymbol symbol)
+    {
+        var container = symbol.ContainingType;
+        while (container is not null)
+        {
+            if (!IsVisible(container))
+                return false;
+            container = container.ContainingType;
+        }
+        return true;
+    }
 
     // Extension block types are compiler-synthesised containers; their names are
     // wrapped in angle brackets by the compiler (e.g. "<Extension$Bar>").

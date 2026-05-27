@@ -325,6 +325,7 @@ public class CSharpCodeWriter(char indentationCharacter = ' ', int indentationSi
 
         private readonly char _close;
 
+        /// <summary>Not supported. Use <see cref="CSharpCodeWriter.EnterBracketBlock"/> instead.</summary>
         [Obsolete("Do not use the parameterless constructor", true)]
         public BracketBlock()
         {
@@ -356,6 +357,7 @@ public class CSharpCodeWriter(char indentationCharacter = ' ', int indentationSi
     {
         private readonly CSharpCodeWriter _builder;
 
+        /// <summary>Not supported. Use <see cref="CSharpCodeWriter.EnterNestingBlock"/> instead.</summary>
         [Obsolete("Do not use the parameterless constructor", true)]
         public NestingBlock()
         {

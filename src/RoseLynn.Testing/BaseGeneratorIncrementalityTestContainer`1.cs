@@ -38,6 +38,7 @@ public abstract class BaseGeneratorIncrementalityTestContainer<TSourceGenerator>
             }
         }
 
+        /// <inheritdoc/>
         protected override CompilationOptions CreateCompilationOptions()
         {
             return base.CreateCompilationOptions()

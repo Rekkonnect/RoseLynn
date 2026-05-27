@@ -8,15 +8,19 @@ namespace RoseLynn;
 public static class LanguageFacts
 {
     #region Language Names
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>The code-friendly name for C#, equal to <c>"CSharp"</c>.</summary>
     public const string CodeFriendlyCSharp = nameof(NetLanguage.CSharp);
+    /// <summary>The code-friendly name for F#, equal to <c>"FSharp"</c>.</summary>
     public const string CodeFriendlyFSharp = nameof(NetLanguage.FSharp);
+    /// <summary>The code-friendly name for Visual Basic, equal to <c>"VisualBasic"</c>.</summary>
     public const string CodeFriendlyVisualBasic = nameof(NetLanguage.VisualBasic);
-    
+
+    /// <summary>The source file extension for C#, equal to <c>"cs"</c>.</summary>
     public const string CSharpExtension = "cs";
+    /// <summary>The source file extension for F#, equal to <c>"fs"</c>.</summary>
     public const string FSharpExtension = "fs";
+    /// <summary>The source file extension for Visual Basic, equal to <c>"vb"</c>.</summary>
     public const string VisualBasicExtension = "vb";
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     #endregion
 
     private static readonly NETLanguageNameDictionary languageNameMappings = new();
