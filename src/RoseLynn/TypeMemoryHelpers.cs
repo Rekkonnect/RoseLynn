@@ -4,8 +4,12 @@ using System.Runtime.InteropServices;
 
 namespace RoseLynn;
 
+/// <summary>Provides helpers for computing the in-memory size of types described by Roslyn <see cref="ITypeSymbol"/> instances.</summary>
 public static partial class TypeMemoryHelpers
 {
+    /// <summary>Returns the total in-memory size in bytes of <paramref name="type"/>, accounting for layout, alignment and padding.</summary>
+    /// <param name="type">The type symbol whose size to compute.</param>
+    /// <returns>The total byte size of the type.</returns>
     public static int SizeOf(ITypeSymbol type)
     {
         var calculator = new SizeOfCalculator();

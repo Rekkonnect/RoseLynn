@@ -2,8 +2,13 @@
 
 namespace RoseLynn;
 
+/// <summary>Provides extension methods for checking qualified names of Roslyn symbols.</summary>
 public static class QualifiedNameSymbolExtensions
 {
+    /// <summary>Returns <see langword="true"/> if the namespace's fully qualified name equals <paramref name="qualified"/>.</summary>
+    /// <param name="namespace">The namespace symbol to check.</param>
+    /// <param name="qualified">The expected fully qualified name (e.g. <c>System.Collections.Generic</c>).</param>
+    /// <returns><see langword="true"/> when the qualified names match; otherwise <see langword="false"/>.</returns>
     public static bool HasQualifiedName(
         this INamespaceSymbol? @namespace,
         ReadOnlySpan<char> qualified)
@@ -36,6 +41,10 @@ public static class QualifiedNameSymbolExtensions
         return current.IsGlobalNamespace;
     }
 
+    /// <summary>Returns <see langword="true"/> if the type's fully qualified name equals <paramref name="qualified"/>.</summary>
+    /// <param name="type">The type symbol to check.</param>
+    /// <param name="qualified">The expected fully qualified name (e.g. <c>System.Collections.Generic.List</c>).</param>
+    /// <returns><see langword="true"/> when the qualified names match; otherwise <see langword="false"/>.</returns>
     public static bool HasQualifiedName(
         this ITypeSymbol? type,
         ReadOnlySpan<char> qualified)
@@ -68,6 +77,10 @@ public static class QualifiedNameSymbolExtensions
         return current is not null;
     }
 
+    /// <summary>Returns <see langword="true"/> if the namespace's fully qualified name equals <paramref name="qualified"/>.</summary>
+    /// <param name="namespace">The namespace symbol to check.</param>
+    /// <param name="qualified">The expected fully qualified name (e.g. <c>System.Collections.Generic</c>).</param>
+    /// <returns><see langword="true"/> when the qualified names match; otherwise <see langword="false"/>.</returns>
     public static bool HasQualifiedName(
         this INamespaceSymbol? @namespace,
         string? qualified)
@@ -75,6 +88,10 @@ public static class QualifiedNameSymbolExtensions
         return @namespace.HasQualifiedName(qualified.AsSpan());
     }
 
+    /// <summary>Returns <see langword="true"/> if the type's fully qualified name equals <paramref name="qualified"/>.</summary>
+    /// <param name="type">The type symbol to check.</param>
+    /// <param name="qualified">The expected fully qualified name (e.g. <c>System.Collections.Generic.List</c>).</param>
+    /// <returns><see langword="true"/> when the qualified names match; otherwise <see langword="false"/>.</returns>
     public static bool HasQualifiedName(
         this ITypeSymbol? type,
         string? qualified)

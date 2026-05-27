@@ -19,6 +19,10 @@ public static class LocationExtensions
         return Location.Create(location.SourceTree!, offsetSpan);
     }
 
+    /// <summary>Gets the innermost syntax node at this location's source span, or <see langword="null"/> if the location has no source tree.</summary>
+    /// <param name="location">The location to resolve.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The innermost node at the location's span, or <see langword="null"/>.</returns>
     public static async Task<SyntaxNode?> GetNodeAsync(
         this Location location, CancellationToken cancellationToken)
     {

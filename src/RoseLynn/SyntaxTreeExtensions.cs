@@ -16,6 +16,11 @@ public static class SyntaxTreeExtensions
         return syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<T>();
     }
 
+    /// <summary>Finds the innermost node in the tree that contains the first occurrence of <paramref name="substring"/>.</summary>
+    /// <param name="tree">The syntax tree to search.</param>
+    /// <param name="substring">The text to find.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The innermost node containing the substring, or <see langword="null"/> if not found.</returns>
     public static async Task<SyntaxNode?> FindInnermostNodeAsync(
         this SyntaxTree tree,
         string substring,
@@ -32,6 +37,12 @@ public static class SyntaxTreeExtensions
         return await tree.FindInnermostNodeAsync(span, cancellationToken);
     }
 
+    /// <summary>Finds the first ancestor-or-self of type <typeparamref name="TSyntax"/> enclosing the first occurrence of <paramref name="substring"/>.</summary>
+    /// <typeparam name="TSyntax">The syntax node type to find.</typeparam>
+    /// <param name="tree">The syntax tree to search.</param>
+    /// <param name="substring">The text to locate.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The first enclosing node of type <typeparamref name="TSyntax"/>, or <see langword="null"/> if not found.</returns>
     public static async Task<TSyntax?> FindFirstSyntaxWithText<TSyntax>(
         this SyntaxTree tree,
         string substring,
@@ -42,6 +53,11 @@ public static class SyntaxTreeExtensions
         return substringNode?.FirstAncestorOrSelf<TSyntax>();
     }
 
+    /// <summary>Finds the innermost node in the tree whose span overlaps or contains <paramref name="span"/>.</summary>
+    /// <param name="tree">The syntax tree to search.</param>
+    /// <param name="span">The text span to find.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The innermost matching node, or <see langword="null"/> if not found.</returns>
     public static async Task<SyntaxNode?> FindInnermostNodeAsync(
         this SyntaxTree tree,
         TextSpan span,
@@ -51,6 +67,12 @@ public static class SyntaxTreeExtensions
         return root.FindNode(span, getInnermostNodeForTie: true);
     }
 
+    /// <summary>Finds the first ancestor-or-self of type <typeparamref name="TSyntax"/> whose span overlaps <paramref name="span"/>.</summary>
+    /// <typeparam name="TSyntax">The syntax node type to find.</typeparam>
+    /// <param name="tree">The syntax tree to search.</param>
+    /// <param name="span">The text span to overlap.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The first enclosing node of type <typeparamref name="TSyntax"/>, or <see langword="null"/> if not found.</returns>
     public static async Task<TSyntax?> FindSyntaxOverlappingSpan<TSyntax>(
         this SyntaxTree tree,
         TextSpan span,
@@ -61,11 +83,20 @@ public static class SyntaxTreeExtensions
         return substringNode?.FirstAncestorOrSelf<TSyntax>();
     }
 
+    /// <summary>Returns a new syntax tree derived from <paramref name="tree"/> with <paramref name="root"/> as the new root, preserving the original options.</summary>
+    /// <param name="tree">The tree to update.</param>
+    /// <param name="root">The new syntax root.</param>
+    /// <returns>A syntax tree with the given root and the original tree's options.</returns>
     public static SyntaxTree WithRoot(this SyntaxTree tree, SyntaxNode root)
     {
         return tree.WithRootAndOptions(root, tree.Options);
     }
 
+    /// <summary>Returns a new syntax tree with <paramref name="oldNode"/> replaced by <paramref name="newNode"/>.</summary>
+    /// <param name="tree">The tree containing the node to replace.</param>
+    /// <param name="oldNode">The node to replace.</param>
+    /// <param name="newNode">The replacement node.</param>
+    /// <returns>A new syntax tree with the replacement applied.</returns>
     public static SyntaxTree ReplaceNode(
         this SyntaxTree tree,
         SyntaxNode oldNode,

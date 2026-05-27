@@ -44,6 +44,9 @@ public static partial class ISymbolRepresentationExtensions
 
         return null;
     }
+    /// <summary>Gets the full representation of the named type symbol.</summary>
+    /// <param name="typeSymbol">The named type symbol whose representation to get.</param>
+    /// <returns>The C# keyword for predefined types, or the type name with closed generic arguments if generic.</returns>
     public static string GetRepresentationForType(this INamedTypeSymbol typeSymbol)
     {
         if (typeSymbol.IsGenericType)
@@ -54,6 +57,9 @@ public static partial class ISymbolRepresentationExtensions
         return typeSymbol.GetKeywordIdentifierForPredefinedType()
             ?? typeSymbol.Name;
     }
+    /// <summary>Gets the full representation of the array type symbol.</summary>
+    /// <param name="arraySymbol">The array type symbol whose representation to get.</param>
+    /// <returns>The C# representation of the array type, e.g. <c>int[]</c> or <c>int[,]</c>.</returns>
     public static string GetRepresentationForType(this IArrayTypeSymbol arraySymbol)
     {
         int rank = arraySymbol.Rank;
@@ -61,11 +67,17 @@ public static partial class ISymbolRepresentationExtensions
         var elementIdentifier = GetRepresentationForType(arraySymbol.ElementType);
         return $"{elementIdentifier}[{commas}]";
     }
+    /// <summary>Gets the full representation of the pointer type symbol.</summary>
+    /// <param name="pointerSymbol">The pointer type symbol whose representation to get.</param>
+    /// <returns>The C# representation of the pointer type, e.g. <c>int*</c>.</returns>
     public static string GetRepresentationForType(this IPointerTypeSymbol pointerSymbol)
     {
         var elementIdentifier = GetRepresentationForType(pointerSymbol.PointedAtType);
         return $"{elementIdentifier}*";
     }
+    /// <summary>Gets the full representation of the function pointer type symbol.</summary>
+    /// <param name="functionPointerSymbol">The function pointer type symbol whose representation to get.</param>
+    /// <returns>The C# representation of the function pointer type, e.g. <c>delegate*&lt;int, void&gt;</c>.</returns>
     public static string GetRepresentationForType(this IFunctionPointerTypeSymbol functionPointerSymbol)
     {
         var signatureTypes = new List<ITypeSymbol>();

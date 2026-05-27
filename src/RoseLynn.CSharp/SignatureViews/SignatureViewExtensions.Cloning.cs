@@ -1,7 +1,11 @@
 ﻿namespace RoseLynn.CSharp.SignatureViews;
 
+/// <summary>Extension methods for cloning signature view interfaces into their concrete record implementations.</summary>
 public static partial class SignatureViewExtensions
 {
+    /// <summary>Creates a concrete <see cref="NamedTypeSymbolSignatureView"/> by copying all properties from <paramref name="view"/>.</summary>
+    /// <param name="view">The named type signature view to clone.</param>
+    /// <returns>A new <see cref="NamedTypeSymbolSignatureView"/> with all properties copied from <paramref name="view"/>.</returns>
     public static NamedTypeSymbolSignatureView CloneIntoConcrete(
         this INamedTypeSymbolSignatureView view
     )
@@ -39,6 +43,9 @@ public static partial class SignatureViewExtensions
         };
     }
 
+    /// <summary>Creates a concrete <see cref="TypeParameterSymbolSignatureView"/> by copying all properties from <paramref name="view"/>.</summary>
+    /// <param name="view">The type-parameter signature view to clone.</param>
+    /// <returns>A new <see cref="TypeParameterSymbolSignatureView"/> with all properties copied from <paramref name="view"/>.</returns>
     public static TypeParameterSymbolSignatureView CloneIntoConcrete(
         this ITypeParameterSymbolSignatureView view
     )

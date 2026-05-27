@@ -67,6 +67,8 @@ public static class AttributeDataExtensions
         return syntax?.ArgumentList;
     }
 
+    /// <summary>Returns <see langword="true"/> if the attribute was applied without any constructor arguments or named arguments.</summary>
+    /// <param name="attribute">The attribute data to inspect.</param>
     public static bool HasNoArguments(this AttributeData attribute)
     {
         return attribute.ConstructorArguments is []
@@ -74,6 +76,9 @@ public static class AttributeDataExtensions
             ;
     }
 
+    /// <summary>Asynchronously creates an <seealso cref="AttributeDataViewModel"/> from the attribute data.</summary>
+    /// <param name="attribute">The attribute data to project.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     public static async Task<AttributeDataViewModel?> ViewModelAsync(
         this AttributeData attribute,
         CancellationToken cancellationToken)
@@ -81,6 +86,9 @@ public static class AttributeDataExtensions
         return await AttributeDataViewModel.CreateAsync(attribute, cancellationToken);
     }
 
+    /// <summary>Creates an <seealso cref="AttributeDataViewModel"/> from the attribute data.</summary>
+    /// <param name="attribute">The attribute data to project.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     public static AttributeDataViewModel? ViewModel(
         this AttributeData attribute,
         CancellationToken cancellationToken)

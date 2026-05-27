@@ -378,31 +378,62 @@ public static class ISymbolExtensions
     }
     #endregion
 
+    /// <summary>Determines whether the symbol has an attribute whose full name matches the fully qualified name of <typeparamref name="T"/>.</summary>
+    /// <typeparam name="T">The attribute type whose fully qualified name to match against.</typeparam>
+    /// <param name="symbol">The symbol to check.</param>
+    /// <param name="matchingLevel">The <seealso cref="SymbolNameMatchingLevel"/> up to which to match the full name.</param>
+    /// <returns><see langword="true"/> if a matching attribute is found, otherwise <see langword="false"/>.</returns>
     public static bool HasAttributeNamedFully<T>(this ISymbol? symbol, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
         where T : Attribute
     {
         return HasAttributeNamed(symbol, FullSymbolName.ForType<T>(), matchingLevel);
     }
+    /// <summary>Determines whether the symbol has an attribute whose full name matches the fully qualified name of the specified type.</summary>
+    /// <param name="symbol">The symbol to check.</param>
+    /// <param name="attributeType">The attribute type whose fully qualified name to match against.</param>
+    /// <param name="matchingLevel">The <seealso cref="SymbolNameMatchingLevel"/> up to which to match the full name.</param>
+    /// <returns><see langword="true"/> if a matching attribute is found, otherwise <see langword="false"/>.</returns>
     public static bool HasAttributeNamedFully(this ISymbol? symbol, Type attributeType, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
     {
         return HasAttributeNamed(symbol, FullSymbolName.ForType(attributeType), matchingLevel);
     }
 
+    /// <summary>Gets the first attribute of the given symbol whose full name matches the fully qualified name of <typeparamref name="T"/>.</summary>
+    /// <typeparam name="T">The attribute type whose fully qualified name to match against.</typeparam>
+    /// <param name="symbol">The symbol whose attribute to get.</param>
+    /// <param name="matchingLevel">The <seealso cref="SymbolNameMatchingLevel"/> up to which to match the full name.</param>
+    /// <returns>The first matching <seealso cref="AttributeData"/>, or <see langword="null"/> if none was found.</returns>
     public static AttributeData? FirstOrDefaultAttributeNamedFully<T>(this ISymbol symbol, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
         where T : Attribute
     {
         return FirstOrDefaultAttributeNamed(symbol, FullSymbolName.ForType<T>(), matchingLevel);
     }
+    /// <summary>Gets the first attribute of the given symbol whose full name matches the fully qualified name of the specified type.</summary>
+    /// <param name="symbol">The symbol whose attribute to get.</param>
+    /// <param name="attributeType">The attribute type whose fully qualified name to match against.</param>
+    /// <param name="matchingLevel">The <seealso cref="SymbolNameMatchingLevel"/> up to which to match the full name.</param>
+    /// <returns>The first matching <seealso cref="AttributeData"/>, or <see langword="null"/> if none was found.</returns>
     public static AttributeData? FirstOrDefaultAttributeNamedFully(this ISymbol symbol, Type attributeType, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
     {
         return FirstOrDefaultAttributeNamed(symbol, FullSymbolName.ForType(attributeType), matchingLevel);
     }
 
+    /// <summary>Gets all attributes of the given symbol whose full name matches the fully qualified name of <typeparamref name="T"/>.</summary>
+    /// <typeparam name="T">The attribute type whose fully qualified name to match against.</typeparam>
+    /// <param name="symbol">The symbol whose attributes to get.</param>
+    /// <param name="matchingLevel">The <seealso cref="SymbolNameMatchingLevel"/> up to which to match the full name.</param>
+    /// <returns>The matching <seealso cref="AttributeData"/> instances.</returns>
     public static IEnumerable<AttributeData> GetAttributesNamedFully<T>(this ISymbol symbol, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
         where T : Attribute
     {
         return GetAttributesNamed(symbol, FullSymbolName.ForType<T>(), matchingLevel);
     }
+    /// <summary>Gets all attributes of the given symbol whose full name matches the fully qualified name of the specified type.</summary>
+    /// <typeparam name="T">Unused; use the <paramref name="attributeType"/> parameter.</typeparam>
+    /// <param name="symbol">The symbol whose attributes to get.</param>
+    /// <param name="attributeType">The attribute type whose fully qualified name to match against.</param>
+    /// <param name="matchingLevel">The <seealso cref="SymbolNameMatchingLevel"/> up to which to match the full name.</param>
+    /// <returns>The matching <seealso cref="AttributeData"/> instances.</returns>
     public static IEnumerable<AttributeData> GetAttributesNamedFully<T>(this ISymbol symbol, Type attributeType, SymbolNameMatchingLevel matchingLevel = SymbolNameMatchingLevel.Namespace)
     {
         return GetAttributesNamed(symbol, FullSymbolName.ForType(attributeType), matchingLevel);

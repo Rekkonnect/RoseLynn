@@ -96,15 +96,24 @@ public static class ExtendedSyntaxFactory
         return SyntaxFactory.SeparatedList(nodes);
     }
 
+    /// <summary>Creates a <seealso cref="QualifiedNameSyntax"/> from dot-separated identifier parts.</summary>
+    /// <param name="qualifiedIdentifierParts">The identifier parts that make up the qualified name.</param>
+    /// <returns>A <seealso cref="QualifiedNameSyntax"/> representing the full qualified name.</returns>
     public static QualifiedNameSyntax QualifiedName(params string[] qualifiedIdentifierParts)
     {
         return QualifiedName((IEnumerable<string>)qualifiedIdentifierParts);
     }
+    /// <summary>Creates a <seealso cref="QualifiedNameSyntax"/> from a sequence of identifier part strings.</summary>
+    /// <param name="qualifiedIdentifierParts">The identifier parts that make up the qualified name.</param>
+    /// <returns>A <seealso cref="QualifiedNameSyntax"/> representing the full qualified name.</returns>
     public static QualifiedNameSyntax QualifiedName(IEnumerable<string> qualifiedIdentifierParts)
     {
         var identifiers = qualifiedIdentifierParts.Select(SyntaxFactory.IdentifierName);
         return QualifiedName(identifiers);
     }
+    /// <summary>Creates a <seealso cref="QualifiedNameSyntax"/> from a sequence of <seealso cref="IdentifierNameSyntax"/> nodes.</summary>
+    /// <param name="identifiers">The identifier name nodes to chain into a qualified name.</param>
+    /// <returns>A <seealso cref="QualifiedNameSyntax"/> representing the full qualified name.</returns>
     public static QualifiedNameSyntax QualifiedName(IEnumerable<IdentifierNameSyntax> identifiers)
     {
         NameSyntax currentNameSyntax = identifiers.First();
@@ -117,10 +126,18 @@ public static class ExtendedSyntaxFactory
     }
 
     // TODO: Support alias usings
+    /// <summary>Creates a new <seealso cref="UsingDirectiveSyntax"/> for the given symbol name and directive kind.</summary>
+    /// <param name="usingKind">The kind of using directive (e.g. global, static).</param>
+    /// <param name="symbolName">The dot-separated fully qualified symbol name to import.</param>
+    /// <returns>A <seealso cref="UsingDirectiveSyntax"/> for the specified symbol.</returns>
     public static UsingDirectiveSyntax UsingDirective(UsingDirectiveKind usingKind, string symbolName)
     {
         return UsingDirective(usingKind, symbolName.Split('.'));
     }
+    /// <summary>Creates a new <seealso cref="UsingDirectiveSyntax"/> from identifier parts and a directive kind.</summary>
+    /// <param name="usingKind">The kind of using directive (e.g. global, static).</param>
+    /// <param name="qualifiedIdentifierParts">The identifier parts of the symbol to import.</param>
+    /// <returns>A <seealso cref="UsingDirectiveSyntax"/> for the specified symbol.</returns>
     public static UsingDirectiveSyntax UsingDirective(UsingDirectiveKind usingKind, params string[] qualifiedIdentifierParts)
     {
         var identifiers = qualifiedIdentifierParts.Select(SyntaxFactory.IdentifierName);

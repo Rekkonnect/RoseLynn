@@ -12,6 +12,7 @@ namespace RoseLynn.Testing;
 public abstract class CSharpSingleGeneratorDriverTest<TSourceGenerator> : CSharpGeneratorDriverTest
     where TSourceGenerator : IIncrementalGenerator, new()
 {
+    /// <inheritdoc/>
     protected override ImmutableArray<IIncrementalGenerator> CreateGenerators()
     {
         return [new TSourceGenerator()];

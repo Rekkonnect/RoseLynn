@@ -8,6 +8,7 @@ public static class ITypeSymbolExtensions
 {
     extension(ITypeSymbol type)
     {
+        /// <summary>Gets the arity of the type, or 0 if the type is not a named type.</summary>
         public int Arity => type is INamedTypeSymbol named
             ? named.Arity : 0;
     }

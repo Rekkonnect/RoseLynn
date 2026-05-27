@@ -63,11 +63,15 @@ public abstract record BaseTypeSymbolSignatureViewNullableHandler(
         return source?.EnsureEndsWith("?");
     }
 
+    /// <summary>Returns the handled symbol's fully qualified name with any trailing nullability marker removed.</summary>
+    /// <returns>The fully qualified name without a <c>?</c> suffix.</returns>
     protected string FullyQualifiedNameWithoutNullabilityMarker()
     {
         return RemoveNullabilityMarker(Symbol.FullyQualifiedName);
     }
 
+    /// <summary>Returns the handled symbol's fully qualified name with a trailing nullability marker appended.</summary>
+    /// <returns>The fully qualified name with a <c>?</c> suffix.</returns>
     protected string FullyQualifiedNameWithNullabilityMarker()
     {
         return AddNullabilityMarker(Symbol.FullyQualifiedName);

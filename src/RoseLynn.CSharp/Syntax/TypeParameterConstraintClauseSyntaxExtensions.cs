@@ -66,6 +66,9 @@ public static class TypeParameterConstraintClauseSyntaxExtensions
         return segmentation.WithTheseConstraints(constraintClause);
     }
 
+    /// <summary>Gets the identifier text of the constrained type parameter in the given constraint clause.</summary>
+    /// <param name="clause">The constraint clause whose type parameter name to get.</param>
+    /// <returns>The identifier text of the constrained type parameter.</returns>
     public static string ConstrainedTypeParameterName(this TypeParameterConstraintClauseSyntax clause)
     {
         return clause.Name.Identifier.Text;

@@ -14,14 +14,20 @@ public class CachedInfrequentSpecialSymbols
 
     private CachedInfrequentSpecialSymbols() { }
 
+    /// <summary>Gets a strongly-typed <seealso cref="InfrequentSpecialSymbolCache.IStronglyTyped{TSymbol}"/> cache for the given symbol.</summary>
+    /// <typeparam name="TSymbol">The concrete <seealso cref="ISymbol"/> type.</typeparam>
+    /// <param name="symbol">The symbol whose cache to retrieve.</param>
     public InfrequentSpecialSymbolCache.IStronglyTyped<TSymbol> GetStronglyTyped<TSymbol>(TSymbol symbol)
         where TSymbol : class, ISymbol
     {
         return Get<InfrequentSpecialSymbolCache.IStronglyTyped<TSymbol>>(symbol);
     }
 
+    /// <summary>Gets the <seealso cref="InfrequentSpecialSymbolCache"/> for the given symbol.</summary>
     public InfrequentSpecialSymbolCache this[ISymbol symbol] => Get(symbol);
+    /// <summary>Gets the type-specialized <seealso cref="InfrequentSpecialSymbolCache.TypeSymbol"/> cache for the given type symbol.</summary>
     public InfrequentSpecialSymbolCache.TypeSymbol this[ITypeSymbol symbol] => Get<InfrequentSpecialSymbolCache.TypeSymbol>(symbol);
+    /// <summary>Gets the named-type-specialized <seealso cref="InfrequentSpecialSymbolCache.NamedTypeSymbol"/> cache for the given named type symbol.</summary>
     public InfrequentSpecialSymbolCache.NamedTypeSymbol this[INamedTypeSymbol symbol] => Get<InfrequentSpecialSymbolCache.NamedTypeSymbol>(symbol);
 
     private TCache Get<TCache>(ISymbol symbol)

@@ -8,8 +8,11 @@ using RoseLynn.CSharp.Syntax;
 
 namespace RoseLynn.CSharp;
 
+/// <summary>Provides helpers for detecting top-level C# compilation-unit features such as global usings, assembly attributes, and top-level statements.</summary>
 public static class GlobalSyntaxFeaturesHelpers
 {
+    /// <summary>Gets the <seealso cref="GlobalSyntaxFeatures"/> flags present in the given syntax node, dispatching on the node's language.</summary>
+    /// <param name="node">The root syntax node to inspect.</param>
     public static GlobalSyntaxFeatures GetGlobalSyntaxFeatures(this SyntaxNode node)
     {
         return node switch
@@ -21,6 +24,8 @@ public static class GlobalSyntaxFeaturesHelpers
         };
     }
 
+    /// <summary>Gets the <seealso cref="GlobalSyntaxFeatures"/> flags present in the given C# compilation unit.</summary>
+    /// <param name="compilationUnit">The C# compilation unit syntax to inspect.</param>
     public static GlobalSyntaxFeatures GetGlobalSyntaxFeatures(
         this Microsoft.CodeAnalysis.CSharp.Syntax.CompilationUnitSyntax compilationUnit)
     {

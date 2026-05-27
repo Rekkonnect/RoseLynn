@@ -10,6 +10,10 @@ namespace RoseLynn.CSharp;
 
 public static partial class SymbolNameHelpers
 {
+    /// <summary>Returns the fully qualified name string of <paramref name="symbol"/>, using <paramref name="compilation"/> to resolve extern aliases.</summary>
+    /// <param name="symbol">The symbol whose fully qualified name to compute.</param>
+    /// <param name="compilation">The compilation used to resolve extern aliases, or <see langword="null"/> to use the global alias.</param>
+    /// <returns>The fully qualified name string of <paramref name="symbol"/>.</returns>
     public static string FullyQualifiedString(
         ISymbol symbol,
         Compilation? compilation = null)
@@ -17,6 +21,10 @@ public static partial class SymbolNameHelpers
         return FullyQualified(symbol, compilation).Name;
     }
 
+    /// <summary>Returns the <see cref="FullyQualifiedName"/> of <paramref name="symbol"/>, including any extern aliases referenced during construction.</summary>
+    /// <param name="symbol">The symbol whose fully qualified name to compute.</param>
+    /// <param name="compilation">The compilation used to resolve extern aliases, or <see langword="null"/> to use the global alias.</param>
+    /// <returns>A <see cref="FullyQualifiedName"/> containing the name and any extern aliases used.</returns>
     public static FullyQualifiedName FullyQualified(
         ISymbol symbol,
         Compilation? compilation = null)
@@ -25,6 +33,10 @@ public static partial class SymbolNameHelpers
             .Build(symbol);
     }
 
+    /// <summary>Returns the fully qualified name of <paramref name="symbol"/>, substituting the C# keyword form when the symbol is a predefined type.</summary>
+    /// <param name="symbol">The symbol whose name to compute.</param>
+    /// <param name="compilation">The compilation used to resolve extern aliases, or <see langword="null"/> to use the global alias.</param>
+    /// <returns>The keyword-form <see cref="FullyQualifiedName"/> if <paramref name="symbol"/> is a predefined type; otherwise the fully qualified name.</returns>
     public static FullyQualifiedName FullyQualifiedOrKeyword(
         ISymbol symbol,
         Compilation? compilation = null)
@@ -36,6 +48,10 @@ public static partial class SymbolNameHelpers
         return FullyQualified(symbol, compilation);
     }
 
+    /// <summary>Returns the fully qualified name of <paramref name="type"/>, substituting the C# keyword form when the type is a predefined type.</summary>
+    /// <param name="type">The type symbol whose name to compute.</param>
+    /// <param name="compilation">The compilation used to resolve extern aliases, or <see langword="null"/> to use the global alias.</param>
+    /// <returns>The keyword-form <see cref="FullyQualifiedName"/> if <paramref name="type"/> is a predefined type; otherwise the fully qualified name.</returns>
     public static FullyQualifiedName FullyQualifiedOrKeyword(
         ITypeSymbol type,
         Compilation? compilation = null)
@@ -44,6 +60,9 @@ public static partial class SymbolNameHelpers
             ?? FullyQualified(type, compilation);
     }
 
+    /// <summary>Returns the C# keyword identifier for <paramref name="type"/> with a <c>?</c> suffix when the type is nullable-annotated, or <see langword="null"/> if the type has no predefined keyword.</summary>
+    /// <param name="type">The type symbol to get the keyword for.</param>
+    /// <returns>The keyword string (e.g. <c>int?</c>, <c>string</c>) or <see langword="null"/> if not a predefined type.</returns>
     public static string? KeywordIdentifierWithNullability(ITypeSymbol type)
     {
         if (type.IsNullableStruct(out var underlying))
@@ -72,6 +91,10 @@ public static partial class SymbolNameHelpers
     }
 
     // REF: Copied from Roslyn's CSharpAddImportFeatureService
+    /// <summary>Returns the first non-global extern alias declared for the assembly containing <paramref name="namespaceSymbol"/> in <paramref name="compilation"/>, or <see langword="null"/> if none.</summary>
+    /// <param name="namespaceSymbol">The namespace whose containing assembly to look up.</param>
+    /// <param name="compilation">The compilation whose metadata references to search.</param>
+    /// <returns>The extern alias string, or <see langword="null"/> if the assembly has only the global alias or is not referenced.</returns>
     public static string? GetExternAlias(
         INamespaceSymbol namespaceSymbol,
         Compilation compilation)

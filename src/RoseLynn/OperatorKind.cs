@@ -193,6 +193,8 @@ public sealed class CSharpOperatorTokenAttribute : Attribute
     /// </summary>
     public string Token { get; }
 
+    /// <summary>Initializes a new instance of <seealso cref="CSharpOperatorTokenAttribute"/> with the specified operator token.</summary>
+    /// <param name="token">The C# token string for the operator.</param>
     public CSharpOperatorTokenAttribute(string token)
     {
         Token = token;

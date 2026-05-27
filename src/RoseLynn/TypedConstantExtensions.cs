@@ -31,6 +31,12 @@ public static class TypedConstantExtensions
         return false;
     }
 
+    /// <summary>Returns the value at <paramref name="index"/> in <paramref name="array"/> cast to <typeparamref name="T"/>, or <paramref name="default"/> if missing, array-kind, or not castable.</summary>
+    /// <typeparam name="T">The expected value type.</typeparam>
+    /// <param name="array">The typed constant array.</param>
+    /// <param name="index">The element index.</param>
+    /// <param name="default">The fallback value.</param>
+    /// <returns>The cast value or <paramref name="default"/>.</returns>
     public static T? ValueOrDefault<T>(
         this ImmutableArray<TypedConstant> array,
         int index,
@@ -51,6 +57,12 @@ public static class TypedConstantExtensions
         return @default;
     }
 
+    /// <summary>Tries to get the value at <paramref name="index"/> in <paramref name="array"/> cast to <typeparamref name="T"/>.</summary>
+    /// <typeparam name="T">The expected value type.</typeparam>
+    /// <param name="array">The typed constant array.</param>
+    /// <param name="index">The element index.</param>
+    /// <param name="value">The cast value if successful; otherwise default.</param>
+    /// <returns><see langword="true"/> if the element exists and can be cast to <typeparamref name="T"/>; otherwise <see langword="false"/>.</returns>
     public static bool TryGetValue<T>(
         this ImmutableArray<TypedConstant> array,
         int index,
@@ -74,6 +86,11 @@ public static class TypedConstantExtensions
         return false;
     }
 
+    /// <summary>Tries to get the element values at <paramref name="index"/> when the element is an array-kind constant.</summary>
+    /// <param name="array">The typed constant array.</param>
+    /// <param name="index">The element index.</param>
+    /// <param name="values">The array elements if the constant is array-kind; otherwise an empty array.</param>
+    /// <returns><see langword="true"/> if the element at <paramref name="index"/> is an array constant; otherwise <see langword="false"/>.</returns>
     public static bool TryGetValues(
         this ImmutableArray<TypedConstant> array,
         int index,

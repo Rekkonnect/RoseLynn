@@ -17,13 +17,19 @@ public class CachedOperatorSymbols
     /// <summary>Gets all the operator symbols found in the type, in the form of <see cref="CachedOperatorSymbol"/> instances.</summary>
     public IEnumerable<CachedOperatorSymbol> AllOperators => cachedOperators.All;
 
+    /// <summary>Gets all unary operator symbols found in the type.</summary>
     public IEnumerable<CachedUnaryOperatorSymbol> UnaryOperators => Operators<CachedUnaryOperatorSymbol>();
+    /// <summary>Gets all binary operator symbols found in the type.</summary>
     public IEnumerable<CachedBinaryOperatorSymbol> BinaryOperators => Operators<CachedBinaryOperatorSymbol>();
 
+    /// <summary>Gets all implicit conversion operator symbols found in the type.</summary>
     public IEnumerable<CachedImplicitOperatorSymbol> ImplicitConversions => Operators<CachedImplicitOperatorSymbol>();
+    /// <summary>Gets all explicit conversion operator symbols found in the type.</summary>
     public IEnumerable<CachedExplicitOperatorSymbol> ExplicitConversions => Operators<CachedExplicitOperatorSymbol>();
 
+    /// <summary>Gets all unchecked operator symbols found in the type.</summary>
     public IEnumerable<CachedOperatorSymbol> UncheckedOperators => OfCheckingMode(OperatorCheckingMode.Unchecked);
+    /// <summary>Gets all checked operator symbols found in the type.</summary>
     public IEnumerable<CachedOperatorSymbol> CheckedOperators => OfCheckingMode(OperatorCheckingMode.Checked);
 
     private IEnumerable<TCachedOperator> Operators<TCachedOperator>()
@@ -32,8 +38,11 @@ public class CachedOperatorSymbols
         return AllOperators.OfType<TCachedOperator>();
     }
 
+    /// <summary>Gets all operator symbols matching the given composite operator kind.</summary>
     public IEnumerable<CachedOperatorSymbol> OfKind(CompositeOperatorKind kind) => cachedOperators[kind];
+    /// <summary>Gets all operator symbols matching the given operator kind.</summary>
     public IEnumerable<CachedOperatorSymbol> OfKind(OperatorKind kind) => cachedOperators[kind];
+    /// <summary>Gets all operator symbols matching the given checking mode.</summary>
     public IEnumerable<CachedOperatorSymbol> OfCheckingMode(OperatorCheckingMode mode) => cachedOperators[mode];
     #endregion
 
@@ -48,6 +57,9 @@ public class CachedOperatorSymbols
         cachedOperators.Add(method);
     }
 
+    /// <summary>Creates a <seealso cref="CachedOperatorSymbols"/> instance for the given type by scanning all its members for operator methods.</summary>
+    /// <param name="type">The type whose operators to cache.</param>
+    /// <returns>A new <seealso cref="CachedOperatorSymbols"/> instance populated with the operators found in <paramref name="type"/>.</returns>
     public static CachedOperatorSymbols ForType(ITypeSymbol type)
     {
         var result = new CachedOperatorSymbols(type);
@@ -110,8 +122,10 @@ public class CachedOperatorSymbols
 /// <param name="Method">The <seealso cref="IMethodSymbol"/> representing the operator.</param>
 public abstract record class CachedOperatorSymbol(OperatorCheckingMode CheckingMode, OperatorKind OperatorKind, IMethodSymbol Method)
 {
+    /// <summary>Gets the composite operator kind combining both the <seealso cref="OperatorKind"/> and <seealso cref="CheckingMode"/>.</summary>
     public CompositeOperatorKind CompositeOperatorKind => new(CheckingMode, OperatorKind);
 
+    /// <summary>Gets the high-level <seealso cref="RoseLynn.OperatorMethodKind"/> category of this operator.</summary>
     public OperatorMethodKind OperatorMethodKind => Method.MethodKind.GetOperatorMethodKind();
 
     /// <summary>Gets the <seealso cref="ITypeSymbol"/> that declares this operator.</summary>
@@ -141,6 +155,9 @@ public abstract record class CachedOperatorSymbol(OperatorCheckingMode CheckingM
             or MethodKind.Conversion;
     }
 
+    /// <summary>Parses a <seealso cref="CachedOperatorSymbol"/> from the given method symbol, or <see langword="null"/> if the method is not an operator.</summary>
+    /// <param name="method">The method symbol to parse.</param>
+    /// <returns>A <seealso cref="CachedOperatorSymbol"/> subtype instance, or <see langword="null"/>.</returns>
     public static CachedOperatorSymbol? Parse(IMethodSymbol method)
     {
         if (!IsOperatorMethod(method))
@@ -169,8 +186,11 @@ public abstract record class CachedOperatorSymbol(OperatorCheckingMode CheckingM
 public record class CachedUnaryOperatorSymbol(OperatorCheckingMode CheckingMode, OperatorKind OperatorKind, IMethodSymbol Method)
     : CachedOperatorSymbol(CheckingMode, OperatorKind, Method)
 {
+    /// <summary>Gets the type of the single operand of this unary operator.</summary>
+    /// <summary>Gets the type of the single operand of this unary operator.</summary>
     public ITypeSymbol ParameterType => MethodParameterType(0);
 
+    /// <inheritdoc/>
     public override bool InvolvesDeclaringType => EqualsDeclaringType(ParameterType);
 }
 
@@ -179,9 +199,12 @@ public record class CachedUnaryOperatorSymbol(OperatorCheckingMode CheckingMode,
 public sealed record class CachedBinaryOperatorSymbol(OperatorCheckingMode CheckingMode, OperatorKind OperatorKind, IMethodSymbol Method)
     : CachedOperatorSymbol(CheckingMode, OperatorKind, Method)
 {
+    /// <summary>Gets the type of the left operand of this binary operator.</summary>
     public ITypeSymbol LeftParameterType => MethodParameterType(0);
+    /// <summary>Gets the type of the right operand of this binary operator.</summary>
     public ITypeSymbol RightParameterType => MethodParameterType(1);
 
+    /// <inheritdoc/>
     public override bool InvolvesDeclaringType => EqualsDeclaringType(LeftParameterType)
                                                || EqualsDeclaringType(RightParameterType);
 }

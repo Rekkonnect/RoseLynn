@@ -10,8 +10,10 @@ namespace RoseLynn.Testing;
 /// </summary>
 public class CSharpCompilationTest : BaseCSharpCompilationTest
 {
+    /// <summary>Gets or sets the test state data controlling compilation verification behavior.</summary>
     public CompilationTestStateData CompilationTestState { get; set; } = new();
 
+    /// <inheritdoc/>
     protected override async Task RunImplAsync(CancellationToken cancellationToken)
     {
         var compilation = await CreateCompilation(cancellationToken);
@@ -27,11 +29,16 @@ public class CSharpCompilationTest : BaseCSharpCompilationTest
         }
     }
 
+    /// <summary>Holds the configurable data driving the compilation verification step.</summary>
     public sealed class CompilationTestStateData
     {
+        /// <summary>Gets or sets the verifier delegate to invoke against the compilation result.</summary>
         public CompilationVerifier? CompilationVerifier { get; set; }
     }
 
+    /// <summary>Represents a delegate that verifies the state of a <seealso cref="Compilation"/> after it is created.</summary>
+    /// <param name="compilation">The compilation to verify.</param>
+    /// <param name="cancellationToken">A token to cancel the verification.</param>
     public delegate Task CompilationVerifier(
         Compilation compilation,
         CancellationToken cancellationToken);

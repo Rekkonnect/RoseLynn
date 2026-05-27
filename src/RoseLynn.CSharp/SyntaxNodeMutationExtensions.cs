@@ -96,31 +96,55 @@ public static class SyntaxNodeMutationExtensions
         return root.RemoveNodes(removedNodes, options) ?? root;
     }
 
+    /// <summary>Removes the specified node from the syntax tree, returning the updated root. Returns <paramref name="root"/> unchanged if removal produces <see langword="null"/>.</summary>
+    /// <param name="root">The syntax root to operate on.</param>
+    /// <param name="removedNode">The node to remove.</param>
+    /// <param name="options">Controls how surrounding trivia is handled after removal.</param>
     public static SyntaxNode RemoveSyntaxNode(this SyntaxNode root, SyntaxNode removedNode, SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepExteriorTrivia)
     {
         return root.RemoveNode(removedNode, options) ?? root;
     }
 
+    /// <summary>Removes the specified nodes from the syntax tree, returning the updated root. Returns <paramref name="root"/> unchanged if removal produces <see langword="null"/>.</summary>
+    /// <param name="root">The syntax root to operate on.</param>
+    /// <param name="removedNodes">The nodes to remove.</param>
+    /// <param name="options">Controls how surrounding trivia is handled after removal.</param>
     public static SyntaxNode RemoveSyntaxNodes(this SyntaxNode root, IEnumerable<SyntaxNode> removedNodes, SyntaxRemoveOptions options = SyntaxRemoveOptions.KeepExteriorTrivia)
     {
         return root.RemoveNodes(removedNodes, options) ?? root;
     }
 
+    /// <summary>Inserts the given nodes immediately after the specified reference node in the syntax tree.</summary>
+    /// <param name="root">The syntax root to operate on.</param>
+    /// <param name="referenceNode">The existing node after which the new nodes are inserted.</param>
+    /// <param name="insertedNodes">The nodes to insert.</param>
     public static SyntaxNode InsertSyntaxNodesAfter(this SyntaxNode root, SyntaxNode referenceNode, IEnumerable<SyntaxNode> insertedNodes)
     {
         return root.InsertNodesAfter(referenceNode, insertedNodes);
     }
 
+    /// <summary>Inserts the given nodes immediately before the specified reference node in the syntax tree.</summary>
+    /// <param name="root">The syntax root to operate on.</param>
+    /// <param name="referenceNode">The existing node before which the new nodes are inserted.</param>
+    /// <param name="insertedNodes">The nodes to insert.</param>
     public static SyntaxNode InsertSyntaxNodesBefore(this SyntaxNode root, SyntaxNode referenceNode, IEnumerable<SyntaxNode> insertedNodes)
     {
         return root.InsertNodesBefore(referenceNode, insertedNodes);
     }
 
+    /// <summary>Replaces the specified node in the syntax tree with multiple new nodes.</summary>
+    /// <param name="root">The syntax root to operate on.</param>
+    /// <param name="oldNode">The node to replace.</param>
+    /// <param name="insertedNodes">The nodes to substitute in place of the removed node.</param>
     public static SyntaxNode ReplaceSyntaxNode(this SyntaxNode root, SyntaxNode oldNode, IEnumerable<SyntaxNode> insertedNodes)
     {
         return root.ReplaceNode(oldNode, insertedNodes);
     }
 
+    /// <summary>Replaces the specified node in the syntax tree with a single new node.</summary>
+    /// <param name="root">The syntax root to operate on.</param>
+    /// <param name="oldNode">The node to replace.</param>
+    /// <param name="insertedNode">The node to substitute.</param>
     public static SyntaxNode ReplaceSyntaxNode(this SyntaxNode root, SyntaxNode oldNode, SyntaxNode insertedNode)
     {
         return root.ReplaceNode(oldNode, insertedNode);

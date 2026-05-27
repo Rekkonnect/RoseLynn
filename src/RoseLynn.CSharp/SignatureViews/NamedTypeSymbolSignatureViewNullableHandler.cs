@@ -8,6 +8,7 @@ public sealed record NamedTypeSymbolSignatureViewNullableHandler(
     INamedTypeSymbolSignatureView NamedSymbol)
     : BaseTypeSymbolSignatureViewNullableHandler(NamedSymbol)
 {
+    /// <inheritdoc/>
     protected override bool AcceptsNullExtra
     {
         get

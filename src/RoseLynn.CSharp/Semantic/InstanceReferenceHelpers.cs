@@ -12,8 +12,13 @@ using System.Text;
 
 namespace RoseLynn.CSharp.Semantic;
 
+/// <summary>Provides helpers for detecting and enumerating instance member references within a syntax tree, primarily for refactoring and static-conversion analysis.</summary>
 public static class InstanceReferenceHelpers
 {
+    /// <summary>Returns <see langword="true"/> if the given declaration contains any instance member references that cannot be trivially converted to static, recursing into referenced methods.</summary>
+    /// <param name="declaration">The syntax node representing the member declaration to analyse.</param>
+    /// <param name="model">The semantic model for the declaration.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     public static async Task<bool> HasUnconvertibleInstanceReferences(
         this SyntaxNode declaration,
         SemanticModel model,
@@ -67,6 +72,10 @@ public static class InstanceReferenceHelpers
         return false;
     }
 
+    /// <summary>Asynchronously enumerates the syntax nodes of instance methods referenced within the given declaration that can be safely converted to static.</summary>
+    /// <param name="declaration">The syntax node representing the member declaration to analyse.</param>
+    /// <param name="model">The semantic model for the declaration.</param>
+    /// <param name="cancellationToken">A token to cancel the enumeration.</param>
     public static async IAsyncEnumerable<SyntaxNode> GetConvertibleInstanceMembersReferences(
         this SyntaxNode declaration,
         SemanticModel model,
@@ -121,6 +130,10 @@ public static class InstanceReferenceHelpers
             .ToImmutableArray();
     }
 
+    /// <summary>Returns <see langword="true"/> if the given declaration contains any direct instance member references.</summary>
+    /// <param name="declaration">The syntax node representing the member declaration to analyse.</param>
+    /// <param name="model">The semantic model for the declaration.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     public static bool HasInstanceReferences(
         this SyntaxNode declaration,
         SemanticModel model,
@@ -163,6 +176,8 @@ public static class InstanceReferenceHelpers
         ISymbol? Symbol,
         bool IsInstanceReference);
 
+    /// <summary>Returns the resolved symbol if available, or the single candidate symbol if exactly one candidate was found, or <see langword="null"/>.</summary>
+    /// <param name="symbolInfo">The <seealso cref="SymbolInfo"/> to inspect.</param>
     public static ISymbol? SymbolOrSingleCandidateOrDefault(this SymbolInfo symbolInfo)
     {
         return symbolInfo.Symbol

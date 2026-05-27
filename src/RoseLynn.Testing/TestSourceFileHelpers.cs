@@ -6,8 +6,13 @@ using RoseLynn.CSharp.Syntax;
 
 namespace RoseLynn.Testing;
 
+/// <summary>Provides helpers for inferring test source file names from C# source text.</summary>
 public static class TestSourceFileHelpers
 {
+    /// <summary>Infers the source file name from the primary type declaration in <paramref name="source"/>.</summary>
+    /// <param name="source">The C# source text (may include markup annotations).</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A file name derived from the primary type, or a fallback name based on detected global features.</returns>
     public static async Task<string> InferSourceName(
         string source, CancellationToken cancellationToken)
     {

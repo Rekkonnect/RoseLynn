@@ -39,17 +39,31 @@ public enum UsingDirectiveKind
 /// <summary>Contains extension methods for the <seealso cref="UsingDirectiveKind"/> enum.</summary>
 public static class UsingDirectiveKindExtensions
 {
+    /// <summary>Returns <see langword="true"/> if <paramref name="kind"/> has the <see cref="UsingDirectiveKind.Global"/> flag set.</summary>
+    /// <param name="kind">The directive kind to test.</param>
     public static bool IsGlobal(this UsingDirectiveKind kind) => kind.HasFlag(UsingDirectiveKind.Global);
+    /// <summary>Returns <see langword="true"/> if <paramref name="kind"/> has the <see cref="UsingDirectiveKind.Static"/> flag set.</summary>
+    /// <param name="kind">The directive kind to test.</param>
     public static bool IsStatic(this UsingDirectiveKind kind) => kind.HasFlag(UsingDirectiveKind.Static);
 
+    /// <summary>Returns <paramref name="kind"/> with the <see cref="UsingDirectiveKind.Global"/> flag set or cleared according to <paramref name="isGlobal"/>.</summary>
+    /// <param name="kind">The directive kind to modify.</param>
+    /// <param name="isGlobal"><see langword="true"/> to set the global flag; <see langword="false"/> to clear it.</param>
     public static UsingDirectiveKind WithGlobal(this UsingDirectiveKind kind, bool isGlobal)
     {
         return WithFlag(kind, UsingDirectiveKind.Global, isGlobal);
     }
+    /// <summary>Returns <paramref name="kind"/> with the <see cref="UsingDirectiveKind.Static"/> flag set or cleared according to <paramref name="isStatic"/>.</summary>
+    /// <param name="kind">The directive kind to modify.</param>
+    /// <param name="isStatic"><see langword="true"/> to set the static flag; <see langword="false"/> to clear it.</param>
     public static UsingDirectiveKind WithStatic(this UsingDirectiveKind kind, bool isStatic)
     {
         return WithFlag(kind, UsingDirectiveKind.Static, isStatic);
     }
+    /// <summary>Returns <paramref name="kind"/> with <paramref name="flag"/> set or cleared according to <paramref name="toggle"/>.</summary>
+    /// <param name="kind">The directive kind to modify.</param>
+    /// <param name="flag">The flag to set or clear.</param>
+    /// <param name="toggle"><see langword="true"/> to set <paramref name="flag"/>; <see langword="false"/> to clear it.</param>
     public static UsingDirectiveKind WithFlag(this UsingDirectiveKind kind, UsingDirectiveKind flag, bool toggle)
     {
         if (toggle)
@@ -60,6 +74,9 @@ public static class UsingDirectiveKindExtensions
         return kind;
     }
 
+    /// <summary>Returns the directive-kind bits of <paramref name="kind"/>, masking out <see cref="UsingDirectiveKind.Global"/> and <see cref="UsingDirectiveKind.Static"/>.</summary>
+    /// <param name="kind">The directive kind whose base kind to extract.</param>
+    /// <returns>The value of <paramref name="kind"/> masked to <see cref="UsingDirectiveKind.UsingDirectiveMask"/>.</returns>
     public static UsingDirectiveKind GetDirectiveKind(this UsingDirectiveKind kind) => kind & UsingDirectiveKind.UsingDirectiveMask;
 
     /// <summary>Determines whether the <seealso cref="UsingDirectiveKind"/> contains a directive kind flag.</summary>

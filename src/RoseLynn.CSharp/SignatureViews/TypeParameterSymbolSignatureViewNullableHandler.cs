@@ -12,6 +12,7 @@ public record TypeParameterSymbolSignatureViewNullableHandler(
     /// <summary>Gets whether the handled symbol is a nullable value type.</summary>
     public override bool IsNullableStruct => false;
 
+    /// <inheritdoc/>
     protected override bool AcceptsNullExtra
     {
         get

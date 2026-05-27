@@ -6,15 +6,23 @@
 /// <param name="QualifiedName">The qualified name of the symbol.</param>
 public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias, string QualifiedName)
 {
+    /// <summary>Gets whether this using directive is a <see langword="global"/> directive.</summary>
     public bool IsGlobal => Kind.IsGlobal();
+    /// <summary>Gets whether this using directive is a <see langword="static"/> directive.</summary>
     public bool IsStatic => Kind.IsStatic();
+    /// <summary>Gets the base directive kind, excluding <see langword="global"/> and <see langword="static"/> flags.</summary>
     public UsingDirectiveKind DirectiveKind => Kind.GetDirectiveKind();
 
+    /// <summary>Gets the sort key used for ordering: the alias if one is set, otherwise the qualified name.</summary>
     public string IdentifierSortKey => Alias ?? QualifiedName;
 
+    /// <summary>Initializes a new <seealso cref="UsingDirectiveStatementInfo"/> without an alias.</summary>
+    /// <param name="kind">The using kind of the directive.</param>
+    /// <param name="qualifiedName">The qualified name of the symbol.</param>
     public UsingDirectiveStatementInfo(UsingDirectiveKind kind, string qualifiedName)
         : this(kind, null, qualifiedName) { }
 
+    /// <inheritdoc/>
     public override string ToString()
     {
         var usingPart = "using";
@@ -34,7 +42,15 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         return $"{usingPart} {intermediate}{QualifiedName};";
     }
 
+    /// <summary>Creates a local alias using directive mapping <paramref name="alias"/> to <paramref name="qualifiedName"/>.</summary>
+    /// <param name="alias">The alias identifier.</param>
+    /// <param name="qualifiedName">The fully qualified symbol name.</param>
+    /// <returns>A <see cref="UsingDirectiveStatementInfo"/> of kind <see cref="UsingDirectiveKind.UsingAlias"/>.</returns>
     public static UsingDirectiveStatementInfo LocalAlias(string alias, string qualifiedName) => new(UsingDirectiveKind.UsingAlias, alias, qualifiedName);
+    /// <summary>Creates a global alias using directive mapping <paramref name="alias"/> to <paramref name="qualifiedName"/>.</summary>
+    /// <param name="alias">The alias identifier.</param>
+    /// <param name="qualifiedName">The fully qualified symbol name.</param>
+    /// <returns>A <see cref="UsingDirectiveStatementInfo"/> of kind <see cref="UsingDirectiveKind.GlobalUsingAlias"/>.</returns>
     public static UsingDirectiveStatementInfo GlobalAlias(string alias, string qualifiedName) => new(UsingDirectiveKind.GlobalUsingAlias, alias, qualifiedName);
 
     /// <summary>
@@ -163,6 +179,10 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         return DirectivesOfKind(kind, (IEnumerable<string>)qualifiedNames);
     }
 
+    /// <summary>Creates a using statement for the type <typeparamref name="T"/>.</summary>
+    /// <typeparam name="T">The type whose information will be used for the creation of the using statement.</typeparam>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> of the resulting using statement.</param>
+    /// <returns>A using statement of the specified kind for <typeparamref name="T"/>.</returns>
     public static UsingDirectiveStatementInfo UsingForType<T>(UsingDirectiveKind kind)
     {
         return UsingForType(kind, typeof(T));
@@ -197,10 +217,20 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         return new(kind, qualifiedName);
     }
 
+    /// <summary>Creates an alias using statement for the type <typeparamref name="T"/>.</summary>
+    /// <typeparam name="T">The type for which to create the alias using statement.</typeparam>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> of the resulting using alias statement.</param>
+    /// <param name="alias">The alias to assign to the type.</param>
+    /// <returns>A using alias statement for <typeparamref name="T"/> with the specified alias.</returns>
     public static UsingDirectiveStatementInfo AliasForType<T>(UsingDirectiveKind kind, string alias)
     {
         return AliasForType(kind, typeof(T), alias);
     }
+    /// <summary>Creates an alias using statement for the specified type.</summary>
+    /// <param name="kind">The <seealso cref="UsingDirectiveKind"/> of the resulting using alias statement.</param>
+    /// <param name="type">The type for which to create the alias using statement.</param>
+    /// <param name="alias">The alias to assign to the type.</param>
+    /// <returns>A using alias statement for the specified type with the given alias.</returns>
     public static UsingDirectiveStatementInfo AliasForType(UsingDirectiveKind kind, Type type, string alias)
     {
         if (!kind.HasFlag(UsingDirectiveKind.UsingAlias))
@@ -228,8 +258,10 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
     /// <item>Fully qualified name of the symbol -or- name of the alias, ascending</item>
     /// </list>
     /// </remarks>
+    /// <inheritdoc cref="SortingComparer"/>
     public class SortingComparer : IComparer<UsingDirectiveStatementInfo>
     {
+        /// <summary>Gets the shared singleton instance of <seealso cref="SortingComparer"/>.</summary>
         public static SortingComparer Instance = new();
 
         /// <summary>Gets the comparers to apply to each comparison in the order they are applied.</summary>
@@ -244,8 +276,13 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
             ];
         }
 
+        /// <summary>Initializes a new instance of <see cref="SortingComparer"/>.</summary>
         protected SortingComparer() { }
 
+        /// <summary>Compares two <seealso cref="UsingDirectiveStatementInfo"/> instances using all registered comparers in order.</summary>
+        /// <param name="x">The first instance.</param>
+        /// <param name="y">The second instance.</param>
+        /// <returns>A negative, zero, or positive value indicating relative order.</returns>
         public virtual int Compare(UsingDirectiveStatementInfo? x, UsingDirectiveStatementInfo? y)
         {
             foreach (var comparer in ComparerOrder)
@@ -260,6 +297,10 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Provides common null-aware comparison behavior for <see cref="UsingDirectiveStatementInfo"/> comparers.</summary>
         public abstract class BaseComparer : IComparer<UsingDirectiveStatementInfo>
         {
+            /// <summary>Compares two <see cref="UsingDirectiveStatementInfo"/> instances, handling <see langword="null"/> values before delegating to <see cref="CompareNonNull"/>.</summary>
+            /// <param name="x">The first instance.</param>
+            /// <param name="y">The second instance.</param>
+            /// <returns>A negative, zero, or positive value indicating relative order.</returns>
             public int Compare(UsingDirectiveStatementInfo? x, UsingDirectiveStatementInfo? y)
             {
                 if (ReferenceEquals(x, y))
@@ -282,9 +323,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders global using directives before local ones.</summary>
         public sealed class GlobalOverLocal : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="GlobalOverLocal"/>.</summary>
             public static GlobalOverLocal Instance = new();
             private GlobalOverLocal() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return y.IsGlobal.CompareTo(x.IsGlobal);
@@ -293,9 +336,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders local using directives before global ones.</summary>
         public sealed class LocalOverGlobal : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="LocalOverGlobal"/>.</summary>
             public static LocalOverGlobal Instance = new();
             private LocalOverGlobal() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return x.IsGlobal.CompareTo(y.IsGlobal);
@@ -304,9 +349,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders using directives by ascending directive kind.</summary>
         public sealed class AscendingDirectiveKind : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="AscendingDirectiveKind"/>.</summary>
             public static AscendingDirectiveKind Instance = new();
             private AscendingDirectiveKind() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return x.DirectiveKind.CompareTo(y.DirectiveKind);
@@ -315,9 +362,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders using directives by descending directive kind.</summary>
         public sealed class DescendingDirectiveKind : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="DescendingDirectiveKind"/>.</summary>
             public static DescendingDirectiveKind Instance = new();
             private DescendingDirectiveKind() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return y.DirectiveKind.CompareTo(x.DirectiveKind);
@@ -326,9 +375,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders static using directives before non-static ones.</summary>
         public sealed class StaticOverNonStatic : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="StaticOverNonStatic"/>.</summary>
             public static StaticOverNonStatic Instance = new();
             private StaticOverNonStatic() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return y.IsStatic.CompareTo(x.IsStatic);
@@ -337,9 +388,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders non-static using directives before static ones.</summary>
         public sealed class NonStaticOverStatic : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="NonStaticOverStatic"/>.</summary>
             public static NonStaticOverStatic Instance = new();
             private NonStaticOverStatic() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return x.IsStatic.CompareTo(y.IsStatic);
@@ -348,9 +401,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders using directives by ascending identifier sort key.</summary>
         public sealed class AscendingIdentifierSortKey : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="AscendingIdentifierSortKey"/>.</summary>
             public static AscendingIdentifierSortKey Instance = new();
             private AscendingIdentifierSortKey() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return string.Compare(x.IdentifierSortKey, y.IdentifierSortKey, StringComparison.Ordinal);
@@ -359,9 +414,11 @@ public record UsingDirectiveStatementInfo(UsingDirectiveKind Kind, string? Alias
         /// <summary>Orders using directives by descending identifier sort key.</summary>
         public sealed class DescendingIdentifierSortKey : BaseComparer
         {
+            /// <summary>Gets the shared singleton instance of <see cref="DescendingIdentifierSortKey"/>.</summary>
             public static DescendingIdentifierSortKey Instance = new();
             private DescendingIdentifierSortKey() { }
 
+            /// <inheritdoc/>
             protected override int CompareNonNull(UsingDirectiveStatementInfo x, UsingDirectiveStatementInfo y)
             {
                 return string.Compare(y.IdentifierSortKey, x.IdentifierSortKey, StringComparison.Ordinal);

@@ -4,8 +4,12 @@ using Microsoft.CodeAnalysis.Operations;
 
 namespace RoseLynn;
 
+/// <summary>Provides extension methods for Roslyn <seealso cref="IOperation"/> types.</summary>
 public static class OperationExtensions
 {
+    /// <summary>Gets the operation representing the receiver/target of an invocation, handling both instance and extension methods.</summary>
+    /// <param name="invocation">The invocation to inspect.</param>
+    /// <returns>The receiver operation for instance calls, the extension parameter argument for extension calls, or <see langword="null"/>.</returns>
     public static IOperation? TargetForInvocation(
         this IInvocationOperation? invocation)
     {
@@ -31,6 +35,9 @@ public static class OperationExtensions
         return argument?.Value;
     }
 
+    /// <summary>Enumerates all ancestor operations of <paramref name="operation"/>, from direct parent up to the root.</summary>
+    /// <param name="operation">The operation whose ancestors to enumerate.</param>
+    /// <returns>The ancestor operations in order from parent to root.</returns>
     public static IEnumerable<IOperation> Ancestors(this IOperation operation)
     {
         var ancestor = operation;
@@ -46,6 +53,10 @@ public static class OperationExtensions
         }
     }
 
+    /// <summary>Returns the nearest ancestor of <paramref name="operation"/> that is of type <typeparamref name="TOperation"/>.</summary>
+    /// <typeparam name="TOperation">The ancestor operation type to find.</typeparam>
+    /// <param name="operation">The operation to start from.</param>
+    /// <returns>The nearest matching ancestor, or <see langword="null"/> if not found.</returns>
     public static TOperation? NearestAncestorOfType<TOperation>(this IOperation operation)
         where TOperation : IOperation
     {
@@ -54,6 +65,10 @@ public static class OperationExtensions
             .FirstOrDefault();
     }
 
+    /// <summary>Returns the furthest (root-closest) ancestor of <paramref name="operation"/> that is of type <typeparamref name="TOperation"/>.</summary>
+    /// <typeparam name="TOperation">The ancestor operation type to find.</typeparam>
+    /// <param name="operation">The operation to start from.</param>
+    /// <returns>The furthest matching ancestor, or <see langword="null"/> if not found.</returns>
     public static TOperation? FurthestAncestorOfType<TOperation>(this IOperation operation)
         where TOperation : IOperation
     {
@@ -86,6 +101,9 @@ public static class OperationExtensions
         };
     }
 
+    /// <summary>Gets the value being assigned or initialized by the operation, if applicable.</summary>
+    /// <param name="operation">The operation to inspect.</param>
+    /// <returns>The assigned or initialized value operation, or <see langword="null"/> if the operation has no applicable value.</returns>
     public static IOperation? Value(this IOperation operation)
     {
         return operation switch
@@ -98,6 +116,9 @@ public static class OperationExtensions
         };
     }
 
+    /// <summary>Gets the operation representing the receiver of the conditional access expression containing <paramref name="accessInstanceOperation"/>.</summary>
+    /// <param name="accessInstanceOperation">The conditional access instance operation.</param>
+    /// <returns>The receiver operation, or <see langword="null"/> if no enclosing conditional access is found.</returns>
     public static IOperation? Instance(
         this IConditionalAccessInstanceOperation accessInstanceOperation)
     {

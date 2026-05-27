@@ -4,8 +4,11 @@ using RoseLynn;
 
 namespace RoseLynn.CSharp;
 
+/// <summary>Provides helpers for computing narrowed <seealso cref="Location"/> spans from C# syntax nodes, useful for producing tighter diagnostic locations.</summary>
 public static class CSharpNodeSpanHelpers
 {
+    /// <summary>Gets a <seealso cref="Location"/> that covers only the invocation name and argument list, stripping any leading member-access expression.</summary>
+    /// <param name="syntax">The syntax node to inspect. If it is not an <seealso cref="InvocationExpressionSyntax"/>, its full location is returned.</param>
     public static Location GetInvocationOnlyLocation(this SyntaxNode syntax)
     {
         return syntax switch
@@ -17,6 +20,9 @@ public static class CSharpNodeSpanHelpers
         };
     }
 
+    /// <summary>Gets a <seealso cref="Location"/> that covers only the signature portion of a declaration, optionally including modifiers.</summary>
+    /// <param name="syntax">The declaration syntax node. Handles methods, properties, indexers, and events; returns the full node location for unrecognised kinds.</param>
+    /// <param name="includeModifiers">When <see langword="true"/>, the span begins at the first modifier token.</param>
     public static Location GetDeclarationSignatureOnlyLocation(
         this SyntaxNode syntax,
         bool includeModifiers)

@@ -28,6 +28,11 @@ public static class DocumentExtensions
         return newRoot.FullSpan.Length - originalRoot.FullSpan.Length;
     }
 
+    /// <summary>Applies a transformation to the syntax root of <paramref name="document"/> and returns the updated document.</summary>
+    /// <param name="document">The document whose root to transform.</param>
+    /// <param name="selectNode">A function that receives the current root and returns the new root.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The document with the transformed syntax root.</returns>
     public static async ValueTask<Document> WithSyntaxRootAsync
     (
         this Document document,
@@ -84,6 +89,7 @@ public static class DocumentExtensions
 
     extension(Document document)
     {
+        /// <summary>Gets the <seealso cref="Microsoft.CodeAnalysis.Solution"/> that contains this document.</summary>
         public Solution Solution => document.Project.Solution;
 
         /// <summary>
@@ -176,6 +182,12 @@ public static class DocumentExtensions
             return root!.FindNode(previousTreeNode.Span);
         }
 
+        /// <summary>Replaces <paramref name="old"/> with <paramref name="new"/> in the document, throwing if <paramref name="old"/> is not found in the document's syntax tree.</summary>
+        /// <param name="old">The node to replace; must belong to this document's syntax tree.</param>
+        /// <param name="new">The replacement node.</param>
+        /// <param name="cancellationToken">A token to cancel the operation.</param>
+        /// <returns>The updated document.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when <paramref name="old"/> does not belong to this document's syntax tree.</exception>
         public async Task<Document> ReplaceRequiredNodeAsync(
             SyntaxNode? old,
             SyntaxNode @new,
@@ -192,6 +204,10 @@ public static class DocumentExtensions
         }
     }
 
+    /// <summary>Asynchronously enumerates the non-null syntax roots of all documents in <paramref name="documents"/>.</summary>
+    /// <param name="documents">The documents whose roots to enumerate.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The non-null syntax roots.</returns>
     public static async Task<IEnumerable<SyntaxNode>> EnumerateNotNullNodes(
         this IEnumerable<Document> documents,
         CancellationToken cancellationToken)
@@ -204,6 +220,10 @@ public static class DocumentExtensions
         return nodes.WhereNotNull();
     }
 
+    /// <summary>Asynchronously collects the non-null syntax roots of all documents in <paramref name="documents"/> into a read-only collection.</summary>
+    /// <param name="documents">The documents whose roots to collect.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A read-only collection of non-null syntax roots.</returns>
     public static async Task<IReadOnlyCollection<SyntaxNode>> GetAllNotNullNodes(
         this IEnumerable<Document> documents,
         CancellationToken cancellationToken)

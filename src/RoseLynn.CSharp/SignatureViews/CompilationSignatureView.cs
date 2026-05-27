@@ -9,9 +9,12 @@ namespace RoseLynn.CSharp.SignatureViews;
 /// </summary>
 public record CompilationSignatureView : ICompilationSignatureView
 {
+    /// <inheritdoc/>
     public required IAssemblySymbolSignatureView Assembly { get; set; }
 
+    /// <inheritdoc/>
     public required string Language { get; set; }
 
+    /// <inheritdoc/>
     public required IDynamicTypeSymbolSignatureView DynamicType { get; set; }
 }

@@ -99,6 +99,10 @@ public static class SemanticModelExtensions
         return null;
     }
 
+    /// <summary>Gets the symbol that encloses the position of the given syntax node.</summary>
+    /// <param name="model">The semantic model to query.</param>
+    /// <param name="node">The node whose start position is used to find the enclosing symbol.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     public static ISymbol? GetEnclosingSymbol(
         this SemanticModel model,
         SyntaxNode node,

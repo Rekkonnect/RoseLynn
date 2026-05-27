@@ -9,6 +9,9 @@ namespace RoseLynn.CSharp.SignatureViews;
 
 public static partial class SignatureViewExtensions
 {
+    /// <summary>Creates a signature view for the given <see cref="Compilation"/>.</summary>
+    /// <param name="compilation">The compilation to view, or <see langword="null"/>.</param>
+    /// <returns>The created view, or <see langword="null"/> if <paramref name="compilation"/> is <see langword="null"/>.</returns>
     [return: NotNullIfNotNull(nameof(compilation))]
     public static ICompilationSignatureView? ToSignatureView(
         this Compilation? compilation
@@ -29,6 +32,9 @@ public static partial class SignatureViewExtensions
         };
     }
 
+    /// <summary>Creates a signature view for the given <see cref="AssemblyIdentity"/>.</summary>
+    /// <param name="identity">The identity to view, or <see langword="null"/>.</param>
+    /// <returns>The created view, or <see langword="null"/> if <paramref name="identity"/> is <see langword="null"/>.</returns>
     [return: NotNullIfNotNull(nameof(identity))]
     public static IAssemblyIdentitySignatureView? ToSignatureView(
         this AssemblyIdentity? identity
@@ -51,6 +57,10 @@ public static partial class SignatureViewExtensions
         };
     }
 
+    /// <summary>Creates a signature view for the given <see cref="ISymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static ISymbolSignatureView ToSymbolSignatureView(
         this ISymbol symbol,
         Compilation? compilation
@@ -63,6 +73,10 @@ public static partial class SignatureViewExtensions
 
     // Types
 
+    /// <summary>Creates a signature view for the given <see cref="ITypeSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static ITypeSymbolSignatureView ToSymbolSignatureView(
         this ITypeSymbol symbol,
         Compilation? compilation
@@ -72,6 +86,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="INamedTypeSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static INamedTypeSymbolSignatureView ToSymbolSignatureView(
         this INamedTypeSymbol symbol,
         Compilation? compilation
@@ -81,6 +99,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="ITypeParameterSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static ITypeParameterSymbolSignatureView ToSymbolSignatureView(
         this ITypeParameterSymbol symbol,
         Compilation? compilation
@@ -90,6 +112,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IArrayTypeSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IArrayTypeSymbolSignatureView ToSymbolSignatureView(
         this IArrayTypeSymbol symbol,
         Compilation? compilation
@@ -99,6 +125,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IDynamicTypeSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IDynamicTypeSymbolSignatureView ToSymbolSignatureView(
         this IDynamicTypeSymbol symbol,
         Compilation? compilation
@@ -108,6 +138,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IPointerTypeSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IPointerTypeSymbolSignatureView ToSymbolSignatureView(
         this IPointerTypeSymbol symbol,
         Compilation? compilation
@@ -117,6 +151,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IFunctionPointerTypeSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IFunctionPointerTypeSymbolSignatureView ToSymbolSignatureView(
         this IFunctionPointerTypeSymbol symbol,
         Compilation? compilation
@@ -128,6 +166,10 @@ public static partial class SignatureViewExtensions
 
     // Members
 
+    /// <summary>Creates a signature view for the given <see cref="IFieldSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IFieldSymbolSignatureView ToSymbolSignatureView(
         this IFieldSymbol symbol,
         Compilation? compilation
@@ -137,6 +179,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IPropertySymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IPropertySymbolSignatureView ToSymbolSignatureView(
         this IPropertySymbol symbol,
         Compilation? compilation
@@ -146,6 +192,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IEventSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IEventSymbolSignatureView ToSymbolSignatureView(
         this IEventSymbol symbol,
         Compilation? compilation
@@ -155,6 +205,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IMethodSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IMethodSymbolSignatureView ToSymbolSignatureView(
         this IMethodSymbol symbol,
         Compilation? compilation
@@ -166,6 +220,10 @@ public static partial class SignatureViewExtensions
 
     // Values
 
+    /// <summary>Creates a signature view for the given <see cref="IDiscardSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IDiscardSymbolSignatureView ToSymbolSignatureView(
         this IDiscardSymbol symbol,
         Compilation? compilation
@@ -175,6 +233,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IParameterSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IParameterSymbolSignatureView ToSymbolSignatureView(
         this IParameterSymbol symbol,
         Compilation? compilation
@@ -184,6 +246,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="ILocalSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static ILocalSymbolSignatureView ToSymbolSignatureView(
         this ILocalSymbol symbol,
         Compilation? compilation
@@ -193,6 +259,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IRangeVariableSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IRangeVariableSymbolSignatureView ToSymbolSignatureView(
         this IRangeVariableSymbol symbol,
         Compilation? compilation
@@ -204,6 +274,10 @@ public static partial class SignatureViewExtensions
 
     // Namespace
 
+    /// <summary>Creates a signature view for the given <see cref="INamespaceSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static INamespaceSymbolSignatureView ToSymbolSignatureView(
         this INamespaceSymbol symbol,
         Compilation? compilation
@@ -215,6 +289,10 @@ public static partial class SignatureViewExtensions
 
     // Compilation
 
+    /// <summary>Creates a signature view for the given <see cref="IPreprocessingSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IPreprocessingSymbolSignatureView ToSymbolSignatureView(
         this IPreprocessingSymbol symbol,
         Compilation? compilation
@@ -224,6 +302,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IAliasSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IAliasSymbolSignatureView ToSymbolSignatureView(
         this IAliasSymbol symbol,
         Compilation? compilation
@@ -233,6 +315,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IModuleSymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IModuleSymbolSignatureView ToSymbolSignatureView(
         this IModuleSymbol symbol,
         Compilation? compilation
@@ -242,6 +328,10 @@ public static partial class SignatureViewExtensions
             symbol, compilation);
     }
 
+    /// <summary>Creates a signature view for the given <see cref="IAssemblySymbol"/>.</summary>
+    /// <param name="symbol">The symbol to create a view for.</param>
+    /// <param name="compilation">The compilation context used to resolve fully qualified names.</param>
+    /// <returns>The created signature view.</returns>
     public static IAssemblySymbolSignatureView ToSymbolSignatureView(
         this IAssemblySymbol symbol,
         Compilation? compilation
@@ -293,6 +383,7 @@ public static partial class SignatureViewExtensions
 
         // Types
 
+        /// <inheritdoc/>
         public override void VisitNamedType(INamedTypeSymbol symbol)
         {
             _view = new NamedTypeSymbolSignatureView
@@ -318,6 +409,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitTypeParameter(ITypeParameterSymbol symbol)
         {
             _view = new TypeParameterSymbolSignatureView
@@ -337,6 +429,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitArrayType(IArrayTypeSymbol symbol)
         {
             _view = new ArrayTypeSymbolSignatureView
@@ -348,11 +441,13 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitDynamicType(IDynamicTypeSymbol symbol)
         {
             _view = new DynamicTypeSymbolSignatureView();
         }
 
+        /// <inheritdoc/>
         public override void VisitPointerType(IPointerTypeSymbol symbol)
         {
             _view = new PointerTypeSymbolSignatureView
@@ -362,6 +457,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitFunctionPointerType(IFunctionPointerTypeSymbol symbol)
         {
             _view = new FunctionPointerTypeSymbolSignatureView
@@ -383,6 +479,7 @@ public static partial class SignatureViewExtensions
 
         // Members
 
+        /// <inheritdoc/>
         public override void VisitField(IFieldSymbol symbol)
         {
             _view = new FieldSymbolSignatureView
@@ -402,6 +499,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitProperty(IPropertySymbol symbol)
         {
             _view = new PropertySymbolSignatureView
@@ -421,6 +519,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitEvent(IEventSymbol symbol)
         {
             _view = new EventSymbolSignatureView
@@ -430,6 +529,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitMethod(IMethodSymbol symbol)
         {
             _view = new MethodSymbolSignatureView
@@ -452,6 +552,7 @@ public static partial class SignatureViewExtensions
 
         // Values
 
+        /// <inheritdoc/>
         public override void VisitDiscard(IDiscardSymbol symbol)
         {
             _view = new DiscardSymbolSignatureView
@@ -461,6 +562,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitParameter(IParameterSymbol symbol)
         {
             _view = new ParameterSymbolSignatureView
@@ -480,6 +582,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitLocal(ILocalSymbol symbol)
         {
             _view = new LocalSymbolSignatureView
@@ -497,6 +600,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitRangeVariable(IRangeVariableSymbol symbol)
         {
             _view = new RangeVariableSymbolSignatureView();
@@ -504,6 +608,7 @@ public static partial class SignatureViewExtensions
 
         // Namespace
 
+        /// <inheritdoc/>
         public override void VisitNamespace(INamespaceSymbol symbol)
         {
             _view = new NamespaceSymbolSignatureView
@@ -521,6 +626,7 @@ public static partial class SignatureViewExtensions
             _view = new PreprocessingSymbolSignatureView();
         }
 
+        /// <inheritdoc/>
         public override void VisitAlias(IAliasSymbol symbol)
         {
             _view = new AliasSymbolSignatureView
@@ -530,11 +636,13 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         public override void VisitModule(IModuleSymbol symbol)
         {
             _view = new ModuleSymbolSignatureView();
         }
 
+        /// <inheritdoc/>
         public override void VisitAssembly(IAssemblySymbol symbol)
         {
             _view = new AssemblySymbolSignatureView
@@ -543,6 +651,7 @@ public static partial class SignatureViewExtensions
             };
         }
 
+        /// <inheritdoc/>
         [MemberNotNull(nameof(Constructed))]
         public override void Visit(
             ISymbol? symbol)

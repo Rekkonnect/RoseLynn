@@ -88,6 +88,8 @@ public static class IMethodSymbolExtensions
 
     extension(IMethodSymbol method)
     {
+        /// <summary>Gets the first parameter of the extension method, accounting for reduced extension methods.</summary>
+        /// <returns>The <see cref="IParameterSymbol"/> representing the receiver parameter, or <see langword="null"/> if the method is not an extension method.</returns>
         public IParameterSymbol? GetExtensionMethodParameter()
         {
             if (method.MethodKind is MethodKind.ReducedExtension)
@@ -103,6 +105,8 @@ public static class IMethodSymbolExtensions
             return null;
         }
 
+        /// <summary>Gets the actual receiver type of the method: the extension parameter's type for extension methods, the declared receiver type for instance methods, or <see langword="null"/> for non-extension static methods.</summary>
+        /// <returns>The receiver type, or <see langword="null"/> for non-extension static methods.</returns>
         public ITypeSymbol? GetActualReceiverType()
         {
             var extensionParameter = method.GetExtensionMethodParameter();
@@ -119,6 +123,9 @@ public static class IMethodSymbolExtensions
             return method.ReceiverType;
         }
 
+        /// <summary>Returns <see langword="true"/> if this method explicitly implements or is the implementation for any member of <paramref name="interface"/>.</summary>
+        /// <param name="interface">The interface to check against; <see langword="null"/> is treated as no match.</param>
+        /// <returns><see langword="true"/> when the method implements the interface; otherwise <see langword="false"/>.</returns>
         public bool ImplementsInterface(
             INamedTypeSymbol? @interface)
         {
@@ -141,11 +148,15 @@ public static class IMethodSymbolExtensions
             return false;
         }
 
+        /// <summary>Returns <see langword="true"/> if the method has no parameters.</summary>
+        /// <returns><see langword="true"/> when <see cref="IMethodSymbol.Parameters"/> is empty.</returns>
         public bool IsParameterless()
         {
             return method.Parameters.Length is 0;
         }
 
+        /// <summary>Returns <see langword="true"/> if the method has no parameters and is not generic.</summary>
+        /// <returns><see langword="true"/> when the method is both parameterless and non-generic.</returns>
         public bool IsParameterlessAndNonGeneric()
         {
             return method.IsParameterless()

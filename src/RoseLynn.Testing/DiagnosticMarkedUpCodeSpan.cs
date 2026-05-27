@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace RoseLynn.Testing;
 
-/// <summary></summary>
+/// <summary>Represents a span within a diagnostic-marked-up code document where a diagnostic is expected to be emitted.</summary>
 public class DiagnosticMarkedUpCodeSpan
 {
     /// <summary>The span of the text at which a diagnostic is expected.</summary>

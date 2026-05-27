@@ -5,6 +5,7 @@ namespace RoseLynn.CSharp.Syntax;
 /// <summary>Includes some helper methods to quickly add <seealso cref="UsingDirectiveStatementInfo"/> instances.</summary>
 public class UsingDirectiveStatementInfoList : List<UsingDirectiveStatementInfo>
 {
+    /// <summary>Initializes a new empty <seealso cref="UsingDirectiveStatementInfoList"/>.</summary>
     public UsingDirectiveStatementInfoList() { }
     /// <summary>
     /// Creates a new instance of the <seealso cref="UsingDirectiveStatementInfoList"/> out of an existing collection of

@@ -9,10 +9,14 @@ namespace RoseLynn;
 /// <summary>Represents a full symbol name.</summary>
 public sealed class FullSymbolName
 {
+    /// <summary>The default delimiter used between all container symbol kinds.</summary>
     public const string DefaultContainerSymbolDelimiter = ".";
 
+    /// <summary>The default delimiter between namespace segments.</summary>
     public const string DefaultNamespaceDelimiter = DefaultContainerSymbolDelimiter;
+    /// <summary>The default delimiter between a container type and its nested types.</summary>
     public const string DefaultContainerTypeDelimiter = "+";
+    /// <summary>The default delimiter between a container method and its locally declared types.</summary>
     public const string DefaultContainerMethodDelimiter = "|";
 
     /// <summary>The list of namespaces that contain the given symbol, ordered in ascending nesting level.</summary>
@@ -115,27 +119,36 @@ public sealed class FullSymbolName
         }
     }
 
-    // Redundant documentation here
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with only the symbol name in the global namespace.</summary>
     public FullSymbolName(string symbolName)
         : this(symbolName, Enumerable.Empty<string>(), null, null) { }
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with the symbol name and its containing namespaces.</summary>
     public FullSymbolName(string symbolName, IEnumerable<string>? namespaceNames)
         : this(symbolName, namespaceNames, null, null) { }
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with the symbol name, its containing namespaces, and its container types.</summary>
     public FullSymbolName(string symbolName, IEnumerable<string>? namespaceNames, IEnumerable<string>? containerTypeNames)
         : this(symbolName, namespaceNames, containerTypeNames, null) { }
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with the symbol name and all container levels.</summary>
     public FullSymbolName(string symbolName, IEnumerable<string>? namespaceNames, IEnumerable<string>? containerTypeNames, IEnumerable<string>? containerMethodNames)
         : this(IdentifierWithArity.Parse(symbolName), namespaceNames, containerTypeNames, containerMethodNames) { }
 
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> from a <seealso cref="ISymbol"/> and its container symbols using <seealso cref="SymbolNameKind.Normal"/>.</summary>
     public FullSymbolName(ISymbol symbol, IEnumerable<INamespaceSymbol>? namespaces, IEnumerable<INamedTypeSymbol>? containerTypes, IEnumerable<IMethodSymbol>? containerMethods)
         : this(symbol, namespaces, containerTypes, containerMethods, SymbolNameKind.Normal) { }
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> from a <seealso cref="ISymbol"/> and its container symbols with a specified <seealso cref="SymbolNameKind"/>.</summary>
     public FullSymbolName(ISymbol symbol, IEnumerable<INamespaceSymbol>? namespaces, IEnumerable<INamedTypeSymbol>? containerTypes, IEnumerable<IMethodSymbol>? containerMethods, SymbolNameKind symbolNameKind)
         : this(symbol.GetIdentifierWithArity(symbolNameKind), namespaces?.Where(n => !n.IsGlobalNamespace).SelectSymbolNames(symbolNameKind), containerTypes?.SelectSymbolNames(symbolNameKind), containerMethods?.SelectSymbolNames(symbolNameKind)) { }
 
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with only the symbol identifier in the global namespace.</summary>
     public FullSymbolName(IdentifierWithArity symbolNameWithArity)
         : this(symbolNameWithArity, Enumerable.Empty<string>(), null, null) { }
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with the symbol identifier and its containing namespaces.</summary>
     public FullSymbolName(IdentifierWithArity symbolNameWithArity, IEnumerable<string>? namespaceNames)
         : this(symbolNameWithArity, namespaceNames, null, null) { }
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with the symbol identifier, its containing namespaces, and its container types.</summary>
     public FullSymbolName(IdentifierWithArity symbolNameWithArity, IEnumerable<string>? namespaceNames, IEnumerable<string>? containerTypeNames)
         : this(symbolNameWithArity, namespaceNames, containerTypeNames, null) { }
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> with the symbol identifier and all container levels.</summary>
     public FullSymbolName(IdentifierWithArity symbolNameWithArity, IEnumerable<string>? namespaceNames, IEnumerable<string>? containerTypeNames, IEnumerable<string>? containerMethodNames)
     {
         SymbolNameWithArity = symbolNameWithArity;
@@ -146,6 +159,7 @@ public sealed class FullSymbolName
         ResetAllDelimiters();
     }
 
+    /// <summary>Initializes a new <seealso cref="FullSymbolName"/> as a copy of another.</summary>
     public FullSymbolName(FullSymbolName other)
         : this(other.SymbolNameWithArity, other.Namespaces, other.ContainerTypes, other.ContainerMethods) { }
 
@@ -240,22 +254,39 @@ public sealed class FullSymbolName
         };
     }
 
+    /// <summary>Determines whether the container method names of this instance match those of another.</summary>
+    /// <param name="other">The other <seealso cref="FullSymbolName"/> to compare against.</param>
+    /// <returns><see langword="true"/> if the container method name sequences are equal.</returns>
     public bool MatchesContainerMethods(FullSymbolName other)
     {
         return MatchesNameList(other, ContainerSymbolKind.Method);
     }
+    /// <summary>Determines whether the container type names of this instance match those of another.</summary>
+    /// <param name="other">The other <seealso cref="FullSymbolName"/> to compare against.</param>
+    /// <returns><see langword="true"/> if the container type name sequences are equal.</returns>
     public bool MatchesContainerTypes(FullSymbolName other)
     {
         return MatchesNameList(other, ContainerSymbolKind.Type);
     }
+    /// <summary>Determines whether the namespace names of this instance match those of another.</summary>
+    /// <param name="other">The other <seealso cref="FullSymbolName"/> to compare against.</param>
+    /// <returns><see langword="true"/> if the namespace name sequences are equal.</returns>
     public bool MatchesNamespaces(FullSymbolName other)
     {
         return MatchesNameList(other, ContainerSymbolKind.Namespace);
     }
+    /// <summary>Determines whether the name list for the specified <seealso cref="SymbolKind"/> matches that of another <seealso cref="FullSymbolName"/>.</summary>
+    /// <param name="other">The other <seealso cref="FullSymbolName"/> to compare against.</param>
+    /// <param name="containerSymbolKind">The <seealso cref="SymbolKind"/> of the name list to compare.</param>
+    /// <returns><see langword="true"/> if the name sequences for the given kind are equal.</returns>
     public bool MatchesNameList(FullSymbolName other, SymbolKind containerSymbolKind)
     {
         return MatchesNameList(other, containerSymbolKind.ToContainerSymbolKind());
     }
+    /// <summary>Determines whether the name list for the specified <seealso cref="ContainerSymbolKind"/> matches that of another <seealso cref="FullSymbolName"/>.</summary>
+    /// <param name="other">The other <seealso cref="FullSymbolName"/> to compare against.</param>
+    /// <param name="containerSymbolKind">The <seealso cref="ContainerSymbolKind"/> of the name list to compare.</param>
+    /// <returns><see langword="true"/> if the name sequences for the given kind are equal.</returns>
     public bool MatchesNameList(FullSymbolName other, ContainerSymbolKind containerSymbolKind)
     {
         var thisList = GetNameList(containerSymbolKind);

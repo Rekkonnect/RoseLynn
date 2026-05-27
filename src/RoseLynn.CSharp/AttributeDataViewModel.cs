@@ -370,6 +370,10 @@ public sealed class AttributeDataViewModel
         TypedConstant Value,
         AttributeArgumentMappingKind MappingKind)
     {
+        /// <summary>Initializes a <see cref="MappedAttributeArgument"/> with no associated syntax node.</summary>
+        /// <param name="name">The argument name.</param>
+        /// <param name="value">The argument value.</param>
+        /// <param name="mappingKind">How the argument was matched.</param>
         public MappedAttributeArgument(
             string name,
             TypedConstant value,
@@ -378,6 +382,11 @@ public sealed class AttributeDataViewModel
         {
         }
 
+        /// <summary>Initializes a <see cref="MappedAttributeArgument"/> with a single syntax node.</summary>
+        /// <param name="argumentSyntax">The syntax node representing the argument.</param>
+        /// <param name="name">The argument name.</param>
+        /// <param name="value">The argument value.</param>
+        /// <param name="mappingKind">How the argument was matched.</param>
         public MappedAttributeArgument(
             SyntaxNode argumentSyntax,
             string name,
@@ -387,6 +396,11 @@ public sealed class AttributeDataViewModel
         {
         }
 
+        /// <summary>Initializes a <see cref="MappedAttributeArgument"/> with a syntax node-or-token list.</summary>
+        /// <param name="argumentSyntaxList">The list of syntax nodes or tokens representing the argument.</param>
+        /// <param name="name">The argument name.</param>
+        /// <param name="value">The argument value.</param>
+        /// <param name="mappingKind">How the argument was matched.</param>
         public MappedAttributeArgument(
             SyntaxNodeOrTokenList argumentSyntaxList,
             string name,

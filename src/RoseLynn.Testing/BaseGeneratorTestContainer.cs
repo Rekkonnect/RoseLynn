@@ -18,6 +18,9 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
     where TSourceGenerator : IIncrementalGenerator, new()
     where TTest : CSharpSourceGeneratorTestEx<TSourceGenerator>, new()
 {
+    /// <summary>Creates UTF-8 C# source text with normalized CRLF newlines.</summary>
+    /// <param name="source">The C# source string.</param>
+    /// <returns>The normalized UTF-8 <seealso cref="SourceText"/>.</returns>
     public static SourceText Utf8CSharpSource(
         [StringSyntax(PredefinedEmbeddedLanguageNames.CSharpTest)]
         string source)

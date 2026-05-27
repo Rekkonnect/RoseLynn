@@ -57,6 +57,7 @@ public record struct IdentifierWithArity(string Name, int Arity = 0)
         return $"{Name}{opener}{string.Join(", ", typeArguments)}{closer}";
     }
 
+    /// <summary>Returns the full identifier string including arity suffix.</summary>
     public override string ToString() => FullIdentifier;
 
     /// <summary>Parses a metadata symbol name, decoding its arity and constructing an <seealso cref="IdentifierWithArity"/> instance encoding the information.</summary>

@@ -5,8 +5,12 @@ using RoseLynn;
 
 namespace RoseLynn.CSharp;
 
+/// <summary>Provides extension methods for removing a specific modifier token from C# declaration syntax nodes while preserving surrounding trivia.</summary>
 public static class RemoveModifiersExtensions
 {
+    /// <summary>Returns a copy of the method declaration with the specified modifier removed.</summary>
+    /// <param name="method">The method declaration to modify.</param>
+    /// <param name="modifierKind">The <seealso cref="SyntaxKind"/> of the modifier to remove.</param>
     public static MethodDeclarationSyntax RemoveModifier(
         this MethodDeclarationSyntax method, SyntaxKind modifierKind)
     {
@@ -14,6 +18,9 @@ public static class RemoveModifiersExtensions
         return WithModifiersOrSame(removed, method, method.WithModifiers, modifiers);
     }
 
+    /// <summary>Returns a copy of the local function declaration with the specified modifier removed.</summary>
+    /// <param name="method">The local function declaration to modify.</param>
+    /// <param name="modifierKind">The <seealso cref="SyntaxKind"/> of the modifier to remove.</param>
     public static LocalFunctionStatementSyntax RemoveModifier(
         this LocalFunctionStatementSyntax method, SyntaxKind modifierKind)
     {
@@ -21,6 +28,9 @@ public static class RemoveModifiersExtensions
         return WithModifiersOrSame(removed, method, method.WithModifiers, modifiers);
     }
 
+    /// <summary>Returns a copy of the simple lambda expression with the specified modifier removed.</summary>
+    /// <param name="method">The lambda expression to modify.</param>
+    /// <param name="modifierKind">The <seealso cref="SyntaxKind"/> of the modifier to remove.</param>
     public static SimpleLambdaExpressionSyntax RemoveModifier(
         this SimpleLambdaExpressionSyntax method, SyntaxKind modifierKind)
     {
@@ -28,6 +38,9 @@ public static class RemoveModifiersExtensions
         return WithModifiersOrSame(removed, method, method.WithModifiers, modifiers);
     }
 
+    /// <summary>Returns a copy of the parenthesized lambda expression with the specified modifier removed.</summary>
+    /// <param name="method">The lambda expression to modify.</param>
+    /// <param name="modifierKind">The <seealso cref="SyntaxKind"/> of the modifier to remove.</param>
     public static ParenthesizedLambdaExpressionSyntax RemoveModifier(
         this ParenthesizedLambdaExpressionSyntax method, SyntaxKind modifierKind)
     {
@@ -35,6 +48,9 @@ public static class RemoveModifiersExtensions
         return WithModifiersOrSame(removed, method, method.WithModifiers, modifiers);
     }
 
+    /// <summary>Returns a copy of the anonymous method expression with the specified modifier removed.</summary>
+    /// <param name="method">The anonymous method expression to modify.</param>
+    /// <param name="modifierKind">The <seealso cref="SyntaxKind"/> of the modifier to remove.</param>
     public static AnonymousMethodExpressionSyntax RemoveModifier(
         this AnonymousMethodExpressionSyntax method, SyntaxKind modifierKind)
     {
@@ -42,6 +58,9 @@ public static class RemoveModifiersExtensions
         return WithModifiersOrSame(removed, method, method.WithModifiers, modifiers);
     }
 
+    /// <summary>Returns a copy of the property declaration with the specified modifier removed.</summary>
+    /// <param name="method">The property declaration to modify.</param>
+    /// <param name="modifierKind">The <seealso cref="SyntaxKind"/> of the modifier to remove.</param>
     public static BasePropertyDeclarationSyntax RemoveModifier(
         this BasePropertyDeclarationSyntax method, SyntaxKind modifierKind)
     {

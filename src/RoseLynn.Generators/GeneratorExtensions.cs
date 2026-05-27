@@ -178,6 +178,8 @@ public static class GeneratorExtensions
         }
     }
 
+    /// <summary>Converts a sequence of <seealso cref="IIncrementalGenerator"/> instances into <seealso cref="ISourceGenerator"/> wrappers.</summary>
+    /// <param name="generators">The incremental generators to wrap.</param>
     public static IEnumerable<ISourceGenerator> AsSourceGenerators(
         this IEnumerable<IIncrementalGenerator> generators)
     {

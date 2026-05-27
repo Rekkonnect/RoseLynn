@@ -28,38 +28,54 @@ namespace RoseLynn.CSharp.SignatureViews;
 public abstract record SymbolSignatureView
     : ISymbolSignatureView
 {
+    /// <inheritdoc/>
     public string Name { get; set; } = null!;
 
+    /// <inheritdoc/>
     public string MetadataName { get; set; } = null!;
 
+    /// <inheritdoc/>
     public string FullyQualifiedIdentifier { get; set; } = null!;
 
+    /// <inheritdoc/>
     public string FullyQualifiedName { get; set; } = null!;
 
+    /// <inheritdoc/>
     public string FullMetadataName { get; set; } = null!;
 
+    /// <inheritdoc/>
     public string? ContainedNamespaceName { get; set; }
 
+    /// <inheritdoc/>
     public string? Keyword { get; set; }
 
+    /// <inheritdoc/>
     public SymbolKind Kind { get; set; }
 
+    /// <inheritdoc/>
     public Accessibility DeclaredAccessibility { get; set; }
 
+    /// <inheritdoc/>
     public bool IsStatic { get; set; }
 
+    /// <inheritdoc/>
     public bool IsSealed { get; set; }
 
+    /// <inheritdoc/>
     public bool IsAbstract { get; set; }
 
+    /// <inheritdoc/>
     public bool IsVirtual { get; set; }
 
+    /// <inheritdoc/>
     public bool IsOverride { get; set; }
 
+    /// <inheritdoc/>
     public bool IsExtern { get; set; }
 
     // A quicker hash to improve performance, saving up lots of
     // unnecessary calculations
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return FullyQualifiedName.GetHashCode() ^ (int)Kind;
@@ -86,18 +102,25 @@ public abstract record NamespaceOrTypeSymbolSignatureView
 public abstract record TypeSymbolSignatureView
     : NamespaceOrTypeSymbolSignatureView, ITypeSymbolSignatureView
 {
+    /// <inheritdoc/>
     public TypeKind TypeKind { get; set; }
 
+    /// <inheritdoc/>
     public SpecialType SpecialType { get; set; }
 
+    /// <inheritdoc/>
     public bool IsRecord { get; set; }
 
+    /// <inheritdoc/>
     public bool IsValueType { get; set; }
 
+    /// <inheritdoc/>
     public bool IsReferenceType { get; set; }
 
+    /// <inheritdoc/>
     public NullableAnnotation NullableAnnotation { get; set; }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return base.GetHashCode()
@@ -115,22 +138,31 @@ public abstract record TypeSymbolSignatureView
 public record NamedTypeSymbolSignatureView
     : TypeSymbolSignatureView, INamedTypeSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required bool IsFileLocal { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsGenericType { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<ITypeSymbolSignatureView> TypeArguments { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<ITypeParameterSymbolSignatureView> TypeParameters { get; set; }
 
+    /// <inheritdoc/>
     public required SpecialType EnumUnderlyingSpecialType { get; set; }
 
+    /// <inheritdoc/>
     public required SpecialType ConstructedFromSpecialType { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<INamedTypeSymbolSignatureView> ContainingTypes { get; set; }
 
+    /// <inheritdoc/>
     public EquatableImmutableArray<string> TupleFieldNames { get; set; }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return base.GetHashCode()
@@ -147,28 +179,40 @@ public record NamedTypeSymbolSignatureView
 public record TypeParameterSymbolSignatureView
     : TypeSymbolSignatureView, ITypeParameterSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required VarianceKind Variance { get; set; }
 
+    /// <inheritdoc/>
     public required TypeParameterKind TypeParameterKind { get; set; }
 
+    /// <inheritdoc/>
     public required int Ordinal { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasReferenceTypeConstraint { get; set; }
 
+    /// <inheritdoc/>
     public required NullableAnnotation ReferenceTypeConstraintNullableAnnotation { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasValueTypeConstraint { get; set; }
 
+    /// <inheritdoc/>
     public required bool AllowsRefLikeType { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasUnmanagedTypeConstraint { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasNotNullConstraint { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasConstructorConstraint { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<ITypeSymbolSignatureView> ConstraintTypes { get; set; }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return Name.GetHashCode()
@@ -186,12 +230,16 @@ public record TypeParameterSymbolSignatureView
 public record ArrayTypeSymbolSignatureView
     : TypeSymbolSignatureView, IArrayTypeSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required int Rank { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<int> Sizes { get; set; }
 
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView ElementType { get; set; }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return base.GetHashCode()
@@ -217,6 +265,7 @@ public record DynamicTypeSymbolSignatureView
 public record PointerTypeSymbolSignatureView
     : TypeSymbolSignatureView, IPointerTypeSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView PointedAtType { get; set; }
 }
 
@@ -229,6 +278,7 @@ public record PointerTypeSymbolSignatureView
 public record FunctionPointerTypeSymbolSignatureView
     : TypeSymbolSignatureView, IFunctionPointerTypeSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required IMethodSymbolSignatureView Signature { get; set; }
 }
 
@@ -243,26 +293,37 @@ public record FunctionPointerTypeSymbolSignatureView
 public record FieldSymbolSignatureView
     : SymbolSignatureView, IFieldSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required RefKind RefKind { get; set; }
 
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView Type { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsConst { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsReadOnly { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsVolatile { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsRequired { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsFixedSizeBuffer { get; set; }
 
+    /// <inheritdoc/>
     public required int FixedSize { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsExplicitlyNamedTupleElement { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasConstantValue { get; set; }
 
+    /// <inheritdoc/>
     public required object? ConstantValue { get; set; }
 }
 
@@ -275,22 +336,31 @@ public record FieldSymbolSignatureView
 public record PropertySymbolSignatureView
     : SymbolSignatureView, IPropertySymbolSignatureView
 {
+    /// <inheritdoc/>
     public required RefKind RefKind { get; set; }
 
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView Type { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsReadOnly { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsIndexer { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsRequired { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<IParameterSymbolSignatureView> Parameters { get; set; }
 
+    /// <inheritdoc/>
     public required Accessibility GetMethodAccessibility { get; set; }
 
+    /// <inheritdoc/>
     public required Accessibility SetMethodAccessibility { get; set; }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return base.GetHashCode()
@@ -307,6 +377,7 @@ public record PropertySymbolSignatureView
 public record EventSymbolSignatureView
     : SymbolSignatureView, IEventSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView Type { get; set; }
 }
 
@@ -319,24 +390,34 @@ public record EventSymbolSignatureView
 public record MethodSymbolSignatureView
     : SymbolSignatureView, IMethodSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required MethodKind MethodKind { get; set; }
 
+    /// <inheritdoc/>
     public required RefKind RefKind { get; set; }
 
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView ReturnType { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<IParameterSymbolSignatureView> Parameters { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<ITypeParameterSymbolSignatureView> TypeParameters { get; set; }
 
+    /// <inheritdoc/>
     public required EquatableImmutableArray<ITypeSymbolSignatureView> TypeArguments { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsAsync { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsVararg { get; set; }
 
+    /// <inheritdoc/>
     public required SignatureCallingConvention CallingConvention { get; set; }
 
+    /// <inheritdoc/>
     public override int GetHashCode()
     {
         return base.GetHashCode()
@@ -356,6 +437,7 @@ public record MethodSymbolSignatureView
 public record DiscardSymbolSignatureView
     : SymbolSignatureView, IDiscardSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView Type { get; set; }
 }
 
@@ -368,26 +450,37 @@ public record DiscardSymbolSignatureView
 public record ParameterSymbolSignatureView
     : SymbolSignatureView, IParameterSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView Type { get; set; }
 
+    /// <inheritdoc/>
     public required RefKind RefKind { get; set; }
 
+    /// <inheritdoc/>
     public required ScopedKind ScopedKind { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsParams { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsParamsArray { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsParamsCollection { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsThis { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsDiscard { get; set; }
 
+    /// <inheritdoc/>
     public required int Ordinal { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasExplicitDefaultValue { get; set; }
 
+    /// <inheritdoc/>
     public required object? ExplicitDefaultValue { get; set; }
 }
 
@@ -400,22 +493,31 @@ public record ParameterSymbolSignatureView
 public record LocalSymbolSignatureView
     : SymbolSignatureView, ILocalSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required ITypeSymbolSignatureView Type { get; set; }
 
+    /// <inheritdoc/>
     public required RefKind RefKind { get; set; }
 
+    /// <inheritdoc/>
     public required ScopedKind ScopedKind { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsConst { get; set; }
 
+    /// <inheritdoc/>
     public required bool HasConstantValue { get; set; }
 
+    /// <inheritdoc/>
     public required object? ConstantValue { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsFixed { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsForEach { get; set; }
 
+    /// <inheritdoc/>
     public required bool IsUsing { get; set; }
 }
 
@@ -439,10 +541,13 @@ public record RangeVariableSymbolSignatureView
 public record NamespaceSymbolSignatureView
     : NamespaceOrTypeSymbolSignatureView, INamespaceSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required bool IsGlobalNamespace { get; set; }
 
+    /// <inheritdoc/>
     public required NamespaceKind NamespaceKind { get; set; }
 
+    /// <inheritdoc/>
     public required ICompilationSignatureView? ContainingCompilation { get; set; }
 }
 
@@ -466,6 +571,7 @@ public record PreprocessingSymbolSignatureView
 public record AliasSymbolSignatureView
     : SymbolSignatureView, IAliasSymbolSignatureView
 {
+    /// <inheritdoc/>
     public required INamespaceOrTypeSymbolSignatureView Target { get; set; }
 }
 
@@ -491,5 +597,6 @@ public record AssemblySymbolSignatureView
     // as the main driver of symbol signature views implies the consumption in
     // incremental generators
 
+    /// <inheritdoc/>
     public required IAssemblyIdentitySignatureView Identity { get; set; }
 }

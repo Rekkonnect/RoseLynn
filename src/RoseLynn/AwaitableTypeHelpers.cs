@@ -3,8 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace RoseLynn;
 
+/// <summary>Provides helpers for inspecting whether a type follows the C# awaitable pattern.</summary>
 public static class AwaitableTypeHelpers
 {
+    /// <summary>Gets <seealso cref="AwaitableTypeInfo"/> for the given type if it follows the awaitable pattern, otherwise <see langword="null"/>.</summary>
+    /// <param name="type">The named type symbol to inspect.</param>
+    /// <returns>An <seealso cref="AwaitableTypeInfo"/> instance if <paramref name="type"/> is awaitable; otherwise <see langword="null"/>.</returns>
     public static AwaitableTypeInfo? GetAwaitableTypeInfo(INamedTypeSymbol type)
     {
         var getAwaiterMethod = type
@@ -28,6 +32,9 @@ public static class AwaitableTypeHelpers
         return new(type, awaiterTypeInfo);
     }
 
+    /// <summary>Gets <seealso cref="AwaiterTypeInfo"/> for the given type if it satisfies the awaiter contract, otherwise <see langword="null"/>.</summary>
+    /// <param name="type">The named type symbol to inspect as a potential awaiter. May be <see langword="null"/>.</param>
+    /// <returns>An <seealso cref="AwaiterTypeInfo"/> instance if <paramref name="type"/> meets the awaiter requirements; otherwise <see langword="null"/>.</returns>
     public static AwaiterTypeInfo? GetAwaiterTypeInfo(INamedTypeSymbol? type)
     {
         if (type is null)
