@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides extension methods for <see cref="ReadOnlySpan{T}"/>.</summary>
 public static class SpanExtensions

@@ -1,7 +1,7 @@
-﻿using Garyon.Extensions.Comparison;
+using Garyon.Extensions.Comparison;
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains factory methods for constructing <seealso cref="Diagnostic"/> instances.</summary>
 public static class DiagnosticFactory

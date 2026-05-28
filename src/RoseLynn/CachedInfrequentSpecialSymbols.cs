@@ -1,8 +1,8 @@
-﻿using Garyon.Extensions;
+using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains cached infrequent special symbols for analyzed <seealso cref="ISymbol"/> instances.</summary>
 public class CachedInfrequentSpecialSymbols

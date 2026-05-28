@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides helpers for inspecting whether a type follows the C# awaitable pattern.</summary>
 public static class AwaitableTypeHelpers

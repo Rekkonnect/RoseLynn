@@ -10,7 +10,7 @@ public static class KnownSymbolNames
 
     public static class Full
     {
-        public static readonly string[] BaseNamespaces = new[] { nameof(RoseLynn) };
+        public static readonly string[] BaseNamespaces = new[] { "RoseLynn", "Core" };
 
         public static readonly FullSymbolName
             CSharpOperatorTokenAttribute = new(KnownSymbolNames.CSharpOperatorTokenAttribute, BaseNamespaces),

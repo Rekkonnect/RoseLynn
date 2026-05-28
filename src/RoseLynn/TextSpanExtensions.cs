@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.Text;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains extensions for the <seealso cref="TextSpan"/> struct.</summary>
 public static class TextSpanExtensions

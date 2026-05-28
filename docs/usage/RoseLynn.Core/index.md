@@ -8,6 +8,7 @@
 
 - [Operator Symbol Utilities](operatorSymbols.md)
 - [Awaitable Type Helpers](awaitableTypes.md)
+- [Signature Views](signatureViews.md)
 
 ## Other Useful Types
 

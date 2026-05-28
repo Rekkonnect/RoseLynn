@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Counts the total number of <see cref="SyntaxToken"/> instances within a syntax tree, including structured trivia.</summary>
 public sealed class SyntaxTokenCounter : SyntaxWalker

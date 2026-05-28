@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Testing;
-using RoseLynn.CSharp.SignatureViews;
+using RoseLynn.Core.SignatureViews;
 using RoseLynn.Testing;
 using System.Diagnostics.CodeAnalysis;
 
@@ -32,7 +32,7 @@ public sealed class SymbolSignatureViewTests : BaseCompilationTestContainer
             .IsEquivalentTo(["a", "b"]);
 
         await Assert.That(signatureView.SimplerTupleIdentifier())
-            .IsEqualTo("(int a, int b)");
+            .IsEqualTo("(global::System.Int32 a, global::System.Int32 b)");
     }
 
     [Test]

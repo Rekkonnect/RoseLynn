@@ -1,5 +1,5 @@
-﻿
-namespace RoseLynn;
+
+namespace RoseLynn.Core;
 
 /// <summary>
 /// Represents the numerical checking mode of the operator, specifically

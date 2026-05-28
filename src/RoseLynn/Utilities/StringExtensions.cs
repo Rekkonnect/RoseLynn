@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.Text;
 
-namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Provides useful extensions for the <seealso cref="string"/> type.</summary>
 public static class StringExtensions

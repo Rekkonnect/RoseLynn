@@ -1,6 +1,6 @@
-﻿
 
-namespace RoseLynn;
+
+namespace RoseLynn.Core;
 
 /// <summary>Denotes the direction of the conversion operator.</summary>
 public enum ConversionOperatorDirection

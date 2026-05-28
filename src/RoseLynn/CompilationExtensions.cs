@@ -1,7 +1,7 @@
-﻿using Garyon.Extensions;
+using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains extensions for the <seealso cref="Compilation"/> class.</summary>
 public static class CompilationExtensions

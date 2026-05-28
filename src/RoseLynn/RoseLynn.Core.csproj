@@ -7,7 +7,7 @@
     <Description>Additional tools for Roslyn-based applications.</Description>
     <PackageTags>roslyn, analyzer, tools, extensions</PackageTags>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>RoseLynn</RootNamespace>
+    <RootNamespace>RoseLynn.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup Label="README reference">

@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Identifies a <seealso cref="SyntaxAnnotation"/> by its kind and data strings.</summary>
 /// <param name="Kind">The annotation kind.</param>

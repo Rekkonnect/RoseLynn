@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides useful extensions for <seealso cref="ISymbol"/> instances that can be generic.</summary>
 public static class TypeParameterizableSymbolExtensions

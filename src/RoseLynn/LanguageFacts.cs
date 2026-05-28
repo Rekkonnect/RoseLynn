@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides facts for .NET languages and extensions for the <seealso cref="NetLanguage"/> enum.</summary>
 public static class LanguageFacts

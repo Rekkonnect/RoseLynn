@@ -1,10 +1,10 @@
-﻿using Garyon.Extensions;
+using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Polyfills;
 using System.Text;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides extensions for <seealso cref="Document"/>.</summary>
 public static class DocumentExtensions

@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains extensions for the <seealso cref="INamespaceOrTypeSymbol"/> interface.</summary>
 public static class INamespaceOrTypeSymbolExtensions

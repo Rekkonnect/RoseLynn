@@ -1,7 +1,7 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 // Querying is abstracted over here to avoid bloating CachedOperatorSymbols with unnecessary semantics
 /// <summary>Provides query helpers for filtering cached operator symbol collections.</summary>

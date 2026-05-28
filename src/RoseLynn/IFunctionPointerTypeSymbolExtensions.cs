@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains extensions for the <see cref="IFunctionPointerTypeSymbol"/> interface.</summary>
 public static class IFunctionPointerTypeSymbolExtensions

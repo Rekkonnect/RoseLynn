@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides helper extensions for the <seealso cref="CompilationAnalysisContext"/> type.</summary>
 public static class CompilationAnalysisContextExtensions

@@ -1,9 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoseLynn.CSharp;
 using RoseLynn.Testing;
-using RoseLynn.Utilities;
+using RoseLynn.Core.Utilities;
 
 namespace RoseLynn.Test;
 

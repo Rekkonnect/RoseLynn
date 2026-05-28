@@ -1,4 +1,6 @@
-﻿namespace RoseLynn.CSharp.Syntax;
+﻿using RoseLynn.Core;
+
+namespace RoseLynn.CSharp.Syntax;
 
 /// <summary>Contains fundamental information about the using directive.</summary>
 /// <param name="Kind">The using kind of the using directive.</param>

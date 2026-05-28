@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using RoseLynn;
+using RoseLynn.Core;
 
 namespace RoseLynn.CSharp;
 

@@ -1,10 +1,10 @@
-﻿using Garyon.Extensions;
+using Garyon.Extensions;
 using Garyon.Reflection;
 using Microsoft.CodeAnalysis;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents a full symbol name.</summary>
 public sealed class FullSymbolName

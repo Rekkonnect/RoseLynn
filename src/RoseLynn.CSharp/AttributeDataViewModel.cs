@@ -1,8 +1,8 @@
-﻿
+
 using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using RoseLynn;
+using RoseLynn.Core;
 using System.Collections.Immutable;
 
 namespace RoseLynn.CSharp;

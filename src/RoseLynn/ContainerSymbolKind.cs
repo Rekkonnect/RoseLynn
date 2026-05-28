@@ -1,7 +1,7 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents the symbol kind of a container symbol, that is a symbol that contains another symbol's definition.</summary>
 public enum ContainerSymbolKind

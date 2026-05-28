@@ -10,13 +10,13 @@
       href: usage/RoseLynn.Core/awaitableTypes.md
     - name: Operator Symbols
       href: usage/RoseLynn.Core/operatorSymbols.md
+    - name: Signature Views
+      href: usage/RoseLynn.Core/signatureViews.md
   - name: RoseLynn.CSharp
     href: usage/RoseLynn.CSharp/index.md
     items:
     - name: Clause Segmentation
       href: usage/RoseLynn.CSharp/clauseSegmentation.md
-    - name: Signature Views
-      href: usage/RoseLynn.CSharp/signatureViews.md
     - name: Symbol Names
       href: usage/RoseLynn.CSharp/symbolNames.md
     - name: Using Directive Statement Info

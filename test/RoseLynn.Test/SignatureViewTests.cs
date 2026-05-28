@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using RoseLynn.CSharp.SignatureViews;
+using RoseLynn.Core.SignatureViews;
 using RoseLynn.Testing;
 
 namespace RoseLynn.Test;

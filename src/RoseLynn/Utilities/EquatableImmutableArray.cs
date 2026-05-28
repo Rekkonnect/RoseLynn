@@ -1,10 +1,10 @@
-﻿
+
 using Garyon.Extensions.Comparison;
 using System.Collections;
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
-namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Wraps an <see cref="ImmutableArray{T}"/> with structural equality semantics and safe access helpers.</summary>
 /// <param name="Array">The underlying immutable array value.</param>

@@ -1,8 +1,8 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 using System.ComponentModel;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Denotes the operator method kind of the operator method symbol.</summary>
 public enum OperatorMethodKind

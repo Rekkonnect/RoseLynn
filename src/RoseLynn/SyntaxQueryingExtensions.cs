@@ -1,9 +1,9 @@
-﻿using Garyon.Functions;
+using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using System.Diagnostics;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides advanced querying helpers for navigating syntax trees by position and span.</summary>
 public static class SyntaxQueryingExtensions

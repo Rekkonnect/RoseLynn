@@ -1,7 +1,7 @@
-﻿using Garyon.Objects.Enumerators;
+using Garyon.Objects.Enumerators;
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains extensions for the <seealso cref="INamespaceSymbol"/> interface.</summary>
 public static class INamespaceSymbolExtensions

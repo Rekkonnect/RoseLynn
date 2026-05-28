@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents a symbol's identifier and arity.</summary>
 /// <param name="Name">The identifier of the symbol.</param>

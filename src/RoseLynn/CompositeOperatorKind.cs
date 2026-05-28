@@ -1,5 +1,5 @@
-﻿
-namespace RoseLynn;
+
+namespace RoseLynn.Core;
 
 /// <summary>
 /// Combines the infromation of the operator kind and the checking mode for which it is defined.

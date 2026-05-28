@@ -1,8 +1,8 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides helpers for computing the in-memory size of types described by Roslyn <see cref="ITypeSymbol"/> instances.</summary>
 public static partial class TypeMemoryHelpers

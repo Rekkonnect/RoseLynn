@@ -1,7 +1,7 @@
-﻿using Garyon.Extensions;
+using Garyon.Extensions;
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides extension methods for <seealso cref="Solution"/>.</summary>
 public static class SolutionExtensions

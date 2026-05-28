@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides useful extensions for the <seealso cref="ISymbol"/> type.</summary>
 public static class ISymbolExtensions

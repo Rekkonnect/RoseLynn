@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents the set of global C# syntax features present in a compilation.</summary>
 [Flags]

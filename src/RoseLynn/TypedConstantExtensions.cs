@@ -1,8 +1,8 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains extension methods for the <seealso cref="TypedConstant"/> type.</summary>
 public static class TypedConstantExtensions

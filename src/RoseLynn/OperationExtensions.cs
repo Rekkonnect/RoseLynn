@@ -1,8 +1,8 @@
-﻿using Garyon.Functions;
+using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Operations;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides extension methods for Roslyn <seealso cref="IOperation"/> types.</summary>
 public static class OperationExtensions

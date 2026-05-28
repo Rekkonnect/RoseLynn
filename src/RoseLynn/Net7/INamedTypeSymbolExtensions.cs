@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn.Net7;
+namespace RoseLynn.Core.Net7;
 
 /// <summary>
 /// Provides useful extensions for the <seealso cref="INamedTypeSymbol"/> type,

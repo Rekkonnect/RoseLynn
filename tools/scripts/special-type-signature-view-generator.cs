@@ -1,5 +1,6 @@
 ﻿#!/usr/bin/dotnet run
 #:project ../../src/RoseLynn/RoseLynn.Core.csproj
+#:project ../../src/RoseLynn.CSharp/RoseLynn.CSharp.csproj
 #:project ../../src/RoseLynn.Testing/RoseLynn.Testing.csproj
 #:package Garyon
 #:package Microsoft.CodeAnalysis
@@ -15,8 +16,9 @@ using Garyon.Extensions;
 using Garyon.Functions;
 using Garyon.Reflection;
 using Microsoft.CodeAnalysis;
-using RoseLynn;
-using RoseLynn.SignatureViews;
+using RoseLynn.Core;
+using RoseLynn.Core.SignatureViews;
+using RoseLynn.CSharp;
 using RoseLynn.Testing;
 using RoseLynn.Writing;
 
@@ -160,10 +162,10 @@ sealed class SignatureViewFileBuilder(
             //     special-type-signature-view-generator.cs
             //     for Roslyn version {{typeof(SpecialType).Assembly.GetName().Version}}
             // </auto-generated>
-
+                
             using Microsoft.CodeAnalysis;
 
-            namespace RoseLynn.SignatureViews;
+            namespace RoseLynn.Core.SignatureViews;
 
             #nullable enable
 

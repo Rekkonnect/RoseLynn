@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
-using RoseLynn.Utilities;
+using RoseLynn.Core.Utilities;
 using System.Diagnostics.CodeAnalysis;
 
 namespace RoseLynn.Testing;

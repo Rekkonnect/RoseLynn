@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides general-purpose Roslyn helper extensions used across the library.</summary>
 public static class GeneralRoslynExtensions

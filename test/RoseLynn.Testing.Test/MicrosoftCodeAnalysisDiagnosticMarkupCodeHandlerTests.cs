@@ -1,4 +1,4 @@
-﻿using RoseLynn.Utilities;
+using RoseLynn.Core.Utilities;
 
 namespace RoseLynn.Testing.Test;
 

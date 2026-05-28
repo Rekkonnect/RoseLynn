@@ -1,4 +1,4 @@
-﻿namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Provides small fluent helpers for null handling and inline transformations.</summary>
 public static class FluentExtensions

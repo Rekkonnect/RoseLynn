@@ -14,7 +14,7 @@ public class OperatorKindFactsGenerator : DiagnosticAnalyzer, IIncrementalGenera
 {
     private const string OperatorKindFactsName = "OperatorKindFacts";
     private const string OperatorKindName = "OperatorKind";
-    private const string FullOperatorKindName = $"{nameof(RoseLynn)}.{OperatorKindName}";
+    private const string FullOperatorKindName = $"RoseLynn.Core.{OperatorKindName}";
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         => [GeneratorDiagnosticDescriptorStorage.Rose0001];
@@ -55,7 +55,7 @@ public class OperatorKindFactsGenerator : DiagnosticAnalyzer, IIncrementalGenera
             using {{nameof(System)}};
             using static {{FullOperatorKindName}};
 
-            namespace {{nameof(RoseLynn)}};
+            namespace RoseLynn.Core;
 
             partial class {{OperatorKindFactsName}}
             {

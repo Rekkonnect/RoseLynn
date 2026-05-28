@@ -1,7 +1,7 @@
-﻿using Garyon.Functions;
+using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides factory helpers for constructing <seealso cref="Location"/> instances from ranges and nodes.</summary>
 public static class LocationHelpers

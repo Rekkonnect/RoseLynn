@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace RoseLynn.Diagnostics;
+namespace RoseLynn.Core.Diagnostics;
 
 /// <summary>Provides useful extensions for the <seealso cref="SyntaxNodeAnalysisContext"/> type.</summary>
 public static class SyntaxNodeAnalysisContextExtensions

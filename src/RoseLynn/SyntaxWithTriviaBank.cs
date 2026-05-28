@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Pairs a syntax node with an associated <seealso cref="TriviaBank"/> for deferred trivia attachment.</summary>
 /// <typeparam name="TSyntax">The syntax node type.</typeparam>

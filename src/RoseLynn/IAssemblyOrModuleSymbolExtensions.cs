@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides extensions for the <seealso cref="IAssemblySymbol"/> and <seealso cref="IModuleSymbol"/> types.</summary>
 public static class IAssemblyOrModuleSymbolExtensions

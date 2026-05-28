@@ -1,8 +1,8 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides helpers for reasoning about Roslyn nullable type metadata.</summary>
 public static class NullableTypeExtensions

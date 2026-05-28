@@ -1,6 +1,6 @@
 using Garyon.DataStructures;
 using Microsoft.CodeAnalysis.CSharp;
-using RoseLynn.Utilities;
+using RoseLynn.Core.Utilities;
 
 namespace RoseLynn.CSharp.Syntax;
 

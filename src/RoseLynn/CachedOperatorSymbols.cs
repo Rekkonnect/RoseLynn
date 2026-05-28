@@ -1,8 +1,8 @@
-﻿
+
 using Garyon.DataStructures;
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains cached information about a type's operators.</summary>
 /// <remarks>For advanced querying, <seealso cref="CachedOperatorSymbolQuerying"/> contains extensions that apply common filters.</remarks>

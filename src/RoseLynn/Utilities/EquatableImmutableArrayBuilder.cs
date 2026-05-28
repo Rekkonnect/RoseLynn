@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
-namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Provides the collection-builder entry point for <see cref="EquatableImmutableArray{T}"/>.</summary>
 public static class  EquatableImmutableArrayBuilder

@@ -1,4 +1,4 @@
-﻿namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Provides helper functions for enums.</summary>
 public static class EnumHelpers

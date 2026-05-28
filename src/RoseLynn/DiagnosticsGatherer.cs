@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>
 /// A system gathering diagnostics with the purpose of reporting them

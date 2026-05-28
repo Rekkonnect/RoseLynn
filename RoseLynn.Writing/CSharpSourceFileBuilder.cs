@@ -45,7 +45,7 @@ public abstract class CSharpSourceFileBuilder<TCodeWriter>
         ITypeSymbol type,
         Compilation? compilation)
     {
-        var result = SymbolNameHelpers.FullyQualifiedOrKeyword(type, compilation);
+        var result = RoseLynn.CSharp.CSharpSymbolNameHelpers.FullyQualifiedOrKeyword(type, compilation);
         return CaptureFullyQualifiedName(result);
     }
 

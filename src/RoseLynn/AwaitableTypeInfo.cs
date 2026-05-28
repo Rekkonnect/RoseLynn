@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains information about a type that follows the C# awaitable pattern.</summary>
 /// <param name="Type">The awaitable type symbol.</param>

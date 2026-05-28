@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents a .NET language.</summary>
 public enum NetLanguage

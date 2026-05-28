@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>
 /// Code style extensions that you may or may not want to use -- convenience involves investment.

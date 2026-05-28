@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains factory methods for constructing <seealso cref="Location"/> instances.</summary>
 public static class LocationFactory

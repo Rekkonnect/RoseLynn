@@ -1,4 +1,4 @@
-﻿namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Provides useful extensions for the <seealso cref="ISet{T}"/> type.</summary>
 public static class ISetExtensions

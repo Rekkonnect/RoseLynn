@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides workspace-level helpers for aggregating syntax roots across projects and solutions.</summary>
 public static class WorkspaceExtensions

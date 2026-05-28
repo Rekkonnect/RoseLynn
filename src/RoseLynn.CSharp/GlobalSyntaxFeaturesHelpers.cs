@@ -1,9 +1,9 @@
-﻿using Garyon.Extensions;
+using Garyon.Extensions;
 using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using RoseLynn;
+using RoseLynn.Core;
 using RoseLynn.CSharp.Syntax;
 
 namespace RoseLynn.CSharp;

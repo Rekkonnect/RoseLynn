@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Identifies a symbol by its name, containing types, namespace, and optional arity, for cross-compilation matching.</summary>
 public readonly struct QualifiedSymbolNameMatch(

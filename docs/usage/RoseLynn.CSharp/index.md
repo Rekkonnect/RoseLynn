@@ -13,7 +13,6 @@
 ### Symbols and names
 
 - [Symbol Name Helpers](symbolNames.md)
-- [Signature Views](signatureViews.md)
 
 ## Other Useful Areas
 

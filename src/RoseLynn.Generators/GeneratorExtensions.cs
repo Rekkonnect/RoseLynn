@@ -1,6 +1,6 @@
-﻿using Garyon.Functions;
+using Garyon.Functions;
 using Microsoft.CodeAnalysis;
-using RoseLynn.Utilities;
+using RoseLynn.Core.Utilities;
 using System.Collections.Immutable;
 
 namespace RoseLynn.Generators;

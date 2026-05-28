@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Contains information about a type that satisfies the C# awaiter contract.</summary>
 /// <param name="Type">The awaiter type symbol.</param>

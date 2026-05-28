@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides extension methods for <seealso cref="SyntaxToken"/>.</summary>
 public static class SyntaxTokenExtensions

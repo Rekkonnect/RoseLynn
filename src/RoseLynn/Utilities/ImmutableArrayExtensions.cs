@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
-namespace RoseLynn.Utilities;
+namespace RoseLynn.Core.Utilities;
 
 /// <summary>Provides helpers for working with immutable arrays and their equatable wrapper.</summary>
 public static class ImmutableArrayExtensions

@@ -1,7 +1,7 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents the kind of a symbol name.</summary>
 public enum SymbolNameKind

@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn.Semantic;
+namespace RoseLynn.Core.Semantic;
 
 /// <summary>Provides semantic model query helpers beyond those available on <see cref="SemanticModel"/> itself.</summary>
 public static class SemanticModelExtensions

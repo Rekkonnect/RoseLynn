@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents a mutable, constructible analog of <seealso cref="TypedConstant"/> for programmatic creation of typed constant values.</summary>
 public sealed class ConstructibleTypedConstant

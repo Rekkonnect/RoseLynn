@@ -1,7 +1,7 @@
-﻿using Garyon.Objects.Enumerators;
+using Garyon.Objects.Enumerators;
 using Microsoft.CodeAnalysis;
-using RoseLynn;
-using RoseLynn.Utilities;
+using RoseLynn.Core;
+using RoseLynn.Core.Utilities;
 
 namespace RoseLynn.CSharp;
 

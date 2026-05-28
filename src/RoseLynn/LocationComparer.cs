@@ -1,9 +1,9 @@
-﻿using Garyon.Extensions.Comparison;
+using Garyon.Extensions.Comparison;
 using Garyon.Objects;
 using Microsoft.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Compares <seealso cref="Location"/> instances by file path and source span.</summary>
 public sealed class LocationComparer : IComparer<Location>, ISharedInstance

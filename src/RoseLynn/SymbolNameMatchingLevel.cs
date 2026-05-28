@@ -1,7 +1,7 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents the topmost level of the symbol's container members whose names must be equal to match two <seealso cref="ISymbol"/> instances.</summary>
 public enum SymbolNameMatchingLevel

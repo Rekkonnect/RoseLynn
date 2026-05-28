@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides extensions for the <seealso cref="SyntaxTree"/> class.</summary>
 public static class SyntaxTreeExtensions

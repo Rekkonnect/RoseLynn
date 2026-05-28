@@ -1,10 +1,10 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using RoseLynn;
+using RoseLynn.Core;
 using RoseLynn.CSharp;
 using RoseLynn.CSharp.Semantic;
-using RoseLynn.Semantic;
+using RoseLynn.Core.Semantic;
 using System.Collections.Immutable;
 
 namespace RoseLynn.PoC.UnitTests;

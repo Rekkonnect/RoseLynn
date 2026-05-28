@@ -1,7 +1,7 @@
-﻿using Garyon.Functions;
+using Garyon.Functions;
 using Microsoft.CodeAnalysis.Text;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides helpers for constructing <seealso cref="TextSpan"/> values.</summary>
 public static class TextSpanHelpers

@@ -1,8 +1,8 @@
-﻿
+
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides useful extensions for the <seealso cref="INamedTypeSymbol"/> type.</summary>
 public static class INamedTypeSymbolExtensions

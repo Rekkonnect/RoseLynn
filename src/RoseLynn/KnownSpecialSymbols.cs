@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides methods for identifying well-known special symbols in a Roslyn compilation.</summary>
 public static class KnownSpecialSymbols

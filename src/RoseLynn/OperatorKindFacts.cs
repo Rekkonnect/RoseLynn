@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides facts and name parsing helpers for <see cref="OperatorKind"/> values.</summary>
 public static partial class OperatorKindFacts

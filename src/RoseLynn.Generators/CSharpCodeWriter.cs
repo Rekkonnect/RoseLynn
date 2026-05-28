@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
-using RoseLynn.CSharp.SignatureViews;
-using RoseLynn.Utilities;
+using Microsoft.CodeAnalysis;
+using RoseLynn.Core.SignatureViews;
+using RoseLynn.Core.Utilities;
 using RoseLynn.Writing;
 using System.Collections.Immutable;
 

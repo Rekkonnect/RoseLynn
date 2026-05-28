@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Holds leading and trailing trivia to be applied to a syntax node in one operation.</summary>
 /// <param name="Leading">The leading trivia to prepend.</param>

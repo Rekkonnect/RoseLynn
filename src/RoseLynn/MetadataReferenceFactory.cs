@@ -1,7 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using System.Reflection;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides functions useful for more conveniently creating <seealso cref="MetadataReference"/> objects.</summary>
 public static class MetadataReferenceFactory

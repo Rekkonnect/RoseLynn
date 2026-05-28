@@ -1,9 +1,9 @@
-﻿using Garyon.Functions;
+using Garyon.Functions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoseLynn.CSharp;
-using RoseLynn.Semantic;
+using RoseLynn.Core.Semantic;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;

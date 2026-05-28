@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>
 /// This attribute denotes that the annotated member needs docs, possibly

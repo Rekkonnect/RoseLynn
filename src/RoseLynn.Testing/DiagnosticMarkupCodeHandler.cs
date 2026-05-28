@@ -1,6 +1,6 @@
-﻿
+
 using Garyon.Extensions;
-using RoseLynn.Utilities;
+using RoseLynn.Core.Utilities;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;

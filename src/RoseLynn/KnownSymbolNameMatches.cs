@@ -1,6 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
-namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Provides pre-built <seealso cref="QualifiedSymbolNameMatch"/> instances for well-known BCL types.</summary>
 public static class KnownSymbolNameMatches

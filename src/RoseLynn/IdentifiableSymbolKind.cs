@@ -1,4 +1,4 @@
-﻿namespace RoseLynn;
+namespace RoseLynn.Core;
 
 /// <summary>Represents the kind of a symbol that can have an identifier.</summary>
 [Flags]

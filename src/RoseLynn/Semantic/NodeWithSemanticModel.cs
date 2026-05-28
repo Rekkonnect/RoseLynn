@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
-namespace RoseLynn.Semantic;
+namespace RoseLynn.Core.Semantic;
 
 /// <summary>Pairs a <see cref="SyntaxNode"/> with the <see cref="SemanticModel"/> that covers it.</summary>
 /// <param name="Node">The syntax node.</param>
