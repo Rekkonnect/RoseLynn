@@ -11,34 +11,25 @@
     <File Path="tools/build/InferTransitiveDependencies.props" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="RoseLynn.Workspaces/RoseLynn.Workspaces.csproj" Id="6e2d1b08-b893-4098-af8b-94ff8b0a7179">
-      <BuildType Solution="Release Test|*" Project="Release" />
-    </Project>
-    <Project Path="RoseLynn.Writing/RoseLynn.Writing.csproj" Id="c811c605-7d75-47b6-b680-87d8c63c75d3">
-      <BuildType Solution="Release Test|*" Project="Release" />
-    </Project>
     <Project Path="src/RoseLynn.Analyzers/RoseLynn.Analyzers.csproj" />
+    <Project Path="src/RoseLynn.Bundle.Analysis/RoseLynn.Bundle.Analysis.csproj" />
     <Project Path="src/RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj" />
     <Project Path="src/RoseLynn.Generators/RoseLynn.Generators.csproj" />
     <Project Path="src/RoseLynn.Testing/RoseLynn.Testing.csproj" />
-    <Project Path="src/RoseLynn/RoseLynn.Core.csproj" />
     <Project Path="src/RoseLynn.CSharp/RoseLynn.CSharp.csproj" />
+    <Project Path="src/RoseLynn.Core/RoseLynn.Core.csproj" />
     <Project Path="src/RoseLynn.CrossLanguage/RoseLynn.CrossLanguage.csproj" />
     <Project Path="src/RoseLynn.VisualBasic/RoseLynn.VisualBasic.csproj" />
+    <Project Path="src/RoseLynn.Workspaces/RoseLynn.Workspaces.csproj" />
+    <Project Path="src/RoseLynn.Writing/RoseLynn.Writing.csproj" />
   </Folder>
   <Folder Name="/test/">
-    <Project Path="RoseLynn.Generators.UnitTests/RoseLynn.Generators.UnitTests.csproj" Id="e171afd2-74e9-4cfd-88a5-5a1afa1a9099">
-      <BuildType Solution="Release Test|*" Project="Release" />
-    </Project>
-    <Project Path="RoseLynn.PoC.UnitTests/RoseLynn.PoC.UnitTests.csproj" Id="963d904b-9a57-4b38-836f-eb5eb5c2fbea">
-      <BuildType Solution="Release Test|*" Project="Release" />
-    </Project>
-    <Project Path="RoseLynn.Writing.Test/RoseLynn.Writing.Test.csproj" Id="1e85268b-a957-47be-afff-f262ddbaf17e">
-      <BuildType Solution="Release Test|*" Project="Release" />
-    </Project>
     <Project Path="test/RoseLynn.Analyzers.Test/RoseLynn.Analyzers.Test.csproj" />
+    <Project Path="test/RoseLynn.Generators.UnitTests/RoseLynn.Generators.UnitTests.csproj" />
+    <Project Path="test/RoseLynn.PoC.UnitTests/RoseLynn.PoC.UnitTests.csproj" />
     <Project Path="test/RoseLynn.Test/RoseLynn.Test.csproj" />
     <Project Path="test/RoseLynn.Testing.Test/RoseLynn.Testing.Test.csproj" />
+    <Project Path="test/RoseLynn.Writing.Test/RoseLynn.Writing.Test.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/RoseLynn.InternalGenerators/RoseLynn.InternalGenerators.csproj" />
