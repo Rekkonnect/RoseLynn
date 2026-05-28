@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RoseLynn.Analyzers\RoseLynn.Analyzers.csproj" />
-    <ProjectReference Include="..\RoseLynn\RoseLynn.Core.csproj" />
+    <ProjectReference Include="..\RoseLynn.Core\RoseLynn.Core.csproj" />
     <ProjectReference Include="..\RoseLynn.CSharp\RoseLynn.CSharp.csproj" />
   </ItemGroup>
 

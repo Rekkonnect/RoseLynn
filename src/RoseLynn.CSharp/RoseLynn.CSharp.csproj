@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoseLynn\RoseLynn.Core.csproj" />
+    <ProjectReference Include="..\RoseLynn.Core\RoseLynn.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

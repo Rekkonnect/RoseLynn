@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\RoseLynn.Writing\RoseLynn.Writing.csproj" />
-    <ProjectReference Include="..\RoseLynn\RoseLynn.Core.csproj" />
+    <ProjectReference Include="..\RoseLynn.Writing\RoseLynn.Writing.csproj" />
+    <ProjectReference Include="..\RoseLynn.Core\RoseLynn.Core.csproj" />
     <ProjectReference Include="..\RoseLynn.CSharp\RoseLynn.CSharp.csproj" />
   </ItemGroup>
 

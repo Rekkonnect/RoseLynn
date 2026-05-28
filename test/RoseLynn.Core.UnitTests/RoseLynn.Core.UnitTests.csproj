@@ -31,9 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\RoseLynn.CSharp\RoseLynn.CSharp.csproj" />
     <ProjectReference Include="..\..\src\RoseLynn.Testing\RoseLynn.Testing.csproj" />
-    <ProjectReference Include="..\..\src\RoseLynn\RoseLynn.Core.csproj" />
+    <ProjectReference Include="..\..\src\RoseLynn.Core\RoseLynn.Core.csproj" />
   </ItemGroup>
 
 </Project>
