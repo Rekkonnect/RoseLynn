@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using SampleGaryonType = Garyon.Objects.AppVersionInfo;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.CSharp.UnitTests;
 
 public sealed class SymbolNameHelpersTests
 {

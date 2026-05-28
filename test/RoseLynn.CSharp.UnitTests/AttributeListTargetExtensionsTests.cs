@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using RoseLynn.CSharp.Syntax;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.CSharp.UnitTests;
 
 /// <summary>Tests conversions between <see cref="AttributeListTarget"/> values and Roslyn syntax kinds.</summary>
 public class AttributeListTargetExtensionsTests

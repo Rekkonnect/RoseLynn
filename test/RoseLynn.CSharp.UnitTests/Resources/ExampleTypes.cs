@@ -1,4 +1,4 @@
-namespace RoseLynn.Test.Resources;
+﻿namespace RoseLynn.CSharp.UnitTests.Resources;
 
 /// <summary>Provides a simple non-static example type for using-directive tests.</summary>
 public class ExampleClass { }

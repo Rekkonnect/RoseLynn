@@ -1,8 +1,8 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.Core.UnitTests;
 
 public sealed class SyntaxQueryingExtensionsTests
 {

@@ -1,4 +1,4 @@
-namespace RoseLynn.Test;
+﻿namespace RoseLynn.Core.UnitTests;
 
 public sealed class OperatorKindFactsTests
 {

@@ -1,4 +1,4 @@
-﻿namespace RoseLynn.Test;
+﻿namespace RoseLynn.Core.UnitTests;
 
 /// <summary>Tests creation and matching behavior for <see cref="FullSymbolName"/> values.</summary>
 public class FullSymbolNameTests

@@ -1,4 +1,4 @@
-﻿namespace RoseLynn.Writing.Test;
+﻿namespace RoseLynn.Writing.UnitTests;
 
 public abstract class BaseIndentedStringBuilderTests
 {

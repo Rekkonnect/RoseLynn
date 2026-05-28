@@ -1,7 +1,7 @@
 ﻿using RoseLynn.CSharp;
 using System.Runtime.Loader;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.CSharp.UnitTests;
 
 /// <summary>Tests usings-provider output generation.</summary>
 public class UsingsProviderTests

@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.Core.UnitTests;
 
 public static class UltimateSymbolTesting
 {

@@ -1,11 +1,11 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using RoseLynn.CSharp;
 using RoseLynn.Testing;
 using RoseLynn.Core.Utilities;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.CSharp.UnitTests;
 
 public sealed class AttributeDataViewModelTests
     : BaseCompilationTestContainer

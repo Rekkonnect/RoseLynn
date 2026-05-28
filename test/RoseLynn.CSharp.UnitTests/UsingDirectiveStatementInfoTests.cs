@@ -1,7 +1,7 @@
 ﻿using RoseLynn.CSharp.Syntax;
-using RoseLynn.Test.Resources;
+using RoseLynn.CSharp.UnitTests.Resources;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.CSharp.UnitTests;
 
 /// <summary>Tests formatting and sorting behavior for <see cref="UsingDirectiveStatementInfo"/> values.</summary>
 public class UsingDirectiveStatementInfoTests

@@ -1,8 +1,8 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using RoseLynn.Testing;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.Core.UnitTests;
 
 public sealed class IMethodSymbolExtensionsTests
 {

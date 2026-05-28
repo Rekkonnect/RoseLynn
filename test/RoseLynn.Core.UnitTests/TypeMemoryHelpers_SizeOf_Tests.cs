@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using RoseLynn.Testing;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.Core.UnitTests;
 
 public class TypeMemoryHelpers_SizeOf_Tests
 {

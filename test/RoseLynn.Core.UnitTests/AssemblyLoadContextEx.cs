@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Loader;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.Core.UnitTests;
 
 public static class AssemblyLoadContextEx
 {

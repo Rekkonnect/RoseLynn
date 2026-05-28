@@ -1,4 +1,4 @@
-﻿namespace RoseLynn.Testing.Test;
+﻿namespace RoseLynn.Testing.UnitTests;
 
 /// <summary>Provides the base contract for diagnostic markup code-handler tests.</summary>
 public abstract class DiagnosticMarkupCodeHandlerTestsBase

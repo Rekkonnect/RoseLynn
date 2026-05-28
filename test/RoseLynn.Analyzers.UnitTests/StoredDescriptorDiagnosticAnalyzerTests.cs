@@ -1,6 +1,6 @@
-﻿using RoseLynn.Analyzers.Test.MockedResources;
+﻿using RoseLynn.Analyzers.UnitTests.MockedResources;
 
-namespace RoseLynn.Analyzers.Test;
+namespace RoseLynn.Analyzers.UnitTests;
 
 /// <summary>Tests analyzers that expose diagnostic descriptors through storage types.</summary>
 public class StoredDescriptorDiagnosticAnalyzerTests

@@ -1,6 +1,6 @@
-using RoseLynn.Core.Utilities;
+﻿using RoseLynn.Core.Utilities;
 
-namespace RoseLynn.Testing.Test;
+namespace RoseLynn.Testing.UnitTests;
 
 /// <summary>Tests the Microsoft.CodeAnalysis-style diagnostic markup handler.</summary>
 public class MicrosoftCodeAnalysisDiagnosticMarkupCodeHandlerTests : DiagnosticMarkupCodeHandlerTestsBase

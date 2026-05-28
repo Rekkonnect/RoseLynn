@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
-namespace RoseLynn.Analyzers.Test.MockedResources;
+namespace RoseLynn.Analyzers.UnitTests.MockedResources;
 
 #pragma warning disable RS1038 // Compiler extensions should be implemented in assemblies with compiler-provided references
 #pragma warning disable RS1041 // Compiler extensions should be implemented in assemblies targeting netstandard2.0

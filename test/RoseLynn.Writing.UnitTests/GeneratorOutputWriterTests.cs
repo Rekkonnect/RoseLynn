@@ -2,7 +2,7 @@
 using RoseLynn.Testing;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RoseLynn.Writing.Test;
+namespace RoseLynn.Writing.UnitTests;
 
 // Why the fuck are Polyfill things failing?
 

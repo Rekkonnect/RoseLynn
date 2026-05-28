@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace RoseLynn.Analyzers.Test;
+namespace RoseLynn.Analyzers.UnitTests;
 
 using static MockedResources.MockStorage;
 

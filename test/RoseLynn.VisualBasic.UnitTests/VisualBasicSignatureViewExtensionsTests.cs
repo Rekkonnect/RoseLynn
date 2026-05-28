@@ -1,6 +1,6 @@
-using RoseLynn.Core.SignatureViews;
+﻿using RoseLynn.Core.SignatureViews;
 
-namespace RoseLynn.VisualBasic.Test;
+namespace RoseLynn.VisualBasic.UnitTests;
 
 public sealed class VisualBasicSignatureViewExtensionsTests
 {

@@ -1,11 +1,11 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Testing;
 using RoseLynn.Core.SignatureViews;
 using RoseLynn.Testing;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.Core.UnitTests;
 
 public sealed class SymbolSignatureViewTests : BaseCompilationTestContainer
 {

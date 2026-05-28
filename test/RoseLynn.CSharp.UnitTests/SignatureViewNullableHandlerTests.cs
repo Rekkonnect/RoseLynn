@@ -1,4 +1,4 @@
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Testing;
 using RoseLynn.CSharp;
@@ -6,7 +6,7 @@ using RoseLynn.Core.SignatureViews;
 using RoseLynn.Testing;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RoseLynn.Test;
+namespace RoseLynn.CSharp.UnitTests;
 
 public sealed class SignatureViewNullableHandlerTests
     : BaseCompilationTestContainer
