@@ -12,7 +12,10 @@ RoseLynn is a family of packages that reduce boilerplate when building Roslyn an
 
 | Package | Purpose |
 |---------|---------|
-| [RoseLynn](docs/usage/RoseLynn/index.md) | Core syntax, semantic, and symbol-name utilities |
+| [RoseLynn.Core](docs/usage/RoseLynn.Core/index.md) | Core syntax, semantic, and awaitable-type utilities |
+| [RoseLynn.CSharp](docs/usage/RoseLynn.CSharp/index.md) | C#-specific symbol names, signature views, usings, and clause segmentation |
+| [RoseLynn.VisualBasic](docs/usage/RoseLynn.VisualBasic/index.md) | Visual Basic-specific utilities |
+| [RoseLynn.CrossLanguage](docs/usage/RoseLynn.CrossLanguage/index.md) | Cross-language helpers and abstractions |
 | [RoseLynn.Analyzers](docs/usage/RoseLynn.Analyzers/index.md) | Analyzer descriptor storage and base classes |
 | [RoseLynn.CodeFixes](docs/usage/RoseLynn.CodeFixes/index.md) | Code fix provider helpers |
 | [RoseLynn.Generators](docs/usage/RoseLynn.Generators/index.md) | Incremental and classic source generator helpers |

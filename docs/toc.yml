@@ -3,23 +3,30 @@
 - name: Usage Guides
   href: usage/index.md
   items:
-  - name: RoseLynn
-    href: usage/RoseLynn/index.md
+  - name: RoseLynn.Core
+    href: usage/RoseLynn.Core/index.md
     items:
     - name: Awaitable Types
-      href: usage/RoseLynn/awaitableTypes.md
-    - name: Clause Segmentation
-      href: usage/RoseLynn/clauseSegmentation.md
+      href: usage/RoseLynn.Core/awaitableTypes.md
     - name: Operator Symbols
-      href: usage/RoseLynn/operatorSymbols.md
+      href: usage/RoseLynn.Core/operatorSymbols.md
+  - name: RoseLynn.CSharp
+    href: usage/RoseLynn.CSharp/index.md
+    items:
+    - name: Clause Segmentation
+      href: usage/RoseLynn.CSharp/clauseSegmentation.md
     - name: Signature Views
-      href: usage/RoseLynn/signatureViews.md
+      href: usage/RoseLynn.CSharp/signatureViews.md
     - name: Symbol Names
-      href: usage/RoseLynn/symbolNames.md
+      href: usage/RoseLynn.CSharp/symbolNames.md
     - name: Using Directive Statement Info
-      href: usage/RoseLynn/usingDirectiveStatementInfo.md
+      href: usage/RoseLynn.CSharp/usingDirectiveStatementInfo.md
     - name: Usings Provider
-      href: usage/RoseLynn/usingsProvider.md
+      href: usage/RoseLynn.CSharp/usingsProvider.md
+  - name: RoseLynn.VisualBasic
+    href: usage/RoseLynn.VisualBasic/index.md
+  - name: RoseLynn.CrossLanguage
+    href: usage/RoseLynn.CrossLanguage/index.md
   - name: RoseLynn.Analyzers
     href: usage/RoseLynn.Analyzers/index.md
     items:
