@@ -24,12 +24,12 @@
     <Project Path="src/RoseLynn.Writing/RoseLynn.Writing.csproj" />
   </Folder>
   <Folder Name="/test/">
-    <Project Path="test/RoseLynn.Analyzers.Test/RoseLynn.Analyzers.Test.csproj" />
+    <Project Path="test/RoseLynn.Analyzers.UnitTests/RoseLynn.Analyzers.UnitTests.csproj" />
+    <Project Path="test/RoseLynn.Core.UnitTests/RoseLynn.Core.UnitTests.csproj" />
     <Project Path="test/RoseLynn.Generators.UnitTests/RoseLynn.Generators.UnitTests.csproj" />
     <Project Path="test/RoseLynn.PoC.UnitTests/RoseLynn.PoC.UnitTests.csproj" />
-    <Project Path="test/RoseLynn.Test/RoseLynn.Test.csproj" />
-    <Project Path="test/RoseLynn.Testing.Test/RoseLynn.Testing.Test.csproj" />
-    <Project Path="test/RoseLynn.Writing.Test/RoseLynn.Writing.Test.csproj" />
+    <Project Path="test/RoseLynn.Testing.UnitTests/RoseLynn.Testing.UnitTests.csproj" />
+    <Project Path="test/RoseLynn.Writing.UnitTests/RoseLynn.Writing.UnitTests.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/RoseLynn.InternalGenerators/RoseLynn.InternalGenerators.csproj" />
