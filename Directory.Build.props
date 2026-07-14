@@ -4,7 +4,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.9.2</Version>
+    <Version>1.0.0</Version>
     <PackageVersion>$(Version)</PackageVersion>
     <NoWarn>$(NoWarn);NU5129;RS1042;RS1038</NoWarn>
   </PropertyGroup>
@@ -14,5 +14,11 @@
     <Authors>Rekkonnect</Authors>
     <Company>Rekkonnect</Company>
     <Copyright>© 2021-2026, Rekkonnect</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
+  <ItemGroup Label="License reference">
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
 </Project>
