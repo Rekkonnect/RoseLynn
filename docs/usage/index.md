@@ -13,7 +13,9 @@ The current pages focus on the APIs that are most useful when building Roslyn an
 - [RoseLynn.Analyzers](RoseLynn.Analyzers/index.md)
 - [RoseLynn.CodeFixes](RoseLynn.CodeFixes/index.md)
 - [RoseLynn.Generators](RoseLynn.Generators/index.md)
+- [RoseLynn.Writing](RoseLynn.Writing/index.md)
 - [RoseLynn.Testing](RoseLynn.Testing/index.md)
+- [RoseLynn.Bundle.Analysis](RoseLynn.Bundle.Analysis/index.md)
 
 ## Notes
 

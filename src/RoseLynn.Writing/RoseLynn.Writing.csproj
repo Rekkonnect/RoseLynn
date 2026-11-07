@@ -2,8 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>Code-writing and source-building helpers for Roslyn-based generators.</Description>
+    <PackageTags>roslyn, generator, source-generator, writing, tools, extensions</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup Label="README reference">
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Garyon" ExcludeAssets="contentFiles" />

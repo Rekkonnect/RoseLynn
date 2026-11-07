@@ -14,11 +14,15 @@
     <Authors>Rekkonnect</Authors>
     <Company>Rekkonnect</Company>
     <Copyright>© 2021-2026, Rekkonnect</Copyright>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/Rekkonnect/RoseLynn</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/Rekkonnect/RoseLynn</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup Label="License reference">
     <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 </Project>
