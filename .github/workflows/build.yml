@@ -1,0 +1,127 @@
+name: Build, Test, and Publish
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the packed packages to nuget.org
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nuget-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-test-publish:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore
+      run: dotnet restore RoseLynn.slnx
+
+    - name: Build
+      run: dotnet build RoseLynn.slnx -c Release --no-restore
+
+    - name: Test
+      run: dotnet test RoseLynn.slnx -c Release --no-build
+
+    - name: Pack
+      run: dotnet pack RoseLynn.slnx -c Release --no-build --no-restore -o artifacts/packages --nologo
+
+    - name: Verify package set
+      shell: pwsh
+      run: |
+        $expected = @(
+          'RoseLynn.Core',
+          'RoseLynn.CSharp',
+          'RoseLynn.VisualBasic',
+          'RoseLynn.Writing',
+          'RoseLynn.Analyzers',
+          'RoseLynn.CodeFixes',
+          'RoseLynn.Generators',
+          'RoseLynn.CrossLanguage',
+          'RoseLynn.Testing',
+          'RoseLynn.Bundle.Analysis'
+        )
+        foreach ($id in $expected) {
+          $package = Get-ChildItem 'artifacts/packages' -Filter "$id.*.nupkg" | Select-Object -First 1
+          if (-not $package) { throw "Expected package not found: $id" }
+        }
+        $unexpected = Get-ChildItem 'artifacts/packages' -Filter 'RoseLynn.Workspaces*.nupkg'
+        if ($unexpected) { throw "RoseLynn.Workspaces must not be packed." }
+
+    - name: Upload packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: nupkgs
+        path: artifacts/packages/*.nupkg
+        if-no-files-found: error
+
+    - name: Verify tag matches package version
+      if: startsWith(github.ref, 'refs/tags/v')
+      shell: pwsh
+      run: |
+        $version = [regex]::Match((Get-Content Directory.Build.props -Raw), '<Version>([^<]+)</Version>').Groups[1].Value
+        $tag = $env:GITHUB_REF_NAME -replace '^v', ''
+        if ($version -ne $tag) {
+          throw "Tag '$tag' does not match Directory.Build.props version '$version'."
+        }
+
+    - name: NuGet login (OIDC -> temporary API key)
+      if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main')
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: Rekkon
+
+    - name: Push packages to nuget.org
+      if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main')
+      shell: pwsh
+      env:
+        NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $order = @(
+          'RoseLynn.Core',
+          'RoseLynn.CSharp',
+          'RoseLynn.VisualBasic',
+          'RoseLynn.Writing',
+          'RoseLynn.Analyzers',
+          'RoseLynn.CodeFixes',
+          'RoseLynn.Generators',
+          'RoseLynn.CrossLanguage',
+          'RoseLynn.Testing',
+          'RoseLynn.Bundle.Analysis'
+        )
+        foreach ($id in $order) {
+          $package = Get-ChildItem 'artifacts/packages' -Filter "$id.*.nupkg" | Select-Object -First 1
+          if (-not $package) { throw "Package not found for $id" }
+          Write-Host "Pushing $($package.Name)"
+          dotnet nuget push $package.FullName --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+          if ($LASTEXITCODE -ne 0) {
+            throw "dotnet nuget push failed for $($package.Name) with exit code $LASTEXITCODE"
+          }
+        }
