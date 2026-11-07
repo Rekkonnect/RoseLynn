@@ -4,11 +4,16 @@
       "src": [
         {
           "files": [
-            "src/RoseLynn/RoseLynn.csproj",
+            "src/RoseLynn.Core/RoseLynn.Core.csproj",
+            "src/RoseLynn.CSharp/RoseLynn.CSharp.csproj",
+            "src/RoseLynn.VisualBasic/RoseLynn.VisualBasic.csproj",
+            "src/RoseLynn.CrossLanguage/RoseLynn.CrossLanguage.csproj",
             "src/RoseLynn.Analyzers/RoseLynn.Analyzers.csproj",
             "src/RoseLynn.CodeFixes/RoseLynn.CodeFixes.csproj",
             "src/RoseLynn.Generators/RoseLynn.Generators.csproj",
-            "src/RoseLynn.Testing/RoseLynn.Testing.csproj"
+            "src/RoseLynn.Writing/RoseLynn.Writing.csproj",
+            "src/RoseLynn.Testing/RoseLynn.Testing.csproj",
+            "src/RoseLynn.Bundle.Analysis/RoseLynn.Bundle.Analysis.csproj"
           ]
         }
       ],

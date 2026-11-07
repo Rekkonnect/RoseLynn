@@ -41,6 +41,8 @@
       href: usage/RoseLynn.CodeFixes/codeFixProvider.md
   - name: RoseLynn.Generators
     href: usage/RoseLynn.Generators/index.md
+  - name: RoseLynn.Writing
+    href: usage/RoseLynn.Writing/index.md
   - name: RoseLynn.Testing
     href: usage/RoseLynn.Testing/index.md
     items:
@@ -50,5 +52,7 @@
       href: usage/RoseLynn.Testing/diagnosticMarkupStyle.md
     - name: Custom Markup Syntax
       href: usage/RoseLynn.Testing/customMarkupSyntax.md
+  - name: RoseLynn.Bundle.Analysis
+    href: usage/RoseLynn.Bundle.Analysis/index.md
 - name: Project Improvements
   href: project-improvements/README.md

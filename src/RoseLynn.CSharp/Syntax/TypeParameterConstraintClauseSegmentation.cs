@@ -93,9 +93,9 @@ public class TypeParameterConstraintClauseSegmentation
         AddTypeConstraint(typeConstraint, typeSymbol);
     }
 
-    /// <inheritdoc cref="AddTypeConstraint(TypeConstraintSyntax)"></inheritdoc>
+    /// <summary>Adds the given type constraint to the segmentation, using the provided type symbol to determine its kind.</summary>
     /// <param name="typeConstraint">The type constraint to add.</param>
-    /// <param name="typeSymbol">The <seealso cref="ITypeSymbol"/> of the type that the type constraint refers to.</param>
+    /// <param name="typeSymbol">The <see cref="ITypeSymbol"/> of the type that the type constraint refers to.</param>
     public void AddTypeConstraint(TypeConstraintSyntax typeConstraint, ITypeSymbol? typeSymbol)
     {
         switch (typeSymbol?.TypeKind)
