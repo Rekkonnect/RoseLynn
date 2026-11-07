@@ -11,6 +11,7 @@ namespace RoseLynn.Testing;
 
 /// <summary>Represents a source generator test container, providing helpful features for building tests for source generators.</summary>
 /// <typeparam name="TSourceGenerator">The type of the source generator.</typeparam>
+/// <typeparam name="TTest">The test container type.</typeparam>
 public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest>
     : BaseDrivenCSharpIncrementalGeneratorTestContainer<
         TSourceGenerator,
@@ -298,9 +299,6 @@ public abstract partial class BaseGeneratorTestContainer<TSourceGenerator, TTest
         /// instances around running the generator on the provided sources.
         /// </summary>
         /// <param name="sources">The collection of sources the generator will act upon.</param>
-        /// <param name="generator">The generator instance that was created.</param>
-        /// <param name="resultingGeneratorDriver">The resulting generator driver.</param>
-        /// <param name="initialCompilation">The initial compilation before the generator runs.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="GeneratorDriverCompilationExecutionStep"/> after the generator is run.</returns>
         private async Task<GeneratorDriverCompilationExecutionStep> CreateCompilationRunGenerator(

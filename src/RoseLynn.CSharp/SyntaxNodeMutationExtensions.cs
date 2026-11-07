@@ -9,6 +9,7 @@ namespace RoseLynn.CSharp;
 public static class SyntaxNodeMutationExtensions
 {
     /// <summary>Removes the attribute that was specified. If the attribute's parent attribute list remains without any attributes, it is removed.</summary>
+    /// <param name="root">The syntax root whose attribute to remove.</param>
     /// <param name="attributeNode">The attribute node to remove.</param>
     /// <param name="options">The options when performing the removal.</param>
     /// <returns>The resulting syntax root that will not contain the removed attribute.</returns>

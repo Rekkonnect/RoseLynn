@@ -329,7 +329,7 @@ public static class ISymbolExtensions
     #region GetAttributesNamed
     /// <summary>Gets all attributes of the given <seealso cref="ISymbol"/> that match the name of the specified attribute.</summary>
     /// <param name="symbol">The symbol whose attributes to get.</param>
-    /// <param name="attributeType">The type of the attribute whose name to attempt to find.</param>
+    /// <param name="name">The name of the attribute whose name to attempt to find.</param>
     /// <returns>The <seealso cref="AttributeData"/> of the attributes that match the given attribute's name.</returns>
     /// <remarks>
     /// This method only compares the symbol names, and not any other containing symbols.

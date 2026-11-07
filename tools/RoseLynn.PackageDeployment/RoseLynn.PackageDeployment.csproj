@@ -16,6 +16,8 @@
     <PackageReference Include="NuGet.PackageManagement" />
     <PackageReference Include="NuGet.Packaging" />
     <PackageReference Include="NuGet.Protocol" />
+    <!-- Transitive NuGet dependency pins a vulnerable 8.0.1; override with the patched line. -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" />
     <PackageReference Include="Spectre.Console" />
     <PackageReference Include="Spectre.Console.Cli" />
   </ItemGroup>

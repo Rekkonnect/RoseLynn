@@ -12,7 +12,7 @@ namespace RoseLynn.CSharp.Syntax;
 /// </summary>
 public static class TypeParameterizableMemberDeclarationSyntaxExtensions
 {
-    /// <remarks>See <seealso cref="IdentifiableMemberDeclarationSyntaxExtensions"/> for the supported types.</remarks>
+    /// <remarks>See the supported types listed in the summary.</remarks>
     private static void SupportedTypeRemarks() { }
 
     /// <summary>Determines whether the declaring member is generic.</summary>

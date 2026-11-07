@@ -63,7 +63,7 @@ public class FullSymbolNameTests
     {
         var name = FullSymbolName.ForType<TestType>();
         
-        var containerNamespaces = new[] { nameof(RoseLynn), nameof(Test) };
+        var containerNamespaces = typeof(FullSymbolNameTests).Namespace!.Split('.');
         var containerTypes = new[] { nameof(FullSymbolNameTests) };
         var symbolName = nameof(TestType);
 
@@ -77,7 +77,7 @@ public class FullSymbolNameTests
         var typeParameter = typeof(TestType).GetMethod(nameof(TestType.Method))!.GetGenericArguments()[0];
         var name = FullSymbolName.ForType(typeParameter);
 
-        var containerNamespaces = new[] { nameof(RoseLynn), nameof(Test) };
+        var containerNamespaces = typeof(FullSymbolNameTests).Namespace!.Split('.');
         var containerTypes = new[] { nameof(FullSymbolNameTests), nameof(TestType) };
         var containerMethods = new[] { nameof(TestType.Method) };
         var symbolName = "T";

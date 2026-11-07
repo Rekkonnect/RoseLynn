@@ -97,9 +97,6 @@ public static class DocumentExtensions
         /// with another one. The expected position is calculated by the old node's
         /// position in the original tree and the new node's length.
         /// </summary>
-        /// <param name="document">
-        /// The new document that contains the replaced node.
-        /// </param>
         /// <param name="oldNode">
         /// The old node that was replaced. The new document should not contain this
         /// node.
@@ -150,9 +147,6 @@ public static class DocumentExtensions
         /// within the new tree, by querying the span in which it belonged in the
         /// previous tree.
         /// </summary>
-        /// <param name="document">
-        /// The new document that contains the replaced node.
-        /// </param>
         /// <param name="previousTreeNode">
         /// The node in the previous tree to find in the new document. The previous
         /// tree node must have a non-null <see cref="SyntaxNode.SyntaxTree"/> to

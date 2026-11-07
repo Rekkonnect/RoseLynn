@@ -3,6 +3,7 @@ using RoseLynn.Core;
 
 namespace RoseLynn.CSharp;
 
+/// <summary>Provides C#-specific symbol name formatting helpers.</summary>
 public static partial class CSharpSymbolNameHelpers
 {
     /// <summary>Gets the full metadata name for a symbol, using predefined-type keywords when available.</summary>

@@ -9,5 +9,5 @@ public static class ExampleStatic { }
 public static class ExampleTypes
 {
     /// <summary>Gets the base namespace that contains the example test types.</summary>
-    public const string BaseNamespace = "RoseLynn.Test.Resources";
+    public static string BaseNamespace => typeof(ExampleTypes).Namespace!;
 }

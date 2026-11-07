@@ -118,14 +118,14 @@ public class CachedOperatorSymbols
 
 /// <summary>Contains cached information about an operator method symbol.</summary>
 /// <param name="CheckingMode">The <seealso cref="OperatorCheckingMode"/> of the operator.</param>
-/// <param name="OperatorKind">The <seealso cref="RoseLynn.OperatorKind"/> of the operator.</param>
+/// <param name="OperatorKind">The <see cref="OperatorKind"/> of the operator.</param>
 /// <param name="Method">The <seealso cref="IMethodSymbol"/> representing the operator.</param>
 public abstract record class CachedOperatorSymbol(OperatorCheckingMode CheckingMode, OperatorKind OperatorKind, IMethodSymbol Method)
 {
     /// <summary>Gets the composite operator kind combining both the <seealso cref="OperatorKind"/> and <seealso cref="CheckingMode"/>.</summary>
     public CompositeOperatorKind CompositeOperatorKind => new(CheckingMode, OperatorKind);
 
-    /// <summary>Gets the high-level <seealso cref="RoseLynn.OperatorMethodKind"/> category of this operator.</summary>
+    /// <summary>Gets the high-level <see cref="OperatorMethodKind"/> category of this operator.</summary>
     public OperatorMethodKind OperatorMethodKind => Method.MethodKind.GetOperatorMethodKind();
 
     /// <summary>Gets the <seealso cref="ITypeSymbol"/> that declares this operator.</summary>

@@ -16,7 +16,7 @@ public static class SemanticModelExtensions
         return model.Compilation.GetSemanticModel(node.SyntaxTree);
     }
 
-    /// <summary>Returns the declared symbol for <paramref name="node"/> if available, otherwise the resolved symbol from <see cref="SemanticModel.GetSymbolInfo"/>.</summary>
+    /// <summary>Returns the declared symbol for <paramref name="node"/> if available, otherwise the symbol resolved by <c>GetSymbolInfo</c>.</summary>
     /// <param name="model">The semantic model to query.</param>
     /// <param name="node">The syntax node to resolve.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>

@@ -94,6 +94,7 @@ public class TypeParameterConstraintClauseSegmentation
     }
 
     /// <inheritdoc cref="AddTypeConstraint(TypeConstraintSyntax)"></inheritdoc>
+    /// <param name="typeConstraint">The type constraint to add.</param>
     /// <param name="typeSymbol">The <seealso cref="ITypeSymbol"/> of the type that the type constraint refers to.</param>
     public void AddTypeConstraint(TypeConstraintSyntax typeConstraint, ITypeSymbol? typeSymbol)
     {

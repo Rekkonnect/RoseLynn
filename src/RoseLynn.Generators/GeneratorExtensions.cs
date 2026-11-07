@@ -66,9 +66,6 @@ public static class GeneratorExtensions
     /// <typeparam name="TGroupKey">The key used to group discovered attribute contexts.</typeparam>
     /// <typeparam name="TGroup">The grouped value produced for each key.</typeparam>
     /// <param name="context">The generator initialization context that owns the syntax provider.</param>
-    /// <param name="attributeTypeName">The metadata name of the attribute type to discover.</param>
-    /// <param name="getGroupKey">Builds a grouping key from each matching attribute context.</param>
-    /// <param name="constructGroup">Builds the final grouped value from a grouping key.</param>
     /// <returns>An incremental provider that yields the collected grouped values.</returns>
     public static IncrementalValueProvider<ImmutableArray<TGroup>> ForGroupedValuesFromAttribute<TGroupKey, TGroup>(
         this IncrementalGeneratorInitializationContext context,

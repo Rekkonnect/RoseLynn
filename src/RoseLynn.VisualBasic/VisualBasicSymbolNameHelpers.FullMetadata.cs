@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 
 namespace RoseLynn.VisualBasic;
 
+/// <summary>Provides Visual Basic-specific symbol name formatting helpers.</summary>
 public static partial class VisualBasicSymbolNameHelpers
 {
     /// <summary>Gets the full metadata name for a symbol, using Visual Basic predefined-type keywords when available.</summary>
