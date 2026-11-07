@@ -1,0 +1,52 @@
+﻿<Project>
+  <!--
+    Packs a generator's runtime dependencies into analyzers/dotnet/cs and makes them available to
+    ProjectReference consumers. Import it once from a generator project, after its package references.
+
+    Origin: the approach comes from the H.Generators.Extensions helper and the Roslyn issue thread on
+    dependency packaging (dotnet/sdk#17775). This file is a rewrite. Copy it and change it freely.
+  -->
+
+  <PropertyGroup>
+    <!--
+      Assemblies that are NOT packed. Two kinds belong here:
+      1. Assemblies the compiler host already loads (Roslyn itself, and several System.* libraries).
+         Packing a second copy next to the host gives you two versions in one process.
+      2. Assemblies you deliberately leave out, for example a Workspaces assembly the generator must not load.
+      Matched by assembly file name, without the extension. Keep it semicolon-separated.
+      To add names without touching this list, set GeneratorExtraSkipAssemblies before the import.
+    -->
+    <GeneratorSkipAssemblies>Microsoft.CodeAnalysis;Microsoft.CodeAnalysis.CSharp;Microsoft.CodeAnalysis.CSharp.Workspaces;Microsoft.CodeAnalysis.Workspaces;Microsoft.CodeAnalysis.Workspaces.Common;System.Collections.Immutable;System.Memory;System.Buffers;System.Numerics.Vectors;System.Reflection.Metadata;System.Runtime.CompilerServices.Unsafe;System.Threading.Tasks.Extensions;System.IO.Pipelines;System.Text.Encoding.CodePages</GeneratorSkipAssemblies>
+
+    <!--
+      Makes the copy-local set include the runtime assets of the packages this project references,
+      which is the list the target below reads.
+    -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);PackGeneratorDependencies</GetTargetPathDependsOn>
+  </PropertyGroup>
+
+  <Target Name="PackGeneratorDependencies" DependsOnTargets="ResolveReferences">
+    <PropertyGroup>
+      <_PackSkipDelimited>;$(GeneratorSkipAssemblies);$(GeneratorExtraSkipAssemblies);</_PackSkipDelimited>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_GeneratorDependency Include="@(ReferenceCopyLocalPaths)"
+                            Condition="'%(ReferenceCopyLocalPaths.Extension)' == '.dll' AND '%(ReferenceCopyLocalPaths.DestinationSubDirectory)' == '' AND !$(_PackSkipDelimited.Contains(';%(ReferenceCopyLocalPaths.Filename);'))" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="@(_GeneratorDependency)" IncludeRuntimeDependency="false" />
+      <None Include="@(_GeneratorDependency)" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+
+    <Message Importance="high" Text="Generator dependency packed: %(_GeneratorDependency.Filename)" />
+  </Target>
+</Project>
+
+
+

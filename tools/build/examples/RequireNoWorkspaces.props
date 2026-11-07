@@ -1,0 +1,7 @@
+﻿<Project>
+  <!-- Learner option: make the Workspaces dependency a build error instead of an RS1038 warning. -->
+  <Target Name="RequireNoWorkspacesDependency" AfterTargets="PackGeneratorDependencies">
+    <Error Condition="'@(ReferenceCopyLocalPaths->WithMetadataValue('Filename', 'Microsoft.CodeAnalysis.CSharp.Workspaces'))' != '' OR '@(ReferenceCopyLocalPaths->WithMetadataValue('Filename', 'Microsoft.CodeAnalysis.Workspaces'))' != ''"
+           Text="The generator's dependency closure contains Microsoft.CodeAnalysis.*Workspaces. The command-line compiler does not provide it." />
+  </Target>
+</Project>
